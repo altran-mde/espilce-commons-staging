@@ -12,7 +12,7 @@
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
     xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore"
     name="org.espilce.commons.staging.git"
-    label="Espilce Commons (staging)">
+    label="Espilce Commons (staging) GIT">
   <setupTask
       xsi:type="jdt:JRETask"
       version="JavaSE-1.8"
@@ -38,7 +38,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
-      defaultValue="Neon"
+      defaultValue="Oxygen"
       storageURI="scope://Workspace"/>
   <setupTask
       xsi:type="setup.p2:P2Task">
@@ -47,7 +47,7 @@
   <setupTask
       xsi:type="git:GitCloneTask"
       id="git.clone.org.espilce.commons.staging.git"
-      remoteURI="Espilce-org/commons-staging">
+      remoteURI="Espilce-org/commons-staging.git">
     <annotation
         source="http://www.eclipse.org/oomph/setup/InducedChoices">
       <detail
@@ -137,7 +137,7 @@
     <setupTask
         xsi:type="setup:EclipseIniTask"
         option="-Doomph.redirection.org.espilce.commons.staging.git"
-        value="=https://raw.githubusercontent.com/Espilce-org/commons-staging.git/master/releng/org.espilce.commons.oomph/org.espilce.commons.staging.setup->${git.clone.org.espilce.commons.staging.git.location|uri}/releng/org.espilce.commons.oomph/org.espilce.commons.staging.setup"
+        value="=https://raw.githubusercontent.com/Espilce-org/commons-staging.git/master/releng/org.espilce.commons.oomph/EspilceCommonsStagingGIT.setup->${git.clone.org.espilce.commons.staging.git.location|uri}/releng/org.espilce.commons.oomph/EspilceCommonsStagingGIT.setup"
         vm="true">
       <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
     </setupTask>
@@ -145,5 +145,5 @@
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
       href="index:/org.eclipse.setup#//@projectCatalogs[name='com.github']"/>
-  <description>Espilce Commons (staging).</description>
+  <description>Espilce Commons (staging) GIT.</description>
 </setup:Project>
