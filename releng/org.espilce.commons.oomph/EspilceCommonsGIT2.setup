@@ -30,7 +30,31 @@
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
+        name="org.eclipse.oomph.setup.ui">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.oomph.setup.ui/showToolBarContributions"
+          value="true"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:CompoundTask"
+        name="org.eclipse.pde.ui">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.pde.ui/Preferences.MainPage.addToJavaSearch"
+          value="true"/>
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.pde.ui/Preferences.MainPage.showTargetStatus"
+          value="true"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:CompoundTask"
         name="org.eclipse.ui">
+      <setupTask
+          xsi:type="setup:PreferenceTask"
+          key="/instance/org.eclipse.ui/defaultPerspectiveId"
+          value="org.eclipse.jdt.ui.JavaPerspective"/>
       <setupTask
           xsi:type="setup:PreferenceTask"
           key="/instance/org.eclipse.ui/SHOW_MEMORY_MONITOR"
@@ -44,15 +68,34 @@
           key="/instance/org.eclipse.ui.workbench/org.eclipse.ui.commands"
           value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;org.eclipse.ui.commands>&#xA;&lt;keyBinding commandId=&quot;org.eclipse.ui.window.nextEditor&quot; contextId=&quot;org.eclipse.ui.contexts.window&quot; keyConfigurationId=&quot;org.eclipse.ui.defaultAcceleratorConfiguration&quot; keySequence=&quot;CTRL+TAB&quot;/>&#xA;&lt;keyBinding commandId=&quot;org.eclipse.ui.window.previousEditor&quot; contextId=&quot;org.eclipse.ui.contexts.window&quot; keyConfigurationId=&quot;org.eclipse.ui.defaultAcceleratorConfiguration&quot; keySequence=&quot;CTRL+SHIFT+TAB&quot;/>&#xA;&lt;/org.eclipse.ui.commands>"/>
     </setupTask>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:CompoundTask"
+      name="User Preferences">
     <setupTask
         xsi:type="setup:CompoundTask"
-        name="org.eclipse.oomph.setup.ui">
-      <setupTask
-          xsi:type="setup:PreferenceTask"
-          key="/instance/org.eclipse.oomph.setup.ui/showToolBarContributions"
-          value="true"/>
-    </setupTask>
+        name="org.eclipse.core.resources"/>
+    <setupTask
+        xsi:type="setup:CompoundTask"
+        name="org.eclipse.ui"/>
+    <setupTask
+        xsi:type="setup:CompoundTask"
+        name="org.eclipse.ui.workbench"/>
+    <setupTask
+        xsi:type="setup:CompoundTask"
+        name="org.eclipse.oomph.setup.ui"/>
   </setupTask>
+  <setupTask
+      xsi:type="setup:EclipseIniTask"
+      excludedTriggers="STARTUP"
+      option="-perspective"
+      value="org.eclipse.jdt.ui.JavaPerspective"/>
+  <setupTask
+      xsi:type="setup:ResourceCreationTask"
+      excludedTriggers="STARTUP MANUAL"
+      content="MAX_RECENT_WORKSPACES=5&#xD;&#xA;RECENT_WORKSPACES=${workspace.location|property}&#xD;&#xA;RECENT_WORKSPACES_PROTOCOL=3&#xD;&#xA;SHOW_WORKSPACE_SELECTION_DIALOG=false&#xD;&#xA;eclipse.preferences.version=1"
+      targetURL="configuration:/.settings/org.eclipse.ui.ide.prefs"
+      encoding="UTF-8"/>
   <setupTask
       xsi:type="jdt:JRETask"
       version="JavaSE-1.8"
@@ -98,6 +141,29 @@
     <targlet
         name="${scope.project.label}"
         activeRepositoryList="${eclipse.target.platform}">
+      <annotation
+          source="http:/www.eclipse.org/oomph/targlets/TargetDefinitionGenerator">
+        <detail
+            key="location">
+          <value>${git.clone.org.espilce.commons.staging.git.location}/releng/org.esplice.commons.target/org.esplice.commons.target</value>
+        </detail>
+        <detail
+            key="extraUnits">
+          <value>org.eclipse.equinox.executable.feature.group org.apache.commons.io</value>
+        </detail>
+        <detail
+            key="includeAllPlatforms">
+          <value>false</value>
+        </detail>
+        <detail
+            key="includeSource">
+          <value>true</value>
+        </detail>
+        <detail
+            key="generateVersions">
+          <value>true</value>
+        </detail>
+      </annotation>
       <requirement
           name="org.eclipse.sdk.feature.group"/>
       <requirement
@@ -149,7 +215,7 @@
   <setupTask
       xsi:type="setup:EclipseIniTask"
       option="-Doomph.redirection.org.espilce.commons.staging.git"
-      value="=https://raw.githubusercontent.com/Espilce-org/commons-staging/master/releng/org.espilce.commons.oomph/EspilceCommonsGIT2.setup->${git.clone.org.espilce.commons.staging.git.location|uri}/releng/org.espilce.commons.oomph/EspilceCommonsGIT.2setup"
+      value="=https://raw.githubusercontent.com/Espilce-org/commons-staging/master/releng/org.espilce.commons.oomph/EspilceCommonsGIT2.setup->${git.clone.org.espilce.commons.staging.git.location|uri}/releng/org.espilce.commons.oomph/EspilceCommonsGIT2.setup"
       vm="true">
     <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
   </setupTask>
