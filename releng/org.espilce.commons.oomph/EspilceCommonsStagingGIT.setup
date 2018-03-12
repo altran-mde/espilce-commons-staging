@@ -47,7 +47,7 @@
   <setupTask
       xsi:type="git:GitCloneTask"
       id="git.clone.org.espilce.commons.staging.git"
-      remoteURI="Espilce-org/commons-staging.git">
+      remoteURI="Espilce-org/commons-staging">
     <annotation
         source="http://www.eclipse.org/oomph/setup/InducedChoices">
       <detail
@@ -137,7 +137,7 @@
     <setupTask
         xsi:type="setup:EclipseIniTask"
         option="-Doomph.redirection.org.espilce.commons.staging.git"
-        value="=https://raw.githubusercontent.com/Espilce-org/commons-staging.git/master/releng/org.espilce.commons.oomph/EspilceCommonsStagingGIT.setup->${git.clone.org.espilce.commons.staging.git.location|uri}/releng/org.espilce.commons.oomph/EspilceCommonsStagingGIT.setup"
+        value="=https://raw.githubusercontent.com/Espilce-org/commons-staging/master/releng/org.espilce.commons.oomph/EspilceCommonsStagingGIT.setup->${git.clone.org.espilce.commons.staging.git.location|uri}/releng/org.espilce.commons.oomph/EspilceCommonsStagingGIT.setup"
         vm="true">
       <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
     </setupTask>
