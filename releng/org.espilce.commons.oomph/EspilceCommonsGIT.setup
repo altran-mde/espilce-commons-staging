@@ -137,88 +137,88 @@
       </repositoryList>
     </targlet>
   </setupTask>
-    <setupTask
-        xsi:type="setup:EclipseIniTask"
-        option="-Doomph.redirection.org.espilce.commons.staging.git"
-        value="=https://raw.githubusercontent.com/Espilce-org/commons-staging/master/releng/org.espilce.commons.oomph/EspilceCommonsStagingGIT.setup->${git.clone.org.espilce.commons.staging.git.location|uri}/releng/org.espilce.commons.oomph/EspilceCommonsStagingGIT.setup"
-        vm="true">
-      <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
-    </setupTask>
+  <setupTask
+      xsi:type="setup:EclipseIniTask"
+      option="-Doomph.redirection.org.espilce.commons.staging.git"
+      value="=https://raw.githubusercontent.com/Espilce-org/commons-staging/master/releng/org.espilce.commons.oomph/EspilceCommonsGIT.setup->${git.clone.org.espilce.commons.staging.git.location|uri}/releng/org.espilce.commons.oomph/EspilceCommonsGIT.setup"
+      vm="true">
+    <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
+  </setupTask>
   <stream name="Commons (staging)"
       label="Commons (staging)">
-  <setupTask
-      xsi:type="git:GitCloneTask"
-      id="git.clone.org.espilce.commons.staging.git"
-      remoteURI="Espilce-org/commons-staging">
-    <annotation
-        source="http://www.eclipse.org/oomph/setup/InducedChoices">
-      <detail
-          key="inherit">
-        <value>github.remoteURIs</value>
-      </detail>
-      <detail
-          key="label">
-        <value>${scope.project.label} Commons (staging) repository</value>
-      </detail>
-      <detail
-          key="target">
-        <value>remoteURI</value>
-      </detail>
-    </annotation>
-    <description>${scope.project.label}</description>
-  </setupTask>
-  <setupTask
-      xsi:type="setup.workingsets:WorkingSetTask"
-      prefix="com.github.org.espilce.commons.staging.git-">
-    <workingSet
-        name="Espilce Commons (staging)">
-      <predicate
-          xsi:type="predicates:AndPredicate">
-        <operand
-            xsi:type="predicates:RepositoryPredicate"
-            project="org.espilce.commons.oomph"/>
-      </predicate>
-    </workingSet>
-    <description>The dynamic working sets for ${scope.project.label}</description>
-  </setupTask>
+    <setupTask
+        xsi:type="git:GitCloneTask"
+        id="git.clone.org.espilce.commons.staging.git"
+        remoteURI="Espilce-org/commons-staging">
+      <annotation
+          source="http://www.eclipse.org/oomph/setup/InducedChoices">
+        <detail
+            key="inherit">
+          <value>github.remoteURIs</value>
+        </detail>
+        <detail
+            key="label">
+          <value>${scope.project.label} Commons (staging) repository</value>
+        </detail>
+        <detail
+            key="target">
+          <value>remoteURI</value>
+        </detail>
+      </annotation>
+      <description>${scope.project.label}</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.workingsets:WorkingSetTask"
+        prefix="com.github.org.espilce.commons.staging.git-">
+      <workingSet
+          name="Espilce Commons (staging)">
+        <predicate
+            xsi:type="predicates:AndPredicate">
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="org.espilce.commons.oomph"/>
+        </predicate>
+      </workingSet>
+      <description>The dynamic working sets for ${scope.project.label}</description>
+    </setupTask>
   </stream>
   <stream name="Commons"
       label="Commons">
-  <setupTask
-      xsi:type="git:GitCloneTask"
-      id="git.clone.org.espilce.commons.git"
-      remoteURI="Espilce-org/commons">
-    <annotation
-        source="http://www.eclipse.org/oomph/setup/InducedChoices">
-      <detail
-          key="inherit">
-        <value>github.remoteURIs</value>
-      </detail>
-      <detail
-          key="label">
-        <value>${scope.project.label} Commons repository</value>
-      </detail>
-      <detail
-          key="target">
-        <value>remoteURI</value>
-      </detail>
-    </annotation>
-    <description>${scope.project.label}</description>
-  </setupTask>
-  <setupTask
-      xsi:type="setup.workingsets:WorkingSetTask"
-      prefix="com.github.org.espilce.commons.git-">
-    <workingSet
-        name="Espilce Commons">
-      <predicate
-          xsi:type="predicates:AndPredicate">
-        <operand
-            xsi:type="predicates:RepositoryPredicate"
-            project="org.espilce.commons.oomph"/>
-      </predicate>
-    </workingSet>
-    <description>The dynamic working sets for ${scope.project.label}</description>
-  </setupTask>
+    <setupTask
+        xsi:type="git:GitCloneTask"
+        id="git.clone.org.espilce.commons.git"
+        remoteURI="Espilce-org/commons">
+      <annotation
+          source="http://www.eclipse.org/oomph/setup/InducedChoices">
+        <detail
+            key="inherit">
+          <value>github.remoteURIs</value>
+        </detail>
+        <detail
+            key="label">
+          <value>${scope.project.label} Commons repository</value>
+        </detail>
+        <detail
+            key="target">
+          <value>remoteURI</value>
+        </detail>
+      </annotation>
+      <description>${scope.project.label}</description>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.workingsets:WorkingSetTask"
+        prefix="com.github.org.espilce.commons.git-">
+      <workingSet
+          name="Espilce Commons">
+        <predicate
+            xsi:type="predicates:AndPredicate">
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="org.espilce.commons.oomph"/>
+        </predicate>
+      </workingSet>
+      <description>The dynamic working sets for ${scope.project.label}</description>
+    </setupTask>
   </stream>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
