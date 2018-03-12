@@ -149,7 +149,7 @@
   <setupTask
       xsi:type="setup:EclipseIniTask"
       option="-Doomph.redirection.org.espilce.commons.staging.git"
-      value="=https://raw.githubusercontent.com/Espilce-org/commons-staging/master/releng/org.espilce.commons.oomph/EspilceCommonsGIT.setup->${git.clone.org.espilce.commons.staging.git.location|uri}/releng/org.espilce.commons.oomph/EspilceCommonsGIT.setup"
+      value="=https://raw.githubusercontent.com/Espilce-org/commons-staging/master/releng/org.espilce.commons.oomph/EspilceCommonsGIT2.setup->${git.clone.org.espilce.commons.staging.git.location|uri}/releng/org.espilce.commons.oomph/EspilceCommonsGIT.2setup"
       vm="true">
     <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
   </setupTask>
@@ -183,7 +183,7 @@
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="predicates:LocationPredicate"
-            pattern="${git.clone.org.espilce.commons.git.location|file}/**"/>
+            pattern="${git.clone.org.espilce.commons.git.location|canonical}/**"/>
       </predicate>
     </workingSet>
     <description>The dynamic working sets for ${scope.project.label}</description>
@@ -218,7 +218,7 @@
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="predicates:LocationPredicate"
-            pattern="${git.clone.org.espilce.commons.staging.git.location|file}/**"/>
+            pattern="${git.clone.org.espilce.commons.staging.git.location|canonical}/**"/>
       </predicate>
     </workingSet>
     <description>The dynamic working sets for ${scope.project.label}</description>
