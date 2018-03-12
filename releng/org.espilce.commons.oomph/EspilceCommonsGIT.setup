@@ -11,8 +11,8 @@
     xmlns:setup.targlets="http://www.eclipse.org/oomph/setup/targlets/1.0"
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
     xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore"
-    name="org.espilce.commons.staging.git"
-    label="Espilce Commons (staging) GIT">
+    name="org.espilce.commons.git"
+    label="Espilce Commons GIT">
   <setupTask
       xsi:type="setup:CompoundTask"
       name="User Preferences">
@@ -85,27 +85,6 @@
     <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}</description>
   </setupTask>
   <setupTask
-      xsi:type="git:GitCloneTask"
-      id="git.clone.org.espilce.commons.staging.git"
-      remoteURI="Espilce-org/commons-staging">
-    <annotation
-        source="http://www.eclipse.org/oomph/setup/InducedChoices">
-      <detail
-          key="inherit">
-        <value>github.remoteURIs</value>
-      </detail>
-      <detail
-          key="label">
-        <value>${scope.project.label} Github repository</value>
-      </detail>
-      <detail
-          key="target">
-        <value>remoteURI</value>
-      </detail>
-    </annotation>
-    <description>${scope.project.label}</description>
-  </setupTask>
-  <setupTask
       xsi:type="setup.targlets:TargletTask">
     <targlet
         name="${scope.project.label}"
@@ -158,6 +137,36 @@
       </repositoryList>
     </targlet>
   </setupTask>
+    <setupTask
+        xsi:type="setup:EclipseIniTask"
+        option="-Doomph.redirection.org.espilce.commons.staging.git"
+        value="=https://raw.githubusercontent.com/Espilce-org/commons-staging/master/releng/org.espilce.commons.oomph/EspilceCommonsStagingGIT.setup->${git.clone.org.espilce.commons.staging.git.location|uri}/releng/org.espilce.commons.oomph/EspilceCommonsStagingGIT.setup"
+        vm="true">
+      <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
+    </setupTask>
+  <stream name="Commons (staging)"
+      label="Commons (staging)">
+  <setupTask
+      xsi:type="git:GitCloneTask"
+      id="git.clone.org.espilce.commons.staging.git"
+      remoteURI="Espilce-org/commons-staging">
+    <annotation
+        source="http://www.eclipse.org/oomph/setup/InducedChoices">
+      <detail
+          key="inherit">
+        <value>github.remoteURIs</value>
+      </detail>
+      <detail
+          key="label">
+        <value>${scope.project.label} Commons (staging) repository</value>
+      </detail>
+      <detail
+          key="target">
+        <value>remoteURI</value>
+      </detail>
+    </annotation>
+    <description>${scope.project.label}</description>
+  </setupTask>
   <setupTask
       xsi:type="setup.workingsets:WorkingSetTask"
       prefix="com.github.org.espilce.commons.staging.git-">
@@ -172,18 +181,47 @@
     </workingSet>
     <description>The dynamic working sets for ${scope.project.label}</description>
   </setupTask>
-  <stream name="master"
-      label="Master">
-    <setupTask
-        xsi:type="setup:EclipseIniTask"
-        option="-Doomph.redirection.org.espilce.commons.staging.git"
-        value="=https://raw.githubusercontent.com/Espilce-org/commons-staging/master/releng/org.espilce.commons.oomph/EspilceCommonsStagingGIT.setup->${git.clone.org.espilce.commons.staging.git.location|uri}/releng/org.espilce.commons.oomph/EspilceCommonsStagingGIT.setup"
-        vm="true">
-      <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
-    </setupTask>
+  </stream>
+  <stream name="Commons"
+      label="Commons">
+  <setupTask
+      xsi:type="git:GitCloneTask"
+      id="git.clone.org.espilce.commons.git"
+      remoteURI="Espilce-org/commons">
+    <annotation
+        source="http://www.eclipse.org/oomph/setup/InducedChoices">
+      <detail
+          key="inherit">
+        <value>github.remoteURIs</value>
+      </detail>
+      <detail
+          key="label">
+        <value>${scope.project.label} Commons repository</value>
+      </detail>
+      <detail
+          key="target">
+        <value>remoteURI</value>
+      </detail>
+    </annotation>
+    <description>${scope.project.label}</description>
+  </setupTask>
+  <setupTask
+      xsi:type="setup.workingsets:WorkingSetTask"
+      prefix="com.github.org.espilce.commons.git-">
+    <workingSet
+        name="Espilce Commons">
+      <predicate
+          xsi:type="predicates:AndPredicate">
+        <operand
+            xsi:type="predicates:RepositoryPredicate"
+            project="org.espilce.commons.oomph"/>
+      </predicate>
+    </workingSet>
+    <description>The dynamic working sets for ${scope.project.label}</description>
+  </setupTask>
   </stream>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"
       href="index:/org.eclipse.setup#//@projectCatalogs[name='com.github']"/>
-  <description>Espilce Commons (staging) GIT.</description>
+  <description>Espilce Commons GIT.</description>
 </setup:Project>
