@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Espilce Commons Resource
+Bundle-SymbolicName: org.espilce.commons.resource
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: Espilce Commons
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources
+Export-Package: org.espilce.commons.resource

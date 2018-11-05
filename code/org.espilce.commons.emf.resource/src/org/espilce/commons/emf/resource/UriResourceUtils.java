@@ -1,5 +1,7 @@
 package org.espilce.commons.emf.resource;
 
+import java.io.File;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -15,7 +17,7 @@ import org.espilce.commons.exception.UnconvertibleException;
  * Utilities for handling {@linkplain org.eclipse.emf.common.util.URI Ecore
  * URIs} in an Eclipse {@linkplain org.eclipse.core.resources.ResourcesPlugin
  * Resources} environment.
- * 
+ *
  * @since 0.1
  *
  */
@@ -25,19 +27,19 @@ public class UriResourceUtils extends UriUtils {
 	 * Returns the equivalent {@linkplain org.eclipse.core.resources.IResource
 	 * Eclipse IResource} for an {@linkplain org.eclipse.emf.common.util.URI Ecore
 	 * URI}, if available.
-	 * 
+	 *
 	 * <p>
 	 * {@code uri} can be represented as IResource if {@code uri} is an
 	 * {@linkplain URI#isPlatformResource() platform resource} (i.e. {@code uri}
 	 * starts with {@code platform:/resource/}). Otherwise, this method returns
 	 * {@code null}.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * This method ignores any {@linkplain URI#fragment() fragment} or
 	 * {@linkplain URI#query() query} of {@code uri}.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * If the resulting IResource exists, this method returns the existing kind of
 	 * IResource ({@linkplain org.eclipse.core.resources.IWorkspaceRoot
@@ -45,12 +47,12 @@ public class UriResourceUtils extends UriUtils {
 	 * {@linkplain org.eclipse.core.resources.IFolder IFolder}, or
 	 * {@linkplain org.eclipse.core.resources.IFile IFile}).
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * If the resulting IResource does not exist, this method returns an IFile
 	 * pointing to the place equivalent to {@code uri}.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * This method handles excess slashes (behind the platform resource identifiers)
 	 * gracefully (i.e. ignores the slashes).<br/>
@@ -58,7 +60,7 @@ public class UriResourceUtils extends UriUtils {
 	 * {@code platform:/resource/////MyProject///folder///deep/myFile.ext//} leads
 	 * to an IFile for path {@code /MyProject/folder/deep/myFile.ext}.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * <b>Note:</b> This method treats {@code uri} as case-sensitive (on <i>all</i>
 	 * platforms, including Windows). Therefore, if the workspace contained a file
@@ -67,22 +69,22 @@ public class UriResourceUtils extends UriUtils {
 	 * result is an IFile for path {@code /MyProject/myFolder/mYfILE.ext}.
 	 * {@link IResource#exists() result.exists()} will return {@code false}.
 	 * </p>
-	 * 
+	 *
 	 * @param uri
 	 *            The Ecore URI to return as Eclipse IResource.
 	 * @return {@code uri} as Eclipse IResource, if available; {@code null}
 	 *         otherwise.
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             If {@code uri} is seriously ill-formatted.
-	 * 
+	 *
 	 * @since 0.1
 	 */
 	public static @Nullable IResource toIResource(final @NonNull URI uri) {
 		if (uri.isPlatformResource()) {
-			String platformString = uri.toPlatformString(true);
-			IPath path = Path.fromOSString(platformString);
-			IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+			final String platformString = uri.toPlatformString(true);
+			final IPath path = Path.fromOSString(platformString);
+			final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 			if (workspaceRoot.exists(path)) {
 				return workspaceRoot.findMember(path);
 			} else {
@@ -97,19 +99,19 @@ public class UriResourceUtils extends UriUtils {
 	 * Returns the equivalent {@linkplain org.eclipse.core.resources.IResource
 	 * Eclipse IResource} for an {@linkplain org.eclipse.emf.common.util.URI Ecore
 	 * URI}.
-	 * 
+	 *
 	 * <p>
 	 * {@code uri} can be represented as IResource if {@code uri} is an
 	 * {@linkplain URI#isPlatformResource() platform resource} (i.e. {@code uri}
 	 * starts with {@code platform:/resource/}). Otherwise, this method throws an
 	 * {@link UnconvertibleException}.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * This method ignores any {@linkplain URI#fragment() fragment} or
 	 * {@linkplain URI#query() query} of {@code uri}.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * If the resulting IResource exists, this method returns the existing kind of
 	 * IResource ({@linkplain org.eclipse.core.resources.IWorkspaceRoot
@@ -117,12 +119,12 @@ public class UriResourceUtils extends UriUtils {
 	 * {@linkplain org.eclipse.core.resources.IFolder IFolder}, or
 	 * {@linkplain org.eclipse.core.resources.IFile IFile}).
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * If the resulting IResource does not exist, this method returns an IFile
 	 * pointing to the place equivalent to {@code uri}.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * This method handles excess slashes (behind the platform resource identifiers)
 	 * gracefully (i.e. ignores the slashes).<br/>
@@ -130,7 +132,7 @@ public class UriResourceUtils extends UriUtils {
 	 * {@code platform:/resource/////MyProject///folder///deep/myFile.ext//} leads
 	 * to an IFile for path {@code /MyProject/folder/deep/myFile.ext}.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * <b>Note:</b> This method treats {@code uri} as case-sensitive (on <i>all</i>
 	 * platforms, including Windows). Therefore, if the workspace contained a file
@@ -139,25 +141,29 @@ public class UriResourceUtils extends UriUtils {
 	 * result is an IFile for path {@code /MyProject/myFolder/mYfILE.ext}.
 	 * {@link IResource#exists() result.exists()} will return {@code false}.
 	 * </p>
-	 * 
+	 *
 	 * @param uri
 	 *            The Ecore URI to return as Eclipse IResource.
 	 * @return {@code uri} as Eclipse IResource.
-	 * 
+	 *
 	 * @throws UnconvertibleException
 	 *             If {@code uri} cannot be converted into an Eclipse IResource.
 	 * @throws IllegalArgumentException
 	 *             If {@code uri} is seriously ill-formatted.
-	 * 
+	 *
 	 * @since 0.1
 	 */
 	public static @NonNull IResource asIResource(final @NonNull URI uri) throws UnconvertibleException {
-		IResource result = toIResource(uri);
+		final IResource result = toIResource(uri);
 
 		if (result != null) {
 			return result;
 		}
 
 		throw new UnconvertibleException(uri, URI.class, IResource.class);
+	}
+
+	public static URI toEcoreUri(final File modelFile) {
+		return URI.createFileURI(modelFile.getAbsolutePath());
 	}
 }
