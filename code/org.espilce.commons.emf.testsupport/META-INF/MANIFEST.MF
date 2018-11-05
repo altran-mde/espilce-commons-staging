@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Espilce Commons EMF Testsupport
+Bundle-SymbolicName: org.espilce.commons.emf.testsupport
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: Espilce Commons
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.emf.ecore,
+ org.espilce.commons.emf.textrenderer
+Import-Package: org.junit
