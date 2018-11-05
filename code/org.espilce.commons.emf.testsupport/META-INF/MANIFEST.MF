@@ -8,3 +8,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.emf.ecore,
  org.espilce.commons.emf.textrenderer
 Import-Package: org.junit
+Export-Package: org.espilce.commons.emf.testsupport
