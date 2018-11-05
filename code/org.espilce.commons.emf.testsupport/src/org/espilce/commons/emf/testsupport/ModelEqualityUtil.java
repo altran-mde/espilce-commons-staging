@@ -25,8 +25,9 @@ public class ModelEqualityUtil {
 	}
 
 	/**
-	 * Asserts that two Ecore Resources are equal. That is, they have {@link EcoreUtil#equals(List, List) equal}
-	 * {@link Resource#getContents() contents}. If they are not equal, an {@link AssertionError} is thrown with a
+	 * Asserts that two Ecore Resources are equal. That is, they have
+	 * {@link EcoreUtil#equals(List, List) equal} {@link Resource#getContents()
+	 * contents}. If they are not equal, an {@link AssertionError} is thrown with a
 	 * human-readable rendering of the differences.
 	 *
 	 * @param expected
@@ -39,8 +40,9 @@ public class ModelEqualityUtil {
 	}
 
 	/**
-	 * Asserts that two EObject lists are {@link EcoreUtil#equals(List, List) equal}. If they are not, an
-	 * {@link AssertionError} is thrown with a human-readable rendering of the differences.
+	 * Asserts that two EObject lists are {@link EcoreUtil#equals(List, List)
+	 * equal}. If they are not, an {@link AssertionError} is thrown with a
+	 * human-readable rendering of the differences.
 	 *
 	 * @param expected
 	 *            expected EObject lists
@@ -57,8 +59,9 @@ public class ModelEqualityUtil {
 	}
 
 	/**
-	 * Asserts that two EObjects are {@link EcoreUtil#equals(EObject, EObject) equal}. If they are not, an
-	 * {@link AssertionError} is thrown with a human-readable rendering of the differences.
+	 * Asserts that two EObjects are {@link EcoreUtil#equals(EObject, EObject)
+	 * equal}. If they are not, an {@link AssertionError} is thrown with a
+	 * human-readable rendering of the differences.
 	 *
 	 * @param expected
 	 *            expected EObject

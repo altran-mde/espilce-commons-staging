@@ -47,13 +47,16 @@ public class LoadTestModelUtil {
 	 * </p>
 	 *
 	 * <p>
-	 * <b>Caution!</b> This method assumes the plug-in containing the model file to be unzipped!
+	 * <b>Caution!</b> This method assumes the plug-in containing the model file to
+	 * be unzipped!
 	 * </p>
 	 *
 	 * @param classInPlugin
-	 *            A class that is located in the same plug-in as the model file to load.
+	 *            A class that is located in the same plug-in as the model file to
+	 *            load.
 	 * @param modelRelativePath
-	 *            Path of the model file, relative to the plug-in containing the given class.
+	 *            Path of the model file, relative to the plug-in containing the
+	 *            given class.
 	 *
 	 * @return The the root element of the loaded model.
 	 */
@@ -69,13 +72,16 @@ public class LoadTestModelUtil {
 	 * </p>
 	 *
 	 * <p>
-	 * <b>Caution!</b> This method assumes the plug-in containing the model file to be unzipped!
+	 * <b>Caution!</b> This method assumes the plug-in containing the model file to
+	 * be unzipped!
 	 * </p>
 	 *
 	 * @param classInPlugin
-	 *            A class that is located in the same plug-in as the model file to load.
+	 *            A class that is located in the same plug-in as the model file to
+	 *            load.
 	 * @param modelRelativePath
-	 *            Path of the model file, relative to the plug-in containing the given class.
+	 *            Path of the model file, relative to the plug-in containing the
+	 *            given class.
 	 *
 	 * @return The Ecore resource loaded from {@code modelRelativePath}.
 	 */
@@ -122,13 +128,16 @@ public class LoadTestModelUtil {
 	 * Finds the file pointed to by {@code fileRelativePath}.
 	 *
 	 * <p>
-	 * <b>Caution!</b> This method assumes the plug-in containing the file to be unzipped!
+	 * <b>Caution!</b> This method assumes the plug-in containing the file to be
+	 * unzipped!
 	 * </p>
 	 *
 	 * @param classInPlugin
-	 *            A class that is located in the same plug-in as the model file to load.
+	 *            A class that is located in the same plug-in as the model file to
+	 *            load.
 	 * @param fileRelativePath
-	 *            Path of the file, relative to the plug-in containing the given class.
+	 *            Path of the file, relative to the plug-in containing the given
+	 *            class.
 	 *
 	 * @return The Java File corresponding to {@code fileRelativePath}.
 	 */
@@ -147,13 +156,16 @@ public class LoadTestModelUtil {
 	 * Finds the Ecore URI pointed to by {@code fileRelativePath}.
 	 *
 	 * <p>
-	 * <b>Caution!</b> This method assumes the plug-in containing the file to be unzipped!
+	 * <b>Caution!</b> This method assumes the plug-in containing the file to be
+	 * unzipped!
 	 * </p>
 	 *
 	 * @param classInPlugin
-	 *            A class that is located in the same plug-in as the model file to load.
+	 *            A class that is located in the same plug-in as the model file to
+	 *            load.
 	 * @param fileRelativePath
-	 *            Path of the file, relative to the plug-in containing the given class.
+	 *            Path of the file, relative to the plug-in containing the given
+	 *            class.
 	 *
 	 * @return The Ecore URI corresponding to {@code fileRelativePath}.
 	 */
@@ -166,19 +178,21 @@ public class LoadTestModelUtil {
 	 * Finds {@code pathName} in the workspace or plug-ins.
 	 *
 	 * <p>
-	 * First tries to find {@code pathName} in the workspace. If no corresponding file is found in the workspace, tries
-	 * to find {@code pathName} in plug-ins that are reachable (i. e. there is a (in-)direct dependency of the caller to
-	 * the plug-in).
-	 * If neither is found, raises an {@link AssertionError}.
+	 * First tries to find {@code pathName} in the workspace. If no corresponding
+	 * file is found in the workspace, tries to find {@code pathName} in plug-ins
+	 * that are reachable (i. e. there is a (in-)direct dependency of the caller to
+	 * the plug-in). If neither is found, raises an {@link AssertionError}.
 	 * </p>
 	 *
 	 * @param pathName
 	 *            {@code /project-name/path} as described in
 	 *            {@link org.eclipse.emf.common.util.URI#createPlatformResourceURI(String, boolean)
 	 *            URI.createPlatformResourceURI()}.
-	 * @return The Ecore URI of {@code pathName} in either the workspace or plug-ins.
+	 * @return The Ecore URI of {@code pathName} in either the workspace or
+	 *         plug-ins.
 	 * @throws AssertionError
-	 *             If {@code pathName} can be found in neither the workspace or the reachable plug-ins.
+	 *             If {@code pathName} can be found in neither the workspace or the
+	 *             reachable plug-ins.
 	 */
 	public URI toResourceOrPluginUri(final String pathName) {
 		final IPath path = Path.fromPortableString(pathName);

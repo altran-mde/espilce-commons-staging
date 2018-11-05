@@ -1,6 +1,5 @@
 package org.espilce.commons.emf.testsupport.resource;
 
-
 /**
  * Information about the bundle.
  *

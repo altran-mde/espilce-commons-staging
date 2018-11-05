@@ -28,8 +28,9 @@ import org.eclipse.emf.ecore.util.Diagnostician;
  */
 public abstract class ATestValidator {
 	/**
-	 * Magic value to mark the index of an element in a {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many}
-	 * containment is not relevant.
+	 * Magic value to mark the index of an element in a
+	 * {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many} containment is
+	 * not relevant.
 	 */
 	public final static int INSIGNIFICANT_INDEX = -1;
 
@@ -54,13 +55,16 @@ public abstract class ATestValidator {
 	}
 
 	/**
-	 * Asserts that neither {@code source} nor any of its descendants have been marked with the specified issue.
+	 * Asserts that neither {@code source} nor any of its descendants have been
+	 * marked with the specified issue.
 	 *
 	 * @param severity
-	 *            Issue's {@linkplain Diagnostic#getSeverity severity}. Use {@link #SEVERITY_IGNORE} to ignore.
+	 *            Issue's {@linkplain Diagnostic#getSeverity severity}. Use
+	 *            {@link #SEVERITY_IGNORE} to ignore.
 	 *
 	 * @param message
-	 *            Issue's {@linkplain Diagnostic#getMessage message}. Use {@code null} to ignore.
+	 *            Issue's {@linkplain Diagnostic#getMessage message}. Use
+	 *            {@code null} to ignore.
 	 *
 	 * @param source
 	 *            EObject to check for the specified issue.
@@ -69,14 +73,16 @@ public abstract class ATestValidator {
 	 *            Issue's feature. Use {@code null} to ignore.
 	 *
 	 * @param index
-	 *            Issue's index in a {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many} containment. Use
-	 *            {@link #INSIGNIFICANT_INDEX} to ignore.
+	 *            Issue's index in a
+	 *            {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many}
+	 *            containment. Use {@link #INSIGNIFICANT_INDEX} to ignore.
 	 *
 	 * @param code
 	 *            Issue's code. Use {@code null} to ignore.
 	 *
 	 * @param issueData
-	 *            Issue's {@linkplain Diagnostic#getData additional data}. Use {@code null} to ignore.
+	 *            Issue's {@linkplain Diagnostic#getData additional data}. Use
+	 *            {@code null} to ignore.
 	 */
 	public void assertIssueAbsentRecursive(final int severity, final String message, final EObject source,
 			final EStructuralFeature feature, final int index, final String code, final Object... issueData) {
@@ -89,10 +95,12 @@ public abstract class ATestValidator {
 	 * Asserts that {@code source} has been marked with the specified issue.
 	 *
 	 * @param severity
-	 *            Issue's {@linkplain Diagnostic#getSeverity severity}. Use {@link #SEVERITY_IGNORE} to ignore.
+	 *            Issue's {@linkplain Diagnostic#getSeverity severity}. Use
+	 *            {@link #SEVERITY_IGNORE} to ignore.
 	 *
 	 * @param message
-	 *            Issue's {@linkplain Diagnostic#getMessage message}. Use {@code null} to ignore.
+	 *            Issue's {@linkplain Diagnostic#getMessage message}. Use
+	 *            {@code null} to ignore.
 	 *
 	 * @param source
 	 *            EObject to check for the specified issue.
@@ -101,14 +109,16 @@ public abstract class ATestValidator {
 	 *            Issue's feature. Use {@code null} to ignore.
 	 *
 	 * @param index
-	 *            Issue's index in a {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many} containment. Use
-	 *            {@link #INSIGNIFICANT_INDEX} to ignore.
+	 *            Issue's index in a
+	 *            {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many}
+	 *            containment. Use {@link #INSIGNIFICANT_INDEX} to ignore.
 	 *
 	 * @param code
 	 *            Issue's code. Use {@code null} to ignore.
 	 *
 	 * @param issueData
-	 *            Issue's {@linkplain Diagnostic#getData additional data}. Use {@code null} to ignore.
+	 *            Issue's {@linkplain Diagnostic#getData additional data}. Use
+	 *            {@code null} to ignore.
 	 */
 	public void assertIssuePresent(final int severity, final String message, final EObject source,
 			final EStructuralFeature feature, final int index, final String code, final Object... issueData) {
@@ -143,10 +153,12 @@ public abstract class ATestValidator {
 	 * Asserts that {@code source} has not been marked with the specified issue.
 	 *
 	 * @param severity
-	 *            Issue's {@linkplain Diagnostic#getSeverity severity}. Use {@link #SEVERITY_IGNORE} to ignore.
+	 *            Issue's {@linkplain Diagnostic#getSeverity severity}. Use
+	 *            {@link #SEVERITY_IGNORE} to ignore.
 	 *
 	 * @param message
-	 *            Issue's {@linkplain Diagnostic#getMessage message}. Use {@code null} to ignore.
+	 *            Issue's {@linkplain Diagnostic#getMessage message}. Use
+	 *            {@code null} to ignore.
 	 *
 	 * @param source
 	 *            EObject to check for the specified issue.
@@ -155,14 +167,16 @@ public abstract class ATestValidator {
 	 *            Issue's feature. Use {@code null} to ignore.
 	 *
 	 * @param index
-	 *            Issue's index in a {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many} containment. Use
-	 *            {@link #INSIGNIFICANT_INDEX} to ignore.
+	 *            Issue's index in a
+	 *            {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many}
+	 *            containment. Use {@link #INSIGNIFICANT_INDEX} to ignore.
 	 *
 	 * @param code
 	 *            Issue's code. Use {@code null} to ignore.
 	 *
 	 * @param issueData
-	 *            Issue's {@linkplain Diagnostic#getData additional data}. Use {@code null} to ignore.
+	 *            Issue's {@linkplain Diagnostic#getData additional data}. Use
+	 *            {@code null} to ignore.
 	 */
 	public void assertIssueAbsent(final int severity, final String message, final EObject source,
 			final EStructuralFeature feature, final int index, final String code, final Object... issueData) {
@@ -174,7 +188,8 @@ public abstract class ATestValidator {
 	}
 
 	/**
-	 * Asserts that neither {@code source} nor any of its descendants have been marked with an error.
+	 * Asserts that neither {@code source} nor any of its descendants have been
+	 * marked with an error.
 	 */
 	public void assertNoErrors(final EObject source) {
 		assertIssueAbsentRecursive(Diagnostic.ERROR, null, source, null, ATestValidator.INSIGNIFICANT_INDEX, null);
@@ -287,7 +302,9 @@ public abstract class ATestValidator {
 	 *            Issue's feature.
 	 *
 	 * @param index
-	 *            Issue's index in a {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many} containment.
+	 *            Issue's index in a
+	 *            {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many}
+	 *            containment.
 	 */
 	public void assertErrorPresent(final String message, final EObject source, final EStructuralFeature feature,
 			final int index) {
@@ -307,7 +324,9 @@ public abstract class ATestValidator {
 	 *            Issue's feature.
 	 *
 	 * @param index
-	 *            Issue's index in a {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many} containment.
+	 *            Issue's index in a
+	 *            {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many}
+	 *            containment.
 	 *
 	 * @param code
 	 *            Issue's code.
@@ -330,7 +349,9 @@ public abstract class ATestValidator {
 	 *            Issue's feature.
 	 *
 	 * @param index
-	 *            Issue's index in a {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many} containment.
+	 *            Issue's index in a
+	 *            {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many}
+	 *            containment.
 	 *
 	 * @param code
 	 *            Issue's code.
@@ -344,7 +365,8 @@ public abstract class ATestValidator {
 	}
 
 	/**
-	 * Asserts that neither {@code source} nor any of its descendants have been marked with a warning or error.
+	 * Asserts that neither {@code source} nor any of its descendants have been
+	 * marked with a warning or error.
 	 */
 	public void assertNoErrorsOrWarnings(final EObject source) {
 		assertNoErrors(source);
@@ -352,7 +374,8 @@ public abstract class ATestValidator {
 	}
 
 	/**
-	 * Asserts that neither {@code source} nor any of its descendants have been marked with a warning.
+	 * Asserts that neither {@code source} nor any of its descendants have been
+	 * marked with a warning.
 	 */
 	public void assertNoWarnings(final EObject source) {
 		assertIssueAbsentRecursive(Diagnostic.WARNING, null, source, null, ATestValidator.INSIGNIFICANT_INDEX, null);
@@ -465,7 +488,9 @@ public abstract class ATestValidator {
 	 *            Issue's feature.
 	 *
 	 * @param index
-	 *            Issue's index in a {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many} containment.
+	 *            Issue's index in a
+	 *            {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many}
+	 *            containment.
 	 */
 	public void assertWarningPresent(final String message, final EObject source, final EStructuralFeature feature,
 			final int index) {
@@ -485,7 +510,9 @@ public abstract class ATestValidator {
 	 *            Issue's feature.
 	 *
 	 * @param index
-	 *            Issue's index in a {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many} containment.
+	 *            Issue's index in a
+	 *            {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many}
+	 *            containment.
 	 *
 	 * @param code
 	 *            Issue's code.
@@ -508,7 +535,9 @@ public abstract class ATestValidator {
 	 *            Issue's feature.
 	 *
 	 * @param index
-	 *            Issue's index in a {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many} containment.
+	 *            Issue's index in a
+	 *            {@linkplain org.eclipse.emf.ecore.ETypedElement#isMany() many}
+	 *            containment.
 	 *
 	 * @param code
 	 *            Issue's code.
@@ -672,8 +701,7 @@ public abstract class ATestValidator {
 
 	private void assertCode(final String message, final Diagnostic diagnostic, final String code) {
 		if (isValidCode(code)) {
-			assertEquals(message, code,
-					diagnostic.getData().stream().filter(String.class::isInstance).findAny());
+			assertEquals(message, code, diagnostic.getData().stream().filter(String.class::isInstance).findAny());
 		}
 	}
 

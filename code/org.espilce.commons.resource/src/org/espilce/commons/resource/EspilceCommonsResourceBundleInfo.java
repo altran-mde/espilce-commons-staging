@@ -1,6 +1,5 @@
 package org.espilce.commons.resource;
 
-
 /**
  * Information about the bundle.
  *

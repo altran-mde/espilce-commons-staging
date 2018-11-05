@@ -35,18 +35,22 @@ public class ContentTypeUtils {
 
 	public static IContentType findContentType(final String fileName) {
 		return Arrays.asList(Platform.getContentTypeManager().getAllContentTypes()).stream()
-				.filter(ct -> ct.isAssociatedWith(fileName))
-				.findAny()
-				.orElse(null);
+				.filter(ct -> ct.isAssociatedWith(fileName)).findAny().orElse(null);
 	}
 
-	/** @return A list containing all file extensions registered for the given content type id. */
+	/**
+	 * @return A list containing all file extensions registered for the given
+	 *         content type id.
+	 */
 	public static List<String> getFileExtensions(final String contentTypeIdentifier) {
 		final IContentType contentType = toContentType(contentTypeIdentifier);
 		return contentType == null ? new ArrayList<>() : getFileExtensions(contentType);
 	}
 
-	/** @return A list containing all file extensions registered for the given content type */
+	/**
+	 * @return A list containing all file extensions registered for the given
+	 *         content type
+	 */
 	public static List<String> getFileExtensions(final IContentType contentType) {
 		return Arrays.asList(contentType.getFileSpecs(IContentType.FILE_EXTENSION_SPEC));
 	}
