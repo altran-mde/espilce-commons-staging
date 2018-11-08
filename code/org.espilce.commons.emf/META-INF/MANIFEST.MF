@@ -5,8 +5,8 @@ Bundle-SymbolicName: org.espilce.commons.emf
 Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: Espilce Commons
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.espilce.commons.exception, 
- org.eclipse.emf.common.util,
+Require-Bundle: org.espilce.commons.exception, 
+ org.eclipse.emf.common,
  org.eclipse.jdt.annotation;resolution:=optional 
 Export-Package: org.espilce.commons.emf;version=0.1.0.qualifier;
   uses:="org.espilce.commons.exception,

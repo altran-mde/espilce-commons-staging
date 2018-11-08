@@ -6,6 +6,9 @@ Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: Espilce Commons
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.emf.ecore,
- org.espilce.commons.emf.textrenderer
+ org.espilce.commons.emf.textrenderer,
+ org.espilce.commons.exception,
+ org.apache.commons.lang3,
+ org.apache.commons.io
 Import-Package: org.junit
 Export-Package: org.espilce.commons.emf.testsupport
