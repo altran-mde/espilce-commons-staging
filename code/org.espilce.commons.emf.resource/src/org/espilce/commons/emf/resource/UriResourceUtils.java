@@ -166,4 +166,8 @@ public class UriResourceUtils extends UriUtils {
 	public static URI toEcoreUri(final File modelFile) {
 		return URI.createFileURI(modelFile.getAbsolutePath());
 	}
+
+	public static URI toEcoreUri(final IResource resource) {
+		return URI.createPlatformResourceURI(resource.getFullPath().toPortableString(), false);
+	}
 }
