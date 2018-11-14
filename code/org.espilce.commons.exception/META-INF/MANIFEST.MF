@@ -5,5 +5,7 @@ Bundle-SymbolicName: org.espilce.commons.exception
 Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: Espilce Commons
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.jdt.annotation;resolution:=optional
-Export-Package: org.espilce.commons.exception;version=0.1.0.qualifier
+Require-Bundle: org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional
+Import-Package: org.eclipse.jdt.annotation;resolution:=optional
+Export-Package: org.espilce.commons.exception;version="0.1.0.qualifier"
+Automatic-Module-Name: org.espilce.commons.exception

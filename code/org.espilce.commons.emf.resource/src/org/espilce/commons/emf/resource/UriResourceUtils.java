@@ -14,8 +14,8 @@ import org.espilce.commons.emf.UriUtils;
 import org.espilce.commons.exception.UnconvertibleException;
 
 /**
- * Utilities for handling {@linkplain org.eclipse.emf.common.util.URI Ecore
- * URIs} in an Eclipse {@linkplain org.eclipse.core.resources.ResourcesPlugin
+ * Utilities for handling {@linkplain org.eclipse.emf.common.util.URI EMF URIs}
+ * in an Eclipse {@linkplain org.eclipse.core.resources.ResourcesPlugin
  * Resources} environment.
  *
  * @since 0.1
@@ -25,7 +25,7 @@ public class UriResourceUtils extends UriUtils {
 
 	/**
 	 * Returns the equivalent {@linkplain org.eclipse.core.resources.IResource
-	 * Eclipse IResource} for an {@linkplain org.eclipse.emf.common.util.URI Ecore
+	 * Eclipse IResource} for an {@linkplain org.eclipse.emf.common.util.URI EMF
 	 * URI}, if available.
 	 *
 	 * <p>
@@ -70,8 +70,8 @@ public class UriResourceUtils extends UriUtils {
 	 * {@link IResource#exists() result.exists()} will return {@code false}.
 	 * </p>
 	 *
-	 * @param uri
-	 *            The Ecore URI to return as Eclipse IResource.
+	 * @param emfUri
+	 *            The EMF URI to return as Eclipse IResource.
 	 * @return {@code uri} as Eclipse IResource, if available; {@code null}
 	 *         otherwise.
 	 *
@@ -80,9 +80,9 @@ public class UriResourceUtils extends UriUtils {
 	 *
 	 * @since 0.1
 	 */
-	public static @Nullable IResource toIResource(final @NonNull URI uri) {
-		if (uri.isPlatformResource()) {
-			final String platformString = uri.toPlatformString(true);
+	public static @Nullable IResource toIResource(final @NonNull URI emfUri) {
+		if (emfUri.isPlatformResource()) {
+			final String platformString = emfUri.toPlatformString(true);
 			final IPath path = Path.fromOSString(platformString);
 			final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 			if (workspaceRoot.exists(path)) {
@@ -97,7 +97,7 @@ public class UriResourceUtils extends UriUtils {
 
 	/**
 	 * Returns the equivalent {@linkplain org.eclipse.core.resources.IResource
-	 * Eclipse IResource} for an {@linkplain org.eclipse.emf.common.util.URI Ecore
+	 * Eclipse IResource} for an {@linkplain org.eclipse.emf.common.util.URI EMF
 	 * URI}.
 	 *
 	 * <p>
@@ -143,7 +143,7 @@ public class UriResourceUtils extends UriUtils {
 	 * </p>
 	 *
 	 * @param uri
-	 *            The Ecore URI to return as Eclipse IResource.
+	 *            The EMF URI to return as Eclipse IResource.
 	 * @return {@code uri} as Eclipse IResource.
 	 *
 	 * @throws UnconvertibleException
@@ -163,11 +163,15 @@ public class UriResourceUtils extends UriUtils {
 		throw new UnconvertibleException(uri, URI.class, IResource.class);
 	}
 
-	public static URI toEcoreUri(final File modelFile) {
-		return URI.createFileURI(modelFile.getAbsolutePath());
+	public static @Nullable URI toEmfUri(final File modelFile) {
+		try {
+			return URI.createFileURI(modelFile.getAbsolutePath());
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
 	}
 
-	public static URI toEcoreUri(final IResource resource) {
+	public static URI toEmfUri(final IResource resource) {
 		return URI.createPlatformResourceURI(resource.getFullPath().toPortableString(), false);
 	}
 }

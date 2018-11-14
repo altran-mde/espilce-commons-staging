@@ -28,7 +28,7 @@ public class UnconvertibleException extends IllegalArgumentException {
 		this.targetType = targetType;
 	}
 
-	private static String compileMessage(@Nullable Object source, @NonNull Class<?> sourceType,
+	private static @NonNull String compileMessage(@Nullable Object source, @NonNull Class<?> sourceType,
 			@NonNull Class<?> targetType) {
 		return "Cannot convert [" + sourceType + "] to " + targetType;
 	}

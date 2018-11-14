@@ -5,13 +5,14 @@ Bundle-SymbolicName: org.espilce.commons.emf.testsupport.resource
 Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: Espilce Commons
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.emf.ecore,
- org.eclipse.core.runtime,
- org.eclipse.core.resources,
- org.espilce.commons.resource,
- org.espilce.commons.emf.resource,
- org.espilce.commons.emf.testsupport,
- org.espilce.commons.exception,
- org.espilce.commons.emf
-Import-Package: org.junit
-Export-Package: org.espilce.commons.emf.testsupport.resource
+Require-Bundle: org.eclipse.emf.ecore;bundle-version=2,
+ org.eclipse.core.runtime;bundle-version=1,
+ org.eclipse.core.resources;bundle-version=1,
+ org.espilce.commons.resource;bundle-version=0.1.0,
+ org.espilce.commons.emf.resource;bundle-version=0.2.0,
+ org.espilce.commons.emf.testsupport;bundle-version=0.1.0,
+ org.espilce.commons.exception;bundle-version=0.1.0,
+ org.espilce.commons.emf;bundle-version=0.1.0
+Import-Package: org.junit 
+Export-Package: org.espilce.commons.emf.testsupport.resource;version=0.1.0.qualifier
+Automatic-Module-Name: org.espilce.commons.emf.testsupport.resource
