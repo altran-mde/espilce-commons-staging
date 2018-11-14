@@ -12,3 +12,4 @@ Import-Package: org.espilce.commons.emf,
  org.eclipse.emf.common.util,
  org.osgi.framework,
  org.apache.commons.io.input
+Automatic-Module-Name: org.espilce.commons.emf.resource.test

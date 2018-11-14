@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 /**
  * Default implementation of {@link IRenderFilter}.
  * 
- * @author nstotz
+ * @since 0.1
  */
 public abstract class RenderFilterAdapter implements IRenderFilter {
 	protected boolean shouldRenderResourceSet(final ResourceSet resourceSet, final int indent, final EObject context) {

@@ -5,10 +5,11 @@ Bundle-SymbolicName: org.espilce.commons.emf.textrenderer
 Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: Espilce Commons
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.emf.ecore;bundle-version=2;resolution:=optional,
- org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional
+Require-Bundle: org.eclipse.emf.ecore;bundle-version=2.10;resolution:=optional,
+ org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional;visibility:=reexport
 Import-Package: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.resource,
- org.eclipse.emf.ecore.util
+ org.eclipse.emf.ecore.util,
+ org.eclipse.jdt.annotation;resolution:=optional
 Export-Package: org.espilce.commons.emf.textrenderer;version=0.1.0.qualifier
 Automatic-Module-Name: org.espilce.commons.emf.textrenderer

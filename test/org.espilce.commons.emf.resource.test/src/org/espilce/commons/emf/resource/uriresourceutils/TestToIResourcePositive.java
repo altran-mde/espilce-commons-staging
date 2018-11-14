@@ -1,5 +1,6 @@
 package org.espilce.commons.emf.resource.uriresourceutils;
 
+import static org.espilce.commons.emf.resource.WorkspaceUtils.waitForWorkspaceChanges;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

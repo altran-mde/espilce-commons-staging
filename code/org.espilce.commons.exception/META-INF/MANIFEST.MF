@@ -2,10 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Espilce Commons Exception
 Bundle-SymbolicName: org.espilce.commons.exception
-Bundle-Version: 0.1.0.qualifier
+Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Espilce Commons
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional
+Require-Bundle: org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional;visibility:=reexport
 Import-Package: org.eclipse.jdt.annotation;resolution:=optional
-Export-Package: org.espilce.commons.exception;version="0.1.0.qualifier"
+Export-Package: org.espilce.commons.exception;version=0.2.0.qualifier
 Automatic-Module-Name: org.espilce.commons.exception

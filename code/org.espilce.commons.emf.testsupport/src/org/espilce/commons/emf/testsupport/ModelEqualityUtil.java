@@ -8,39 +8,35 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jdt.annotation.NonNull;
 import org.espilce.commons.emf.textrenderer.EmfStringRenderer;
 
+/**
+ * Compares EMF artifacts and renders the differences in human-readable manner,
+ * if any.
+ * 
+ * @since 0.1
+ */
 public class ModelEqualityUtil {
-	private static ModelEqualityUtil instance;
-
-	protected ModelEqualityUtil() {
-	}
-
-	public static ModelEqualityUtil getInstance() {
-		if (instance == null) {
-			instance = new ModelEqualityUtil();
-		}
-
-		return instance;
-	}
-
 	/**
-	 * Asserts that two Ecore Resources are equal. That is, they have
-	 * {@link EcoreUtil#equals(List, List) equal} {@link Resource#getContents()
-	 * contents}. If they are not equal, an {@link AssertionError} is thrown with a
-	 * human-readable rendering of the differences.
+	 * Asserts that two EMF Resources are equal. That is, they have
+	 * {@linkplain EcoreUtil#equals(List, List) equal}
+	 * {@linkplain Resource#getContents() contents}. If they are not equal, an
+	 * {@link AssertionError} is thrown with a human-readable rendering of the
+	 * differences.
 	 *
 	 * @param expected
-	 *            expected Ecore Resource
+	 *            expected EMF Resource
 	 * @param actual
-	 *            actual Ecore Resource
+	 *            actual EMF Resource
+	 * @since 0.1
 	 */
-	public void assertModelEquals(final Resource expected, final Resource actual) {
+	public static void assertModelEquals(final @NonNull Resource expected, final @NonNull Resource actual) {
 		assertModelEquals(expected.getContents(), actual.getContents());
 	}
 
 	/**
-	 * Asserts that two EObject lists are {@link EcoreUtil#equals(List, List)
+	 * Asserts that two EObject lists are {@linkplain EcoreUtil#equals(List, List)
 	 * equal}. If they are not, an {@link AssertionError} is thrown with a
 	 * human-readable rendering of the differences.
 	 *
@@ -48,8 +44,10 @@ public class ModelEqualityUtil {
 	 *            expected EObject lists
 	 * @param actual
 	 *            actual EObject lists
+	 * @since 0.1
 	 */
-	public void assertModelEquals(final List<EObject> expected, final List<EObject> actual) {
+	public static void assertModelEquals(final @NonNull List<@NonNull EObject> expected,
+			final @NonNull List<@NonNull EObject> actual) {
 		final boolean equals = EcoreUtil.equals(expected, actual);
 		if (!equals) {
 			assertEquals("EObjects do not match.", new EmfStringRenderer(expected).render(),
@@ -59,7 +57,7 @@ public class ModelEqualityUtil {
 	}
 
 	/**
-	 * Asserts that two EObjects are {@link EcoreUtil#equals(EObject, EObject)
+	 * Asserts that two EObjects are {@linkplain EcoreUtil#equals(EObject, EObject)
 	 * equal}. If they are not, an {@link AssertionError} is thrown with a
 	 * human-readable rendering of the differences.
 	 *
@@ -67,8 +65,9 @@ public class ModelEqualityUtil {
 	 *            expected EObject
 	 * @param actual
 	 *            actual EObject
+	 * @since 0.1
 	 */
-	public void assertModelEquals(final EObject expected, final EObject actual) {
+	public static void assertModelEquals(final @NonNull EObject expected, final @NonNull EObject actual) {
 		final boolean equals = EcoreUtil.equals(expected, actual);
 		if (!equals) {
 			assertEquals("EObjects do not match.", new EmfStringRenderer(expected).render(),
@@ -76,5 +75,4 @@ public class ModelEqualityUtil {
 			assertTrue("EObjects do not match. expected: " + expected + ", actual: " + actual, equals);
 		}
 	}
-
 }

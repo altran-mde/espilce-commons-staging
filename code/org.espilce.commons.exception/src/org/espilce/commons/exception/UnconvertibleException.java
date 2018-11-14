@@ -3,6 +3,13 @@ package org.espilce.commons.exception;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
+/**
+ * Thrown to indicate that the {@linkplain #getSource() source} of
+ * {@linkplain #getSourceType() type} cannot be converted to the desired
+ * {@linkplain #getTargetType() target type}.
+ * 
+ * @since 0.1
+ */
 public class UnconvertibleException extends IllegalArgumentException {
 	private static final long serialVersionUID = 7300997479447122304L;
 
@@ -31,5 +38,17 @@ public class UnconvertibleException extends IllegalArgumentException {
 	private static @NonNull String compileMessage(@Nullable Object source, @NonNull Class<?> sourceType,
 			@NonNull Class<?> targetType) {
 		return "Cannot convert [" + sourceType + "] to " + targetType;
+	}
+
+	public @Nullable Object getSource() {
+		return source;
+	}
+
+	public @NonNull Class<?> getSourceType() {
+		return sourceType;
+	}
+
+	public @NonNull Class<?> getTargetType() {
+		return targetType;
 	}
 }

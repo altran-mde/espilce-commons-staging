@@ -161,19 +161,85 @@ public class UriResourceUtils extends UriUtils {
 		throw new UnconvertibleException(uri, URI.class, IResource.class);
 	}
 
-	public static @Nullable URI toEmfUri(final @NonNull IResource resource) {
+	/**
+	 * Converts an Eclipse IResource to an EMF URI, if possible.
+	 * 
+	 * @param iResource
+	 *            Eclipse IResource to convert.
+	 * @return EMF URI equivalent to <code>iResource</code>, or {@code null} if
+	 *         conversion is unsuccessful.
+	 * @since 0.2
+	 */
+	public static @Nullable URI toEmfUri(final @NonNull IResource iResource) {
 		try {
-			return URI.createPlatformResourceURI(resource.getFullPath().toPortableString(), false);
+			return URI.createPlatformResourceURI(iResource.getFullPath().toPortableString(), false);
 		} catch (IllegalArgumentException e) {
 			return null;
 		}
 	}
 
-	public static @NonNull URI asEmfUri(final @NonNull IResource resource) throws UnconvertibleException {
+	/**
+	 * Converts an Eclipse IResource to an EMF URI.
+	 * 
+	 * @param iResource
+	 *            Eclipse IResource to convert.
+	 * @return EMF URI equivalent to <code>iResource</code>.
+	 * @throws UnconvertibleException
+	 *             If conversion is unsuccessful.
+	 * @since 0.2
+	 */
+	public static @NonNull URI asEmfUri(final @NonNull IResource iResource) throws UnconvertibleException {
 		try {
-			return URI.createPlatformResourceURI(resource.getFullPath().toPortableString(), false);
+			return URI.createPlatformResourceURI(iResource.getFullPath().toPortableString(), false);
 		} catch (IllegalArgumentException e) {
-			throw new UnconvertibleException(resource, IResource.class, URI.class, e);
+			throw new UnconvertibleException(iResource, IResource.class, URI.class, e);
+		}
+	}
+
+	/**
+	 * Converts an Eclipse IPath to an EMF URI, if possible.
+	 * 
+	 * @param iPath
+	 *            Eclipse IPath to convert.
+	 * @return EMF URI equivalent to <code>iPath</code>, or {@code null} if
+	 *         conversion is unsuccessful.
+	 * @since 0.2
+	 */
+	public static @Nullable URI toEmfUri(final @NonNull IPath iPath) {
+		try {
+			if (ResourcesPlugin.getWorkspace().getRoot().getFullPath().isPrefixOf(iPath)) {
+				return URI.createPlatformResourceURI(iPath.makeAbsolute().toPortableString(), false);
+			} else if (Path.fromPortableString("resources").isPrefixOf(iPath)) {
+				return URI.createPlatformPluginURI(iPath.toPortableString(), false);
+			} else {
+				return URI.createFileURI(iPath.toPortableString());
+			}
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Converts an Eclipse IPath to an EMF URI.
+	 * 
+	 * @param iPath
+	 *            Eclipse IPath to convert.
+	 * @return EMF URI equivalent to <code>iPath</code>.
+	 * @throws UnconvertibleException
+	 *             If conversion is unsuccessful.
+	 * @since 0.2
+	 */
+	public static @NonNull URI asEmfUri(final @NonNull IPath iPath) throws UnconvertibleException {
+		try {
+			if (ResourcesPlugin.getWorkspace().getRoot().getFullPath().isPrefixOf(iPath)) {
+				return URI.createPlatformResourceURI(iPath.makeAbsolute().toPortableString(), false);
+			} else if (Path.fromPortableString("resources").isPrefixOf(iPath)) {
+				return URI.createPlatformPluginURI(iPath.toPortableString(), false);
+			} else {
+				return URI.createFileURI(iPath.toPortableString());
+			}
+		} catch (IllegalArgumentException e) {
+			throw new UnconvertibleException(iPath, IPath.class, URI.class, e);
 		}
 	}
 }

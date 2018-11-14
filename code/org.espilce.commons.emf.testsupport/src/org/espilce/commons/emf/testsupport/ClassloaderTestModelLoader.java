@@ -17,12 +17,19 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.eclipse.emf.common.util.URI;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 
+/**
+ * Loads resources either from file system or classloader.
+ * 
+ * @since 0.1
+ *
+ */
 public class ClassloaderTestModelLoader extends ATestModelLoadHelper {
 
 	@Override
-	protected String getContentTypeId(Class<?> classInContext, String resourceRelativePath) {
+	public String getContentTypeId(Class<?> classInContext, String resourceRelativePath) {
 		return null;
 	}
 
@@ -43,14 +50,10 @@ public class ClassloaderTestModelLoader extends ATestModelLoadHelper {
 		if (file != null) {
 			Path basePath = Paths.get(file.getAbsolutePath());
 			try (Stream<Path> fileWalker = Files.walk(basePath)) {
-				return fileWalker.filter(Files::isRegularFile).map(path -> {
-					try {
-						return path.toUri().toURL();
-					} catch (MalformedURLException e) {
-						return null;
-					}
-				}).filter(Objects::nonNull).collect(Collectors.toList());
-			} catch (IOException e1) {
+				final List<URL> result = fileWalker.filter(Files::isRegularFile).map(this::convertPathToUrl)
+						.filter(Objects::nonNull).collect(Collectors.toList());
+				return result;
+			} catch (IOException e) {
 				// ignore
 			}
 		}
@@ -65,17 +68,28 @@ public class ClassloaderTestModelLoader extends ATestModelLoadHelper {
 	}
 
 	@Override
-	public URI toLocalmostUri(Class<?> classInContext, String resourceRelativePath) {
+	public URL toLocalmostUrl(Class<?> classInContext, String resourceRelativePath) {
 		File file = toFile(classInContext, resourceRelativePath);
 
-		if (file != null) {
-			return URI.createFileURI(file.getAbsolutePath());
+		try {
+			if (file != null) {
+				return file.toURI().toURL();
+			}
+			return new URL(resourceRelativePath);
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
 		}
-
-		return URI.createFileURI(resourceRelativePath);
 	}
 
-	protected File toFile(Class<?> classInContext, String resourceRelativePath) {
+	private @Nullable URL convertPathToUrl(final @NonNull Path path) {
+		try {
+			return path.toUri().toURL();
+		} catch (MalformedURLException e) {
+			return null;
+		}
+	}
+
+	private @Nullable File toFile(final @NonNull Class<?> classInContext, final @NonNull String resourceRelativePath) {
 		File file = new File(resourceRelativePath);
 
 		if (file.canRead()) {

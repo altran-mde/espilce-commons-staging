@@ -5,12 +5,12 @@ Bundle-SymbolicName: org.espilce.commons.emf.resource
 Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Espilce Commons
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.core.resources;bundle-version=1,
- org.eclipse.core.runtime;bundle-version=1,
- org.eclipse.emf.common;bundle-version=2,
- org.espilce.commons.emf;bundle-version=0.1.0,
- org.espilce.commons.exception;bundle-version=0.1.0,
- org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional
+Require-Bundle: org.eclipse.core.resources;bundle-version=3.0,
+ org.eclipse.core.runtime;bundle-version=3.1,
+ org.eclipse.emf.common;bundle-version=2.3,
+ org.espilce.commons.emf;bundle-version=0.1.0;visibility:=reexport,
+ org.espilce.commons.exception;bundle-version=0.1.0;visibility:=reexport,
+ org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional;visibility:=reexport
 Export-Package: org.espilce.commons.emf.resource;version=0.2.0.qualifier;
  uses:="org.eclipse.core.resources,
  org.eclipse.core.runtime,

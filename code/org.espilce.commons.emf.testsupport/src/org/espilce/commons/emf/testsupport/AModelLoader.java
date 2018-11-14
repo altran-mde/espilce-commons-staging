@@ -15,14 +15,15 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jdt.annotation.NonNull;
 
 /**
  * Convenience base class for test classes that need to load models.
+ * 
+ * @since 0.1
  */
-@SuppressWarnings("all")
 public class AModelLoader {
-	private ITestModelLoadHelper testModelLoadHelper;
+	private ATestModelLoadHelper testModelLoadHelper;
 
 	/**
 	 * Loads the file pointed to by {@code modelRelativePath}.
@@ -45,8 +46,8 @@ public class AModelLoader {
 	 *
 	 * @return The the root element of the loaded model.
 	 */
-	public EObject loadModel(final String modelRelativePath) {
-		return getTestModelLoadHelper().loadModel(this.getClass(), modelRelativePath);
+	public @NonNull EObject loadModel(final @NonNull String modelRelativePath) {
+		return getTestModelLoadHelper().loadModel(getClass(), modelRelativePath);
 	}
 
 	/**
@@ -70,61 +71,18 @@ public class AModelLoader {
 	 *
 	 * @return The Ecore resource loaded from {@code modelRelativePath}.
 	 */
-	public Resource loadModelResource(final String modelRelativePath) {
-		return getTestModelLoadHelper().loadModelResource(this.getClass(), modelRelativePath);
+	public @NonNull Resource loadModelResource(final @NonNull String modelRelativePath) {
+		return getTestModelLoadHelper().loadModelResource(getClass(), modelRelativePath);
 	}
 
-	/**
-	 * Asserts that two Ecore Resources are equal. That is, they have
-	 * {@link EcoreUtil#equals(List, List) equal} {@link Resource#getContents()
-	 * contents}. If they are not equal, an {@link AssertionError} is thrown with a
-	 * human-readable rendering of the differences.
-	 *
-	 * @param expected
-	 *            expected Ecore Resource
-	 * @param actual
-	 *            actual Ecore Resource
-	 */
-	public void assertModelEquals(final Resource expected, final Resource actual) {
-		getModelEqualityUtil().assertModelEquals(expected, actual);
-	}
-
-	/**
-	 * Asserts that two EObject lists are {@link EcoreUtil#equals(List, List)
-	 * equal}. If they are not, an {@link AssertionError} is thrown with a
-	 * human-readable rendering of the differences.
-	 *
-	 * @param expected
-	 *            expected EObject lists
-	 * @param actual
-	 *            actual EObject lists
-	 */
-	public void assertModelEquals(final List<EObject> expected, final List<EObject> actual) {
-		getModelEqualityUtil().assertModelEquals(expected, actual);
-	}
-
-	/**
-	 * Asserts that two EObjects are {@link EcoreUtil#equals(EObject, EObject)
-	 * equal}. If they are not, an {@link AssertionError} is thrown with a
-	 * human-readable rendering of the differences.
-	 *
-	 * @param expected
-	 *            expected EObject
-	 * @param actual
-	 *            actual EObject
-	 */
-	public void assertModelEquals(final EObject expected, final EObject actual) {
-		getModelEqualityUtil().assertModelEquals(expected, actual);
-	}
-
-	public void assertOutputEquals(final String expectedOutputParent, final Map<String, CharSequence> actuals)
-			throws IOException {
-		List<URL> expectedUrls = getTestModelLoadHelper().findMatchingResources(getClass(), expectedOutputParent);
+	public void assertOutputEquals(final @NonNull String expectedOutputParent,
+			final @NonNull Map<@NonNull String, @NonNull CharSequence> actuals) throws IOException {
+		final List<URL> expectedUrls = getTestModelLoadHelper().findMatchingResources(getClass(), expectedOutputParent);
 		final List<String> expectedUrlNames = expectedUrls.stream().map(URL::getPath).collect(Collectors.toList());
 
 		final String commonPrefix = StringUtils
 				.getCommonPrefix(expectedUrlNames.toArray(new String[expectedUrlNames.size()]));
-		int commonPrefixLength = commonPrefix.length();
+		final int commonPrefixLength = commonPrefix.length();
 
 		final String[] expectedNames = expectedUrlNames.stream().map(p -> p.substring(commonPrefixLength))
 				.toArray(String[]::new);
@@ -134,8 +92,8 @@ public class AModelLoader {
 		assertArrayEquals(expectedNames, actualNames);
 
 		for (Entry<String, CharSequence> file : actuals.entrySet()) {
-			String name = file.getKey();
-			CharSequence actualContent = file.getValue();
+			final String name = file.getKey();
+			final CharSequence actualContent = file.getValue();
 
 			final InputStream expectedStream = getTestModelLoadHelper().getContents(getClass(),
 					expectedOutputParent + name);
@@ -145,7 +103,7 @@ public class AModelLoader {
 		}
 	}
 
-	protected ITestModelLoadHelper getTestModelLoadHelper() {
+	protected @NonNull ATestModelLoadHelper getTestModelLoadHelper() {
 		if (testModelLoadHelper == null) {
 			testModelLoadHelper = createTestModelLoadHelper();
 		}
@@ -153,11 +111,7 @@ public class AModelLoader {
 		return testModelLoadHelper;
 	}
 
-	protected ITestModelLoadHelper createTestModelLoadHelper() {
+	protected @NonNull ATestModelLoadHelper createTestModelLoadHelper() {
 		return new ClassloaderTestModelLoader();
-	}
-
-	protected ModelEqualityUtil getModelEqualityUtil() {
-		return ModelEqualityUtil.getInstance();
 	}
 }

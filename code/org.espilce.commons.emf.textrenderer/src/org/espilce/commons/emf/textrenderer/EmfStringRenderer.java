@@ -10,11 +10,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * Creates a human-readable tree-like rendering of EMF contents.
  * 
- * @author nstotz
+ * @since 0.1
  */
 public class EmfStringRenderer {
 	private final StringBuilder builder = new StringBuilder();
@@ -22,21 +24,21 @@ public class EmfStringRenderer {
 	private final Collection<EObject> eObjects;
 	private final EObject eObject;
 
-	public EmfStringRenderer(final Resource resource) {
+	public EmfStringRenderer(final @NonNull Resource resource) {
 		this.resource = resource;
 		this.eObjects = Collections.emptySet();
 		this.eObject = null;
 		validateInput(false);
 	}
 
-	public EmfStringRenderer(final Collection<EObject> eObjects) {
+	public EmfStringRenderer(final @NonNull Collection<@NonNull EObject> eObjects) {
 		this.resource = null;
 		this.eObjects = eObjects;
 		this.eObject = null;
 		validateInput(true);
 	}
 
-	public EmfStringRenderer(final EObject eObject) {
+	public EmfStringRenderer(final @NonNull EObject eObject) {
 		this.resource = null;
 		this.eObjects = Collections.emptySet();
 		this.eObject = eObject;
@@ -52,7 +54,7 @@ public class EmfStringRenderer {
 	/**
 	 * Public API to render.
 	 */
-	public String render() {
+	public @NonNull String render() {
 		if (this.builder.length() == 0) {
 			doRender();
 		}
@@ -78,25 +80,25 @@ public class EmfStringRenderer {
 	/**
 	 * {@link #render()} call, guarded by {@link #getFilter()}.
 	 */
-	protected void renderFiltered(final Object object, final int indent, final EObject context) {
+	protected void renderFiltered(final @NonNull Object object, final int indent, final @Nullable EObject context) {
 		if (getFilter().shouldRender(object, indent, context)) {
 			render(object, indent, context);
 		}
 	}
 
-	protected void renderResource(final Resource resource, final int indent, final EObject context) {
+	protected void renderResource(final @NonNull Resource resource, final int indent, final @Nullable EObject context) {
 		append("Resource: ", indent);
 		this.builder.append(resource.getURI());
 		renderFiltered(resource.getContents(), (indent + 1), null);
 	}
 
-	protected void renderEObjectCollection(final Collection<EObject> eObjects, final int indent,
-			final EObject context) {
+	protected void renderEObjectCollection(final @NonNull Collection<@NonNull EObject> eObjects, final int indent,
+			final @NonNull EObject context) {
 		renderCollection(eObjects, indent, context, eObject -> renderFiltered(eObject, (indent + 1), null));
 	}
 
-	protected <T extends Object> void renderCollection(final Collection<T> collection, final int indent,
-			final EObject context, final Consumer<T> lineRenderer) {
+	protected <T extends Object> void renderCollection(final @NonNull Collection<@NonNull T> collection,
+			final int indent, final @NonNull EObject context, final @NonNull Consumer<@NonNull T> lineRenderer) {
 		this.builder.append("[");
 		for (final T element : collection) {
 			{
@@ -107,7 +109,7 @@ public class EmfStringRenderer {
 		append("]", indent);
 	}
 
-	protected void renderEObject(final EObject eObject, final int indent, final EObject context) {
+	protected void renderEObject(final @NonNull EObject eObject, final int indent, final @Nullable EObject context) {
 		this.builder.append(eObject.eClass().getName());
 		this.builder.append(" {");
 		eObject.eClass().getEAllStructuralFeatures().stream().sorted((a, b) -> a.getName().compareTo(b.getName()))
@@ -115,7 +117,8 @@ public class EmfStringRenderer {
 		append("}", indent);
 	}
 
-	protected void renderEAttribute(final EAttribute attribute, final int indent, final EObject context) {
+	protected void renderEAttribute(final @NonNull EAttribute attribute, final int indent,
+			final @NonNull EObject context) {
 		append(attribute.getName(), indent);
 		this.builder.append("=");
 		final Object value = context.eGet(attribute);
@@ -129,8 +132,8 @@ public class EmfStringRenderer {
 		}
 	}
 
-	protected void renderAttribute(final EAttribute attribute, final int indent, final EObject context,
-			final Object value) {
+	protected void renderAttribute(final @NonNull EAttribute attribute, final int indent,
+			final @Nullable EObject context, final @Nullable Object value) {
 		if (value instanceof CharSequence) {
 			this.builder.append("\"");
 			this.builder.append((CharSequence) value);
@@ -140,7 +143,8 @@ public class EmfStringRenderer {
 		}
 	}
 
-	protected void renderEReference(final EReference reference, final int indent, final EObject context) {
+	protected void renderEReference(final @NonNull EReference reference, final int indent,
+			final @NonNull EObject context) {
 		append(reference.getName(), indent);
 		if (reference.isContainment()) {
 			this.builder.append(": ");
@@ -159,8 +163,8 @@ public class EmfStringRenderer {
 		}
 	}
 
-	protected void renderReference(final EReference reference, final int indent, final EObject context,
-			final EObject target) {
+	protected void renderReference(final @NonNull EReference reference, final int indent,
+			final @NonNull EObject context, final @Nullable EObject target) {
 		if (target != null) {
 			final String id = EcoreUtil.getID(target);
 			if (id != null && id.length() > 0) {
@@ -178,10 +182,10 @@ public class EmfStringRenderer {
 	}
 
 	/**
-	 * Appends an newline and {@code text} to the builder, indented by
-	 * {@code indent} levels.
+	 * Appends an newline and <code>text</code> to the builder, indented by
+	 * <code>indent</code> levels.
 	 */
-	protected void append(final Object text, final int indent) {
+	protected void append(final @Nullable Object text, final int indent) {
 		appendIndex(indent);
 		this.builder.append(text);
 	}
@@ -195,29 +199,27 @@ public class EmfStringRenderer {
 
 	/**
 	 * Filter to prevent selected Ecore elements from being rendered.
-	 * 
-	 * Must not be {@code null}.
 	 */
-	protected IRenderFilter getFilter() {
+	protected @NonNull IRenderFilter getFilter() {
 		return new OmitUnsetFilter();
 	}
 
-	protected String getNewline() {
+	protected @NonNull String getNewline() {
 		return "\n";
 	}
 
-	protected String getIndentation() {
+	protected @NonNull String getIndentation() {
 		return "  ";
 	}
 
-	protected void render(final Object attribute, final int indent, final EObject context) {
-		if (attribute instanceof EAttribute) {
+	protected void render(final @NonNull Object attribute, final int indent, final @Nullable EObject context) {
+		if (attribute instanceof EAttribute && context != null) {
 			renderEAttribute((EAttribute) attribute, indent, context);
 			return;
-		} else if (attribute instanceof EReference) {
+		} else if (attribute instanceof EReference && context != null) {
 			renderEReference((EReference) attribute, indent, context);
 			return;
-		} else if (attribute instanceof Collection) {
+		} else if (attribute instanceof Collection && context != null) {
 			@SuppressWarnings("unchecked")
 			final Collection<EObject> collection = (Collection<EObject>) attribute;
 			renderEObjectCollection(collection, indent, context);
