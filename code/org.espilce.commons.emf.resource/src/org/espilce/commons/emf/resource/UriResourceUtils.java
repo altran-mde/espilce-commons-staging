@@ -1,7 +1,5 @@
 package org.espilce.commons.emf.resource;
 
-import java.io.File;
-
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -163,15 +161,19 @@ public class UriResourceUtils extends UriUtils {
 		throw new UnconvertibleException(uri, URI.class, IResource.class);
 	}
 
-	public static @Nullable URI toEmfUri(final File modelFile) {
+	public static @Nullable URI toEmfUri(final @NonNull IResource resource) {
 		try {
-			return URI.createFileURI(modelFile.getAbsolutePath());
+			return URI.createPlatformResourceURI(resource.getFullPath().toPortableString(), false);
 		} catch (IllegalArgumentException e) {
 			return null;
 		}
 	}
 
-	public static URI toEmfUri(final IResource resource) {
-		return URI.createPlatformResourceURI(resource.getFullPath().toPortableString(), false);
+	public static @NonNull URI asEmfUri(final @NonNull IResource resource) throws UnconvertibleException {
+		try {
+			return URI.createPlatformResourceURI(resource.getFullPath().toPortableString(), false);
+		} catch (IllegalArgumentException e) {
+			throw new UnconvertibleException(resource, IResource.class, URI.class, e);
+		}
 	}
 }
