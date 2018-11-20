@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * Convenience base class for test classes that need to load models.
@@ -69,7 +70,7 @@ public class AModelLoader {
 	 *            Path of the model file, relative to the plug-in containing the
 	 *            given class.
 	 *
-	 * @return The Ecore resource loaded from {@code modelRelativePath}.
+	 * @return The EMF resource loaded from {@code modelRelativePath}.
 	 */
 	public @NonNull Resource loadModelResource(final @NonNull String modelRelativePath) {
 		return getTestModelLoadHelper().loadModelResource(getClass(), modelRelativePath);
@@ -80,17 +81,35 @@ public class AModelLoader {
 		final List<URL> expectedUrls = getTestModelLoadHelper().findMatchingResources(getClass(), expectedOutputParent);
 		final List<String> expectedUrlNames = expectedUrls.stream().map(URL::getPath).collect(Collectors.toList());
 
-		final String commonPrefix = StringUtils
-				.getCommonPrefix(expectedUrlNames.toArray(new String[expectedUrlNames.size()]));
-		final int commonPrefixLength = commonPrefix.length();
+		final List<String> actualNames = actuals.keySet().stream().sorted().collect(Collectors.toList());
 
-		final String[] expectedNames = expectedUrlNames.stream().map(p -> p.substring(commonPrefixLength))
-				.toArray(String[]::new);
+		List<String> expectedNames;
+		switch (expectedUrlNames.size()) {
+		case 0:
+			expectedNames = Collections.emptyList();
+			break;
 
-		final String[] actualNames = actuals.keySet().toArray(new String[actuals.size()]);
+		case 1:
+			final String firstExpectedUrlName = expectedUrlNames.iterator().next();
+			if (actualNames.size() > 0) {
+				expectedNames = Collections
+						.singletonList(getCommonSuffix(firstExpectedUrlName, actualNames.iterator().next()));
+			} else {
+				expectedNames = Collections.singletonList(firstExpectedUrlName);
+			}
+			break;
 
-		assertEquals(Arrays.asList(expectedNames).toString().replace(",", "\n"),
-				Arrays.asList(actualNames).toString().replace(",", "\n"));
+		default:
+			final String commonPrefix = StringUtils
+					.getCommonPrefix(expectedUrlNames.toArray(new String[expectedUrlNames.size()]));
+			final int commonPrefixLength = commonPrefix.length();
+
+			expectedNames = expectedUrlNames.stream().map(p -> p.substring(commonPrefixLength)).sorted()
+					.collect(Collectors.toList());
+			break;
+		}
+
+		assertEquals(String.join("\n", expectedNames), String.join("\n", actualNames));
 
 		for (Entry<String, CharSequence> file : actuals.entrySet()) {
 			final String name = file.getKey();
@@ -102,6 +121,19 @@ public class AModelLoader {
 
 			assertEquals("difference in " + name, expectedContent, actualContent);
 		}
+	}
+
+	protected @Nullable String getCommonSuffix(final @Nullable String... strs) {
+		if (strs == null) {
+			return null;
+		}
+
+		final String[] reversed = new String[strs.length];
+		for (int i = 0; i < strs.length; i++) {
+			reversed[i] = StringUtils.reverse(strs[i]);
+		}
+		final String reversedCommonPrefix = StringUtils.getCommonPrefix(reversed);
+		return StringUtils.reverse(reversedCommonPrefix);
 	}
 
 	protected @NonNull ATestModelLoadHelper getTestModelLoadHelper() {
