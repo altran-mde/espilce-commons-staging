@@ -1,11 +1,11 @@
 package org.espilce.commons.emf.testsupport;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -89,7 +89,8 @@ public class AModelLoader {
 
 		final String[] actualNames = actuals.keySet().toArray(new String[actuals.size()]);
 
-		assertArrayEquals(expectedNames, actualNames);
+		assertEquals(Arrays.asList(expectedNames).toString().replace(",", "\n"),
+				Arrays.asList(actualNames).toString().replace(",", "\n"));
 
 		for (Entry<String, CharSequence> file : actuals.entrySet()) {
 			final String name = file.getKey();
