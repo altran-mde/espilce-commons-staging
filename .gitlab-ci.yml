@@ -5,6 +5,7 @@ before_script:
 
 stages:
   - build
+  - publish
 
 Build maven projects:
   stage: build
@@ -17,3 +18,10 @@ Build maven projects:
     when: always
     paths:
       - "component/*/*/target/*.jar"
+publish:
+  stage: publish
+  tags:
+    - linux_docker
+  script:
+    - ./scripts/publish.py
+  allow_failure: true
