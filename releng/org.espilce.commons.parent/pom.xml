@@ -21,27 +21,13 @@
 	</properties>
 
 	<modules>
-		<module>../../code/org.espilce.commons.emf</module>
-		<module>../org.espilce.commons.emf.feature</module>
-		
-		<module>../../code/org.espilce.commons.emf.resource</module>
-		<module>../org.espilce.commons.emf.resource.feature</module>
-		<module>../../test/org.espilce.commons.emf.resource.test</module>
-		
-		<module>../../code/org.espilce.commons.emf.testsupport</module>
-		<module>../org.espilce.commons.emf.testsupport.feature</module>
-		
-		<module>../../code/org.espilce.commons.emf.testsupport.resource</module>
-		<module>../org.espilce.commons.emf.testsupport.resource.feature</module>
-		
-		<module>../../code/org.espilce.commons.emf.textrenderer</module>
-		<module>../org.espilce.commons.emf.textrenderer.feature</module>
-		
-		<module>../../code/org.espilce.commons.exception</module>
-		<module>../org.espilce.commons.exception.feature</module>
-		
-		<module>../../code/org.espilce.commons.resource</module>
-		<module>../org.espilce.commons.resource.feature</module>
+		<module>../../emf/org.espilce.commons.emf.parent</module>
+		<module>../../emf.resource/org.espilce.commons.emf.resource.parent</module>
+		<module>../../emf.testsupport/org.espilce.commons.emf.testsupport.parent</module>
+		<module>../../emf.testsupport.resource/org.espilce.commons.emf.testsupport.resource.parent</module>
+		<module>../../emf.textrenderer/org.espilce.commons.emf.textrenderer.parent</module>
+		<module>../../exception/org.espilce.commons.exception.parent</module>
+		<module>../../resource/org.espilce.commons.resource.parent</module>
 		
 		<module>../org.espilce.commons.target</module>
 		
