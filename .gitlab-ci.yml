@@ -12,7 +12,7 @@ Build maven projects:
     - linux_docker
   script:
     - cd releng/{parent-dir}
-	- mvn -e clean install
+    - mvn -e clean install
   artifacts:
     when: always
     paths:
