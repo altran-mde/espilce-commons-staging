@@ -11,15 +11,9 @@ Build maven projects:
   tags:
     - linux_docker
   script:
-    - cd releng/org.espilce.commons.target
+    - cd releng/org.espilce.commons.parent
     - mvn -e clean install
   artifacts:
     when: always
     paths:
       - "code/**/target/*.jar"
-  stage: publish
-  tags:
-    - linux_docker
-  script:
-    - ./scripts/publish.py
-  allow_failure: true
