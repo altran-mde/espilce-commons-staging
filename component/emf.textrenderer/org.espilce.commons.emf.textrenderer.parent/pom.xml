@@ -11,7 +11,7 @@
 		<groupId>org.espilce.commons</groupId>
 		<artifactId>org.espilce.commons.parent</artifactId>
 		<version>0.1.0-SNAPSHOT</version>
-		<relativePath>../../releng/org.espilce.commons.parent</relativePath>
+		<relativePath>../../../releng/org.espilce.commons.parent</relativePath>
 	</parent>
 
 	<modules>
