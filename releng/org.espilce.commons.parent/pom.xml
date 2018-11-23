@@ -22,16 +22,29 @@
 
 	<modules>
 		<module>../../code/org.espilce.commons.emf</module>
+		<module>../org.espilce.commons.emf.feature</module>
+		
 		<module>../../code/org.espilce.commons.emf.resource</module>
+		<module>../org.espilce.commons.emf.resource.feature</module>
+		<module>../../test/org.espilce.commons.emf.resource.test</module>
+		
 		<module>../../code/org.espilce.commons.emf.testsupport</module>
+		<module>../org.espilce.commons.emf.testsupport.feature</module>
+		
 		<module>../../code/org.espilce.commons.emf.testsupport.resource</module>
+		<module>../org.espilce.commons.emf.testsupport.resource.feature</module>
+		
 		<module>../../code/org.espilce.commons.emf.textrenderer</module>
+		<module>../org.espilce.commons.emf.textrenderer.feature</module>
+		
 		<module>../../code/org.espilce.commons.exception</module>
+		<module>../org.espilce.commons.exception.feature</module>
+		
 		<module>../../code/org.espilce.commons.resource</module>
+		<module>../org.espilce.commons.resource.feature</module>
 		
 		<module>../org.espilce.commons.target</module>
 		
-		<module>../../test/org.espilce.commons.emf.resource.test</module>
 	</modules>
 
 	<build>
