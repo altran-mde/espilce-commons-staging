@@ -119,7 +119,8 @@ public class AModelLoader {
 					expectedOutputParent + name);
 			final String expectedContent = IOUtils.toString(expectedStream);
 
-			assertEquals("difference in " + name, expectedContent, actualContent);
+			assertEquals("difference in " + name, normalizeNewline(expectedContent),
+					normalizeNewline(actualContent.toString()));
 		}
 	}
 
@@ -134,6 +135,10 @@ public class AModelLoader {
 		}
 		final String reversedCommonPrefix = StringUtils.getCommonPrefix(reversed);
 		return StringUtils.reverse(reversedCommonPrefix);
+	}
+
+	protected @Nullable String normalizeNewline(final @Nullable String text) {
+		return StringUtils.replaceEach(text, new String[] { "\r\n", "\n\r", "\r" }, new String[] { "\n", "\n", "\n" });
 	}
 
 	protected @NonNull ATestModelLoadHelper getTestModelLoadHelper() {
