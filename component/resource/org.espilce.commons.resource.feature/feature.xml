@@ -3,19 +3,23 @@
       id="org.espilce.commons.resource.feature"
       label="Espilce Commons Resource Feature"
       version="0.1.0.qualifier"
-      provider-name="Espilce Commons">
+       provider-name="Espilce Commons"
+      license-feature="org.espilce.commons.license"
+      license-feature-version="0.1.0.qualifier">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description>
+      Common tools and utilities to work with Eclipse Resources.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright>
+      Copyright (C) 2018 Altran Netherlands B.V.
+  
+  This program and the accompanying materials are made
+  available under the terms of the Eclipse Public License 2.0
+  which is available at https://www.eclipse.org/legal/epl-2.0/
+  
+  SPDX-License-Identifier: EPL-2.0
    </copyright>
-
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
-   </license>
 
    <requires>
       <import plugin="org.eclipse.core.runtime" version="3.1.0" match="greaterOrEqual"/>

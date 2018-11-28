@@ -30,6 +30,8 @@
 		<module>../../component/resource/org.espilce.commons.resource.parent</module>
 		
 		<module>../org.espilce.commons.target</module>
+		<module>../org.espilce.commons.license</module>
+		<module>../org.espilce.commons.repository</module>
 		
 	</modules>
 

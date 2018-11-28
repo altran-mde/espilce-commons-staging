@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.espilce.commons.emf.feature_0.1.0.qualifier.jar" id="org.espilce.commons.emf.feature" version="0.1.0.qualifier">
+      <category name="EspilceCommonsP2"/>
+   </feature>
+   <feature url="features/org.espilce.commons.emf.resource.feature_0.1.0.qualifier.jar" id="org.espilce.commons.emf.resource.feature" version="0.1.0.qualifier">
+      <category name="EspilceCommonsP2"/>
+   </feature>
+   <feature url="features/org.espilce.commons.emf.testsupport.feature_0.1.0.qualifier.jar" id="org.espilce.commons.emf.testsupport.feature" version="0.1.0.qualifier">
+      <category name="EspilceCommonsP2"/>
+   </feature>
+   <feature url="features/org.espilce.commons.emf.testsupport.resource.feature_0.1.0.qualifier.jar" id="org.espilce.commons.emf.testsupport.resource.feature" version="0.1.0.qualifier">
+      <category name="EspilceCommonsP2"/>
+   </feature>
+   <feature url="features/org.espilce.commons.emf.textrenderer.feature_0.1.0.qualifier.jar" id="org.espilce.commons.emf.textrenderer.feature" version="0.1.0.qualifier">
+      <category name="EspilceCommonsP2"/>
+   </feature>
+   <feature url="features/org.espilce.commons.exception.feature_0.1.0.qualifier.jar" id="org.espilce.commons.exception.feature" version="0.1.0.qualifier">
+      <category name="EspilceCommonsP2"/>
+   </feature>
+   <feature url="features/org.espilce.commons.resource.feature_0.1.0.qualifier.jar" id="org.espilce.commons.resource.feature" version="0.1.0.qualifier">
+      <category name="EspilceCommonsP2"/>
+   </feature>
+   <category-def name="EspilceCommonsP2" label="Espilce Commons">
+      <description>
+         Espilce Commons Features and Plug-ins
+      </description>
+   </category-def>
+</site>
