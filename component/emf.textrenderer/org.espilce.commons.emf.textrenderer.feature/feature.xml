@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.espilce.commons.emf.textrenderer.feature"
+      label="Espilce Commons EMF Textrenderer Feature"
+      version="0.1.0.qualifier"
+      provider-name="Espilce Commons"
+      license-feature="org.espilce.commons.license"
+      license-feature-version="0.1.0.qualifier">
+
+   <description>
+      A generic renderer to turn EMF models into a human-readable textual representation.
+      Especially suited to diff EMF models.
+   </description>
+
+   <copyright>
+      Copyright (C) 2018 Altran Netherlands B.V.
+  
+  This program and the accompanying materials are made
+  available under the terms of the Eclipse Public License 2.0
+  which is available at https://www.eclipse.org/legal/epl-2.0/
+  
+  SPDX-License-Identifier: EPL-2.0
+   </copyright>
+
+   <requires>
+      <import plugin="org.eclipse.emf.ecore" version="2.10" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="org.espilce.commons.emf.textrenderer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

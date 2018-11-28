@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.espilce.commons.emf.testsupport.resource.feature"
+      label="Espilce Commons EMF Testsupport Resource Feature"
+      version="0.1.0.qualifier"
+      provider-name="Espilce Commons"
+      license-feature="org.espilce.commons.license"
+      license-feature-version="0.1.0.qualifier">
+
+   <description>
+      Common tools and utilities to test EMF-based code that depend on Eclipse Resources.
+   </description>
+
+   <copyright>
+      Copyright (C) 2018 Altran Netherlands B.V.
+  
+  This program and the accompanying materials are made
+  available under the terms of the Eclipse Public License 2.0
+  which is available at https://www.eclipse.org/legal/epl-2.0/
+  
+  SPDX-License-Identifier: EPL-2.0
+   </copyright>
+
+   <requires>
+      <import plugin="org.eclipse.emf.ecore" version="2.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.runtime" version="3.2.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.resources" version="3.0.0" match="greaterOrEqual"/>
+      <import plugin="org.junit" version="4" match="greaterOrEqual"/>
+      <import plugin="org.apache.commons.io" version="2.2" match="greaterOrEqual"/>
+      <import plugin="org.apache.commons.lang3" version="2.4" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.common" version="2.3.0" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="org.espilce.commons.emf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.espilce.commons.exception"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.espilce.commons.emf.testsupport.resource"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.espilce.commons.emf.testsupport"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.espilce.commons.resource"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.espilce.commons.emf.resource"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.espilce.commons.emf.textrenderer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
