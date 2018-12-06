@@ -17,6 +17,7 @@
 	<modules>
 		<module>../org.espilce.commons.emf</module>
 		<module>../org.espilce.commons.emf.feature</module>
+		<module>../org.espilce.commons.emf.test</module>
 	</modules>
 
 	<build>

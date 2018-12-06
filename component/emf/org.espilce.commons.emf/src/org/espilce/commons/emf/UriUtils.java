@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.Objects;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.annotation.NonNull;
@@ -54,6 +55,9 @@ public class UriUtils {
 	 * @since 0.1
 	 */
 	public static java.net.@Nullable URI toJavaUri(final @NonNull URI emfUri) {
+		if (Objects.isNull(emfUri)) {
+			return null;
+		}
 		try {
 			return new java.net.URI(emfUri.toString());
 		} catch (URISyntaxException e) {
@@ -89,6 +93,9 @@ public class UriUtils {
 	 * @since 0.1
 	 */
 	public static @Nullable URL toJavaUrl(final @NonNull URI emfUri) {
+		if (Objects.isNull(emfUri)) {
+			return null;
+		}
 		try {
 			return new URL(emfUri.toString());
 		} catch (MalformedURLException e) {
