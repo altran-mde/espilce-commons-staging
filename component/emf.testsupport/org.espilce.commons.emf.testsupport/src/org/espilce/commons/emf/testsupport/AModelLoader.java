@@ -14,6 +14,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -21,11 +22,11 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
+import org.espilce.commons.lang.StringUtils2;
+import org.espilce.commons.testsupport.Assert2;
 
 /**
  * Convenience base class for test classes that need to load models.
@@ -101,20 +102,16 @@ public class AModelLoader {
 		case 1:
 			final String firstExpectedUrlName = expectedUrlNames.iterator().next();
 			if (actualNames.size() > 0) {
-				expectedNames = Collections
-						.singletonList(getCommonSuffix(firstExpectedUrlName, actualNames.iterator().next()));
+				expectedNames = Collections.singletonList(
+						StringUtils2.getCommonSuffix(firstExpectedUrlName, actualNames.iterator().next()));
 			} else {
 				expectedNames = Collections.singletonList(firstExpectedUrlName);
 			}
 			break;
 
 		default:
-			final String commonPrefix = StringUtils
-					.getCommonPrefix(expectedUrlNames.toArray(new String[expectedUrlNames.size()]));
-			final int commonPrefixLength = commonPrefix.length();
-
-			expectedNames = expectedUrlNames.stream().map(p -> p.substring(commonPrefixLength)).sorted()
-					.collect(Collectors.toList());
+			expectedNames = Arrays.asList(
+					StringUtils2.removeCommonPrefix(expectedUrlNames.toArray(new String[expectedUrlNames.size()])));
 			break;
 		}
 
@@ -128,26 +125,8 @@ public class AModelLoader {
 					expectedOutputParent + name);
 			final String expectedContent = IOUtils.toString(expectedStream);
 
-			assertEquals("difference in " + name, normalizeNewline(expectedContent),
-					normalizeNewline(actualContent.toString()));
+			Assert2.assertEqualsNormalizedNewline("difference in " + name, expectedContent, actualContent);
 		}
-	}
-
-	protected @Nullable String getCommonSuffix(final @Nullable String... strs) {
-		if (strs == null) {
-			return null;
-		}
-
-		final String[] reversed = new String[strs.length];
-		for (int i = 0; i < strs.length; i++) {
-			reversed[i] = StringUtils.reverse(strs[i]);
-		}
-		final String reversedCommonPrefix = StringUtils.getCommonPrefix(reversed);
-		return StringUtils.reverse(reversedCommonPrefix);
-	}
-
-	protected @Nullable String normalizeNewline(final @Nullable String text) {
-		return StringUtils.replaceEach(text, new String[] { "\r\n", "\n\r", "\r" }, new String[] { "\n", "\n", "\n" });
 	}
 
 	protected @NonNull ATestModelLoadHelper getTestModelLoadHelper() {

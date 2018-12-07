@@ -24,9 +24,9 @@ import org.espilce.commons.emf.textrenderer.EmfStringRenderer;
  * Compares EMF artifacts and renders the differences in human-readable manner,
  * if any.
  * 
- * @since 0.1
+ * @since 0.2
  */
-public class ModelEqualityUtil {
+public class AssertEmf {
 	/**
 	 * Asserts that two EMF Resources are equal. That is, they have
 	 * {@linkplain EcoreUtil#equals(List, List) equal}

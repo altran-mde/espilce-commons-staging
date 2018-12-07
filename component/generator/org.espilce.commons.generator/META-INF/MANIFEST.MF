@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Espilce Commons Generator
+Bundle-SymbolicName: org.espilce.commons.generator
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: Espilce Commons
+Automatic-Module-Name: org.espilce.commons.generator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Espilce Commons EMF Generator Xtext
+Bundle-SymbolicName: org.espilce.commons.emf.generator.xtext
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: Espilce Commons
+Automatic-Module-Name: org.espilce.commons.emf.generator.xtext
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.espilce.commons.emf.generator.fsa;bundle-version="0.1.0";visibility:=reexport,
+ org.eclipse.emf.common;resolution:=optional,
+ org.eclipse.xtext;bundle-version=2.9;resolution:=optional,
+ org.eclipse.xtext.util;bundle-version=2.9;resolution:=optional
+Import-Package: org.espilce.commons.generator.fsa;version=0.1.0,
+ org.espilce.commons.emf.generator.fsa;version=0.1.0,
+ org.eclipse.xtext.generator,
+ org.eclipse.xtext.util,
+ org.eclipse.emf.common.util
+Export-Package: org.espilce.commons.emf.generator.xtext;version=0.1.0
