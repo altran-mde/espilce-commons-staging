@@ -16,7 +16,7 @@
 
 	<modules>
 		<module>../org.espilce.commons.generator</module>
-		<module>../org.espilce.commons.generator.fsa</module>
+		<module>../org.espilce.commons.generator.api</module>
 		<module>../org.espilce.commons.generator.feature</module>
 	</modules>
 

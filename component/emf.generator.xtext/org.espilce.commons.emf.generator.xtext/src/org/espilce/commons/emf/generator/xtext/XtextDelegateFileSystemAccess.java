@@ -4,7 +4,7 @@ import java.io.InputStream;
 
 import org.eclipse.emf.common.util.URI;
 
-public class XtextDelegateFileSystemAccess implements org.espilce.commons.emf.generator.fsa.IFileSystemAccess2 {
+public class XtextDelegateFileSystemAccess implements org.espilce.commons.emf.generator.api.fsa.IFileSystemAccess2 {
 	private final org.eclipse.xtext.generator.IFileSystemAccess2 delegate;
 
 	public XtextDelegateFileSystemAccess(final org.eclipse.xtext.generator.IFileSystemAccess2 delegate) {
@@ -31,7 +31,7 @@ public class XtextDelegateFileSystemAccess implements org.espilce.commons.emf.ge
 			throws org.eclipse.xtext.util.RuntimeIOException {
 		try {
 			this.delegate.generateFile(fileName, outputCfgName, content);
-		} catch (final org.espilce.commons.generator.fsa.RuntimeIOException e) {
+		} catch (final org.espilce.commons.generator.api.fsa.RuntimeIOException e) {
 			throw new org.eclipse.xtext.util.RuntimeIOException(e);
 		}
 	}
@@ -51,7 +51,7 @@ public class XtextDelegateFileSystemAccess implements org.espilce.commons.emf.ge
 			throws org.eclipse.xtext.util.RuntimeIOException {
 		try {
 			this.delegate.generateFile(fileName, content);
-		} catch (final org.espilce.commons.generator.fsa.RuntimeIOException e) {
+		} catch (final org.espilce.commons.generator.api.fsa.RuntimeIOException e) {
 			throw new org.eclipse.xtext.util.RuntimeIOException(e);
 		}
 	}
@@ -66,7 +66,7 @@ public class XtextDelegateFileSystemAccess implements org.espilce.commons.emf.ge
 			throws org.eclipse.xtext.util.RuntimeIOException {
 		try {
 			return this.delegate.isFile(path, outputConfigurationName);
-		} catch (final org.espilce.commons.generator.fsa.RuntimeIOException e) {
+		} catch (final org.espilce.commons.generator.api.fsa.RuntimeIOException e) {
 			throw new org.eclipse.xtext.util.RuntimeIOException(e);
 		}
 	}
@@ -76,7 +76,7 @@ public class XtextDelegateFileSystemAccess implements org.espilce.commons.emf.ge
 			throws org.eclipse.xtext.util.RuntimeIOException {
 		try {
 			return this.delegate.readBinaryFile(fileName, outputCfgName);
-		} catch (final org.espilce.commons.generator.fsa.RuntimeIOException e) {
+		} catch (final org.espilce.commons.generator.api.fsa.RuntimeIOException e) {
 			throw new org.eclipse.xtext.util.RuntimeIOException(e);
 		}
 	}
@@ -85,7 +85,7 @@ public class XtextDelegateFileSystemAccess implements org.espilce.commons.emf.ge
 	public InputStream readBinaryFile(final String fileName) throws org.eclipse.xtext.util.RuntimeIOException {
 		try {
 			return this.delegate.readBinaryFile(fileName);
-		} catch (final org.espilce.commons.generator.fsa.RuntimeIOException e) {
+		} catch (final org.espilce.commons.generator.api.fsa.RuntimeIOException e) {
 			throw new org.eclipse.xtext.util.RuntimeIOException(e);
 		}
 	}
@@ -95,7 +95,7 @@ public class XtextDelegateFileSystemAccess implements org.espilce.commons.emf.ge
 			throws org.eclipse.xtext.util.RuntimeIOException {
 		try {
 			return this.delegate.readTextFile(fileName, outputCfgName);
-		} catch (final org.espilce.commons.generator.fsa.RuntimeIOException e) {
+		} catch (final org.espilce.commons.generator.api.fsa.RuntimeIOException e) {
 			throw new org.eclipse.xtext.util.RuntimeIOException(e);
 		}
 	}
@@ -104,7 +104,7 @@ public class XtextDelegateFileSystemAccess implements org.espilce.commons.emf.ge
 	public boolean isFile(final String path) throws org.eclipse.xtext.util.RuntimeIOException {
 		try {
 			return this.delegate.isFile(path);
-		} catch (final org.espilce.commons.generator.fsa.RuntimeIOException e) {
+		} catch (final org.espilce.commons.generator.api.fsa.RuntimeIOException e) {
 			throw new org.eclipse.xtext.util.RuntimeIOException(e);
 		}
 	}
@@ -113,7 +113,7 @@ public class XtextDelegateFileSystemAccess implements org.espilce.commons.emf.ge
 	public CharSequence readTextFile(final String fileName) throws org.eclipse.xtext.util.RuntimeIOException {
 		try {
 			return this.delegate.readTextFile(fileName);
-		} catch (final org.espilce.commons.generator.fsa.RuntimeIOException e) {
+		} catch (final org.espilce.commons.generator.api.fsa.RuntimeIOException e) {
 			throw new org.eclipse.xtext.util.RuntimeIOException(e);
 		}
 	}

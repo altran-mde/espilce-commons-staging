@@ -15,7 +15,7 @@
 	</parent>
 
 	<modules>
-		<module>../org.espilce.commons.emf.generator.fsa</module>
+		<module>../org.espilce.commons.emf.generator.api</module>
 		<module>../org.espilce.commons.emf.generator.feature</module>
 	</modules>
 

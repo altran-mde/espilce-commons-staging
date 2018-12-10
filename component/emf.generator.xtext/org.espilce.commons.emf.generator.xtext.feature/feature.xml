@@ -25,6 +25,7 @@
       <import plugin="org.eclipse.xtext" version="2.9" match="greaterOrEqual"/>
       <import plugin="org.eclipse.xtext.util" version="2.9" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.common"/>
+      <import plugin="org.eclipse.emf.ecore"/>
    </requires>
 
    <plugin
@@ -35,14 +36,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.espilce.commons.emf.generator.fsa"
+         id="org.espilce.commons.emf.generator.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.espilce.commons.generator.fsa"
+         id="org.espilce.commons.generator.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
