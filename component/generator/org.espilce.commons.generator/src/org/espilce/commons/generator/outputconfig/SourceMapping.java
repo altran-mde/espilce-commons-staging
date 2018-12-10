@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Copyright (c) 2011 itemis AG (http://www.itemis.eu) and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
 package org.espilce.commons.generator.outputconfig;
 
 import java.util.Objects;
@@ -17,36 +24,36 @@ public class SourceMapping implements ISourceMapping {
 	private String sourceFolder;
 	private String outputDirectory;
 	private boolean ignore;
-
+	
 	public SourceMapping(final String sourceFolder) {
 		this.sourceFolder = Objects.requireNonNull(sourceFolder);
 	}
-
+	
 	@Override
 	public String getSourceFolder() {
 		return this.sourceFolder;
 	}
-
+	
 	@Override
 	public String getOutputDirectory() {
 		return this.outputDirectory;
 	}
-
+	
 	@Override
 	public void setOutputDirectory(final String outputDirectory) {
 		this.outputDirectory = outputDirectory;
 	}
-
+	
 	@Override
 	public boolean isIgnore() {
 		return this.ignore;
 	}
-
+	
 	@Override
 	public void setIgnore(final boolean ignore) {
 		this.ignore = ignore;
 	}
-
+	
 	@Override
 	public boolean equals(final Object obj) {
 		if (obj instanceof SourceMapping) {
@@ -55,7 +62,7 @@ public class SourceMapping implements ISourceMapping {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(this.sourceFolder);
