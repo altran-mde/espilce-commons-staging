@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Espilce Commons Lang
 Bundle-SymbolicName: org.espilce.commons.lang
-Bundle-Version: 0.1.0.qualifier
+Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Espilce Commons
 Automatic-Module-Name: org.espilce.commons.lang
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -10,4 +10,5 @@ Require-Bundle: org.apache.commons.lang3;bundle-version=2.4;resolution:=optional
  org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional;visibility:=reexport
 Import-Package: org.eclipse.jdt.annotation;resolution:=optional,
  org.apache.commons.lang3
-Export-Package: org.espilce.commons.lang;version=0.1.0
+Export-Package: org.espilce.commons.lang;version=0.1.0,
+ org.espilce.commons.lang.loadhelper;version=0.2.0

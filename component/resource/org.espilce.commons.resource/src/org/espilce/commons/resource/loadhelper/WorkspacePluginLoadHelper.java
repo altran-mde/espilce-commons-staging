@@ -1,13 +1,4 @@
-/*******************************************************************************
- * Copyright (C) 2018 Altran Netherlands B.V.
- * 
- * This program and the accompanying materials are made
- * available under the terms of the Eclipse Public License 2.0
- * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
- * SPDX-License-Identifier: EPL-2.0
- ******************************************************************************/
-package org.espilce.commons.emf.testsupport.resource;
+package org.espilce.commons.resource.loadhelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +21,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
-import org.espilce.commons.emf.testsupport.ATestModelLoadHelper;
+import org.espilce.commons.lang.loadhelper.ILoadHelper;
 import org.espilce.commons.resource.ContentTypeUtils;
 import org.espilce.commons.resource.ResourceUtils;
 import org.osgi.framework.Bundle;
@@ -50,7 +41,7 @@ import org.osgi.framework.FrameworkUtil;
  * @since 0.1
  */
 @SuppressWarnings("restriction")
-public class PluginTestModelLoader extends ATestModelLoadHelper {
+public class WorkspacePluginLoadHelper implements ILoadHelper {
 	/**
 	 * Finds <code>resourceRelativePath</code> in the workspace or plug-ins.
 	 *
@@ -78,7 +69,8 @@ public class PluginTestModelLoader extends ATestModelLoadHelper {
 			return url;
 		}
 
-		throw new AssertionError("cannot find " + resourceRelativePath + " within context class " + classInContext);
+		throw new IllegalArgumentException(
+				"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
 	}
 
 	@Override
@@ -89,9 +81,12 @@ public class PluginTestModelLoader extends ATestModelLoadHelper {
 			if (contentType != null) {
 				return contentType.getId();
 			}
+
+			return null;
 		}
 
-		return null;
+		throw new IllegalArgumentException(
+				"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
 	}
 
 	/**
@@ -147,7 +142,8 @@ public class PluginTestModelLoader extends ATestModelLoadHelper {
 			return FileLocator.openStream(bundle, path, true);
 		}
 
-		throw new IOException("Cannot find " + resourceRelativePath + " in context of class " + classInContext);
+		throw new IllegalArgumentException(
+				"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
 	}
 
 	private @Nullable URL findFileInPlugin(final @NonNull Class<?> classInPlugin,
@@ -177,4 +173,5 @@ public class PluginTestModelLoader extends ATestModelLoadHelper {
 			final @NonNull String fileRelativePath) {
 		return ResourcesPlugin.getWorkspace().getRoot().getFile(findPathInContext(classInPlugin, fileRelativePath));
 	}
+
 }

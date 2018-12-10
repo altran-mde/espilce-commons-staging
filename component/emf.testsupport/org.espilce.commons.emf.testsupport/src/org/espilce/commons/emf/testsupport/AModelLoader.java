@@ -22,10 +22,16 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.annotation.NonNull;
+import org.espilce.commons.emf.UriUtils;
 import org.espilce.commons.lang.StringUtils2;
+import org.espilce.commons.lang.loadhelper.FilesystemClassloaderLoadHelper;
+import org.espilce.commons.lang.loadhelper.ILoadHelper;
 import org.espilce.commons.testsupport.Assert2;
 
 /**
@@ -34,7 +40,8 @@ import org.espilce.commons.testsupport.Assert2;
  * @since 0.1
  */
 public class AModelLoader {
-	private ATestModelLoadHelper testModelLoadHelper;
+	private ResourceSet resourceSet;
+	private ILoadHelper loadHelper;
 
 	/**
 	 * Loads the file pointed to by {@code modelRelativePath}.
@@ -58,7 +65,7 @@ public class AModelLoader {
 	 * @return The the root element of the loaded model.
 	 */
 	public @NonNull EObject loadModel(final @NonNull String modelRelativePath) {
-		return getTestModelLoadHelper().loadModel(getClass(), modelRelativePath);
+		return loadModelResource(modelRelativePath).getContents().iterator().next();
 	}
 
 	/**
@@ -83,12 +90,31 @@ public class AModelLoader {
 	 * @return The EMF resource loaded from {@code modelRelativePath}.
 	 */
 	public @NonNull Resource loadModelResource(final @NonNull String modelRelativePath) {
-		return getTestModelLoadHelper().loadModelResource(getClass(), modelRelativePath);
+		final ResourceSet resourceSet = provideResourceSet();
+		return loadModelResource(modelRelativePath, resourceSet);
+	}
+
+	/**
+	 * Provides the EMF ResourceSet to load models into.
+	 *
+	 * <p>
+	 * Override to provide specialized ResourceSets.
+	 * </p>
+	 * 
+	 * @return ResourceSet to load models into.
+	 * @since 0.1
+	 */
+	public @NonNull ResourceSet provideResourceSet() {
+		if (resourceSet == null) {
+			resourceSet = new ResourceSetImpl();
+		}
+
+		return resourceSet;
 	}
 
 	public void assertOutputEquals(final @NonNull String expectedOutputParent,
 			final @NonNull Map<@NonNull String, @NonNull CharSequence> actuals) throws IOException {
-		final List<URL> expectedUrls = getTestModelLoadHelper().findMatchingResources(getClass(), expectedOutputParent);
+		final List<URL> expectedUrls = getLoadHelper().findMatchingResources(getClass(), expectedOutputParent);
 		final List<String> expectedUrlNames = expectedUrls.stream().map(URL::getPath).collect(Collectors.toList());
 
 		final List<String> actualNames = actuals.keySet().stream().sorted().collect(Collectors.toList());
@@ -121,7 +147,7 @@ public class AModelLoader {
 			final String name = file.getKey();
 			final CharSequence actualContent = file.getValue();
 
-			final InputStream expectedStream = getTestModelLoadHelper().getContents(getClass(),
+			final InputStream expectedStream = getLoadHelper().getContents(getClass(),
 					expectedOutputParent + name);
 			final String expectedContent = IOUtils.toString(expectedStream);
 
@@ -129,15 +155,42 @@ public class AModelLoader {
 		}
 	}
 
-	protected @NonNull ATestModelLoadHelper getTestModelLoadHelper() {
-		if (testModelLoadHelper == null) {
-			testModelLoadHelper = createTestModelLoadHelper();
-		}
+	protected @NonNull Resource loadModelResource(final @NonNull String modelRelativePath,
+			final @NonNull ResourceSet resourceSet) {
+		try {
+			final String contentTypeId = getLoadHelper().getContentTypeId(getClass(), modelRelativePath);
+			URI uri = toLocalmostUri(getClass(), modelRelativePath);
 
-		return testModelLoadHelper;
+			final Resource modelResource;
+			if (contentTypeId != null) {
+				modelResource = resourceSet.createResource(uri, contentTypeId);
+			} else {
+				modelResource = resourceSet.createResource(uri);
+			}
+
+			modelResource.load(resourceSet.getLoadOptions());
+
+			return modelResource;
+		} catch (final IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	protected @NonNull ATestModelLoadHelper createTestModelLoadHelper() {
-		return new ClassloaderTestModelLoader();
+	protected @NonNull URI toLocalmostUri(final @NonNull Class<?> classInContext,
+			final @NonNull String resourceRelativePath) {
+		final URL url = getLoadHelper().toLocalmostUrl(classInContext, resourceRelativePath);
+		return UriUtils.asEmfUri(url);
+	}
+
+	protected @NonNull ILoadHelper getLoadHelper() {
+		if (loadHelper == null) {
+			loadHelper = createLoadHelper();
+		}
+
+		return loadHelper;
+	}
+
+	protected @NonNull ILoadHelper createLoadHelper() {
+		return new FilesystemClassloaderLoadHelper();
 	}
 }
