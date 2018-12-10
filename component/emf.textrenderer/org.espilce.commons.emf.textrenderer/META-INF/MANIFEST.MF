@@ -11,5 +11,5 @@ Import-Package: org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.resource,
  org.eclipse.emf.ecore.util,
  org.eclipse.jdt.annotation;resolution:=optional
-Export-Package: org.espilce.commons.emf.textrenderer;version=0.1.0.qualifier
+Export-Package: org.espilce.commons.emf.textrenderer;version=0.1.0
 Automatic-Module-Name: org.espilce.commons.emf.textrenderer

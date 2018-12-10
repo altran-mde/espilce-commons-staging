@@ -28,5 +28,5 @@ Import-Package: org.eclipse.jdt.annotation;resolution:=optional,
  org.espilce.commons.lang.loadhelper;version=0.2.0,
  org.espilce.commons.testsupport;version=0.1.0,
  org.espilce.commons.emf.textrenderer;version=0.1.0
-Export-Package: org.espilce.commons.emf.testsupport;version=0.2.0.qualifier
+Export-Package: org.espilce.commons.emf.testsupport;version=0.2.0
 Automatic-Module-Name: org.espilce.commons.emf.testsupport

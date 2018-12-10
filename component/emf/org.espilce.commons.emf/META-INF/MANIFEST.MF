@@ -10,7 +10,7 @@ Require-Bundle: org.espilce.commons.exception;bundle-version=0.1.0;visibility:=r
  org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional;visibility:=reexport
 Import-Package: org.eclipse.emf.common.util,
  org.eclipse.jdt.annotation;resolution:=optional
-Export-Package: org.espilce.commons.emf;version=0.1.0.qualifier;
+Export-Package: org.espilce.commons.emf;version=0.1.0;
   uses:="org.espilce.commons.exception,
   org.eclipse.emf.common.util,
   java.net"
