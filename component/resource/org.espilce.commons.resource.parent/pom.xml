@@ -17,6 +17,8 @@
 	<modules>
 		<module>../org.espilce.commons.resource</module>
 		<module>../org.espilce.commons.resource.feature</module>
+		<module>../org.espilce.commons.resource.test</module>
+		<module>../org.espilce.commons.resource.second.test</module>
 	</modules>
 
 	<build>

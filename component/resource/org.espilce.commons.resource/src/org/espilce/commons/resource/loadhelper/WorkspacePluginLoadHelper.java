@@ -27,6 +27,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
@@ -70,10 +71,10 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 	public URL toLocalmostUrl(Class<?> classInContext, String resourceRelativePath) {
 		final IPath path = findPathInContext(classInContext, resourceRelativePath);
 		if (path != null && ResourcesPlugin.getWorkspace().getRoot().exists(path)) {
-			return ResourceUtils.asJavaUrl(path);
+			return ResourceUtils.asJavaUrl(ResourcesPlugin.getWorkspace().getRoot().findMember(path));
 		}
 
-		URL url = findFileInPlugin(classInContext, resourceRelativePath);
+		URL url = findEntryInPlugin(classInContext, resourceRelativePath);
 		if (url != null) {
 			return url;
 		}
@@ -155,7 +156,7 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 				"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
 	}
 
-	private @Nullable URL findFileInPlugin(final @NonNull Class<?> classInPlugin,
+	private @Nullable URL findEntryInPlugin(final @NonNull Class<?> classInPlugin,
 			final @NonNull String fileRelativePath) {
 		final Bundle bundle = FrameworkUtil.getBundle(classInPlugin);
 		if (bundle != null) {
@@ -165,9 +166,24 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 		return null;
 	}
 
+	private @Nullable IPath findEntryInWorkspace(final @NonNull Class<?> classInPlugin,
+			final @NonNull String fileRelativePath) {
+		IPath path = Path.fromPortableString(fileRelativePath);
+		if (ResourcesPlugin.getWorkspace().getRoot().exists(path)) {
+			return path;
+		}
+
+		return null;
+	}
+
 	private @Nullable IPath findPathInContext(final @NonNull Class<?> classInPlugin,
 			final @NonNull String fileRelativePath) {
-		final URL entry = findFileInPlugin(classInPlugin, fileRelativePath);
+		IPath path = findEntryInWorkspace(classInPlugin, fileRelativePath);
+		if (path != null) {
+			return path;
+		}
+
+		final URL entry = findEntryInPlugin(classInPlugin, fileRelativePath);
 		try {
 			if (entry != null) {
 				return FileUtil.toPath(entry.toURI());
@@ -175,6 +191,7 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 		} catch (URISyntaxException e) {
 			// do nothing
 		}
+
 		return null;
 	}
 

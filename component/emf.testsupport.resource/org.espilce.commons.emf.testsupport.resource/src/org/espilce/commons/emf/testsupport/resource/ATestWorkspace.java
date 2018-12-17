@@ -7,7 +7,7 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.emf.resource.uriresourceutils;
+package org.espilce.commons.emf.testsupport.resource;
 
 import static org.espilce.commons.emf.resource.WorkspaceUtils.waitForWorkspaceChanges;
 
@@ -19,7 +19,7 @@ import org.junit.Before;
 /**
  * Base class for JUnit tests requiring an IProject.
  * 
- * @since 0.1
+ * @since 0.2
  */
 public abstract class ATestWorkspace {
 

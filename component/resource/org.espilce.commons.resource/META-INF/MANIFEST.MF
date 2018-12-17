@@ -7,8 +7,8 @@ Bundle-Vendor: Espilce Commons
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.espilce.commons.exception;bundle-version=0.2.0;visibility:=reexport,
  org.espilce.commons.lang;bundle-version=0.2.0;visibility:=reexport,
- org.eclipse.core.runtime;bundle-version=3.1,
- org.eclipse.core.resources;bundle-version=3.0,
+ org.eclipse.core.runtime;bundle-version=3.1;visibility:=reexport,
+ org.eclipse.core.resources;bundle-version=3.0;visibility:=reexport,
  org.eclipse.jdt.annotation;bundle-version="2.1";resolution:=optional;visibility:=reexport
 Export-Package: org.espilce.commons.resource;version=0.2.0,
  org.espilce.commons.resource.loadhelper;version=0.3.0

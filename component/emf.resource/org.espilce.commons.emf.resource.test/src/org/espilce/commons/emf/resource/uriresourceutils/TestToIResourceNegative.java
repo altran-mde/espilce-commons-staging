@@ -15,6 +15,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.espilce.commons.emf.UriUtils;
 import org.espilce.commons.emf.resource.UriResourceUtils;
+import org.espilce.commons.emf.testsupport.resource.ATestWorkspace;
 import org.junit.Test;
 import org.osgi.framework.FrameworkUtil;
 
@@ -24,6 +25,7 @@ import org.osgi.framework.FrameworkUtil;
  */
 public class TestToIResourceNegative extends ATestWorkspace {
 
+	@SuppressWarnings("null")
 	@Test(expected = NullPointerException.class)
 	public void uriNull() throws Exception {
 		UriResourceUtils.toIResource(null);

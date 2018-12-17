@@ -25,6 +25,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.emf.common.util.URI;
 import org.espilce.commons.emf.resource.UriResourceUtils;
+import org.espilce.commons.emf.testsupport.resource.ATestWorkspace;
 import org.junit.Test;
 
 /**

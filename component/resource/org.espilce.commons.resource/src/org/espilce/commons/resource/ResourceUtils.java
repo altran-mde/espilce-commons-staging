@@ -64,7 +64,7 @@ public class ResourceUtils {
 
 	public static @NonNull URL asJavaUrl(final @NonNull IResource iResource) throws UnconvertibleException {
 		try {
-			return new URL(iResource.getFullPath().toPortableString());
+			return iResource.getLocationURI().toURL();
 		} catch (MalformedURLException e) {
 			throw new UnconvertibleException(iResource, IResource.class, URL.class, e);
 		}

@@ -17,6 +17,9 @@
 	<modules>
 		<module>../org.espilce.commons.lang</module>
 		<module>../org.espilce.commons.lang.feature</module>
+		<module>../org.espilce.commons.lang.test.base</module>
+		<module>../org.espilce.commons.lang.test</module>
+		<module>../org.espilce.commons.lang.second.test</module>
 	</modules>
 
 	<build>

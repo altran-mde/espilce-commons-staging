@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Espilce Commons Language Second Test
+Bundle-SymbolicName: org.espilce.commons.lang.second.test
+Bundle-Version: 0.1.0.qualifier
+Automatic-Module-Name: org.espilce.commons.lang.second.test
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.junit;bundle-version=4,
+ org.espilce.commons.lang.test.base;bundle-version=0.1.0,
+ org.espilce.commons.lang;bundle-version=0.2.0
+Bundle-ClassPath: classpathBase/

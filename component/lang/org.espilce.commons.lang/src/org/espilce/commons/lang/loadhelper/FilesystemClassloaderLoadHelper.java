@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Copyright (C) 2018 Altran Netherlands B.V.
- * 
+ *
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
  * which is available at https://www.eclipse.org/legal/epl-2.0/
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
 package org.espilce.commons.lang.loadhelper;
@@ -36,12 +36,12 @@ import org.eclipse.jdt.annotation.Nullable;
  *
  */
 public class FilesystemClassloaderLoadHelper implements ILoadHelper {
-	
+
 	@Override
 	public String getContentTypeId(final Class<?> classInContext, final String resourceRelativePath) {
 		return null;
 	}
-	
+
 	@Override
 	public InputStream getContents(final Class<?> classInContext, final String resourceRelativePath)
 			throws IOException {
@@ -49,20 +49,20 @@ public class FilesystemClassloaderLoadHelper implements ILoadHelper {
 		if (file != null) {
 			return new BufferedInputStream(new FileInputStream(file));
 		}
-		
+
 		final InputStream result = classInContext.getClassLoader().getResourceAsStream(resourceRelativePath);
 		if (result != null) {
 			return result;
 		}
-		
+
 		throw new IllegalArgumentException(
 				"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
 	}
-	
+
 	@Override
 	public List<URL> findMatchingResources(final Class<?> classInContext, final String parentRelativePath) {
 		final File file = toFile(classInContext, parentRelativePath);
-		
+
 		if (file != null) {
 			final Path basePath = Paths.get(file.getAbsolutePath());
 			try (Stream<Path> fileWalker = Files.walk(basePath)) {
@@ -73,7 +73,7 @@ public class FilesystemClassloaderLoadHelper implements ILoadHelper {
 				// ignore
 			}
 		}
-		
+
 		Enumeration<URL> resources;
 		try {
 			resources = classInContext.getClassLoader().getResources(parentRelativePath);
@@ -82,22 +82,27 @@ public class FilesystemClassloaderLoadHelper implements ILoadHelper {
 			return Collections.emptyList();
 		}
 	}
-	
+
 	@Override
 	public URL toLocalmostUrl(final Class<?> classInContext, final String resourceRelativePath) {
 		final File file = toFile(classInContext, resourceRelativePath);
-		
+
 		try {
 			if (file != null) {
 				return file.toURI().toURL();
 			}
-			return new URL(resourceRelativePath);
+			final URL url = classInContext.getClassLoader().getResource(resourceRelativePath);
+			if (url != null) {
+				return url;
+			}
+			throw new IllegalArgumentException(
+					"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
 		} catch (final MalformedURLException e) {
 			throw new IllegalArgumentException(
 					"Cannot find " + resourceRelativePath + " in context of class " + classInContext, e);
 		}
 	}
-	
+
 	private @Nullable URL convertPathToUrl(final @NonNull Path path) {
 		try {
 			return path.toUri().toURL();
@@ -105,14 +110,14 @@ public class FilesystemClassloaderLoadHelper implements ILoadHelper {
 			return null;
 		}
 	}
-	
+
 	private @Nullable File toFile(final @NonNull Class<?> classInContext, final @NonNull String resourceRelativePath) {
 		final File file = new File(resourceRelativePath);
-		
+
 		if (file.canRead()) {
 			return file.getAbsoluteFile();
 		}
-		
+
 		return null;
 	}
 }
