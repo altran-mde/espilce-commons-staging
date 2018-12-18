@@ -10,6 +10,7 @@
 package org.espilce.commons.resource;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -155,6 +156,33 @@ public class ContentTypeUtils {
 	private static Optional<IContentType> lookupContentType(final String fileName) {
 		return Arrays.asList(Platform.getContentTypeManager().getAllContentTypes()).stream()
 				.filter(ct -> ct.isAssociatedWith(fileName)).findAny();
+	}
+
+	/**
+	 * Looks up the Content Type for a URL.
+	 * 
+	 * @param url
+	 *            URL to look up.
+	 * @return Content Type of <code>url</code>, or {@code null} if no Content Type
+	 *         can be found.
+	 * @since 0.3
+	 */
+	public static @Nullable IContentType searchContentType(final @NonNull URL url) {
+		return searchContentType(url.getFile());
+	}
+
+	/**
+	 * Looks up the Content Type for a URL.
+	 * 
+	 * @param url
+	 *            URL to look up.
+	 * @return Content Type of <code>url</code>.
+	 * @throws UnmappableException
+	 *             If no Content Type can be found.
+	 * @since 0.3
+	 */
+	public static @NonNull IContentType findContentType(final @NonNull URL url) throws UnmappableException {
+		return findContentType(url.getFile());
 	}
 
 	/**

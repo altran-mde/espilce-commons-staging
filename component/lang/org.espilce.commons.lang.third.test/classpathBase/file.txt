@@ -1,1 +1,1 @@
-file.txt in filesystem root
+file.txt in classpath root

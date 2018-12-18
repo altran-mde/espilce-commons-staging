@@ -6,5 +6,6 @@ Bundle-Version: 0.1.0.qualifier
 Automatic-Module-Name: org.espilce.commons.lang.test.base
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit;bundle-version=4,
- org.espilce.commons.lang
+ org.espilce.commons.lang,
+ org.apache.commons.io
 Export-Package: org.espilce.commons.lang.test.base.loadhelper;version=0.1.0

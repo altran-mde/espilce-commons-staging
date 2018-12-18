@@ -21,6 +21,8 @@
 		<module>../org.espilce.commons.lang.test</module>
 		<module>../org.espilce.commons.lang.second.test</module>
 		<module>../org.espilce.commons.lang.third.test</module>
+		<module>../org.espilce.commons.lang.fourth.test</module>
+		<module>../org.espilce.commons.lang.fifth.test</module>
 	</modules>
 
 	<build>

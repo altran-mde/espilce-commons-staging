@@ -11,21 +11,17 @@ package org.espilce.commons.resource.loadhelper;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.eclipse.core.internal.utils.FileUtil;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.content.IContentType;
@@ -69,8 +65,8 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 	 */
 	@Override
 	public URL toLocalmostUrl(Class<?> classInContext, String resourceRelativePath) {
-		final IPath path = findPathInContext(classInContext, resourceRelativePath);
-		if (path != null && ResourcesPlugin.getWorkspace().getRoot().exists(path)) {
+		final IPath path = findPathInWorkspace(classInContext, resourceRelativePath);
+		if (path != null) {
 			return ResourceUtils.asJavaUrl(ResourcesPlugin.getWorkspace().getRoot().findMember(path));
 		}
 
@@ -85,14 +81,22 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 
 	@Override
 	public String getContentTypeId(Class<?> classInContext, String resourceRelativePath) {
-		IFile file = findIFileInContext(classInContext, resourceRelativePath);
-		if (file != null) {
-			final IContentType contentType = ContentTypeUtils.searchContentType(file);
-			if (contentType != null) {
-				return contentType.getId();
+		IContentType contentType = null;
+		IPath path = findPathInWorkspace(classInContext, resourceRelativePath);
+		if (path != null) {
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			if (file != null) {
+				contentType = ContentTypeUtils.searchContentType(file);
 			}
+		}
 
-			return null;
+		URL url = findEntryInPlugin(classInContext, resourceRelativePath);
+		if (url != null) {
+			contentType = ContentTypeUtils.searchContentType(url);
+		}
+
+		if (contentType != null) {
+			return contentType.getId();
 		}
 
 		throw new IllegalArgumentException(
@@ -112,10 +116,9 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 	 */
 	@Override
 	public List<URL> findMatchingResources(Class<?> classInContext, String parentRelativePath) {
-		final IPath path = findPathInContext(classInContext, parentRelativePath);
-		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		final IPath path = findPathInWorkspace(classInContext, parentRelativePath);
 		if (path != null) {
-			final IResource member = root.findMember(path);
+			final IResource member = ResourcesPlugin.getWorkspace().getRoot().findMember(path);
 			if (member instanceof IContainer) {
 				final List<URL> result = new ArrayList<>();
 				try {
@@ -146,10 +149,21 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 
 	@Override
 	public InputStream getContents(Class<?> classInContext, String resourceRelativePath) throws IOException {
-		final IPath path = findPathInContext(classInContext, resourceRelativePath);
-		if (path != null) {
-			final Bundle bundle = FrameworkUtil.getBundle(classInContext);
-			return FileLocator.openStream(bundle, path, true);
+		IPath workspacePath = findPathInWorkspace(classInContext, resourceRelativePath);
+		if (workspacePath != null) {
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(workspacePath);
+			if (file != null && file.isAccessible()) {
+				try {
+					return file.getContents();
+				} catch (CoreException e) {
+					// ignore
+				}
+			}
+		}
+
+		final URL entry = findEntryInPlugin(classInContext, resourceRelativePath);
+		if (entry != null) {
+			return entry.openStream();
 		}
 
 		throw new IllegalArgumentException(
@@ -166,7 +180,7 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 		return null;
 	}
 
-	private @Nullable IPath findEntryInWorkspace(final @NonNull Class<?> classInPlugin,
+	private @Nullable IPath findPathInWorkspace(final @NonNull Class<?> classInPlugin,
 			final @NonNull String fileRelativePath) {
 		IPath path = Path.fromPortableString(fileRelativePath);
 		if (ResourcesPlugin.getWorkspace().getRoot().exists(path)) {
@@ -175,29 +189,4 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 
 		return null;
 	}
-
-	private @Nullable IPath findPathInContext(final @NonNull Class<?> classInPlugin,
-			final @NonNull String fileRelativePath) {
-		IPath path = findEntryInWorkspace(classInPlugin, fileRelativePath);
-		if (path != null) {
-			return path;
-		}
-
-		final URL entry = findEntryInPlugin(classInPlugin, fileRelativePath);
-		try {
-			if (entry != null) {
-				return FileUtil.toPath(entry.toURI());
-			}
-		} catch (URISyntaxException e) {
-			// do nothing
-		}
-
-		return null;
-	}
-
-	private @Nullable IFile findIFileInContext(final @NonNull Class<?> classInPlugin,
-			final @NonNull String fileRelativePath) {
-		return ResourcesPlugin.getWorkspace().getRoot().getFile(findPathInContext(classInPlugin, fileRelativePath));
-	}
-
 }

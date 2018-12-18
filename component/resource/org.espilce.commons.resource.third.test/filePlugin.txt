@@ -1,1 +1,1 @@
-file.txt in filesystem root
+filePlugin.txt in plugin root
