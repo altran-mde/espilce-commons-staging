@@ -20,6 +20,7 @@
 		<module>../org.espilce.commons.lang.test.base</module>
 		<module>../org.espilce.commons.lang.test</module>
 		<module>../org.espilce.commons.lang.second.test</module>
+		<module>../org.espilce.commons.lang.third.test</module>
 	</modules>
 
 	<build>

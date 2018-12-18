@@ -1,6 +1,9 @@
-package org.espilce.commons.resource.test.loadhelper.workspace;
+package org.espilce.commons.resource.third.test.loadhelper.mixed;
 
 import static org.espilce.commons.emf.resource.WorkspaceUtils.waitForWorkspaceChanges;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
@@ -17,35 +20,41 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestToLocalmostUrl extends ATestToLocalmostUrl {
+public class TestToLocalmostUrl_both extends ATestToLocalmostUrl {
 	protected IProject project;
-
+	
 	@Before
 	public void createProject() throws Exception {
 		waitForWorkspaceChanges(() -> {
 			this.project = ResourcesPlugin.getWorkspace().getRoot().getProject("some");
 			this.project.create(null);
 			this.project.open(null);
-			
+
 			final IFolder folder = this.project.getFolder("dir");
 			folder.create(true, true, null);
-			
+
 			final IFile file = folder.getFile("file.txt");
 			file.create(IOUtils.toInputStream("file.txt in workspace"), true, null);
 		});
 	}
-
+	
 	@After
 	public void destroyProject() throws Exception {
 		if (this.project != null) {
 			waitForWorkspaceChanges(() -> this.project.delete(true, true, null));
 		}
 	}
-
+	
 	@Override
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void rootFile() throws Exception {
-		super.rootFile();
+		checkToLocalmostUrlInverse(file());
+	}
+	
+	@Override
+	@Test
+	public void rootFileStartSlash() throws Exception {
+		checkToLocalmostUrlInverse(separator() + file());
 	}
 	
 	// @Test(expected = IllegalArgumentException.class) TODO
@@ -54,31 +63,41 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	public void existingFileStartSlash() throws Exception {
 		super.existingFileStartSlash();
 	}
-	
+
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
 	public void existingDirStartSlash() throws Exception {
 		super.existingDirStartSlash();
 	}
-
+	
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
 	public void existingDirStartEndSlash() throws Exception {
 		super.existingDirStartEndSlash();
 	}
-
-
+	
 	@Override
 	protected ILoadHelper createLoadHelper() {
 		return new WorkspacePluginLoadHelper();
 	}
-	
+
 	@Override
 	protected void assertUrl(final String relativePath, final URL localmostUrl) {
 		final String str = localmostUrl.toString();
 		assertTrue(str, str.contains("/testWorkspace/"));
+		assertNotEquals("bundleentry", localmostUrl.getProtocol());
 	}
 
+	protected void checkToLocalmostUrlInverse(final String relativePath) throws Exception {
+		assertUrlInverse(relativePath, createLoadHelper().toLocalmostUrl(getClass(), relativePath));
+	}
+	
+	protected void assertUrlInverse(final String relativePath, final URL localmostUrl) {
+		assertEquals("bundleentry", localmostUrl.getProtocol());
+		final String str = localmostUrl.toString();
+		assertFalse(str, str.contains("/testWorkspace/"));
+	}
+	
 }

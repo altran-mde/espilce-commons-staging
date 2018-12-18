@@ -1,6 +1,7 @@
-package org.espilce.commons.resource.test.loadhelper.workspace;
+package org.espilce.commons.resource.third.test.loadhelper.mixed;
 
 import static org.espilce.commons.emf.resource.WorkspaceUtils.waitForWorkspaceChanges;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
@@ -17,7 +18,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestToLocalmostUrl extends ATestToLocalmostUrl {
+public class TestToLocalmostUrl_workspace extends ATestToLocalmostUrl {
 	protected IProject project;
 
 	@Before
@@ -27,10 +28,10 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 			this.project.create(null);
 			this.project.open(null);
 			
-			final IFolder folder = this.project.getFolder("dir");
+			final IFolder folder = this.project.getFolder("dirWorkspace");
 			folder.create(true, true, null);
 			
-			final IFile file = folder.getFile("file.txt");
+			final IFile file = folder.getFile("fileWorkspace.txt");
 			file.create(IOUtils.toInputStream("file.txt in workspace"), true, null);
 		});
 	}
@@ -69,6 +70,15 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 		super.existingDirStartEndSlash();
 	}
 
+	@Override
+	protected String file() {
+		return "fileWorkspace.txt";
+	}
+	
+	@Override
+	protected String dir() {
+		return "dirWorkspace";
+	}
 
 	@Override
 	protected ILoadHelper createLoadHelper() {
@@ -79,6 +89,7 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	protected void assertUrl(final String relativePath, final URL localmostUrl) {
 		final String str = localmostUrl.toString();
 		assertTrue(str, str.contains("/testWorkspace/"));
+		assertNotEquals("bundleentry", localmostUrl.getProtocol());
 	}
 
 }
