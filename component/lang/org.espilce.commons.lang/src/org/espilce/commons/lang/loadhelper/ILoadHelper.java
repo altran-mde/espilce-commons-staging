@@ -24,7 +24,7 @@ import org.eclipse.jdt.annotation.Nullable;
  * @since 0.1
  */
 public interface ILoadHelper {
-
+	
 	/**
 	 * Finds all files directly and indirectly below the folder pointed to by
 	 * <code>parentRelativePath</code>.
@@ -35,18 +35,20 @@ public interface ILoadHelper {
 	 * </p>
 	 *
 	 * @param classInContext
-	 *            Class that is located in the same classloader as the resource to
-	 *            load.
+	 *            Class that is located in the same classloader as the resource
+	 *            to load.
 	 * @param parentRelativePath
 	 *            Path of the folder to list, relative to the classpath of the
 	 *            classloader of <code>classInContext</code>.
 	 *
 	 * @return List of Java URLs below <code>parentRelativePath</code>.
+	 * @throws IllegalArgumentException
+	 *             If <code>resourceRelativePath</code> cannot be found.
 	 * @since 0.1
 	 */
 	public @NonNull List<@NonNull URL> findMatchingResources(final @NonNull Class<?> classInContext,
-			final @NonNull String parentRelativePath);
-
+			final @NonNull String parentRelativePath) throws IllegalArgumentException;
+	
 	/**
 	 * Finds <code>resourceRelativePath</code> from the <i>closest</i> available
 	 * source.
@@ -69,7 +71,7 @@ public interface ILoadHelper {
 	 */
 	public @NonNull URL toLocalmostUrl(final @NonNull Class<?> classInContext,
 			final @NonNull String resourceRelativePath) throws IllegalArgumentException;
-
+	
 	/**
 	 * Returns the contents of <code>resourceRelativePath</code> according to
 	 * {@linkplain #toLocalmostUrl(Class, String)}.
@@ -91,7 +93,7 @@ public interface ILoadHelper {
 	 */
 	public @NonNull InputStream getContents(final @NonNull Class<?> classInContext,
 			final @NonNull String resourceRelativePath) throws IllegalArgumentException, IOException;
-
+	
 	/**
 	 * Looks up the Content Type of <code>resourceRelativePath</code>, if
 	 * possible.

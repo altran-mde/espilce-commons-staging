@@ -56,7 +56,7 @@ public class ResourceUtils {
 
 	public static @Nullable URL toJavaUrl(final @NonNull IResource iResource) {
 		try {
-			return new URL(iResource.getFullPath().toPortableString());
+			return iResource.getLocationURI().toURL();
 		} catch (MalformedURLException e) {
 			return null;
 		}

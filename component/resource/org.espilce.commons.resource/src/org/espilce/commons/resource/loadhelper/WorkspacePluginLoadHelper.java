@@ -11,6 +11,7 @@ package org.espilce.commons.resource.loadhelper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +21,7 @@ import java.util.List;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -46,7 +48,6 @@ import org.osgi.framework.FrameworkUtil;
  *
  * @since 0.1
  */
-@SuppressWarnings("restriction")
 public class WorkspacePluginLoadHelper implements ILoadHelper {
 	/**
 	 * Finds <code>resourceRelativePath</code> in the workspace or plug-ins.
@@ -115,17 +116,28 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 	 * </p>
 	 */
 	@Override
-	public List<URL> findMatchingResources(Class<?> classInContext, String parentRelativePath) {
+	public List<URL> findMatchingResources(Class<?> classInContext, String parentRelativePath)
+			throws IllegalArgumentException {
 		final IPath path = findPathInWorkspace(classInContext, parentRelativePath);
 		if (path != null) {
 			final IResource member = ResourcesPlugin.getWorkspace().getRoot().findMember(path);
 			if (member instanceof IContainer) {
 				final List<URL> result = new ArrayList<>();
 				try {
-					member.accept(r -> {
-						final URL url = ResourceUtils.toJavaUrl(r);
-						if (url != null) {
-							result.add(url);
+					member.accept((IResourceVisitor) r -> {
+						if (!member.equals(r)) {
+							final URL url = ResourceUtils.toJavaUrl(r);
+							if (url != null) {
+								if (r instanceof IContainer) {
+									try {
+										result.add(new URL(url, url.toString() + "/"));
+									} catch (MalformedURLException e) {
+										// ignore
+									}
+								} else {
+									result.add(url);
+								}
+							}
 						}
 						return true;
 					});
@@ -133,18 +145,23 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 					// ignore
 				}
 				return result;
+			} else {
+				return Collections.emptyList();
 			}
 		}
 
 		final Bundle bundle = FrameworkUtil.getBundle(classInContext);
 		if (bundle != null) {
-			Enumeration<URL> entries = bundle.findEntries(parentRelativePath, "", true);
+			Enumeration<URL> entries = bundle.findEntries(parentRelativePath, "*", true);
 			if (entries != null) {
 				return Collections.list(entries);
+			} else if (bundle.getEntry(parentRelativePath) != null) {
+				return Collections.emptyList();
 			}
 		}
 
-		return Collections.emptyList();
+		throw new IllegalArgumentException(
+				"Cannot find " + parentRelativePath + " in context of class " + classInContext);
 	}
 
 	@Override

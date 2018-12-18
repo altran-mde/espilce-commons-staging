@@ -36,12 +36,12 @@ import org.eclipse.jdt.annotation.Nullable;
  *
  */
 public class FilesystemClassloaderLoadHelper implements ILoadHelper {
-
+	
 	@Override
 	public String getContentTypeId(final Class<?> classInContext, final String resourceRelativePath) {
 		return null;
 	}
-
+	
 	@Override
 	public InputStream getContents(final Class<?> classInContext, final String resourceRelativePath)
 			throws IOException {
@@ -49,44 +49,57 @@ public class FilesystemClassloaderLoadHelper implements ILoadHelper {
 		if (file != null) {
 			return new BufferedInputStream(new FileInputStream(file));
 		}
-
+		
 		final InputStream result = classInContext.getClassLoader().getResourceAsStream(resourceRelativePath);
 		if (result != null) {
 			return result;
 		}
-
+		
 		throw new IllegalArgumentException(
 				"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
 	}
-
+	
 	@Override
-	public List<URL> findMatchingResources(final Class<?> classInContext, final String parentRelativePath) {
+	public List<URL> findMatchingResources(final Class<?> classInContext, final String parentRelativePath)
+			throws IllegalArgumentException {
 		final File file = toFile(classInContext, parentRelativePath);
-
+		
 		if (file != null) {
+			if (file.isFile()) {
+				return Collections.emptyList();
+			}
 			final Path basePath = Paths.get(file.getAbsolutePath());
 			try (Stream<Path> fileWalker = Files.walk(basePath)) {
-				final List<URL> result = fileWalker.filter(Files::isRegularFile).map(this::convertPathToUrl)
+				final List<URL> result = fileWalker
+						.filter(p -> !basePath.equals(p))
+						.map(this::convertPathToUrl)
 						.filter(Objects::nonNull).collect(Collectors.toList());
 				return result;
 			} catch (final IOException e) {
 				// ignore
 			}
 		}
-
-		Enumeration<URL> resources;
-		try {
-			resources = classInContext.getClassLoader().getResources(parentRelativePath);
-			return Collections.list(resources);
-		} catch (final IOException e) {
-			return Collections.emptyList();
+		
+		
+		final URL url = classInContext.getClassLoader().getResource(parentRelativePath);
+		if (url != null) {
+			Enumeration<URL> resources;
+			try {
+				resources = classInContext.getClassLoader().getResources(parentRelativePath);
+				return Collections.list(resources);
+			} catch (final IOException e) {
+				return Collections.emptyList();
+			}
 		}
+		
+		throw new IllegalArgumentException(
+				"Cannot find " + parentRelativePath + " in context of class " + classInContext);
 	}
-
+	
 	@Override
 	public URL toLocalmostUrl(final Class<?> classInContext, final String resourceRelativePath) {
 		final File file = toFile(classInContext, resourceRelativePath);
-
+		
 		try {
 			if (file != null) {
 				return file.toURI().toURL();
@@ -102,7 +115,7 @@ public class FilesystemClassloaderLoadHelper implements ILoadHelper {
 					"Cannot find " + resourceRelativePath + " in context of class " + classInContext, e);
 		}
 	}
-
+	
 	private @Nullable URL convertPathToUrl(final @NonNull Path path) {
 		try {
 			return path.toUri().toURL();
@@ -110,14 +123,14 @@ public class FilesystemClassloaderLoadHelper implements ILoadHelper {
 			return null;
 		}
 	}
-
+	
 	private @Nullable File toFile(final @NonNull Class<?> classInContext, final @NonNull String resourceRelativePath) {
 		final File file = new File(resourceRelativePath);
-
+		
 		if (file.canRead()) {
 			return file.getAbsoluteFile();
 		}
-
+		
 		return null;
 	}
 }
