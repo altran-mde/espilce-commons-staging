@@ -1,6 +1,6 @@
 package org.espilce.commons.resource.third.test.loadhelper.mixed;
 
-import static org.espilce.commons.emf.resource.WorkspaceUtils.waitForWorkspaceChanges;
+import static org.espilce.commons.resource.WorkspaceUtils.waitForWorkspaceChanges;
 import static org.junit.Assert.assertEquals;
 
 import java.io.InputStream;

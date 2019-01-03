@@ -7,7 +7,7 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.emf.testsupport.resource;
+package org.espilce.commons.testsupport.resource;
 
 import static org.espilce.commons.resource.WorkspaceUtils.waitForWorkspaceChanges;
 

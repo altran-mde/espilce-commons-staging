@@ -1,6 +1,6 @@
 package org.espilce.commons.resource.test.loadhelper.workspace;
 
-import static org.espilce.commons.emf.resource.WorkspaceUtils.waitForWorkspaceChanges;
+import static org.espilce.commons.resource.WorkspaceUtils.waitForWorkspaceChanges;
 import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.io.IOUtils;

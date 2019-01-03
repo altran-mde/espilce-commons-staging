@@ -7,7 +7,7 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.emf.resource;
+package org.espilce.commons.resource;
 
 import static org.eclipse.core.resources.IResourceChangeEvent.POST_BUILD;
 import static org.eclipse.core.resources.IResourceChangeEvent.POST_CHANGE;
@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.ISafeRunnable;
  * Utilities for {@linkplain org.eclipse.core.resources.IWorkspace Eclipse
  * Workspace}.
  * 
- * @since 0.2
+ * @since 0.4
  */
 public class WorkspaceUtils {
 	/**
@@ -41,7 +41,7 @@ public class WorkspaceUtils {
 	 *             If waiting for the workspace was interrupted.
 	 * @throws Exception
 	 *             Forwarded if thrown by <code>work</code>.
-	 * @since 0.2
+	 * @since 0.4
 	 */
 	public static void waitForWorkspaceChanges(ISafeRunnable work) throws InterruptedException, Exception {
 		AtomicBoolean finished = new AtomicBoolean(false);
