@@ -91,8 +91,30 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 			}
 		}
 
-		URL url = findEntryInPlugin(classInContext, resourceRelativePath);
-		if (url != null) {
+		if (contentType == null) {
+			URL url = findEntryInPlugin(classInContext, resourceRelativePath);
+			if (url != null) {
+				contentType = ContentTypeUtils.searchContentType(url);
+			} else {
+				throw new IllegalArgumentException(
+						"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
+			}
+		}
+
+		if (contentType != null) {
+			return contentType.getId();
+		}
+
+		return null;
+	}
+
+	@Override
+	public String getContentTypeId(Class<?> classInContext, URL url) {
+		IContentType contentType = null;
+		final IResource resource = ResourceUtils.toIResource(url);
+		if (resource instanceof IFile) {
+			contentType = ContentTypeUtils.searchContentType((IFile) resource);
+		} else {
 			contentType = ContentTypeUtils.searchContentType(url);
 		}
 
@@ -100,8 +122,7 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 			return contentType.getId();
 		}
 
-		throw new IllegalArgumentException(
-				"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
+		return null;
 	}
 
 	/**
@@ -173,7 +194,7 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 				try {
 					return file.getContents();
 				} catch (CoreException e) {
-					// ignore
+					throw new IOException(e);
 				}
 			}
 		}
@@ -185,6 +206,20 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 
 		throw new IllegalArgumentException(
 				"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
+	}
+
+	@Override
+	public InputStream getContents(Class<?> classInContext, URL url) throws IllegalArgumentException, IOException {
+		final IResource resource = ResourceUtils.toIResource(url);
+		if (resource instanceof IFile && resource.isAccessible()) {
+			try {
+				return ((IFile) resource).getContents();
+			} catch (CoreException e) {
+				throw new IOException(e);
+			}
+		}
+
+		return url.openStream();
 	}
 
 	private @Nullable URL findEntryInPlugin(final @NonNull Class<?> classInPlugin,

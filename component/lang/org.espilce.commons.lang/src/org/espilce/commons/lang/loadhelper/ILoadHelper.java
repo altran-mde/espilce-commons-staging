@@ -95,6 +95,18 @@ public interface ILoadHelper {
 			final @NonNull String resourceRelativePath) throws IllegalArgumentException, IOException;
 	
 	/**
+	 *
+	 * @param url
+	 * @return
+	 * @throws IllegalArgumentException
+	 * @throws IOException
+	 *
+	 * @since 0.3
+	 */
+	public @NonNull InputStream getContents(final @NonNull Class<?> classInContext, final @NonNull URL url)
+			throws IllegalArgumentException, IOException;
+
+	/**
 	 * Looks up the Content Type of <code>resourceRelativePath</code>, if
 	 * possible.
 	 *
@@ -112,4 +124,16 @@ public interface ILoadHelper {
 	 */
 	public @Nullable String getContentTypeId(final @NonNull Class<?> classInContext,
 			final @NonNull String resourceRelativePath);
+	
+	
+	/**
+	 *
+	 * @param classInContext
+	 * @param url
+	 * @return
+	 *
+	 * @since 0.3
+	 */
+	public @Nullable String getContentTypeId(final @NonNull Class<?> classInContext,
+			final @NonNull URL url);
 }

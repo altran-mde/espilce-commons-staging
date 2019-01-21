@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -43,6 +44,11 @@ public class FilesystemClassloaderLoadHelper implements ILoadHelper {
 	}
 	
 	@Override
+	public @Nullable String getContentTypeId(@NonNull final Class<?> classInContext, @NonNull final URL url) {
+		return null;
+	}
+	
+	@Override
 	public InputStream getContents(final Class<?> classInContext, final String resourceRelativePath)
 			throws IOException {
 		final File file = toFile(classInContext, resourceRelativePath);
@@ -57,6 +63,22 @@ public class FilesystemClassloaderLoadHelper implements ILoadHelper {
 		
 		throw new IllegalArgumentException(
 				"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
+	}
+	
+	@Override
+	public @NonNull InputStream getContents(@NonNull final Class<?> classInContext, @NonNull final URL url)
+			throws IllegalArgumentException, IOException {
+		if ("file".equals(url.getProtocol())) {
+			File file;
+			try {
+				file = new File(url.toURI());
+				return new BufferedInputStream(new FileInputStream(file));
+			} catch (final URISyntaxException e) {
+				throw new IllegalArgumentException(e);
+			}
+		} else {
+			return url.openStream();
+		}
 	}
 	
 	@Override
