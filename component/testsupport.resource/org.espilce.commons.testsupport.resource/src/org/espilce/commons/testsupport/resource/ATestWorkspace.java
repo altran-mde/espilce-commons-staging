@@ -19,7 +19,7 @@ import org.junit.Before;
 /**
  * Base class for JUnit tests requiring an IProject.
  * 
- * @since 0.2
+ * @since 0.1
  */
 public abstract class ATestWorkspace {
 
