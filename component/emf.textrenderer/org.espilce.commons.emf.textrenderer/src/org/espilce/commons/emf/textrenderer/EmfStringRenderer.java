@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jdt.annotation.NonNull;
@@ -103,7 +104,7 @@ public class EmfStringRenderer {
 
 	protected void renderEObjectCollection(final @NonNull Collection<@NonNull EObject> eObjects, final int indent,
 			final @NonNull EObject context) {
-		renderCollection(eObjects, indent, context, eObject -> renderFiltered(eObject, (indent + 1), null));
+		renderCollection(eObjects, indent, context, eObject -> renderFiltered(eObject, (indent + 1), context));
 	}
 
 	protected <T extends Object> void renderCollection(final @NonNull Collection<@NonNull T> collection,
@@ -120,10 +121,16 @@ public class EmfStringRenderer {
 
 	protected void renderEObject(final @NonNull EObject eObject, final int indent, final @Nullable EObject context) {
 		this.builder.append(eObject.eClass().getName());
-		this.builder.append(" {");
-		eObject.eClass().getEAllStructuralFeatures().stream().sorted((a, b) -> a.getName().compareTo(b.getName()))
-				.forEachOrdered(feature -> renderFiltered(feature, (indent + 1), eObject));
-		append("}", indent);
+		if (!eObject.eIsProxy()) {
+			this.builder.append(" {");
+			eObject.eClass().getEAllStructuralFeatures().stream().sorted((a, b) -> a.getName().compareTo(b.getName()))
+					.forEachOrdered(feature -> renderFiltered(feature, (indent + 1), eObject));
+			append("}", indent);
+		} else {
+			this.builder.append(" (");
+			this.builder.append(((InternalEObject) eObject).eProxyURI());
+			this.builder.append(")");
+		}
 	}
 
 	protected void renderEAttribute(final @NonNull EAttribute attribute, final int indent,
@@ -157,7 +164,7 @@ public class EmfStringRenderer {
 		append(reference.getName(), indent);
 		if (reference.isContainment()) {
 			this.builder.append(": ");
-			renderFiltered(context.eGet(reference), indent, null);
+			renderFiltered(context.eGet(reference), indent, context);
 		} else {
 			this.builder.append(" -> ");
 			final Object value = context.eGet(reference);
@@ -221,27 +228,27 @@ public class EmfStringRenderer {
 		return "  ";
 	}
 
-	protected void render(final @NonNull Object attribute, final int indent, final @Nullable EObject context) {
-		if (attribute instanceof EAttribute && context != null) {
-			renderEAttribute((EAttribute) attribute, indent, context);
+	protected void render(final @NonNull Object obj, final int indent, final @Nullable EObject context) {
+		if (obj instanceof EAttribute && context != null) {
+			renderEAttribute((EAttribute) obj, indent, context);
 			return;
-		} else if (attribute instanceof EReference && context != null) {
-			renderEReference((EReference) attribute, indent, context);
+		} else if (obj instanceof EReference && context != null) {
+			renderEReference((EReference) obj, indent, context);
 			return;
-		} else if (attribute instanceof Collection && context != null) {
+		} else if (obj instanceof Collection && context != null) {
 			@SuppressWarnings("unchecked")
-			final Collection<EObject> collection = (Collection<EObject>) attribute;
+			final Collection<EObject> collection = (Collection<EObject>) obj;
 			renderEObjectCollection(collection, indent, context);
 			return;
-		} else if (attribute instanceof EObject) {
-			renderEObject((EObject) attribute, indent, context);
+		} else if (obj instanceof EObject) {
+			renderEObject((EObject) obj, indent, context);
 			return;
-		} else if (attribute instanceof Resource) {
-			renderResource((Resource) attribute, indent, context);
+		} else if (obj instanceof Resource) {
+			renderResource((Resource) obj, indent, context);
 			return;
 		} else {
 			throw new IllegalArgumentException(
-					"Unhandled parameter types: " + Arrays.<Object>asList(attribute, indent, context).toString());
+					"Unhandled parameter types: " + Arrays.<Object>asList(obj, indent, context).toString());
 		}
 	}
 }
