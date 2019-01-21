@@ -14,6 +14,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -22,12 +23,14 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.CharSequenceInputStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.espilce.commons.emf.UriUtils;
 import org.espilce.commons.lang.StringUtils2;
 import org.espilce.commons.lang.loadhelper.FilesystemClassloaderLoadHelper;
@@ -69,6 +72,29 @@ public class AModelLoader {
 	}
 
 	/**
+	 * 
+	 * @param modelUrl
+	 * @return
+	 * 
+	 * @since 0.3
+	 */
+	public @NonNull EObject loadModel(final @NonNull URL modelUrl) {
+		return loadModelResource(modelUrl).getContents().iterator().next();
+	}
+
+	/**
+	 * 
+	 * @param content
+	 * @param modelRelativePath
+	 * @return
+	 * 
+	 * @since 0.3
+	 */
+	public @NonNull EObject parseModel(final @NonNull CharSequence content, final @NonNull String modelRelativePath) {
+		return parseModelResource(content, modelRelativePath).getContents().iterator().next();
+	}
+
+	/**
 	 * Loads the file pointed to by {@code modelRelativePath}.
 	 *
 	 * <p>
@@ -92,6 +118,42 @@ public class AModelLoader {
 	public @NonNull Resource loadModelResource(final @NonNull String modelRelativePath) {
 		final ResourceSet resourceSet = provideResourceSet();
 		return loadModelResource(modelRelativePath, resourceSet);
+	}
+
+	/**
+	 * 
+	 * @param modelUrl
+	 * @return
+	 * 
+	 * @since 0.3
+	 */
+	public @NonNull Resource loadModelResource(final @NonNull URL modelUrl) {
+		final ResourceSet resourceSet = provideResourceSet();
+		final String contentTypeId = getLoadHelper().getContentTypeId(getClass(), modelUrl);
+		return loadModelResource(UriUtils.asEmfUri(modelUrl), resourceSet, contentTypeId, null);
+	}
+
+	/**
+	 * 
+	 * @param content
+	 * @param modelRelativePath
+	 * @return
+	 * 
+	 * @since 0.3
+	 */
+	public Resource parseModelResource(@NonNull CharSequence content, @NonNull String modelRelativePath) {
+		final ResourceSet resourceSet = provideResourceSet();
+		final String contentTypeId = getLoadHelper().getContentTypeId(getClass(), modelRelativePath);
+		return loadModelResource(createSyntheticUri(modelRelativePath), resourceSet, contentTypeId,
+				new CharSequenceInputStream(content, getCharset()));
+	}
+
+	protected Charset getCharset() {
+		return Charset.defaultCharset();
+	}
+
+	protected URI createSyntheticUri(final @NonNull String modelRelativePath) {
+		return URI.createURI(modelRelativePath);
 	}
 
 	/**
@@ -147,8 +209,7 @@ public class AModelLoader {
 			final String name = file.getKey();
 			final CharSequence actualContent = file.getValue();
 
-			final InputStream expectedStream = getLoadHelper().getContents(getClass(),
-					expectedOutputParent + name);
+			final InputStream expectedStream = getLoadHelper().getContents(getClass(), expectedOutputParent + name);
 			final String expectedContent = IOUtils.toString(expectedStream);
 
 			Assert2.assertEqualsNormalizedNewline("difference in " + name, expectedContent, actualContent);
@@ -157,21 +218,28 @@ public class AModelLoader {
 
 	protected @NonNull Resource loadModelResource(final @NonNull String modelRelativePath,
 			final @NonNull ResourceSet resourceSet) {
-		try {
-			final String contentTypeId = getLoadHelper().getContentTypeId(getClass(), modelRelativePath);
-			URI uri = toLocalmostUri(getClass(), modelRelativePath);
+		final String contentTypeId = getLoadHelper().getContentTypeId(getClass(), modelRelativePath);
+		URI uri = toLocalmostUri(getClass(), modelRelativePath);
+		return loadModelResource(uri, resourceSet, contentTypeId, null);
+	}
 
+	protected @NonNull Resource loadModelResource(final @NonNull URI modelUri, final @NonNull ResourceSet resourceSet,
+			final @Nullable String contentTypeId, final @Nullable InputStream content) {
+		try {
 			final Resource modelResource;
 			if (contentTypeId != null) {
-				modelResource = resourceSet.createResource(uri, contentTypeId);
+				modelResource = resourceSet.createResource(modelUri, contentTypeId);
 			} else {
-				modelResource = resourceSet.createResource(uri);
+				modelResource = resourceSet.createResource(modelUri);
 			}
 
-			modelResource.load(resourceSet.getLoadOptions());
-
+			if (content != null) {
+				modelResource.load(content, resourceSet.getLoadOptions());
+			} else {
+				modelResource.load(resourceSet.getLoadOptions());
+			}
 			return modelResource;
-		} catch (final IOException e) {
+		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
