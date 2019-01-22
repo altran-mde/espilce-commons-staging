@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (C) 2019 Altran Netherlands B.V.
+ *
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
 package org.espilce.commons.resource.test.loadhelper.workspace;
 
 import static org.espilce.commons.resource.WorkspaceUtils.waitForWorkspaceChanges;
@@ -5,14 +14,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
 
-import org.apache.commons.io.IOUtils;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.espilce.commons.lang.loadhelper.ILoadHelper;
 import org.espilce.commons.lang.test.base.loadhelper.ATestToLocalmostUrl;
 import org.espilce.commons.resource.loadhelper.WorkspacePluginLoadHelper;
+import org.espilce.commons.testsupport.resource.builder.ProjectBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,15 +29,13 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	@Before
 	public void createProject() throws Exception {
 		waitForWorkspaceChanges(() -> {
-			this.project = ResourcesPlugin.getWorkspace().getRoot().getProject("some");
-			this.project.create(null);
-			this.project.open(null);
-			
-			final IFolder folder = this.project.getFolder("dir");
-			folder.create(true, true, null);
-			
-			final IFile file = folder.getFile("file.txt");
-			file.create(IOUtils.toInputStream("file.txt in workspace"), true, null);
+			this.project = new ProjectBuilder("some")
+					.newFolder("dir")
+						.newFile("file.txt")
+							.source("file.txt in workspace")
+						.end()
+					.end()
+					.build();
 		});
 	}
 
