@@ -1,16 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde?>
-<!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="Espilce Commons" sequenceNumber="1544205255">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde?><!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl --><target name="Espilce Commons" sequenceNumber="1548187859">
   <locations>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.apache.commons.io" version="2.2.0.v201405211200"/>
+      <unit id="org.apache.commons.io.source" version="2.2.0.v201405211200"/>
       <unit id="org.apache.commons.lang3" version="3.1.0.v201403281430"/>
+      <unit id="org.apache.commons.lang3.source" version="3.1.0.v201403281430"/>
       <unit id="com.google.guava" version="15.0.0.v201403281430"/>
+      <unit id="com.google.guava.source" version="15.0.0.v201403281430"/>
       <unit id="com.google.inject" version="3.0.0.v201605172100"/>
+      <unit id="com.google.inject.source" version="3.0.0.v201605172100"/>
       <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20180330011457/repository"/>
     </location>
-    <location includeMode="slicer" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="true" type="InstallableUnit">
+    <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
       <unit id="org.eclipse.emf.sdk.feature.group" version="2.13.0.v20170609-0928"/>
       <unit id="org.eclipse.xtext.sdk.feature.group" version="2.12.0.v20170519-1412"/>
       <unit id="org.eclipse.xtend.feature.group" version="2.2.0.v201605260315"/>
