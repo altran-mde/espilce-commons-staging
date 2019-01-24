@@ -7,12 +7,12 @@ import org.espilce.commons.lang.loadhelper.ILoadHelper;
 import org.espilce.commons.lang.test.base.loadhelper.ATestGetContents;
 
 public class TestGetContents extends ATestGetContents {
-
+	
 	@Override
 	protected ILoadHelper createLoadHelper() {
 		return new FilesystemClassloaderLoadHelper();
 	}
-
+	
 	@Override
 	protected void assertContents(final String relativePath, final String contents) {
 		if (relativePath.contains(dir())) {

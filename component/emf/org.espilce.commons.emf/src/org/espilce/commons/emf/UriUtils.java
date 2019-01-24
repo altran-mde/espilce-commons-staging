@@ -44,7 +44,7 @@ import org.espilce.commons.exception.UnconvertibleException;
  *
  */
 public class UriUtils {
-
+	
 	/**
 	 * Converts an EMF URI to a Java URI, if possible.
 	 * 
@@ -60,11 +60,11 @@ public class UriUtils {
 		}
 		try {
 			return new java.net.URI(emfUri.toString());
-		} catch (URISyntaxException e) {
+		} catch (final URISyntaxException e) {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Converts an EMF URI to a Java URI.
 	 * 
@@ -78,11 +78,11 @@ public class UriUtils {
 	public static java.net.@NonNull URI asJavaUri(final @NonNull URI emfUri) throws UnconvertibleException {
 		try {
 			return new java.net.URI(emfUri.toString());
-		} catch (URISyntaxException e) {
+		} catch (final URISyntaxException e) {
 			throw new UnconvertibleException(emfUri, URI.class, java.net.URI.class, e);
 		}
 	}
-
+	
 	/**
 	 * Converts an EMF URI to a Java URL, if possible.
 	 * 
@@ -98,11 +98,11 @@ public class UriUtils {
 		}
 		try {
 			return new URL(emfUri.toString());
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Converts an EMF URI to a Java URL.
 	 * 
@@ -116,11 +116,11 @@ public class UriUtils {
 	public static @NonNull URL asJavaUrl(final @NonNull URI emfUri) throws UnconvertibleException {
 		try {
 			return new URL(emfUri.toString());
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			throw new UnconvertibleException(emfUri, URI.class, URL.class, e);
 		}
 	}
-
+	
 	/**
 	 * Converts a Java URL to an EMF URI, if possible.
 	 * 
@@ -133,7 +133,7 @@ public class UriUtils {
 	public static @Nullable URI toEmfUri(final @NonNull URL javaUrl) {
 		return URI.createURI(javaUrl.toString());
 	}
-
+	
 	/**
 	 * Converts a Java URL to an EMF URI.
 	 * 
@@ -147,7 +147,7 @@ public class UriUtils {
 	public static @NonNull URI asEmfUri(final @NonNull URL javaUrl) throws UnconvertibleException {
 		return URI.createURI(javaUrl.toString());
 	}
-
+	
 	/**
 	 * Converts a Java URI to an EMF URI, if possible.
 	 * 
@@ -160,7 +160,7 @@ public class UriUtils {
 	public static @Nullable URI toEmfUri(final java.net.@NonNull URI javaUri) {
 		return URI.createURI(javaUri.toString());
 	}
-
+	
 	/**
 	 * Converts a Java URI to an EMF URI.
 	 * 
@@ -174,7 +174,7 @@ public class UriUtils {
 	public static @NonNull URI asEmfUri(final java.net.@NonNull URI javaUri) throws UnconvertibleException {
 		return URI.createURI(javaUri.toString());
 	}
-
+	
 	/**
 	 * Converts a Java File to an EMF URI, if possible.
 	 * 
@@ -187,11 +187,11 @@ public class UriUtils {
 	public static @Nullable URI toEmfUri(final @NonNull File file) {
 		try {
 			return URI.createFileURI(file.getAbsolutePath());
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Converts a Java File to an EMF URI.
 	 * 
@@ -205,11 +205,11 @@ public class UriUtils {
 	public static @NonNull URI asEmfUri(final @NonNull File file) throws UnconvertibleException {
 		try {
 			return URI.createFileURI(file.getAbsolutePath());
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			throw new UnconvertibleException(file, File.class, URI.class, e);
 		}
 	}
-
+	
 	/**
 	 * Converts a Java Path to an EMF URI, if possible.
 	 * 
@@ -226,7 +226,7 @@ public class UriUtils {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Converts a Java Path to an EMF URI.
 	 * 
@@ -242,7 +242,7 @@ public class UriUtils {
 			return asEmfUri(path.toAbsolutePath().toUri());
 		} catch (IOError | SecurityException e) {
 			throw new UnconvertibleException(path, Path.class, URI.class, e);
-		} catch (UnconvertibleException e) {
+		} catch (final UnconvertibleException e) {
 			throw new UnconvertibleException(path, Path.class, URI.class, e.getCause());
 		}
 	}

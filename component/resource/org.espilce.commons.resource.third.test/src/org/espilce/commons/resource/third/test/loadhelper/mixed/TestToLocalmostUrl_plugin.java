@@ -30,7 +30,7 @@ public class TestToLocalmostUrl_plugin extends ATestToLocalmostUrl {
 	public void existingDirStartSlash() throws Exception {
 		super.existingDirStartSlash();
 	}
-
+	
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
@@ -42,7 +42,7 @@ public class TestToLocalmostUrl_plugin extends ATestToLocalmostUrl {
 	protected String file() {
 		return "filePlugin.txt";
 	}
-
+	
 	@Override
 	protected String dir() {
 		return "dirPlugin";

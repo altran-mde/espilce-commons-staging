@@ -16,8 +16,10 @@ import org.eclipse.jdt.annotation.NonNull;
 public interface IFileSystemAccessExtension {
 	
 	/**
-	 * @param fileName using '/' as file separator
-	 * @param outputConfigurationName the name of the output configuration
+	 * @param fileName
+	 *            using '/' as file separator
+	 * @param outputConfigurationName
+	 *            the name of the output configuration
 	 * @since 2.1
 	 */
 	public void deleteFile(final @NonNull String fileName, final @NonNull String outputConfigurationName);

@@ -84,8 +84,10 @@ public class AssertFile {
 		assertCanExectue("canExecute: " + file, file);
 	}
 	
-	public static void assertContentEquals(final @Nullable String message, final @Nullable File expected,
-			final @Nullable File actual) {
+	public static void assertContentEquals(
+			final @Nullable String message, final @Nullable File expected,
+			final @Nullable File actual
+	) {
 		assertCanRead(message, expected);
 		assertCanRead(message, actual);
 		
@@ -103,9 +105,11 @@ public class AssertFile {
 		assertContentEquals("difference in " + actual, expected, actual);
 	}
 	
-	public static void assertContentEqualsNormalizedNewline(final @Nullable String message,
+	public static void assertContentEqualsNormalizedNewline(
+			final @Nullable String message,
 			final @Nullable File expected,
-			final @Nullable File actual) {
+			final @Nullable File actual
+	) {
 		assertCanRead(message, expected);
 		assertCanRead(message, actual);
 		
@@ -119,8 +123,10 @@ public class AssertFile {
 		}
 	}
 	
-	public static void assertContentEqualsNormalizedNewline(final @Nullable File expected,
-			final @Nullable File actual) {
+	public static void assertContentEqualsNormalizedNewline(
+			final @Nullable File expected,
+			final @Nullable File actual
+	) {
 		assertContentEqualsNormalizedNewline("difference in " + actual, expected, actual);
 	}
 }

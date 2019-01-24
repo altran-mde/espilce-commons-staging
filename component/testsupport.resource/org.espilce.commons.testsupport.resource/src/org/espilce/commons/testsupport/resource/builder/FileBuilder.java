@@ -23,33 +23,33 @@ import org.eclipse.jdt.annotation.Nullable;
 public class FileBuilder extends AResourceBuilder<IFile> {
 	private InputStream source = new NullInputStream(0);
 	private Charset charset = Charset.defaultCharset();
-
+	
 	public FileBuilder(final @Nullable AContainerBuilder<?> parentBuilder, final @NonNull String containerName) {
 		super(parentBuilder, containerName);
 	}
-
+	
 	public FileBuilder source(final @NonNull InputStream source) {
 		this.source = source;
 		return this;
 	}
-
+	
 	public FileBuilder source(final @NonNull CharSequence source) {
-		return source(new CharSequenceInputStream(source, charset));
+		return source(new CharSequenceInputStream(source, this.charset));
 	}
-
+	
 	public FileBuilder charset(final @NonNull Charset charset) {
 		this.charset = charset;
 		return this;
 	}
-
+	
 	public FileBuilder charset(final @NonNull String charsetName) {
 		return charset(Charset.forName(charsetName));
 	}
-
+	
 	@Override
-	protected IFile build(IContainer parent) throws CoreException {
+	protected IFile build(final IContainer parent) throws CoreException {
 		final IFile result = parent.getFile(getNameAsPath());
-		result.create(source, updateFlags, monitor);
+		result.create(this.source, this.updateFlags, this.monitor);
 		return result;
 	}
 }

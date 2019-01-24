@@ -32,7 +32,7 @@ public class TestNormalizeNewlineSingleString {
 	public void noOp() throws Exception {
 		assertEquals("Some text", StringUtils2.normalizeNewline("Some text"));
 	}
-
+	
 	@Test
 	public void multiple() throws Exception {
 		assertEquals("Some\nlonger\nstrange\ntext\n", StringUtils2.normalizeNewline("Some\rlonger\rstrange\rtext\r"));
@@ -41,9 +41,11 @@ public class TestNormalizeNewlineSingleString {
 	@Test
 	public void setDefault() throws Exception {
 		NewlineNormalizer.setDefault(NewlineNormalizer.WINDOWS);
-
-		assertEquals("Some\r\nlonger\r\nstrange\r\ntext\r\n",
-				StringUtils2.normalizeNewline("Some\nlonger\rstrange\r\ntext\n\r"));
+		
+		assertEquals(
+				"Some\r\nlonger\r\nstrange\r\ntext\r\n",
+				StringUtils2.normalizeNewline("Some\nlonger\rstrange\r\ntext\n\r")
+		);
 	}
 	
 }

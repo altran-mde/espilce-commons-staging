@@ -19,7 +19,7 @@ import org.eclipse.jdt.annotation.Nullable;
  * @since 0.3
  */
 public class StringUtils2 {
-
+	
 	/**
 	 * Replaces all newline variants with the single variant defined in
 	 * {@link NewlineNormalizer#getDefault()}.
@@ -49,7 +49,7 @@ public class StringUtils2 {
 	public static @Nullable String normalizeNewline(final @Nullable String str) {
 		return NewlineNormalizer.getDefault().normalize(str);
 	}
-
+	
 	/**
 	 * Replaces all newline variants within an array of Strings with the single
 	 * variant defined in {@link NewlineNormalizer#getDefault()}.
@@ -79,7 +79,7 @@ public class StringUtils2 {
 	public static @Nullable String[] normalizeNewlines(final @Nullable String... strs) {
 		return NewlineNormalizer.getDefault().normalize(strs);
 	}
-
+	
 	/**
 	 * Compares all Strings in an array and returns the last sequence of
 	 * characters that is common to all of them.
@@ -124,16 +124,16 @@ public class StringUtils2 {
 		if (strs == null) {
 			return null;
 		}
-
+		
 		final String[] reversed = new String[strs.length];
 		for (int i = 0; i < strs.length; i++) {
 			reversed[i] = StringUtils.reverse(strs[i]);
 		}
-
+		
 		final String reversedCommonPrefix = StringUtils.getCommonPrefix(reversed);
 		return StringUtils.reverse(reversedCommonPrefix);
 	}
-
+	
 	/**
 	 * Removes the common prefix of all Strings in an array.
 	 *
@@ -182,23 +182,23 @@ public class StringUtils2 {
 		if (strs == null) {
 			return null;
 		}
-
+		
 		if (strs.length <= 1) {
 			return strs;
 		}
-
+		
 		final String commonPrefix = StringUtils.getCommonPrefix(strs);
 		if (commonPrefix != null && !commonPrefix.isEmpty()) {
 			final int commonPrefixLength = commonPrefix.length();
 			final String[] result = new String[strs.length];
-
+			
 			for (int i = 0; i < strs.length; i++) {
 				result[i] = StringUtils.substring(strs[i], commonPrefixLength);
 			}
-
+			
 			return result;
 		}
-
+		
 		return strs;
 	}
 }

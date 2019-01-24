@@ -43,38 +43,38 @@ public class WorkspaceUtils {
 	 *             Forwarded if thrown by <code>work</code>.
 	 * @since 0.4
 	 */
-	public static void waitForWorkspaceChanges(ISafeRunnable work) throws InterruptedException, Exception {
-		AtomicBoolean finished = new AtomicBoolean(false);
+	public static void waitForWorkspaceChanges(final ISafeRunnable work) throws InterruptedException, Exception {
+		final AtomicBoolean finished = new AtomicBoolean(false);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
 			private boolean buildStarted = false;
 			private boolean changed = false;
-
-			private boolean isType(IResourceChangeEvent event, int typeFlag) {
+			
+			private boolean isType(final IResourceChangeEvent event, final int typeFlag) {
 				return (event.getType() & typeFlag) != 0;
 			}
-
+			
 			@Override
-			public void resourceChanged(IResourceChangeEvent event) {
+			public void resourceChanged(final IResourceChangeEvent event) {
 				if (isType(event, PRE_BUILD)) {
-					buildStarted = true;
+					this.buildStarted = true;
 				}
 				if (isType(event, POST_BUILD)) {
-					buildStarted = false;
+					this.buildStarted = false;
 				}
 				if (isType(event, POST_CHANGE)) {
-					changed = true;
+					this.changed = true;
 				}
-
-				if (!buildStarted && changed) {
+				
+				if (!this.buildStarted && this.changed) {
 					finished.set(true);
 					ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
 				}
-
+				
 			}
 		}, PRE_BUILD | POST_CHANGE | POST_BUILD);
-
+		
 		work.run();
-
+		
 		while (!finished.get()) {
 			Thread.sleep(272);
 		}

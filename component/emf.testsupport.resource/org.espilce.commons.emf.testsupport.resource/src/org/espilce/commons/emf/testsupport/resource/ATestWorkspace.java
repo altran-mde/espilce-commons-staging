@@ -22,25 +22,27 @@ import org.junit.Before;
  * @since 0.2
  */
 public abstract class ATestWorkspace {
-
+	
 	protected IProject project;
-
+	
 	@Before
 	public void createProject() throws Exception {
 		waitForWorkspaceChanges(() -> {
-			project = ResourcesPlugin.getWorkspace().getRoot().getProject("myProject");
-			project.create(null);
-			project.open(null);
+			this.project = ResourcesPlugin.getWorkspace().getRoot().getProject("myProject");
+			this.project.create(null);
+			this.project.open(null);
 		});
 	}
-
+	
 	@After
 	public void destroyProject() throws Exception {
-		if (project != null) {
-			waitForWorkspaceChanges(() -> {
-				project.delete(true, true, null);
-			});
+		if (this.project != null) {
+			waitForWorkspaceChanges(
+					() -> {
+						this.project.delete(true, true, null);
+					}
+			);
 		}
 	}
-
+	
 }

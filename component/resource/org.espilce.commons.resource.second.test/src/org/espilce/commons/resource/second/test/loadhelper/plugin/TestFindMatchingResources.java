@@ -14,10 +14,10 @@ public class TestFindMatchingResources extends ATestFindMatchingResources {
 		new File(new File(manyNestedFilesDir()), emptyDir()).mkdirs();
 		new File(new File(singleDirDir()), emptyDir()).mkdirs();
 	}
-
+	
 	@Override
 	protected ILoadHelper createLoadHelper() {
 		return new WorkspacePluginLoadHelper();
 	}
-
+	
 }

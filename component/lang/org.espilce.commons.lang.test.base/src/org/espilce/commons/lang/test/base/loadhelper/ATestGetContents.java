@@ -49,12 +49,12 @@ public abstract class ATestGetContents {
 	public void existingDir() throws Exception {
 		checkGetContents(someDir() + separator() + dir());
 	}
-
+	
 	@Test(expected = IllegalArgumentException.class)
 	public void nonExistingDir() throws Exception {
 		checkGetContents(someDir() + separator() + noDir());
 	}
-
+	
 	@Test(expected = FileNotFoundException.class)
 	@Ignore("inconsistent behavior")
 	public void existingDirEndSlash() throws Exception {
@@ -65,7 +65,7 @@ public abstract class ATestGetContents {
 	public void nonExistingDirEndSlash() throws Exception {
 		checkGetContents(someDir() + separator() + noDir() + separator());
 	}
-
+	
 	@Test(expected = IllegalArgumentException.class)
 	@Ignore("inconsistent behavior")
 	public void existingDirStartSlash() throws Exception {
@@ -77,7 +77,7 @@ public abstract class ATestGetContents {
 	public void existingDirStartEndSlash() throws Exception {
 		checkGetContents(separator() + someDir() + separator() + dir() + separator());
 	}
-
+	
 	protected void checkGetContents(final String relativePath) throws Exception {
 		final InputStream contents = createLoadHelper().getContents(getClass(), relativePath);
 		try {
@@ -86,7 +86,7 @@ public abstract class ATestGetContents {
 			IOUtils.closeQuietly(contents);
 		}
 	}
-
+	
 	protected String someDir() {
 		return "some";
 	}
@@ -110,7 +110,7 @@ public abstract class ATestGetContents {
 	protected String noDir() {
 		return "nodir";
 	}
-
+	
 	protected abstract ILoadHelper createLoadHelper();
 	
 	protected abstract void assertContents(String relativePath, String contents);

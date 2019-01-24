@@ -36,7 +36,7 @@ import org.espilce.commons.generator.api.fsa.IFileSystemAccess;
  * @since 2.9
  */
 public interface IGenerator1 {
-
+	
 	/**
 	 * Perform the code generation for the given input resource. Any number of
 	 * files may be created or modified. Write operations to the given file
@@ -44,18 +44,22 @@ public interface IGenerator1 {
 	 * given fsa is implementing that pattern. Read operations will happen in
 	 * the background but are blocking.
 	 */
-	void doGenerate(final @NonNull Resource input, final @NonNull IFileSystemAccess fsa,
-			final @NonNull IGeneratorContext context);
-
+	void doGenerate(
+			final @NonNull Resource input, final @NonNull IFileSystemAccess fsa,
+			final @NonNull IGeneratorContext context
+	);
+	
 	/**
 	 * Before the generation is triggered, the resource or the entire resource
 	 * set may be prepared such that no modification will happen while
 	 * {@link #doGenerate(Resource, IFileSystemAccess2, IGeneratorContext)} is
 	 * executed.
 	 */
-	void beforeGenerate(final @NonNull Resource input, final @NonNull IFileSystemAccess fsa,
-			final @NonNull IGeneratorContext context);
-
+	void beforeGenerate(
+			final @NonNull Resource input, final @NonNull IFileSystemAccess fsa,
+			final @NonNull IGeneratorContext context
+	);
+	
 	/**
 	 * Release any data that is no longer necessary after the generator ran.
 	 * This is guaranteed to be called if
@@ -64,7 +68,9 @@ public interface IGenerator1 {
 	 * {@link #beforeGenerate(Resource, IFileSystemAccess2, IGeneratorContext)}
 	 * was not called.
 	 */
-	void afterGenerate(final @NonNull Resource input, final @NonNull IFileSystemAccess fsa,
-			final @NonNull IGeneratorContext context);
-
+	void afterGenerate(
+			final @NonNull Resource input, final @NonNull IFileSystemAccess fsa,
+			final @NonNull IGeneratorContext context
+	);
+	
 }

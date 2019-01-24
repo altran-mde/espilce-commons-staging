@@ -23,15 +23,15 @@ public class TestEmfUri2JavaUri_To {
 		
 		assertNull(javaUri);
 	}
-
+	
 	@Test
 	public void empty() throws Exception {
 		final URI uri = URI.createURI("");
 		final java.net.URI javaUri = UriUtils.toJavaUri(uri);
-
+		
 		assertEquals(new java.net.URI(""), javaUri);
 	}
-
+	
 	@Test
 	public void emptyWithScheme() throws Exception {
 		final URI uri = URI.createURI("http://");
@@ -44,66 +44,66 @@ public class TestEmfUri2JavaUri_To {
 	public void uriOther() throws Exception {
 		final URI uri = URI.createURI("https://example.com/MyFile.ext");
 		final java.net.URI javaUri = UriUtils.toJavaUri(uri);
-
+		
 		assertEquals(new java.net.URI("https://example.com/MyFile.ext"), javaUri);
 	}
-
+	
 	@Test
 	public void file() throws Exception {
 		final URI uri = URI.createURI("MyFile.ext");
 		final java.net.URI javaUri = UriUtils.toJavaUri(uri);
-
+		
 		assertEquals(new java.net.URI("MyFile.ext"), javaUri);
 	}
-
+	
 	@Test
 	public void fileNested() throws Exception {
 		final URI uri = URI.createURI("/myProject/folder/deep/myFile.ext");
 		final java.net.URI javaUri = UriUtils.toJavaUri(uri);
-
+		
 		assertEquals(new java.net.URI("/myProject/folder/deep/myFile.ext"), javaUri);
 	}
-
+	
 	@Test
 	public void fileSlashesExcess() throws Exception {
 		final URI uri = URI.createURI("////myProject///folder///deep/myFile.ext//");
 		final java.net.URI javaUri = UriUtils.toJavaUri(uri);
-
+		
 		assertEquals(new java.net.URI("////myProject///folder///deep/myFile.ext//"), javaUri);
 	}
-
+	
 	@Test
 	public void folderSlash() throws Exception {
 		final URI uri = URI.createURI("/myProject/myFolder/");
 		final java.net.URI javaUri = UriUtils.toJavaUri(uri);
-
+		
 		assertEquals(new java.net.URI("/myProject/myFolder/"), javaUri);
 	}
-
+	
 	@Test
 	public void folderSlashesInbetween() throws Exception {
 		final URI uri = URI.createURI("/myProject///myFolder");
 		final java.net.URI javaUri = UriUtils.toJavaUri(uri);
-
+		
 		assertEquals(new java.net.URI("/myProject///myFolder"), javaUri);
 	}
-
+	
 	@Test
 	public void fragment() throws Exception {
 		final URI uri = URI.createURI("/myProject///myFolder").appendFragment("fragment");
 		final java.net.URI javaUri = UriUtils.toJavaUri(uri);
-
+		
 		assertEquals(new java.net.URI("/myProject///myFolder#fragment"), javaUri);
 	}
-
+	
 	@Test
 	public void query() throws Exception {
 		final URI uri = URI.createURI("/myProject///myFolder").appendQuery("query");
 		final java.net.URI javaUri = UriUtils.toJavaUri(uri);
-
+		
 		assertEquals(new java.net.URI("/myProject///myFolder?query"), javaUri);
 	}
-
+	
 	@Test
 	public void fragmentQuery() throws Exception {
 		final URI uri = URI.createURI("/myProject///myFolder").appendFragment("fragment").appendQuery("query");
@@ -116,15 +116,15 @@ public class TestEmfUri2JavaUri_To {
 	public void uriBroken() throws Exception {
 		final URI uri = URI.createURI("fasfasdf");
 		final java.net.URI javaUri = UriUtils.toJavaUri(uri);
-
+		
 		assertEquals(new java.net.URI("fasfasdf"), javaUri);
 	}
-
+	
 	@Test
 	public void uriPlatformResourceBroken() throws Exception {
 		final URI uri = URI.createURI("platform:/resource/...////");
 		final java.net.URI javaUri = UriUtils.toJavaUri(uri);
-
+		
 		assertEquals(new java.net.URI("platform:/resource/...////"), javaUri);
 	}
 }

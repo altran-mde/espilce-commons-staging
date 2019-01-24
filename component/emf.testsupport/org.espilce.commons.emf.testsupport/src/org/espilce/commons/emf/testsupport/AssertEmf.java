@@ -43,11 +43,12 @@ public class AssertEmf {
 	public static void assertModelEquals(final @NonNull Resource expected, final @NonNull Resource actual) {
 		assertModelEquals(expected.getContents(), actual.getContents());
 	}
-
+	
 	/**
-	 * Asserts that two EObject lists are {@linkplain EcoreUtil#equals(List, List)
-	 * equal}. If they are not, an {@link AssertionError} is thrown with a
-	 * human-readable rendering of the differences.
+	 * Asserts that two EObject lists are
+	 * {@linkplain EcoreUtil#equals(List, List) equal}. If they are not, an
+	 * {@link AssertionError} is thrown with a human-readable rendering of the
+	 * differences.
 	 *
 	 * @param expected
 	 *            expected EObject lists
@@ -55,20 +56,25 @@ public class AssertEmf {
 	 *            actual EObject lists
 	 * @since 0.1
 	 */
-	public static void assertModelEquals(final @NonNull List<@NonNull EObject> expected,
-			final @NonNull List<@NonNull EObject> actual) {
+	public static void assertModelEquals(
+			final @NonNull List<@NonNull EObject> expected,
+			final @NonNull List<@NonNull EObject> actual
+	) {
 		final boolean equals = EcoreUtil.equals(expected, actual);
 		if (!equals) {
-			assertEquals("EObjects do not match.", new EmfStringRenderer(expected).render(),
-					new EmfStringRenderer(actual).render());
+			assertEquals(
+					"EObjects do not match.", new EmfStringRenderer(expected).render(),
+					new EmfStringRenderer(actual).render()
+			);
 			assertTrue("EObjects do not match. expected: " + expected + ", actual: " + actual, equals);
 		}
 	}
-
+	
 	/**
-	 * Asserts that two EObjects are {@linkplain EcoreUtil#equals(EObject, EObject)
-	 * equal}. If they are not, an {@link AssertionError} is thrown with a
-	 * human-readable rendering of the differences.
+	 * Asserts that two EObjects are
+	 * {@linkplain EcoreUtil#equals(EObject, EObject) equal}. If they are not,
+	 * an {@link AssertionError} is thrown with a human-readable rendering of
+	 * the differences.
 	 *
 	 * @param expected
 	 *            expected EObject
@@ -79,8 +85,10 @@ public class AssertEmf {
 	public static void assertModelEquals(final @NonNull EObject expected, final @NonNull EObject actual) {
 		final boolean equals = EcoreUtil.equals(expected, actual);
 		if (!equals) {
-			assertEquals("EObjects do not match.", new EmfStringRenderer(expected).render(),
-					new EmfStringRenderer(actual).render());
+			assertEquals(
+					"EObjects do not match.", new EmfStringRenderer(expected).render(),
+					new EmfStringRenderer(actual).render()
+			);
 			assertTrue("EObjects do not match. expected: " + expected + ", actual: " + actual, equals);
 		}
 	}

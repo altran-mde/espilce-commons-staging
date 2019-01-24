@@ -18,7 +18,8 @@ import org.eclipse.xtext.generator.InMemoryFileSystemAccess;
 
 public class InMemoryFileSystemAccess4 extends InMemoryFileSystemAccess
 		implements org.espilce.commons.emf.generator.api.fsa.IFileSystemAccess2,
-		org.espilce.commons.generator.api.fsa.IFileSystemAccessExtension4 {
+		org.espilce.commons.generator.api.fsa.IFileSystemAccessExtension4
+{
 	
 	@Override
 	public @NonNull List<@NonNull String> findMatchingFiles(@NonNull final String parentPath) {
@@ -26,12 +27,14 @@ public class InMemoryFileSystemAccess4 extends InMemoryFileSystemAccess
 	}
 	
 	@Override
-	public @NonNull List<@NonNull String> findMatchingFiles(@NonNull final String parentPath,
-			@NonNull final String outputConfigurationName) {
+	public @NonNull List<@NonNull String> findMatchingFiles(
+			@NonNull final String parentPath,
+			@NonNull final String outputConfigurationName
+	) {
 		final String fileName = getFileName(parentPath, outputConfigurationName);
-
+		
 		return getAllFiles().keySet().stream().filter(Objects::nonNull).filter(name -> name.startsWith(fileName))
 				.collect(Collectors.toList());
 	}
-
+	
 }

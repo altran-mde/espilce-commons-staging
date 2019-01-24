@@ -9,12 +9,12 @@ import org.espilce.commons.lang.loadhelper.ILoadHelper;
 import org.espilce.commons.lang.test.base.loadhelper.ATestToLocalmostUrl;
 
 public class TestToLocalmostUrl_classpath extends ATestToLocalmostUrl {
-
+	
 	@Override
 	protected ILoadHelper createLoadHelper() {
 		return new FilesystemClassloaderLoadHelper();
 	}
-
+	
 	@Override
 	protected void assertUrl(final String relativePath, final URL localmostUrl) {
 		final String str = localmostUrl.toString();
@@ -25,7 +25,7 @@ public class TestToLocalmostUrl_classpath extends ATestToLocalmostUrl {
 	protected String file() {
 		return "fileClasspath.txt";
 	}
-
+	
 	@Override
 	protected String dir() {
 		return "dirClasspath";

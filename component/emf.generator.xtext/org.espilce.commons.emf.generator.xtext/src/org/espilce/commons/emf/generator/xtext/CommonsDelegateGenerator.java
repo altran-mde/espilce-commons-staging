@@ -15,18 +15,20 @@ import org.eclipse.xtext.generator.IGeneratorContext;
 
 public class CommonsDelegateGenerator implements org.eclipse.xtext.generator.IGenerator2 {
 	private final org.espilce.commons.emf.generator.api.IGenerator2 delegate;
-
+	
 	public CommonsDelegateGenerator(final org.espilce.commons.emf.generator.api.IGenerator2 delegate) {
 		this.delegate = delegate;
 	}
-
+	
 	protected org.espilce.commons.emf.generator.api.fsa.IFileSystemAccess2 convert(
-			final org.eclipse.xtext.generator.IFileSystemAccess2 fsa) {
+			final org.eclipse.xtext.generator.IFileSystemAccess2 fsa
+	) {
 		return new XtextDelegateFileSystemAccess(fsa);
 	}
-
+	
 	protected org.espilce.commons.generator.api.context.IGeneratorContext convert(
-			final org.eclipse.xtext.generator.IGeneratorContext context) {
+			final org.eclipse.xtext.generator.IGeneratorContext context
+	) {
 		return new XtextDelegateGeneratorContext(context);
 	}
 	

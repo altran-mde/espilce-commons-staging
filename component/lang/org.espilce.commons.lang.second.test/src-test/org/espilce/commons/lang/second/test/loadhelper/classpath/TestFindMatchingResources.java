@@ -16,10 +16,10 @@ public class TestFindMatchingResources extends ATestFindMatchingResources {
 		new File(new File(new File("classpathBase"), manyNestedFilesDir()), emptyDir()).mkdirs();
 		new File(new File(new File("classpathBase"), singleDirDir()), emptyDir()).mkdirs();
 	}
-
+	
 	@Override
 	protected ILoadHelper createLoadHelper() {
 		return new FilesystemClassloaderLoadHelper();
 	}
-
+	
 }

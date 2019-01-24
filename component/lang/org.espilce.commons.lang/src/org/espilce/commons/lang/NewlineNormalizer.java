@@ -39,14 +39,14 @@ public class NewlineNormalizer {
 	 * @since 0.4
 	 */
 	public static final NewlineNormalizer CRLF = new NewlineNormalizer("\r\n");
-
+	
 	/**
 	 * Normalizes all newline variants to the Windows platform default.
 	 *
 	 * @since 0.4
 	 */
 	public static final NewlineNormalizer WINDOWS = CRLF;
-
+	
 	/**
 	 * Normalizes all newline variants to <i>line_feed carriage_return</i>, i.e.
 	 * {@code "\n\r"}.
@@ -54,7 +54,7 @@ public class NewlineNormalizer {
 	 * @since 0.4
 	 */
 	public static final NewlineNormalizer LFCR = new NewlineNormalizer("\n\r");
-
+	
 	/**
 	 * Normalizes all newline variants to <i>carriage_return</i>, i.e.
 	 * {@code "\r"}.
@@ -62,39 +62,39 @@ public class NewlineNormalizer {
 	 * @since 0.4
 	 */
 	public static final NewlineNormalizer CR = new NewlineNormalizer("\r");
-
+	
 	/**
 	 * Normalizes all newline variants to the old Mac OS 9.x platform default.
 	 *
 	 * @since 0.4
 	 */
 	public static final NewlineNormalizer MAC = CR;
-
+	
 	/**
 	 * Normalizes all newline variants to <i>line_feed</i>, i.e. {@code "\n"}.
 	 *
 	 * @since 0.4
 	 */
 	public static final NewlineNormalizer LF = new NewlineNormalizer("\n");
-
+	
 	/**
 	 * Normalizes all newline variants to the Unix platform default.
 	 *
 	 * @since 0.4
 	 */
 	public static final NewlineNormalizer UNIX = LF;
-
+	
 	/**
 	 * Normalizes all newline variants to the running platform default.
 	 *
 	 * @since 0.4
 	 */
 	public static final NewlineNormalizer RUNNING_PLATFORM = new NewlineNormalizer(System.lineSeparator());
-
+	
 	private static final String[] NEWLINE_VARIANTS = { "\r\n", "\n\r", "\r", "\n" };
-
+	
 	private static NewlineNormalizer defaultNormalizer = LF;
-
+	
 	/**
 	 * Returns the default normalizer.
 	 *
@@ -106,10 +106,8 @@ public class NewlineNormalizer {
 	 *
 	 * @see #setDefault(NewlineNormalizer)
 	 */
-	public static @NonNull NewlineNormalizer getDefault() {
-		return defaultNormalizer;
-	}
-
+	public static @NonNull NewlineNormalizer getDefault() { return defaultNormalizer; }
+	
 	/**
 	 * Sets the default normalizer.
 	 *
@@ -120,9 +118,9 @@ public class NewlineNormalizer {
 	public static void setDefault(final @NonNull NewlineNormalizer newDefaultNormalizer) {
 		defaultNormalizer = Objects.requireNonNull(newDefaultNormalizer);
 	}
-
+	
 	private final String[] newlineReplacements;
-
+	
 	/**
 	 * Creates a new normalizer using <code>replacement</code> as normalized
 	 * newline.
@@ -134,7 +132,7 @@ public class NewlineNormalizer {
 		this.newlineReplacements = new String[] { Objects.requireNonNull(replacement), replacement, replacement,
 				replacement };
 	}
-
+	
 	/**
 	 * Replaces all newline variants within <code>str</code> with this
 	 * instance's <i>replacement</i>.
@@ -163,7 +161,7 @@ public class NewlineNormalizer {
 	public @Nullable String normalize(final @Nullable String str) {
 		return StringUtils.replaceEach(str, NEWLINE_VARIANTS, this.newlineReplacements);
 	}
-
+	
 	/**
 	 * Replaces all newline variants within an array of Strings with this
 	 * instance's <i>replacement</i>.
@@ -193,16 +191,16 @@ public class NewlineNormalizer {
 		if (strs == null) {
 			return null;
 		}
-
+		
 		if (strs.length == 0) {
 			return strs;
 		}
-
+		
 		final String[] result = new String[strs.length];
 		for (int i = 0; i < strs.length; i++) {
 			result[i] = normalize(strs[i]);
 		}
-
+		
 		return result;
 	}
 }

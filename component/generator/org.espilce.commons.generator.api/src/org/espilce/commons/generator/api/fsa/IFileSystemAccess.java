@@ -13,9 +13,9 @@ import org.eclipse.jdt.annotation.NonNull;
  * @author Sven Efftinge - Initial contribution and API
  */
 public interface IFileSystemAccess {
-
+	
 	public final static String DEFAULT_OUTPUT = "DEFAULT_OUTPUT";
-
+	
 	/**
 	 * @param fileName
 	 *            using '/' as file separator
@@ -23,7 +23,7 @@ public interface IFileSystemAccess {
 	 *            the to-be-written contents.
 	 */
 	public void generateFile(final @NonNull String fileName, final @NonNull CharSequence contents);
-
+	
 	/**
 	 * @param fileName
 	 *            using '/' as file separator
@@ -35,12 +35,13 @@ public interface IFileSystemAccess {
 	public void generateFile(
 			final @NonNull String fileName,
 			final @NonNull String outputConfigurationName,
-			final @NonNull CharSequence contents);
-
+			final @NonNull CharSequence contents
+	);
+	
 	/**
 	 * @param fileName
 	 *            using '/' as file separator
 	 */
 	public void deleteFile(final @NonNull String fileName);
-
+	
 }

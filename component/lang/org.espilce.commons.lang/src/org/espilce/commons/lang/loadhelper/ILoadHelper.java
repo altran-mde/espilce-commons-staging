@@ -46,8 +46,10 @@ public interface ILoadHelper {
 	 *             If <code>resourceRelativePath</code> cannot be found.
 	 * @since 0.1
 	 */
-	public @NonNull List<@NonNull URL> findMatchingResources(final @NonNull Class<?> classInContext,
-			final @NonNull String parentRelativePath) throws IllegalArgumentException;
+	public @NonNull List<@NonNull URL> findMatchingResources(
+			final @NonNull Class<?> classInContext,
+			final @NonNull String parentRelativePath
+	) throws IllegalArgumentException;
 	
 	/**
 	 * Finds <code>resourceRelativePath</code> from the <i>closest</i> available
@@ -69,8 +71,10 @@ public interface ILoadHelper {
 	 *             If <code>resourceRelativePath</code> cannot be found.
 	 * @since 0.1
 	 */
-	public @NonNull URL toLocalmostUrl(final @NonNull Class<?> classInContext,
-			final @NonNull String resourceRelativePath) throws IllegalArgumentException;
+	public @NonNull URL toLocalmostUrl(
+			final @NonNull Class<?> classInContext,
+			final @NonNull String resourceRelativePath
+	) throws IllegalArgumentException;
 	
 	/**
 	 * Returns the contents of <code>resourceRelativePath</code> according to
@@ -91,8 +95,10 @@ public interface ILoadHelper {
 	 *             <code>resourceRelativePath</code>.
 	 * @since 0.1
 	 */
-	public @NonNull InputStream getContents(final @NonNull Class<?> classInContext,
-			final @NonNull String resourceRelativePath) throws IllegalArgumentException, IOException;
+	public @NonNull InputStream getContents(
+			final @NonNull Class<?> classInContext,
+			final @NonNull String resourceRelativePath
+	) throws IllegalArgumentException, IOException;
 	
 	/**
 	 *
@@ -105,7 +111,7 @@ public interface ILoadHelper {
 	 */
 	public @NonNull InputStream getContents(final @NonNull Class<?> classInContext, final @NonNull URL url)
 			throws IllegalArgumentException, IOException;
-
+	
 	/**
 	 * Looks up the Content Type of <code>resourceRelativePath</code>, if
 	 * possible.
@@ -122,8 +128,10 @@ public interface ILoadHelper {
 	 *             If <code>resourceRelativePath</code> cannot be found.
 	 * @since 0.1
 	 */
-	public @Nullable String getContentTypeId(final @NonNull Class<?> classInContext,
-			final @NonNull String resourceRelativePath);
+	public @Nullable String getContentTypeId(
+			final @NonNull Class<?> classInContext,
+			final @NonNull String resourceRelativePath
+	);
 	
 	
 	/**
@@ -134,6 +142,8 @@ public interface ILoadHelper {
 	 *
 	 * @since 0.3
 	 */
-	public @Nullable String getContentTypeId(final @NonNull Class<?> classInContext,
-			final @NonNull URL url);
+	public @Nullable String getContentTypeId(
+			final @NonNull Class<?> classInContext,
+			final @NonNull URL url
+	);
 }

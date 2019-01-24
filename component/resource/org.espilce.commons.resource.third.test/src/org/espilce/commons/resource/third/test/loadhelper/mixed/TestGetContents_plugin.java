@@ -8,12 +8,12 @@ import org.espilce.commons.resource.loadhelper.WorkspacePluginLoadHelper;
 import org.junit.Test;
 
 public class TestGetContents_plugin extends ATestGetContents {
-
+	
 	@Override
 	protected ILoadHelper createLoadHelper() {
 		return new WorkspacePluginLoadHelper();
 	}
-
+	
 	@Override
 	protected void assertContents(final String relativePath, final String contents) {
 		if (relativePath.contains(dir())) {
@@ -35,12 +35,12 @@ public class TestGetContents_plugin extends ATestGetContents {
 	public void existingFileStartSlash() throws Exception {
 		super.existingFileStartSlash();
 	}
-
+	
 	@Override
 	protected String file() {
 		return "filePlugin.txt";
 	}
-
+	
 	@Override
 	protected String dir() {
 		return "dirPlugin";

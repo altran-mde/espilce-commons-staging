@@ -19,7 +19,7 @@ public class TestGetContents extends ATestGetContents {
 	public void existingFileStartSlash() throws Exception {
 		super.existingFileStartSlash();
 	}
-
+	
 	@Override
 	protected ILoadHelper createLoadHelper() {
 		return new WorkspacePluginLoadHelper();
@@ -33,5 +33,5 @@ public class TestGetContents extends ATestGetContents {
 			assertEquals(relativePath, "file.txt in plugin root", contents);
 		}
 	}
-
+	
 }

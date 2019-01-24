@@ -62,7 +62,8 @@ public class FilesystemClassloaderLoadHelper implements ILoadHelper {
 		}
 		
 		throw new IllegalArgumentException(
-				"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
+				"Cannot find " + resourceRelativePath + " in context of class " + classInContext
+		);
 	}
 	
 	@Override
@@ -115,7 +116,8 @@ public class FilesystemClassloaderLoadHelper implements ILoadHelper {
 		}
 		
 		throw new IllegalArgumentException(
-				"Cannot find " + parentRelativePath + " in context of class " + classInContext);
+				"Cannot find " + parentRelativePath + " in context of class " + classInContext
+		);
 	}
 	
 	@Override
@@ -131,10 +133,12 @@ public class FilesystemClassloaderLoadHelper implements ILoadHelper {
 				return url;
 			}
 			throw new IllegalArgumentException(
-					"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
+					"Cannot find " + resourceRelativePath + " in context of class " + classInContext
+			);
 		} catch (final MalformedURLException e) {
 			throw new IllegalArgumentException(
-					"Cannot find " + resourceRelativePath + " in context of class " + classInContext, e);
+					"Cannot find " + resourceRelativePath + " in context of class " + classInContext, e
+			);
 		}
 	}
 	

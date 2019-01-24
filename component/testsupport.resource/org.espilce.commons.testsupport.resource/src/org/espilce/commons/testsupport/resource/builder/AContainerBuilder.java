@@ -19,41 +19,43 @@ import org.eclipse.jdt.annotation.Nullable;
 
 public abstract class AContainerBuilder<C extends IContainer> extends AResourceBuilder<C> {
 	protected final List<AResourceBuilder<?>> childBuilders = new ArrayList<>();
-
-	protected AContainerBuilder(final @Nullable AContainerBuilder<?> parentBuilder,
-			final @NonNull String containerName) {
+	
+	protected AContainerBuilder(
+			final @Nullable AContainerBuilder<?> parentBuilder,
+			final @NonNull String containerName
+	) {
 		super(parentBuilder, containerName);
 	}
-
+	
 	public AContainerBuilder<C> addChildBuilder(final @NonNull AResourceBuilder<?> childBuilder) {
-		childBuilders.add(childBuilder);
+		this.childBuilders.add(childBuilder);
 		return this;
 	}
-
+	
 	public FolderBuilder newFolder(final @NonNull String folderName) {
 		final FolderBuilder result = new FolderBuilder(this, folderName);
 		addChildBuilder(result);
 		return result;
 	}
-
+	
 	public AContainerBuilder<C> createFolder(final @NonNull String folderName) {
 		newFolder(folderName);
 		return this;
 	}
-
+	
 	public FileBuilder newFile(final @NonNull String fileName) {
 		final FileBuilder result = new FileBuilder(this, fileName);
 		addChildBuilder(result);
 		return result;
 	}
-
+	
 	public AContainerBuilder<C> createFile(final @NonNull String fileName) {
 		newFile(fileName);
 		return this;
 	}
-
-	protected void buildChildren(@NonNull IContainer self) throws CoreException {
-		for (AResourceBuilder<?> childBuilder : childBuilders) {
+	
+	protected void buildChildren(@NonNull final IContainer self) throws CoreException {
+		for (final AResourceBuilder<?> childBuilder : this.childBuilders) {
 			childBuilder.build(self);
 		}
 	}

@@ -35,7 +35,7 @@ public class TestEmfUri2JavaUri_As {
 		final URI uri = URI.createURI("http://");
 		UriUtils.asJavaUri(uri);
 	}
-
+	
 	@Test
 	public void uriOther() throws Exception {
 		final URI uri = URI.createURI("https://example.com/MyFile.ext");
@@ -104,10 +104,10 @@ public class TestEmfUri2JavaUri_As {
 	public void fragmentQuery() throws Exception {
 		final URI uri = URI.createURI("/myProject///myFolder").appendFragment("fragment").appendQuery("query");
 		final java.net.URI javaUri = UriUtils.asJavaUri(uri);
-
+		
 		assertEquals(new java.net.URI("/myProject///myFolder?query#fragment"), javaUri);
 	}
-
+	
 	@Test
 	public void uriBroken() throws Exception {
 		final URI uri = URI.createURI("fasfasdf");

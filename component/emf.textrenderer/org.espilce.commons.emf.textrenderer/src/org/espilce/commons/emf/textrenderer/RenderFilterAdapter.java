@@ -27,27 +27,27 @@ public abstract class RenderFilterAdapter implements IRenderFilter {
 	protected boolean shouldRenderResourceSet(final ResourceSet resourceSet, final int indent, final EObject context) {
 		return true;
 	}
-
+	
 	protected boolean shouldRenderResource(final Resource resource, final int indent, final EObject context) {
 		return true;
 	}
-
+	
 	protected boolean shouldRenderCollection(final Collection<?> collection, final int indent, final EObject context) {
 		return true;
 	}
-
+	
 	protected boolean shouldRenderEObject(final EObject eObject, final int indent, final EObject context) {
 		return true;
 	}
-
+	
 	protected boolean shouldRenderEAttribute(final EAttribute attribute, final int indent, final EObject context) {
 		return true;
 	}
-
+	
 	protected boolean shuldRenderEReference(final EReference reference, final int indent, final EObject context) {
 		return true;
 	}
-
+	
 	@Override
 	public boolean shouldRender(final Object attribute, final int indent, final EObject context) {
 		if (attribute instanceof EAttribute) {
@@ -64,7 +64,8 @@ public abstract class RenderFilterAdapter implements IRenderFilter {
 			return shouldRenderResourceSet((ResourceSet) attribute, indent, context);
 		} else {
 			throw new IllegalArgumentException(
-					"Unhandled parameter types: " + Arrays.<Object>asList(attribute, indent, context).toString());
+					"Unhandled parameter types: " + Arrays.<Object> asList(attribute, indent, context).toString()
+			);
 		}
 	}
 }

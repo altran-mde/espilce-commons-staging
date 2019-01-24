@@ -21,102 +21,102 @@ public class TestEmfUri2JavaUrl_As {
 	public void uriNull() throws Exception {
 		UriUtils.asJavaUrl(null);
 	}
-
+	
 	@Test(expected = UnconvertibleException.class)
 	public void empty() throws Exception {
 		final URI uri = URI.createURI("");
 		UriUtils.asJavaUrl(uri);
 	}
-
+	
 	@Test
 	public void emptyWithScheme() throws Exception {
 		final URI uri = URI.createURI("http://");
 		final java.net.URL javaUrl = UriUtils.asJavaUrl(uri);
-
+		
 		assertEquals(new java.net.URL("http://"), javaUrl);
 	}
-
+	
 	@Test
 	public void uriOther() throws Exception {
 		final URI uri = URI.createURI("https://example.com/MyFile.ext");
 		final java.net.URL javaUrl = UriUtils.asJavaUrl(uri);
-
+		
 		assertEquals(new java.net.URL("https://example.com/MyFile.ext"), javaUrl);
 	}
-
+	
 	@Test(expected = UnconvertibleException.class)
 	public void file() throws Exception {
 		final URI uri = URI.createURI("MyFile.ext");
 		UriUtils.asJavaUrl(uri);
 	}
-
+	
 	@Test
 	public void fileNested() throws Exception {
 		final URI uri = URI.createURI("http:/myProject/folder/deep/myFile.ext");
 		final java.net.URL javaUrl = UriUtils.asJavaUrl(uri);
-
+		
 		assertEquals(new java.net.URL("http:/myProject/folder/deep/myFile.ext"), javaUrl);
 	}
-
+	
 	@Test
 	public void fileSlashesExcess() throws Exception {
 		final URI uri = URI.createURI("http:////myProject///folder///deep/myFile.ext//");
 		final java.net.URL javaUrl = UriUtils.asJavaUrl(uri);
-
+		
 		assertEquals(new java.net.URL("http:////myProject///folder///deep/myFile.ext//"), javaUrl);
 	}
-
+	
 	@Test
 	public void folderSlash() throws Exception {
 		final URI uri = URI.createURI("http:/myProject/myFolder/");
 		final java.net.URL javaUrl = UriUtils.asJavaUrl(uri);
-
+		
 		assertEquals(new java.net.URL("http:/myProject/myFolder/"), javaUrl);
 	}
-
+	
 	@Test
 	public void folderSlashesInbetween() throws Exception {
 		final URI uri = URI.createURI("http:/myProject///myFolder");
 		final java.net.URL javaUrl = UriUtils.asJavaUrl(uri);
-
+		
 		assertEquals(new java.net.URL("http:/myProject///myFolder"), javaUrl);
 	}
-
+	
 	@Test
 	public void fragment() throws Exception {
 		final URI uri = URI.createURI("http:/myProject///myFolder").appendFragment("fragment");
 		final java.net.URL javaUrl = UriUtils.asJavaUrl(uri);
-
+		
 		assertEquals(new java.net.URL("http:/myProject///myFolder#fragment"), javaUrl);
 	}
-
+	
 	@Test
 	public void query() throws Exception {
 		final URI uri = URI.createURI("http:/myProject///myFolder").appendQuery("query");
 		final java.net.URL javaUrl = UriUtils.asJavaUrl(uri);
-
+		
 		assertEquals(new java.net.URL("http:/myProject///myFolder?query"), javaUrl);
 	}
-
+	
 	@Test
 	public void fragmentQuery() throws Exception {
 		final URI uri = URI.createURI("http:/myProject///myFolder").appendFragment("fragment").appendQuery("query");
 		final java.net.URL javaUrl = UriUtils.asJavaUrl(uri);
-
+		
 		assertEquals(new java.net.URL("http:/myProject///myFolder?query#fragment"), javaUrl);
 	}
-
+	
 	@Test(expected = UnconvertibleException.class)
 	public void uriBroken() throws Exception {
 		final URI uri = URI.createURI("fasfasdf");
 		UriUtils.asJavaUrl(uri);
 	}
-
+	
 	@Test
 	public void relativeUri() throws Exception {
 		final URI uri = URI.createURI("mailto:/resource/...////");
 		final java.net.URL javaUrl = UriUtils.asJavaUrl(uri);
-
+		
 		assertEquals(new java.net.URL("mailto:/resource/...////"), javaUrl);
 	}
 }

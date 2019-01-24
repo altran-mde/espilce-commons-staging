@@ -19,7 +19,7 @@ public class TestToLocalmostUrl_classpath extends ATestToLocalmostUrl {
 	protected void assertUrl(final String relativePath, final URL localmostUrl) {
 		assertEquals("jar", localmostUrl.getProtocol());
 	}
-
+	
 	@Override
 	protected String file() {
 		return "fileClasspath.txt";

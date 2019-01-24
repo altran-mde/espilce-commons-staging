@@ -23,10 +23,11 @@ import org.junit.Test;
 
 public class TestGetContents extends ATestGetContents {
 	protected IProject project;
-
+	
 	@Before
 	public void createProject() throws Exception {
 		waitForWorkspaceChanges(() -> {
+			// @formatter:off
 			this.project = new ProjectBuilder("some")
 					.newFolder("dir")
 						.newFile("file.txt")
@@ -34,34 +35,35 @@ public class TestGetContents extends ATestGetContents {
 						.end()
 					.end()
 					.build();
+			// @formatter:on
 		});
 	}
-
+	
 	@After
 	public void destroyProject() throws Exception {
 		if (this.project != null) {
 			waitForWorkspaceChanges(() -> this.project.delete(true, true, null));
 		}
 	}
-
+	
 	@Override
 	@Test(expected = IllegalArgumentException.class)
 	public void rootFile() throws Exception {
 		super.rootFile();
 	}
-
+	
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
 	public void existingFileStartSlash() throws Exception {
 		super.existingFileStartSlash();
 	}
-
+	
 	@Override
 	protected ILoadHelper createLoadHelper() {
 		return new WorkspacePluginLoadHelper();
 	}
-
+	
 	@Override
 	protected void assertContents(final String relativePath, final String contents) {
 		assertEquals(relativePath, "file.txt in workspace", contents);

@@ -8,29 +8,29 @@
 package org.espilce.commons.generator.api.fsa;
 
 /**
- * The purpose of this exception is to wrap checked exceptions that occurred while accessing the file system, i.e.
- * {@link java.io.IOException}.
+ * The purpose of this exception is to wrap checked exceptions that occurred
+ * while accessing the file system, i.e. {@link java.io.IOException}.
  * 
  * @author Moritz Eysholdt - Initial contribution and API
  * @since 2.4
  */
 public class RuntimeIOException extends RuntimeException {
-
+	
 	private static final long serialVersionUID = -7477488058010839013L;
-
+	
 	public RuntimeIOException() {
 	}
-
+	
 	public RuntimeIOException(final String message) {
 		super(message);
 	}
-
+	
 	public RuntimeIOException(final String message, final Throwable cause) {
 		super(message, cause);
 	}
-
+	
 	public RuntimeIOException(final Throwable cause) {
 		super(cause);
 	}
-
+	
 }

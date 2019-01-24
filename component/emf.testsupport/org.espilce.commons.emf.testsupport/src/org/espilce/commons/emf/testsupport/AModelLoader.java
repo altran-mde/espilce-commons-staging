@@ -45,7 +45,7 @@ import org.espilce.commons.testsupport.Assert2;
 public class AModelLoader {
 	private ResourceSet resourceSet;
 	private ILoadHelper loadHelper;
-
+	
 	/**
 	 * Loads the file pointed to by {@code modelRelativePath}.
 	 *
@@ -54,13 +54,13 @@ public class AModelLoader {
 	 * </p>
 	 *
 	 * <p>
-	 * <b>Caution!</b> This method assumes the plug-in containing the model file to
-	 * be unzipped!
+	 * <b>Caution!</b> This method assumes the plug-in containing the model file
+	 * to be unzipped!
 	 * </p>
 	 *
 	 * @param classInPlugin
-	 *            A class that is located in the same plug-in as the model file to
-	 *            load.
+	 *            A class that is located in the same plug-in as the model file
+	 *            to load.
 	 * @param modelRelativePath
 	 *            Path of the model file, relative to the plug-in containing the
 	 *            given class.
@@ -70,7 +70,7 @@ public class AModelLoader {
 	public @NonNull EObject loadModel(final @NonNull String modelRelativePath) {
 		return loadModelResource(modelRelativePath).getContents().iterator().next();
 	}
-
+	
 	/**
 	 * 
 	 * @param modelUrl
@@ -81,7 +81,7 @@ public class AModelLoader {
 	public @NonNull EObject loadModel(final @NonNull URL modelUrl) {
 		return loadModelResource(modelUrl).getContents().iterator().next();
 	}
-
+	
 	/**
 	 * 
 	 * @param content
@@ -93,7 +93,7 @@ public class AModelLoader {
 	public @NonNull EObject parseModel(final @NonNull CharSequence content, final @NonNull String modelRelativePath) {
 		return parseModelResource(content, modelRelativePath).getContents().iterator().next();
 	}
-
+	
 	/**
 	 * Loads the file pointed to by {@code modelRelativePath}.
 	 *
@@ -102,13 +102,13 @@ public class AModelLoader {
 	 * </p>
 	 *
 	 * <p>
-	 * <b>Caution!</b> This method assumes the plug-in containing the model file to
-	 * be unzipped!
+	 * <b>Caution!</b> This method assumes the plug-in containing the model file
+	 * to be unzipped!
 	 * </p>
 	 *
 	 * @param classInPlugin
-	 *            A class that is located in the same plug-in as the model file to
-	 *            load.
+	 *            A class that is located in the same plug-in as the model file
+	 *            to load.
 	 * @param modelRelativePath
 	 *            Path of the model file, relative to the plug-in containing the
 	 *            given class.
@@ -119,7 +119,7 @@ public class AModelLoader {
 		final ResourceSet resourceSet = provideResourceSet();
 		return loadModelResource(modelRelativePath, resourceSet);
 	}
-
+	
 	/**
 	 * 
 	 * @param modelUrl
@@ -132,7 +132,7 @@ public class AModelLoader {
 		final String contentTypeId = getLoadHelper().getContentTypeId(getClass(), modelUrl);
 		return loadModelResource(UriUtils.asEmfUri(modelUrl), resourceSet, contentTypeId, null);
 	}
-
+	
 	/**
 	 * 
 	 * @param content
@@ -141,21 +141,21 @@ public class AModelLoader {
 	 * 
 	 * @since 0.3
 	 */
-	public Resource parseModelResource(@NonNull CharSequence content, @NonNull String modelRelativePath) {
+	public Resource parseModelResource(@NonNull final CharSequence content, @NonNull final String modelRelativePath) {
 		final ResourceSet resourceSet = provideResourceSet();
 		final String contentTypeId = getLoadHelper().getContentTypeId(getClass(), modelRelativePath);
-		return loadModelResource(createSyntheticUri(modelRelativePath), resourceSet, contentTypeId,
-				new CharSequenceInputStream(content, getCharset()));
+		return loadModelResource(
+				createSyntheticUri(modelRelativePath), resourceSet, contentTypeId,
+				new CharSequenceInputStream(content, getCharset())
+		);
 	}
-
-	protected Charset getCharset() {
-		return Charset.defaultCharset();
-	}
-
+	
+	protected Charset getCharset() { return Charset.defaultCharset(); }
+	
 	protected URI createSyntheticUri(final @NonNull String modelRelativePath) {
 		return URI.createURI(modelRelativePath);
 	}
-
+	
 	/**
 	 * Provides the EMF ResourceSet to load models into.
 	 *
@@ -167,64 +167,72 @@ public class AModelLoader {
 	 * @since 0.1
 	 */
 	public @NonNull ResourceSet provideResourceSet() {
-		if (resourceSet == null) {
-			resourceSet = new ResourceSetImpl();
+		if (this.resourceSet == null) {
+			this.resourceSet = new ResourceSetImpl();
 		}
-
-		return resourceSet;
+		
+		return this.resourceSet;
 	}
-
-	public void assertOutputEquals(final @NonNull String expectedOutputParent,
-			final @NonNull Map<@NonNull String, @NonNull CharSequence> actuals) throws IOException {
+	
+	public void assertOutputEquals(
+			final @NonNull String expectedOutputParent,
+			final @NonNull Map<@NonNull String, @NonNull CharSequence> actuals
+	) throws IOException {
 		final List<URL> expectedUrls = getLoadHelper().findMatchingResources(getClass(), expectedOutputParent);
 		final List<String> expectedUrlNames = expectedUrls.stream().map(URL::getPath).collect(Collectors.toList());
-
+		
 		final List<String> actualNames = actuals.keySet().stream().sorted().collect(Collectors.toList());
-
+		
 		List<String> expectedNames;
 		switch (expectedUrlNames.size()) {
-		case 0:
-			expectedNames = Collections.emptyList();
-			break;
-
-		case 1:
-			final String firstExpectedUrlName = expectedUrlNames.iterator().next();
-			if (actualNames.size() > 0) {
-				expectedNames = Collections.singletonList(
-						StringUtils2.getCommonSuffix(firstExpectedUrlName, actualNames.iterator().next()));
-			} else {
-				expectedNames = Collections.singletonList(firstExpectedUrlName);
-			}
-			break;
-
-		default:
-			expectedNames = Arrays.asList(
-					StringUtils2.removeCommonPrefix(expectedUrlNames.toArray(new String[expectedUrlNames.size()])));
-			break;
+			case 0:
+				expectedNames = Collections.emptyList();
+				break;
+			
+			case 1:
+				final String firstExpectedUrlName = expectedUrlNames.iterator().next();
+				if (actualNames.size() > 0) {
+					expectedNames = Collections.singletonList(
+							StringUtils2.getCommonSuffix(firstExpectedUrlName, actualNames.iterator().next())
+					);
+				} else {
+					expectedNames = Collections.singletonList(firstExpectedUrlName);
+				}
+				break;
+			
+			default:
+				expectedNames = Arrays.asList(
+						StringUtils2.removeCommonPrefix(expectedUrlNames.toArray(new String[expectedUrlNames.size()]))
+				);
+				break;
 		}
-
+		
 		assertEquals(String.join("\n", expectedNames), String.join("\n", actualNames));
-
-		for (Entry<String, CharSequence> file : actuals.entrySet()) {
+		
+		for (final Entry<String, CharSequence> file : actuals.entrySet()) {
 			final String name = file.getKey();
 			final CharSequence actualContent = file.getValue();
-
+			
 			final InputStream expectedStream = getLoadHelper().getContents(getClass(), expectedOutputParent + name);
 			final String expectedContent = IOUtils.toString(expectedStream);
-
+			
 			Assert2.assertEqualsNormalizedNewline("difference in " + name, expectedContent, actualContent);
 		}
 	}
-
-	protected @NonNull Resource loadModelResource(final @NonNull String modelRelativePath,
-			final @NonNull ResourceSet resourceSet) {
+	
+	protected @NonNull Resource loadModelResource(
+			final @NonNull String modelRelativePath,
+			final @NonNull ResourceSet resourceSet
+	) {
 		final String contentTypeId = getLoadHelper().getContentTypeId(getClass(), modelRelativePath);
-		URI uri = toLocalmostUri(getClass(), modelRelativePath);
+		final URI uri = toLocalmostUri(getClass(), modelRelativePath);
 		return loadModelResource(uri, resourceSet, contentTypeId, null);
 	}
-
-	protected @NonNull Resource loadModelResource(final @NonNull URI modelUri, final @NonNull ResourceSet resourceSet,
-			final @Nullable String contentTypeId, final @Nullable InputStream content) {
+	
+	protected @NonNull Resource loadModelResource(
+			final @NonNull URI modelUri, final @NonNull ResourceSet resourceSet,
+			final @Nullable String contentTypeId, final @Nullable InputStream content
+	) {
 		try {
 			final Resource modelResource;
 			if (contentTypeId != null) {
@@ -232,32 +240,34 @@ public class AModelLoader {
 			} else {
 				modelResource = resourceSet.createResource(modelUri);
 			}
-
+			
 			if (content != null) {
 				modelResource.load(content, resourceSet.getLoadOptions());
 			} else {
 				modelResource.load(resourceSet.getLoadOptions());
 			}
 			return modelResource;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
-
-	protected @NonNull URI toLocalmostUri(final @NonNull Class<?> classInContext,
-			final @NonNull String resourceRelativePath) {
+	
+	protected @NonNull URI toLocalmostUri(
+			final @NonNull Class<?> classInContext,
+			final @NonNull String resourceRelativePath
+	) {
 		final URL url = getLoadHelper().toLocalmostUrl(classInContext, resourceRelativePath);
 		return UriUtils.asEmfUri(url);
 	}
-
+	
 	protected @NonNull ILoadHelper getLoadHelper() {
-		if (loadHelper == null) {
-			loadHelper = createLoadHelper();
+		if (this.loadHelper == null) {
+			this.loadHelper = createLoadHelper();
 		}
-
-		return loadHelper;
+		
+		return this.loadHelper;
 	}
-
+	
 	protected @NonNull ILoadHelper createLoadHelper() {
 		return new FilesystemClassloaderLoadHelper();
 	}

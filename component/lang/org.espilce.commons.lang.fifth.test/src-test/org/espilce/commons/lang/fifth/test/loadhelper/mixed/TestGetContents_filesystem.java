@@ -21,7 +21,7 @@ public class TestGetContents_filesystem extends ATestGetContents {
 			assertEquals(relativePath, "fileFilesystem.txt in filesystem root", contents);
 		}
 	}
-
+	
 	@Override
 	protected String file() {
 		return "fileFilesystem.txt";

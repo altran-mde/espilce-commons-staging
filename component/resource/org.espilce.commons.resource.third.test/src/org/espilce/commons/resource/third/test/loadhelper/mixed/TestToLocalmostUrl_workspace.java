@@ -27,10 +27,10 @@ public class TestToLocalmostUrl_workspace extends ATestToLocalmostUrl {
 			this.project = ResourcesPlugin.getWorkspace().getRoot().getProject("some");
 			this.project.create(null);
 			this.project.open(null);
-
+			
 			final IFolder folder = this.project.getFolder("dirWorkspace");
 			folder.create(true, true, null);
-
+			
 			final IFile file = folder.getFile("fileWorkspace.txt");
 			file.create(IOUtils.toInputStream("fileWorkspace.txt in workspace"), true, null);
 		});
@@ -48,14 +48,14 @@ public class TestToLocalmostUrl_workspace extends ATestToLocalmostUrl {
 	public void rootFile() throws Exception {
 		super.rootFile();
 	}
-
+	
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
 	public void existingFileStartSlash() throws Exception {
 		super.existingFileStartSlash();
 	}
-
+	
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
@@ -74,7 +74,7 @@ public class TestToLocalmostUrl_workspace extends ATestToLocalmostUrl {
 	protected String file() {
 		return "fileWorkspace.txt";
 	}
-
+	
 	@Override
 	protected String dir() {
 		return "dirWorkspace";
@@ -84,7 +84,7 @@ public class TestToLocalmostUrl_workspace extends ATestToLocalmostUrl {
 	protected ILoadHelper createLoadHelper() {
 		return new WorkspacePluginLoadHelper();
 	}
-
+	
 	@Override
 	protected void assertUrl(final String relativePath, final URL localmostUrl) {
 		final String str = localmostUrl.toString();

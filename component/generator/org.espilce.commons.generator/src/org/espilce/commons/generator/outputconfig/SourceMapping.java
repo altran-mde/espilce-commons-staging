@@ -12,16 +12,19 @@ import java.util.Objects;
 import org.espilce.commons.generator.api.outputconfig.ISourceMapping;
 
 /**
- * Specifies the output folder for a source folder (may be null, in which case the output folder of the enclosing
- * {@link OutputConfiguration} is used). A source folder may also be set to be ignored in the UI. This makes it
- * clear to the user that he does not have to specify an output directory for that source folder.
+ * Specifies the output folder for a source folder (may be null, in which case
+ * the output folder of the enclosing {@link OutputConfiguration} is used). A
+ * source folder may also be set to be ignored in the UI. This makes it clear to
+ * the user that he does not have to specify an output directory for that source
+ * folder.
  *
- * Both source and output folders are project relative, e.g. "src/main/java", "build/gen" etc.
+ * Both source and output folders are project relative, e.g. "src/main/java",
+ * "build/gen" etc.
  *
  * @since 2.6
  */
 public class SourceMapping implements ISourceMapping {
-	private String sourceFolder;
+	private final String sourceFolder;
 	private String outputDirectory;
 	private boolean ignore;
 	
@@ -30,29 +33,19 @@ public class SourceMapping implements ISourceMapping {
 	}
 	
 	@Override
-	public String getSourceFolder() {
-		return this.sourceFolder;
-	}
+	public String getSourceFolder() { return this.sourceFolder; }
 	
 	@Override
-	public String getOutputDirectory() {
-		return this.outputDirectory;
-	}
+	public String getOutputDirectory() { return this.outputDirectory; }
 	
 	@Override
-	public void setOutputDirectory(final String outputDirectory) {
-		this.outputDirectory = outputDirectory;
-	}
+	public void setOutputDirectory(final String outputDirectory) { this.outputDirectory = outputDirectory; }
 	
 	@Override
-	public boolean isIgnore() {
-		return this.ignore;
-	}
+	public boolean isIgnore() { return this.ignore; }
 	
 	@Override
-	public void setIgnore(final boolean ignore) {
-		this.ignore = ignore;
-	}
+	public void setIgnore(final boolean ignore) { this.ignore = ignore; }
 	
 	@Override
 	public boolean equals(final Object obj) {

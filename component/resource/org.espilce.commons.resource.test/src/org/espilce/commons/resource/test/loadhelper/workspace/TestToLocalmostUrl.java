@@ -25,10 +25,11 @@ import org.junit.Test;
 
 public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	protected IProject project;
-
+	
 	@Before
 	public void createProject() throws Exception {
 		waitForWorkspaceChanges(() -> {
+			// @formatter:off
 			this.project = new ProjectBuilder("some")
 					.newFolder("dir")
 						.newFile("file.txt")
@@ -36,16 +37,17 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 						.end()
 					.end()
 					.build();
+			// @formatter:on
 		});
 	}
-
+	
 	@After
 	public void destroyProject() throws Exception {
 		if (this.project != null) {
 			waitForWorkspaceChanges(() -> this.project.delete(true, true, null));
 		}
 	}
-
+	
 	@Override
 	@Test(expected = IllegalArgumentException.class)
 	public void rootFile() throws Exception {
@@ -65,15 +67,15 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	public void existingDirStartSlash() throws Exception {
 		super.existingDirStartSlash();
 	}
-
+	
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
 	public void existingDirStartEndSlash() throws Exception {
 		super.existingDirStartEndSlash();
 	}
-
-
+	
+	
 	@Override
 	protected ILoadHelper createLoadHelper() {
 		return new WorkspacePluginLoadHelper();
@@ -84,5 +86,5 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 		final String str = localmostUrl.toString();
 		assertTrue(str, str.contains("/testWorkspace/"));
 	}
-
+	
 }

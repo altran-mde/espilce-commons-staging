@@ -23,7 +23,7 @@ import org.junit.Test;
 
 public class TestSearchContentType {
 	IProject project;
-
+	
 	@Before
 	public void createProjects() throws Exception {
 		waitForWorkspaceChanges(() -> {
@@ -38,31 +38,35 @@ public class TestSearchContentType {
 	
 	@Test
 	public void findTextFile() {
-		assertEquals("org.eclipse.core.runtime.text",
-				ContentTypeUtils.findContentType(this.project.getFile("textFile.txt")).getId());
+		assertEquals(
+				"org.eclipse.core.runtime.text",
+				ContentTypeUtils.findContentType(this.project.getFile("textFile.txt")).getId()
+		);
 	}
-
+	
 	@Test
 	public void searchTextFile() {
-		assertEquals("org.eclipse.core.runtime.text",
-				ContentTypeUtils.searchContentType(this.project.getFile("textFile.txt")).getId());
+		assertEquals(
+				"org.eclipse.core.runtime.text",
+				ContentTypeUtils.searchContentType(this.project.getFile("textFile.txt")).getId()
+		);
 	}
-
+	
 	@Test(expected = UnmappableException.class)
 	public void findFileWithoutExtension() {
 		ContentTypeUtils.findContentType(this.project.getFile("fileWithoutExtension"));
 	}
-
+	
 	@Test
 	public void searchFileWithoutExtension() {
 		assertNull(ContentTypeUtils.searchContentType(this.project.getFile("fileWithoutExtension")));
 	}
-
+	
 	@After
 	public void destroyProjects() throws Exception {
 		destroyProject(this.project);
 	}
-
+	
 	private static void destroyProject(final IProject project) throws Exception {
 		if (project != null) {
 			waitForWorkspaceChanges(() -> project.delete(true, true, null));

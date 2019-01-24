@@ -20,7 +20,7 @@ public class TestNewlineNormalizer {
 	public void resetDefault() {
 		NewlineNormalizer.setDefault(NewlineNormalizer.LF);
 	}
-
+	
 	@Test
 	public void prefixCustom() throws Exception {
 		assertEquals("<br/>Some text", createCustom().normalize("\rSome text"));
@@ -43,10 +43,12 @@ public class TestNewlineNormalizer {
 	
 	@Test
 	public void multipleCustom() throws Exception {
-		assertEquals("Some<br/>longer<br/>strange<br/>text<br/>",
-				createCustom().normalize("Some\rlonger\rstrange\rtext\r"));
+		assertEquals(
+				"Some<br/>longer<br/>strange<br/>text<br/>",
+				createCustom().normalize("Some\rlonger\rstrange\rtext\r")
+		);
 	}
-
+	
 	private NewlineNormalizer createCustom() {
 		return new NewlineNormalizer("<br/>");
 	}
@@ -58,64 +60,82 @@ public class TestNewlineNormalizer {
 	
 	@Test
 	public void mixedLF() throws Exception {
-		assertEquals("Some\nlonger\nstrange\ntext\n",
-				NewlineNormalizer.LF.normalize("Some\nlonger\rstrange\r\ntext\n\r"));
+		assertEquals(
+				"Some\nlonger\nstrange\ntext\n",
+				NewlineNormalizer.LF.normalize("Some\nlonger\rstrange\r\ntext\n\r")
+		);
 	}
 	
 	@Test
 	public void mixedUnix() throws Exception {
-		assertEquals("Some\nlonger\nstrange\ntext\n",
-				NewlineNormalizer.UNIX.normalize("Some\nlonger\rstrange\r\ntext\n\r"));
+		assertEquals(
+				"Some\nlonger\nstrange\ntext\n",
+				NewlineNormalizer.UNIX.normalize("Some\nlonger\rstrange\r\ntext\n\r")
+		);
 	}
 	
 	@Test
 	public void mixedCR() throws Exception {
-		assertEquals("Some\rlonger\rstrange\rtext\r",
-				NewlineNormalizer.CR.normalize("Some\nlonger\rstrange\r\ntext\n\r"));
+		assertEquals(
+				"Some\rlonger\rstrange\rtext\r",
+				NewlineNormalizer.CR.normalize("Some\nlonger\rstrange\r\ntext\n\r")
+		);
 	}
 	
 	@Test
 	public void mixedMac() throws Exception {
-		assertEquals("Some\rlonger\rstrange\rtext\r",
-				NewlineNormalizer.MAC.normalize("Some\nlonger\rstrange\r\ntext\n\r"));
+		assertEquals(
+				"Some\rlonger\rstrange\rtext\r",
+				NewlineNormalizer.MAC.normalize("Some\nlonger\rstrange\r\ntext\n\r")
+		);
 	}
 	
 	@Test
 	public void mixedCRLF() throws Exception {
-		assertEquals("Some\r\nlonger\r\nstrange\r\ntext\r\n",
-				NewlineNormalizer.CRLF.normalize("Some\nlonger\rstrange\r\ntext\n\r"));
+		assertEquals(
+				"Some\r\nlonger\r\nstrange\r\ntext\r\n",
+				NewlineNormalizer.CRLF.normalize("Some\nlonger\rstrange\r\ntext\n\r")
+		);
 	}
 	
 	@Test
 	public void mixedWindows() throws Exception {
-		assertEquals("Some\r\nlonger\r\nstrange\r\ntext\r\n",
-				NewlineNormalizer.WINDOWS.normalize("Some\nlonger\rstrange\r\ntext\n\r"));
+		assertEquals(
+				"Some\r\nlonger\r\nstrange\r\ntext\r\n",
+				NewlineNormalizer.WINDOWS.normalize("Some\nlonger\rstrange\r\ntext\n\r")
+		);
 	}
 	
 	@Test
 	public void mixedLFCR() throws Exception {
-		assertEquals("Some\n\rlonger\n\rstrange\n\rtext\n\r",
-				NewlineNormalizer.LFCR.normalize("Some\nlonger\rstrange\r\ntext\n\r"));
+		assertEquals(
+				"Some\n\rlonger\n\rstrange\n\rtext\n\r",
+				NewlineNormalizer.LFCR.normalize("Some\nlonger\rstrange\r\ntext\n\r")
+		);
 	}
 	
 	@Test
 	public void mixedDefault() throws Exception {
-		assertEquals("Some\nlonger\nstrange\ntext\n",
-				NewlineNormalizer.getDefault().normalize("Some\nlonger\rstrange\r\ntext\n\r"));
+		assertEquals(
+				"Some\nlonger\nstrange\ntext\n",
+				NewlineNormalizer.getDefault().normalize("Some\nlonger\rstrange\r\ntext\n\r")
+		);
 	}
 	
 	@Test
 	public void mixedSetDefault() throws Exception {
 		NewlineNormalizer.setDefault(NewlineNormalizer.WINDOWS);
 		
-		assertEquals("Some\r\nlonger\r\nstrange\r\ntext\r\n",
-				NewlineNormalizer.getDefault().normalize("Some\nlonger\rstrange\r\ntext\n\r"));
+		assertEquals(
+				"Some\r\nlonger\r\nstrange\r\ntext\r\n",
+				NewlineNormalizer.getDefault().normalize("Some\nlonger\rstrange\r\ntext\n\r")
+		);
 	}
 	
 	@Test(expected = NullPointerException.class)
 	public void setDefaultNull() throws Exception {
 		NewlineNormalizer.setDefault(null);
 	}
-
-
+	
+	
 }

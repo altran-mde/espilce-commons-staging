@@ -33,34 +33,34 @@ public class EmfStringRenderer {
 	private final Resource resource;
 	private final Collection<EObject> eObjects;
 	private final EObject eObject;
-
+	
 	public EmfStringRenderer(final @NonNull Resource resource) {
 		this.resource = resource;
 		this.eObjects = Collections.emptySet();
 		this.eObject = null;
 		validateInput(false);
 	}
-
+	
 	public EmfStringRenderer(final @NonNull Collection<@NonNull EObject> eObjects) {
 		this.resource = null;
 		this.eObjects = eObjects;
 		this.eObject = null;
 		validateInput(true);
 	}
-
+	
 	public EmfStringRenderer(final @NonNull EObject eObject) {
 		this.resource = null;
 		this.eObjects = Collections.emptySet();
 		this.eObject = eObject;
 		validateInput(false);
 	}
-
+	
 	protected void validateInput(final boolean allowEmptySet) {
 		if (this.resource == null && this.eObject == null && !allowEmptySet && this.eObjects.isEmpty()) {
 			throw new IllegalArgumentException("Invalid constructor parameter.");
 		}
 	}
-
+	
 	/**
 	 * Public API to render.
 	 */
@@ -68,10 +68,10 @@ public class EmfStringRenderer {
 		if (this.builder.length() == 0) {
 			doRender();
 		}
-
+		
 		return this.builder.toString();
 	}
-
+	
 	/**
 	 * Switch to render the actually passed constructor parameter.
 	 */
@@ -86,7 +86,7 @@ public class EmfStringRenderer {
 			}
 		}
 	}
-
+	
 	/**
 	 * {@link #render()} call, guarded by {@link #getFilter()}.
 	 */
@@ -95,20 +95,24 @@ public class EmfStringRenderer {
 			render(object, indent, context);
 		}
 	}
-
+	
 	protected void renderResource(final @NonNull Resource resource, final int indent, final @Nullable EObject context) {
 		append("Resource: ", indent);
 		this.builder.append(resource.getURI());
 		renderFiltered(resource.getContents(), (indent + 1), null);
 	}
-
-	protected void renderEObjectCollection(final @NonNull Collection<@NonNull EObject> eObjects, final int indent,
-			final @NonNull EObject context) {
+	
+	protected void renderEObjectCollection(
+			final @NonNull Collection<@NonNull EObject> eObjects, final int indent,
+			final @NonNull EObject context
+	) {
 		renderCollection(eObjects, indent, context, eObject -> renderFiltered(eObject, (indent + 1), context));
 	}
-
-	protected <T extends Object> void renderCollection(final @NonNull Collection<@NonNull T> collection,
-			final int indent, final @NonNull EObject context, final @NonNull Consumer<@NonNull T> lineRenderer) {
+	
+	protected <T extends Object> void renderCollection(
+			final @NonNull Collection<@NonNull T> collection,
+			final int indent, final @NonNull EObject context, final @NonNull Consumer<@NonNull T> lineRenderer
+	) {
 		this.builder.append("[");
 		for (final T element : collection) {
 			{
@@ -118,7 +122,7 @@ public class EmfStringRenderer {
 		}
 		append("]", indent);
 	}
-
+	
 	protected void renderEObject(final @NonNull EObject eObject, final int indent, final @Nullable EObject context) {
 		this.builder.append(eObject.eClass().getName());
 		if (!eObject.eIsProxy()) {
@@ -132,24 +136,30 @@ public class EmfStringRenderer {
 			this.builder.append(")");
 		}
 	}
-
-	protected void renderEAttribute(final @NonNull EAttribute attribute, final int indent,
-			final @NonNull EObject context) {
+	
+	protected void renderEAttribute(
+			final @NonNull EAttribute attribute, final int indent,
+			final @NonNull EObject context
+	) {
 		append(attribute.getName(), indent);
 		this.builder.append("=");
 		final Object value = context.eGet(attribute);
 		if (attribute.isMany()) {
 			@SuppressWarnings("unchecked")
 			final Collection<Object> collection = (Collection<Object>) value;
-			renderCollection(collection, indent, context,
-					val -> renderAttribute(attribute, (indent + 1), context, val));
+			renderCollection(
+					collection, indent, context,
+					val -> renderAttribute(attribute, (indent + 1), context, val)
+			);
 		} else {
 			renderAttribute(attribute, indent, context, value);
 		}
 	}
-
-	protected void renderAttribute(final @NonNull EAttribute attribute, final int indent,
-			final @Nullable EObject context, final @Nullable Object value) {
+	
+	protected void renderAttribute(
+			final @NonNull EAttribute attribute, final int indent,
+			final @Nullable EObject context, final @Nullable Object value
+	) {
 		if (value instanceof CharSequence) {
 			this.builder.append("\"");
 			this.builder.append((CharSequence) value);
@@ -158,9 +168,11 @@ public class EmfStringRenderer {
 			this.builder.append(value);
 		}
 	}
-
-	protected void renderEReference(final @NonNull EReference reference, final int indent,
-			final @NonNull EObject context) {
+	
+	protected void renderEReference(
+			final @NonNull EReference reference, final int indent,
+			final @NonNull EObject context
+	) {
 		append(reference.getName(), indent);
 		if (reference.isContainment()) {
 			this.builder.append(": ");
@@ -171,16 +183,20 @@ public class EmfStringRenderer {
 			if (reference.isMany()) {
 				@SuppressWarnings("unchecked")
 				final Collection<EObject> collection = (Collection<EObject>) value;
-				renderCollection(collection, indent, context,
-						eObject -> renderReference(reference, (indent + 1), context, eObject));
+				renderCollection(
+						collection, indent, context,
+						eObject -> renderReference(reference, (indent + 1), context, eObject)
+				);
 			} else {
 				renderReference(reference, indent, context, ((EObject) value));
 			}
 		}
 	}
-
-	protected void renderReference(final @NonNull EReference reference, final int indent,
-			final @NonNull EObject context, final @Nullable EObject target) {
+	
+	protected void renderReference(
+			final @NonNull EReference reference, final int indent,
+			final @NonNull EObject context, final @Nullable EObject target
+	) {
 		if (target != null) {
 			final String id = EcoreUtil.getID(target);
 			if (id != null && id.length() > 0) {
@@ -196,7 +212,7 @@ public class EmfStringRenderer {
 			this.builder.append("null");
 		}
 	}
-
+	
 	/**
 	 * Appends an newline and <code>text</code> to the builder, indented by
 	 * <code>indent</code> levels.
@@ -205,29 +221,23 @@ public class EmfStringRenderer {
 		appendIndex(indent);
 		this.builder.append(text);
 	}
-
+	
 	protected void appendIndex(final int indent) {
-		this.builder.append(this.getNewline());
+		this.builder.append(getNewline());
 		for (int i = 0; (i < indent); i++) {
-			this.builder.append(this.getIndentation());
+			this.builder.append(getIndentation());
 		}
 	}
-
+	
 	/**
 	 * Filter to prevent selected Ecore elements from being rendered.
 	 */
-	protected @NonNull IRenderFilter getFilter() {
-		return new OmitUnsetFilter();
-	}
-
-	protected @NonNull String getNewline() {
-		return "\n";
-	}
-
-	protected @NonNull String getIndentation() {
-		return "  ";
-	}
-
+	protected @NonNull IRenderFilter getFilter() { return new OmitUnsetFilter(); }
+	
+	protected @NonNull String getNewline() { return "\n"; }
+	
+	protected @NonNull String getIndentation() { return "  "; }
+	
 	protected void render(final @NonNull Object obj, final int indent, final @Nullable EObject context) {
 		if (obj instanceof EAttribute && context != null) {
 			renderEAttribute((EAttribute) obj, indent, context);
@@ -248,7 +258,8 @@ public class EmfStringRenderer {
 			return;
 		} else {
 			throw new IllegalArgumentException(
-					"Unhandled parameter types: " + Arrays.<Object>asList(obj, indent, context).toString());
+					"Unhandled parameter types: " + Arrays.<Object> asList(obj, indent, context).toString()
+			);
 		}
 	}
 }

@@ -22,36 +22,34 @@ import org.eclipse.jdt.annotation.NonNull;
 public abstract class AResourceBuilder<R extends IResource> {
 	protected final AContainerBuilder<?> parentBuilder;
 	protected final String resourceName;
-
+	
 	protected IProgressMonitor monitor = new NullProgressMonitor();
 	protected int updateFlags = IResource.FORCE;
-
+	
 	protected AResourceBuilder(final AContainerBuilder<?> parentBuilder, final @NonNull String resourceName) {
 		this.parentBuilder = parentBuilder;
 		this.resourceName = resourceName;
 	}
-
-	public AResourceBuilder<R> monitor(IProgressMonitor monitor) {
+	
+	public AResourceBuilder<R> monitor(final IProgressMonitor monitor) {
 		this.monitor = monitor;
 		return this;
 	}
-
+	
 	public AResourceBuilder<R> updateFlags(final int updateFlags) {
 		this.updateFlags = updateFlags;
 		return this;
 	}
-
+	
 	public IProject build() throws CoreException {
-		return parentBuilder.build();
+		return this.parentBuilder.build();
 	}
-
+	
 	public AContainerBuilder<?> end() {
-		return parentBuilder;
+		return this.parentBuilder;
 	}
-
+	
 	protected abstract R build(final IContainer parent) throws CoreException;
-
-	protected IPath getNameAsPath() {
-		return Path.fromOSString(this.resourceName);
-	}
+	
+	protected IPath getNameAsPath() { return Path.fromOSString(this.resourceName); }
 }

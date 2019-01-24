@@ -26,8 +26,9 @@ import org.espilce.commons.generator.api.fsa.RuntimeIOException;
  * @since 2.9
  */
 public interface IFileSystemAccess2 extends IFileSystemAccess, IFileSystemAccessExtension, IFileSystemAccessExtension2,
-IFileSystemAccessExtension3 {
-
+		IFileSystemAccessExtension3
+{
+	
 	/**
 	 * Tests whether the file exists at the location denoted by the output
 	 * configuration. Returns {@code true} if the file at the described location
@@ -42,7 +43,7 @@ IFileSystemAccessExtension3 {
 	 *         to a directory.
 	 */
 	boolean isFile(final @NonNull String path, final @NonNull String outputConfigurationName) throws RuntimeIOException;
-
+	
 	/**
 	 * Tests whether the file exists at the location in the default output
 	 * configuration. Returns {@code true} if the file at the described location
@@ -55,5 +56,5 @@ IFileSystemAccessExtension3 {
 	 *         to a directory.
 	 */
 	boolean isFile(final @NonNull String path) throws RuntimeIOException;
-
+	
 }

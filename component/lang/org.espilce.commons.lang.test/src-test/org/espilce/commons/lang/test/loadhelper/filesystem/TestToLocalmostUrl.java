@@ -19,5 +19,5 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	protected void assertUrl(final String relativePath, final URL localmostUrl) {
 		assertEquals("file", localmostUrl.getProtocol());
 	}
-
+	
 }

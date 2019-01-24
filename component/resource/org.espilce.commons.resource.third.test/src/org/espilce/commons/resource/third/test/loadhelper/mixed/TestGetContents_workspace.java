@@ -24,10 +24,10 @@ public class TestGetContents_workspace extends ATestGetContents {
 			this.project = ResourcesPlugin.getWorkspace().getRoot().getProject("some");
 			this.project.create(null);
 			this.project.open(null);
-
+			
 			final IFolder folder = this.project.getFolder("dirWorkspace");
 			folder.create(true, true, null);
-
+			
 			final IFile file = folder.getFile("fileWorkspace.txt");
 			file.create(IOUtils.toInputStream("fileWorkspace.txt in workspace"), true, null);
 		});
@@ -62,7 +62,7 @@ public class TestGetContents_workspace extends ATestGetContents {
 	protected void assertContents(final String relativePath, final String contents) {
 		assertEquals(relativePath, "fileWorkspace.txt in workspace", contents);
 	}
-
+	
 	@Override
 	protected String file() {
 		return "fileWorkspace.txt";

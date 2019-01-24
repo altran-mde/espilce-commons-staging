@@ -29,7 +29,7 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	public void existingDirStartSlash() throws Exception {
 		super.existingDirStartSlash();
 	}
-
+	
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test

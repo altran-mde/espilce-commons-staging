@@ -20,5 +20,5 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 		final String str = localmostUrl.toString();
 		assertTrue(str, str.contains("/target/") ^ str.contains("/classpathBase/"));
 	}
-
+	
 }

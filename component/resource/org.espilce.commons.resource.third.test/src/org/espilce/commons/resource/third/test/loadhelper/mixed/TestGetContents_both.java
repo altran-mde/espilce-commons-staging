@@ -19,7 +19,7 @@ import org.junit.Test;
 
 public class TestGetContents_both extends ATestGetContents {
 	protected IProject project;
-
+	
 	@Before
 	public void createProject() throws Exception {
 		waitForWorkspaceChanges(() -> {
@@ -34,14 +34,14 @@ public class TestGetContents_both extends ATestGetContents {
 			file.create(IOUtils.toInputStream("file.txt in workspace"), true, null);
 		});
 	}
-
+	
 	@After
 	public void destroyProject() throws Exception {
 		if (this.project != null) {
 			waitForWorkspaceChanges(() -> this.project.delete(true, true, null));
 		}
 	}
-
+	
 	@Override
 	@Test
 	public void rootFile() throws Exception {
@@ -53,19 +53,19 @@ public class TestGetContents_both extends ATestGetContents {
 	public void rootFileStartSlash() throws Exception {
 		checkGetContentsInverse(separator() + file());
 	}
-
+	
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
 	public void existingFileStartSlash() throws Exception {
 		super.existingFileStartSlash();
 	}
-
+	
 	@Override
 	protected ILoadHelper createLoadHelper() {
 		return new WorkspacePluginLoadHelper();
 	}
-
+	
 	@Override
 	protected void assertContents(final String relativePath, final String contents) {
 		if (relativePath.contains(dir())) {
@@ -74,7 +74,7 @@ public class TestGetContents_both extends ATestGetContents {
 			assertEquals(relativePath, "file.txt in workspace root", contents);
 		}
 	}
-
+	
 	protected void checkGetContentsInverse(final String relativePath) throws Exception {
 		final InputStream contents = createLoadHelper().getContents(getClass(), relativePath);
 		try {
@@ -91,5 +91,5 @@ public class TestGetContents_both extends ATestGetContents {
 			assertEquals(relativePath, "file.txt in plugin root", contents);
 		}
 	}
-
+	
 }

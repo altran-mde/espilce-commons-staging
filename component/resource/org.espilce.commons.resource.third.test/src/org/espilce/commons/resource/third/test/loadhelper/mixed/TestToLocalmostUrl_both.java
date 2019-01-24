@@ -29,10 +29,10 @@ public class TestToLocalmostUrl_both extends ATestToLocalmostUrl {
 			this.project = ResourcesPlugin.getWorkspace().getRoot().getProject("some");
 			this.project.create(null);
 			this.project.open(null);
-
+			
 			final IFolder folder = this.project.getFolder("dir");
 			folder.create(true, true, null);
-
+			
 			final IFile file = folder.getFile("file.txt");
 			file.create(IOUtils.toInputStream("file.txt in workspace"), true, null);
 		});
@@ -63,7 +63,7 @@ public class TestToLocalmostUrl_both extends ATestToLocalmostUrl {
 	public void existingFileStartSlash() throws Exception {
 		super.existingFileStartSlash();
 	}
-
+	
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
@@ -82,14 +82,14 @@ public class TestToLocalmostUrl_both extends ATestToLocalmostUrl {
 	protected ILoadHelper createLoadHelper() {
 		return new WorkspacePluginLoadHelper();
 	}
-
+	
 	@Override
 	protected void assertUrl(final String relativePath, final URL localmostUrl) {
 		final String str = localmostUrl.toString();
 		assertTrue(str, str.contains("/testWorkspace/"));
 		assertNotEquals("bundleentry", localmostUrl.getProtocol());
 	}
-
+	
 	protected void checkToLocalmostUrlInverse(final String relativePath) throws Exception {
 		assertUrlInverse(relativePath, createLoadHelper().toLocalmostUrl(getClass(), relativePath));
 	}

@@ -17,8 +17,8 @@ import org.espilce.commons.generator.api.outputconfig.IOutputConfiguration;
  * @since 2.1
  */
 public class OutputConfiguration implements IOutputConfiguration {
-
-	private String name;
+	
+	private final String name;
 	private String description;
 	private String outputDirectory;
 	private boolean createOutputDirectory;
@@ -30,8 +30,8 @@ public class OutputConfiguration implements IOutputConfiguration {
 	private boolean hideSyntheticLocalVariables = true;
 	private boolean keepLocalHistory = false;
 	private boolean useOutputPerSourceFolder = false;
-	private Set<SourceMapping> sourceMappings = new LinkedHashSet<>();
-
+	private final Set<SourceMapping> sourceMappings = new LinkedHashSet<>();
+	
 	/**
 	 * @param name
 	 *            - a unique name identifying this outlet configuration.
@@ -40,127 +40,95 @@ public class OutputConfiguration implements IOutputConfiguration {
 		super();
 		this.name = name;
 	}
-
+	
 	@Override
-	public String getName() {
-		return this.name;
-	}
-
+	public String getName() { return this.name; }
+	
 	@Override
-	public String getDescription() {
-		return this.description;
-	}
-
+	public String getDescription() { return this.description; }
+	
 	@Override
-	public void setDescription(final String description) {
-		this.description = description;
-	}
-
+	public void setDescription(final String description) { this.description = description; }
+	
 	@Override
-	public String getOutputDirectory() {
-		return this.outputDirectory;
-	}
-
+	public String getOutputDirectory() { return this.outputDirectory; }
+	
 	@Override
-	public void setOutputDirectory(final String outputDirectory) {
-		this.outputDirectory = outputDirectory;
-	}
-
+	public void setOutputDirectory(final String outputDirectory) { this.outputDirectory = outputDirectory; }
+	
 	@Override
-	public boolean isCleanUpDerivedResources() {
-		return this.cleanUpDerivedResources;
-	}
-
+	public boolean isCleanUpDerivedResources() { return this.cleanUpDerivedResources; }
+	
 	@Override
 	public void setCleanUpDerivedResources(final boolean cleanUpDerivedResources) {
 		this.cleanUpDerivedResources = cleanUpDerivedResources;
 	}
-
+	
 	@Override
-	public boolean isOverrideExistingResources() {
-		return this.overrideExistingResources;
-	}
-
+	public boolean isOverrideExistingResources() { return this.overrideExistingResources; }
+	
 	@Override
 	public void setOverrideExistingResources(final boolean overrideExistingResources) {
 		this.overrideExistingResources = overrideExistingResources;
 	}
-
+	
 	@Override
-	public boolean isSetDerivedProperty() {
-		return this.setDerivedProperty;
-	}
-
+	public boolean isSetDerivedProperty() { return this.setDerivedProperty; }
+	
 	@Override
 	public void setSetDerivedProperty(final boolean setDerivedProperty) {
 		this.setDerivedProperty = setDerivedProperty;
 	}
-
+	
 	@Override
-	public boolean isCreateOutputDirectory() {
-		return this.createOutputDirectory;
-	}
-
+	public boolean isCreateOutputDirectory() { return this.createOutputDirectory; }
+	
 	@Override
 	public void setCreateOutputDirectory(final boolean createOutputDirectory) {
 		this.createOutputDirectory = createOutputDirectory;
 	}
-
+	
 	@Override
-	public boolean isCanClearOutputDirectory() {
-		return this.canClearOutputDirectory;
-	}
-
+	public boolean isCanClearOutputDirectory() { return this.canClearOutputDirectory; }
+	
 	@Override
 	public void setCanClearOutputDirectory(final boolean canClearOutputDirectory) {
 		this.canClearOutputDirectory = canClearOutputDirectory;
 	}
-
+	
 	@Override
-	public boolean isInstallDslAsPrimarySource() {
-		return this.installDslAsPrimarySource;
-	}
-
+	public boolean isInstallDslAsPrimarySource() { return this.installDslAsPrimarySource; }
+	
 	@Override
 	public void setInstallDslAsPrimarySource(final boolean installDslAsPrimarySource) {
 		this.installDslAsPrimarySource = installDslAsPrimarySource;
 	}
-
+	
 	@Override
-	public boolean isHideSyntheticLocalVariables() {
-		return this.hideSyntheticLocalVariables;
-	}
-
+	public boolean isHideSyntheticLocalVariables() { return this.hideSyntheticLocalVariables; }
+	
 	@Override
 	public void setHideSyntheticLocalVariables(final boolean hideSyntheticLocalVariables) {
 		this.hideSyntheticLocalVariables = hideSyntheticLocalVariables;
 	}
-
+	
 	@Override
-	public boolean isKeepLocalHistory() {
-		return this.keepLocalHistory;
-	}
-
+	public boolean isKeepLocalHistory() { return this.keepLocalHistory; }
+	
 	@Override
-	public void setKeepLocalHistory(final boolean keepLocalHistory) {
-		this.keepLocalHistory = keepLocalHistory;
-	}
-
+	public void setKeepLocalHistory(final boolean keepLocalHistory) { this.keepLocalHistory = keepLocalHistory; }
+	
 	@Override
-	public boolean isUseOutputPerSourceFolder() {
-		return this.useOutputPerSourceFolder;
-	}
-
+	public boolean isUseOutputPerSourceFolder() { return this.useOutputPerSourceFolder; }
+	
 	@Override
 	public void setUseOutputPerSourceFolder(final boolean useOutputPerSourceFolder) {
 		this.useOutputPerSourceFolder = useOutputPerSourceFolder;
 	}
-
+	
 	@Override
-	public Set<SourceMapping> getSourceMappings() {
-		return this.sourceMappings;
-	}
-
+	public Set<SourceMapping> getSourceMappings() { return this.sourceMappings; }
+	
 	@Override
 	public String getOutputDirectory(final String sourceFolder) {
 		if (this.useOutputPerSourceFolder) {
@@ -172,7 +140,7 @@ public class OutputConfiguration implements IOutputConfiguration {
 		}
 		return getOutputDirectory();
 	}
-
+	
 	@Override
 	public Set<String> getSourceFolders() {
 		final Set<String> sourceFolders = new LinkedHashSet<>();
@@ -181,7 +149,7 @@ public class OutputConfiguration implements IOutputConfiguration {
 		}
 		return sourceFolders;
 	}
-
+	
 	@Override
 	public Set<String> getOutputDirectories() {
 		final Set<String> outputDirectories = new LinkedHashSet<>();
@@ -194,7 +162,7 @@ public class OutputConfiguration implements IOutputConfiguration {
 		}
 		return outputDirectories;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -202,7 +170,7 @@ public class OutputConfiguration implements IOutputConfiguration {
 		result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {

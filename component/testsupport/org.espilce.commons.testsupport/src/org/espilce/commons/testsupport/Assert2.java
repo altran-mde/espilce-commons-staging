@@ -18,7 +18,8 @@ public class Assert2 {
 	public static void assertEqualsNormalizedNewline(
 			final @Nullable String message,
 			final @Nullable Object expected,
-			final @Nullable Object actual) {
+			final @Nullable Object actual
+	) {
 		if (expected == null || actual == null) {
 			assertEquals(message, expected, actual);
 		}
@@ -26,7 +27,8 @@ public class Assert2 {
 		assertEquals(
 				message,
 				StringUtils2.normalizeNewline(expected.toString()),
-				StringUtils2.normalizeNewline(actual.toString()));
+				StringUtils2.normalizeNewline(actual.toString())
+		);
 	}
 	
 	public static void assertEqualsNormalizedNewline(final @Nullable Object expected, final @Nullable Object actual) {

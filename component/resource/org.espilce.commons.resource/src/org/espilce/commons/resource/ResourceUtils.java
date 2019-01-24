@@ -50,11 +50,11 @@ public class ResourceUtils {
 	public static @Nullable URL toJavaUrl(final @NonNull IPath iPath) {
 		try {
 			return new URL(iPath.toPortableString());
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param iPath
@@ -66,11 +66,11 @@ public class ResourceUtils {
 	public static @NonNull URL asJavaUrl(final @NonNull IPath iPath) throws UnconvertibleException {
 		try {
 			return new URL(iPath.toPortableString());
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			throw new UnconvertibleException(iPath, IPath.class, URL.class, e);
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param iResource
@@ -81,11 +81,11 @@ public class ResourceUtils {
 	public static @Nullable URL toJavaUrl(final @NonNull IResource iResource) {
 		try {
 			return iResource.getLocationURI().toURL();
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param iResource
@@ -97,11 +97,11 @@ public class ResourceUtils {
 	public static @NonNull URL asJavaUrl(final @NonNull IResource iResource) throws UnconvertibleException {
 		try {
 			return iResource.getLocationURI().toURL();
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			throw new UnconvertibleException(iResource, IResource.class, URL.class, e);
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param iPath
@@ -112,11 +112,11 @@ public class ResourceUtils {
 	public static @Nullable URI toJavaUri(final @NonNull IPath iPath) {
 		try {
 			return new URI(iPath.toPortableString());
-		} catch (URISyntaxException e) {
+		} catch (final URISyntaxException e) {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param iPath
@@ -128,11 +128,11 @@ public class ResourceUtils {
 	public static @NonNull URI asJavaUri(final @NonNull IPath iPath) throws UnconvertibleException {
 		try {
 			return new URI(iPath.toPortableString());
-		} catch (URISyntaxException e) {
+		} catch (final URISyntaxException e) {
 			throw new UnconvertibleException(iPath, IPath.class, URI.class, e);
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param iResource
@@ -143,11 +143,11 @@ public class ResourceUtils {
 	public static @Nullable URI toJavaUri(final @NonNull IResource iResource) {
 		try {
 			return new URI(iResource.getFullPath().toPortableString());
-		} catch (URISyntaxException e) {
+		} catch (final URISyntaxException e) {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param iResource
@@ -159,11 +159,11 @@ public class ResourceUtils {
 	public static @NonNull URI asJavaUri(final @NonNull IResource iResource) throws UnconvertibleException {
 		try {
 			return new URI(iResource.getFullPath().toPortableString());
-		} catch (URISyntaxException e) {
+		} catch (final URISyntaxException e) {
 			throw new UnconvertibleException(iResource, IResource.class, URI.class, e);
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param javaUrl
@@ -171,14 +171,14 @@ public class ResourceUtils {
 	 * 
 	 * @since 0.5
 	 */
-	public static @Nullable IPath toIPath(URL javaUrl) {
+	public static @Nullable IPath toIPath(final URL javaUrl) {
 		try {
 			return Path.fromPortableString(javaUrl.toURI().toString());
-		} catch (URISyntaxException e) {
+		} catch (final URISyntaxException e) {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param javaUrl
@@ -187,14 +187,14 @@ public class ResourceUtils {
 	 * 
 	 * @since 0.5
 	 */
-	public static @NonNull IPath asIPath(URL javaUrl) throws UnconvertibleException {
+	public static @NonNull IPath asIPath(final URL javaUrl) throws UnconvertibleException {
 		try {
 			return Path.fromPortableString(javaUrl.toURI().toString());
-		} catch (URISyntaxException e) {
+		} catch (final URISyntaxException e) {
 			throw new UnconvertibleException(javaUrl, URL.class, IPath.class, e);
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param javaUrl
@@ -205,11 +205,11 @@ public class ResourceUtils {
 	public static @Nullable IResource toIResource(final @NonNull URL javaUrl) {
 		try {
 			return ResourcesPlugin.getWorkspace().getRoot().findMember(javaUrl.toURI().toString());
-		} catch (URISyntaxException e) {
+		} catch (final URISyntaxException e) {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param javaUrl
@@ -225,11 +225,11 @@ public class ResourceUtils {
 				return result;
 			}
 			throw new UnconvertibleException(javaUrl, URL.class, IResource.class);
-		} catch (URISyntaxException e) {
+		} catch (final URISyntaxException e) {
 			throw new UnconvertibleException(javaUrl, URL.class, IResource.class, e);
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param javaUri
@@ -237,10 +237,10 @@ public class ResourceUtils {
 	 * 
 	 * @since 0.5
 	 */
-	public static @Nullable IPath toIPath(URI javaUri) {
+	public static @Nullable IPath toIPath(final URI javaUri) {
 		return Path.fromPortableString(javaUri.toString());
 	}
-
+	
 	/**
 	 * 
 	 * @param javaUri
@@ -249,10 +249,10 @@ public class ResourceUtils {
 	 * 
 	 * @since 0.5
 	 */
-	public static @NonNull IPath asIPath(URI javaUri) throws UnconvertibleException {
+	public static @NonNull IPath asIPath(final URI javaUri) throws UnconvertibleException {
 		return Path.fromPortableString(javaUri.toString());
 	}
-
+	
 	/**
 	 * 
 	 * @param javaUri
@@ -263,7 +263,7 @@ public class ResourceUtils {
 	public static @Nullable IResource toIResource(final @NonNull URI javaUri) {
 		return ResourcesPlugin.getWorkspace().getRoot().findMember(javaUri.toString());
 	}
-
+	
 	/**
 	 * 
 	 * @param javaUri

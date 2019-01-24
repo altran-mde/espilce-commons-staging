@@ -15,16 +15,16 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.annotation.NonNull;
 
 public class FolderBuilder extends AContainerBuilder<IFolder> {
-	private boolean local = true;
-
+	private final boolean local = true;
+	
 	protected FolderBuilder(final @NonNull AContainerBuilder<?> parentBuilder, final @NonNull String containerName) {
 		super(parentBuilder, containerName);
 	}
-
+	
 	@Override
-	protected IFolder build(IContainer parent) throws CoreException {
+	protected IFolder build(final IContainer parent) throws CoreException {
 		final IFolder folder = parent.getFolder(getNameAsPath());
-		folder.create(updateFlags, local, monitor);
+		folder.create(this.updateFlags, this.local, this.monitor);
 		buildChildren(folder);
 		return folder;
 	}

@@ -26,12 +26,12 @@ public class TestSingleString {
 	public void testNull() throws Exception {
 		assertNull(NewlineNormalizer.LF.normalize((String) null));
 	}
-
+	
 	@Test
 	public void empty() throws Exception {
 		assertEquals("", NewlineNormalizer.LF.normalize(""));
 	}
-
+	
 	@Test
 	public void space() throws Exception {
 		assertEquals("  ", NewlineNormalizer.LF.normalize("  "));
@@ -109,36 +109,40 @@ public class TestSingleString {
 	
 	@Test
 	public void multipleN() throws Exception {
-		assertEquals("Some\r\nlonger\r\nstrange\r\ntext\r\n",
-				NewlineNormalizer.CRLF.normalize("Some\nlonger\nstrange\ntext\n"));
+		assertEquals(
+				"Some\r\nlonger\r\nstrange\r\ntext\r\n",
+				NewlineNormalizer.CRLF.normalize("Some\nlonger\nstrange\ntext\n")
+		);
 	}
 	
 	@Test
 	public void prefixNR() throws Exception {
 		assertEquals("\nSome text", NewlineNormalizer.LF.normalize("\n\rSome text"));
 	}
-
+	
 	@Test
 	public void suffixNR() throws Exception {
 		assertEquals("Some text\n", NewlineNormalizer.LF.normalize("Some text\n\r"));
 	}
-
+	
 	@Test
 	public void prefixSuffixNR() throws Exception {
 		assertEquals("\nSome text\n", NewlineNormalizer.LF.normalize("\n\rSome text\n\r"));
 	}
-
+	
 	@Test
 	public void infixNR() throws Exception {
 		assertEquals("Some\ntext", NewlineNormalizer.LF.normalize("Some\n\rtext"));
 	}
-
+	
 	@Test
 	public void multipleNR() throws Exception {
-		assertEquals("Some\nlonger\nstrange\ntext\n",
-				NewlineNormalizer.LF.normalize("Some\n\rlonger\n\rstrange\n\rtext\n\r"));
+		assertEquals(
+				"Some\nlonger\nstrange\ntext\n",
+				NewlineNormalizer.LF.normalize("Some\n\rlonger\n\rstrange\n\rtext\n\r")
+		);
 	}
-
+	
 	@Test
 	public void prefixRN() throws Exception {
 		assertEquals("\nSome text", NewlineNormalizer.LF.normalize("\r\nSome text"));
@@ -161,7 +165,9 @@ public class TestSingleString {
 	
 	@Test
 	public void multipleRN() throws Exception {
-		assertEquals("Some\nlonger\nstrange\ntext\n",
-				NewlineNormalizer.LF.normalize("Some\r\nlonger\r\nstrange\r\ntext\r\n"));
+		assertEquals(
+				"Some\nlonger\nstrange\ntext\n",
+				NewlineNormalizer.LF.normalize("Some\r\nlonger\r\nstrange\r\ntext\r\n")
+		);
 	}
 }

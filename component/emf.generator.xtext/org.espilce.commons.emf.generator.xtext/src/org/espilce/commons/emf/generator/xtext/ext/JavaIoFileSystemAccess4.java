@@ -25,19 +25,22 @@ import org.espilce.commons.lang.loadhelper.FilesystemClassloaderLoadHelper;
 import com.google.inject.Inject;
 
 public class JavaIoFileSystemAccess4 extends JavaIoFileSystemAccess
-implements org.espilce.commons.emf.generator.api.fsa.IFileSystemAccess2,
-org.espilce.commons.generator.api.fsa.IFileSystemAccessExtension4 {
+		implements org.espilce.commons.emf.generator.api.fsa.IFileSystemAccess2,
+		org.espilce.commons.generator.api.fsa.IFileSystemAccessExtension4
+{
 	@Inject
 	private FilesystemClassloaderLoadHelper loadHelper;
-
+	
 	@Override
 	public @NonNull List<@NonNull String> findMatchingFiles(@NonNull final String parentPath) {
 		return findMatchingFiles(parentPath, org.eclipse.xtext.generator.IFileSystemAccess.DEFAULT_OUTPUT);
 	}
-
+	
 	@Override
-	public @NonNull List<@NonNull String> findMatchingFiles(@NonNull final String parentPath,
-			@NonNull final String outputConfigurationName) {
+	public @NonNull List<@NonNull String> findMatchingFiles(
+			@NonNull final String parentPath,
+			@NonNull final String outputConfigurationName
+	) {
 		final File file = getFile(parentPath, outputConfigurationName);
 		final Path path = file.toPath();
 		return this.loadHelper.findMatchingResources(getClass(), path.toString()).stream()

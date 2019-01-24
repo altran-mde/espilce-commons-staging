@@ -22,9 +22,10 @@ public class XtextDelegateGeneratorContext implements org.espilce.commons.genera
 	public org.espilce.commons.generator.api.context.CancelIndicator getCancelIndicator() {
 		return convert(this.delegate.getCancelIndicator());
 	}
-
+	
 	protected org.espilce.commons.generator.api.context.CancelIndicator convert(
-			final org.eclipse.xtext.util.CancelIndicator cancelIndicator) {
+			final org.eclipse.xtext.util.CancelIndicator cancelIndicator
+	) {
 		return new XtextDelegateCancelIndicator(cancelIndicator);
 	}
 }

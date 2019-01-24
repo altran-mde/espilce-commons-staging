@@ -18,31 +18,31 @@ import org.eclipse.jdt.annotation.NonNull;
 
 public class ProjectBuilder extends AContainerBuilder<IProject> {
 	private IProjectDescription description = null;
-
+	
 	public ProjectBuilder(final @NonNull String projectName) {
 		super(null, projectName);
 	}
-
+	
 	public ProjectBuilder description(final @NonNull IProjectDescription description) {
 		this.description = description;
 		return this;
 	}
-
+	
 	@Override
 	public AContainerBuilder<?> end() {
 		throw new UnsupportedOperationException("Cannot end a ProjectBuilder");
 	}
-
+	
 	@Override
 	public IProject build() throws CoreException {
 		return build(null);
 	}
-
+	
 	@Override
-	protected IProject build(IContainer parent) throws CoreException {
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(this.resourceName);
-		project.create(description, updateFlags, monitor);
-		project.open(monitor);
+	protected IProject build(final IContainer parent) throws CoreException {
+		final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(this.resourceName);
+		project.create(this.description, this.updateFlags, this.monitor);
+		project.open(this.monitor);
 		buildChildren(project);
 		return project;
 	}

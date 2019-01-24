@@ -15,18 +15,20 @@ import org.eclipse.jdt.annotation.NonNull;;
  * @since 2.3
  */
 public interface IFileSystemAccessExtension2 {
-
+	
 	/**
 	 * Returns an URI for the specified path.
 	 *
-	 * For workspace resources a platform:/resource URI should be returned in order to pick up project specific preferences.
+	 * For workspace resources a platform:/resource URI should be returned in
+	 * order to pick up project specific preferences.
 	 */
 	public @NonNull URI getURI(final @NonNull String path, final @NonNull String outputConfiguration);
 	
 	/**
 	 * Returns an URI for the specified path in the default output location.
 	 *
-	 * For workspace resources a platform:/resource URI should be returned in order to pick up project specific preferences.
+	 * For workspace resources a platform:/resource URI should be returned in
+	 * order to pick up project specific preferences.
 	 */
 	public @NonNull URI getURI(final @NonNull String path);
 	

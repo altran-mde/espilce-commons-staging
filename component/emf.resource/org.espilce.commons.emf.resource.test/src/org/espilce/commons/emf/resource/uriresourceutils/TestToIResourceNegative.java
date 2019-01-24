@@ -24,44 +24,44 @@ import org.osgi.framework.FrameworkUtil;
  * 
  */
 public class TestToIResourceNegative extends ATestWorkspace {
-
+	
 	@SuppressWarnings("null")
 	@Test(expected = NullPointerException.class)
 	public void uriNull() throws Exception {
 		UriResourceUtils.toIResource(null);
 	}
-
+	
 	@Test
 	public void uriPlugin() throws Exception {
-		Class<? extends TestToIResourceNegative> self = this.getClass();
-		String pathName = FrameworkUtil.getBundle(self).getSymbolicName() + "/"
+		final Class<? extends TestToIResourceNegative> self = this.getClass();
+		final String pathName = FrameworkUtil.getBundle(self).getSymbolicName() + "/"
 				+ self.getPackage().getName().replace('.', '/') + "/" + self.getSimpleName() + ".class";
-		URI uri = URI.createPlatformPluginURI(pathName, true);
-		IResource iResource = UriResourceUtils.toIResource(uri);
-
+		final URI uri = URI.createPlatformPluginURI(pathName, true);
+		final IResource iResource = UriResourceUtils.toIResource(uri);
+		
 		assertNull(iResource);
 	}
-
+	
 	@Test
 	public void uriOther() throws Exception {
-		URI uri = URI.createURI("https://example.com/MyFile.ext");
-		IResource iResource = UriResourceUtils.toIResource(uri);
-
+		final URI uri = URI.createURI("https://example.com/MyFile.ext");
+		final IResource iResource = UriResourceUtils.toIResource(uri);
+		
 		assertNull(iResource);
 	}
-
+	
 	@Test
 	public void uriBroken() throws Exception {
-		URI uri = URI.createURI("fasfasdf");
-		IResource iResource = UriResourceUtils.toIResource(uri);
-
+		final URI uri = URI.createURI("fasfasdf");
+		final IResource iResource = UriResourceUtils.toIResource(uri);
+		
 		assertNull(iResource);
 	}
-
+	
 	@Test(expected = IllegalArgumentException.class)
 	public void uriPlatformResourceBroken() throws Exception {
-		URI uri = URI.createURI("platform:/resource/...////");
+		final URI uri = URI.createURI("platform:/resource/...////");
 		UriResourceUtils.toIResource(uri);
 	}
-
+	
 }

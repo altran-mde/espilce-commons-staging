@@ -53,63 +53,65 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 	 * Finds <code>resourceRelativePath</code> in the workspace or plug-ins.
 	 *
 	 * @param classInContext
-	 *            Class that is located in the same classloader as the resource to
-	 *            load.
+	 *            Class that is located in the same classloader as the resource
+	 *            to load.
 	 * @param resourceRelativePath
-	 *            Path of the resource, relative to the classpath of the classloader
-	 *            of <code>classInContext</code>.
+	 *            Path of the resource, relative to the classpath of the
+	 *            classloader of <code>classInContext</code>.
 	 * @return <code>resourceRelativePath</code> from either the workspace or
 	 *         plug-ins.
 	 * @throws AssertionError
-	 *             If <code>resourceRelativePath</code> can be found in neither the
-	 *             workspace or the reachable plug-ins.
+	 *             If <code>resourceRelativePath</code> can be found in neither
+	 *             the workspace or the reachable plug-ins.
 	 */
 	@Override
-	public URL toLocalmostUrl(Class<?> classInContext, String resourceRelativePath) {
+	public URL toLocalmostUrl(final Class<?> classInContext, final String resourceRelativePath) {
 		final IPath path = findPathInWorkspace(classInContext, resourceRelativePath);
 		if (path != null) {
 			return ResourceUtils.asJavaUrl(ResourcesPlugin.getWorkspace().getRoot().findMember(path));
 		}
-
-		URL url = findEntryInPlugin(classInContext, resourceRelativePath);
+		
+		final URL url = findEntryInPlugin(classInContext, resourceRelativePath);
 		if (url != null) {
 			return url;
 		}
-
+		
 		throw new IllegalArgumentException(
-				"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
+				"Cannot find " + resourceRelativePath + " in context of class " + classInContext
+		);
 	}
-
+	
 	@Override
-	public String getContentTypeId(Class<?> classInContext, String resourceRelativePath) {
+	public String getContentTypeId(final Class<?> classInContext, final String resourceRelativePath) {
 		IContentType contentType = null;
-		IPath path = findPathInWorkspace(classInContext, resourceRelativePath);
+		final IPath path = findPathInWorkspace(classInContext, resourceRelativePath);
 		if (path != null) {
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 			if (file != null) {
 				contentType = ContentTypeUtils.searchContentType(file);
 			}
 		}
-
+		
 		if (contentType == null) {
-			URL url = findEntryInPlugin(classInContext, resourceRelativePath);
+			final URL url = findEntryInPlugin(classInContext, resourceRelativePath);
 			if (url != null) {
 				contentType = ContentTypeUtils.searchContentType(url);
 			} else {
 				throw new IllegalArgumentException(
-						"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
+						"Cannot find " + resourceRelativePath + " in context of class " + classInContext
+				);
 			}
 		}
-
+		
 		if (contentType != null) {
 			return contentType.getId();
 		}
-
+		
 		return null;
 	}
-
+	
 	@Override
-	public String getContentTypeId(Class<?> classInContext, URL url) {
+	public String getContentTypeId(final Class<?> classInContext, final URL url) {
 		IContentType contentType = null;
 		final IResource resource = ResourceUtils.toIResource(url);
 		if (resource instanceof IFile) {
@@ -117,27 +119,27 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 		} else {
 			contentType = ContentTypeUtils.searchContentType(url);
 		}
-
+		
 		if (contentType != null) {
 			return contentType.getId();
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * Finds <code>resourceRelativePath</code> from the <i>closest</i> available
 	 * source.
 	 * 
-	 * First tries to find <code>parentRelativePath</code> in the workspace. If no
-	 * corresponding file is found in the workspace, tries to find
-	 * <code>parentRelativePath</code> in plug-ins that are reachable (i. e. there
-	 * is a (in-)direct dependency of the caller to the plug-in). If neither is
-	 * found, returns an empty list.
+	 * First tries to find <code>parentRelativePath</code> in the workspace. If
+	 * no corresponding file is found in the workspace, tries to find
+	 * <code>parentRelativePath</code> in plug-ins that are reachable (i. e.
+	 * there is a (in-)direct dependency of the caller to the plug-in). If
+	 * neither is found, returns an empty list.
 	 * </p>
 	 */
 	@Override
-	public List<URL> findMatchingResources(Class<?> classInContext, String parentRelativePath)
+	public List<URL> findMatchingResources(final Class<?> classInContext, final String parentRelativePath)
 			throws IllegalArgumentException {
 		final IPath path = findPathInWorkspace(classInContext, parentRelativePath);
 		if (path != null) {
@@ -152,7 +154,7 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 								if (r instanceof IContainer) {
 									try {
 										result.add(new URL(url, url.toString() + "/"));
-									} catch (MalformedURLException e) {
+									} catch (final MalformedURLException e) {
 										// ignore
 									}
 								} else {
@@ -162,7 +164,7 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 						}
 						return true;
 					});
-				} catch (CoreException e) {
+				} catch (final CoreException e) {
 					// ignore
 				}
 				return result;
@@ -170,75 +172,83 @@ public class WorkspacePluginLoadHelper implements ILoadHelper {
 				return Collections.emptyList();
 			}
 		}
-
+		
 		final Bundle bundle = FrameworkUtil.getBundle(classInContext);
 		if (bundle != null) {
-			Enumeration<URL> entries = bundle.findEntries(parentRelativePath, "*", true);
+			final Enumeration<URL> entries = bundle.findEntries(parentRelativePath, "*", true);
 			if (entries != null) {
 				return Collections.list(entries);
 			} else if (bundle.getEntry(parentRelativePath) != null) {
 				return Collections.emptyList();
 			}
 		}
-
+		
 		throw new IllegalArgumentException(
-				"Cannot find " + parentRelativePath + " in context of class " + classInContext);
+				"Cannot find " + parentRelativePath + " in context of class " + classInContext
+		);
 	}
-
+	
 	@Override
-	public InputStream getContents(Class<?> classInContext, String resourceRelativePath) throws IOException {
-		IPath workspacePath = findPathInWorkspace(classInContext, resourceRelativePath);
+	public InputStream getContents(final Class<?> classInContext, final String resourceRelativePath)
+			throws IOException {
+		final IPath workspacePath = findPathInWorkspace(classInContext, resourceRelativePath);
 		if (workspacePath != null) {
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(workspacePath);
+			final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(workspacePath);
 			if (file != null && file.isAccessible()) {
 				try {
 					return file.getContents();
-				} catch (CoreException e) {
+				} catch (final CoreException e) {
 					throw new IOException(e);
 				}
 			}
 		}
-
+		
 		final URL entry = findEntryInPlugin(classInContext, resourceRelativePath);
 		if (entry != null) {
 			return entry.openStream();
 		}
-
+		
 		throw new IllegalArgumentException(
-				"Cannot find " + resourceRelativePath + " in context of class " + classInContext);
+				"Cannot find " + resourceRelativePath + " in context of class " + classInContext
+		);
 	}
-
+	
 	@Override
-	public InputStream getContents(Class<?> classInContext, URL url) throws IllegalArgumentException, IOException {
+	public InputStream getContents(final Class<?> classInContext, final URL url)
+			throws IllegalArgumentException, IOException {
 		final IResource resource = ResourceUtils.toIResource(url);
 		if (resource instanceof IFile && resource.isAccessible()) {
 			try {
 				return ((IFile) resource).getContents();
-			} catch (CoreException e) {
+			} catch (final CoreException e) {
 				throw new IOException(e);
 			}
 		}
-
+		
 		return url.openStream();
 	}
-
-	private @Nullable URL findEntryInPlugin(final @NonNull Class<?> classInPlugin,
-			final @NonNull String fileRelativePath) {
+	
+	private @Nullable URL findEntryInPlugin(
+			final @NonNull Class<?> classInPlugin,
+			final @NonNull String fileRelativePath
+	) {
 		final Bundle bundle = FrameworkUtil.getBundle(classInPlugin);
 		if (bundle != null) {
 			return bundle.getEntry(fileRelativePath);
 		}
-
+		
 		return null;
 	}
-
-	private @Nullable IPath findPathInWorkspace(final @NonNull Class<?> classInPlugin,
-			final @NonNull String fileRelativePath) {
-		IPath path = Path.fromPortableString(fileRelativePath);
+	
+	private @Nullable IPath findPathInWorkspace(
+			final @NonNull Class<?> classInPlugin,
+			final @NonNull String fileRelativePath
+	) {
+		final IPath path = Path.fromPortableString(fileRelativePath);
 		if (ResourcesPlugin.getWorkspace().getRoot().exists(path)) {
 			return path;
 		}
-
+		
 		return null;
 	}
 }

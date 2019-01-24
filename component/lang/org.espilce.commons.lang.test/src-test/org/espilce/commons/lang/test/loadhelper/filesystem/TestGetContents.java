@@ -21,5 +21,5 @@ public class TestGetContents extends ATestGetContents {
 			assertEquals(relativePath, "file.txt in filesystem root", contents);
 		}
 	}
-
+	
 }
