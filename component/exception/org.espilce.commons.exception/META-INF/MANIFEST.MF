@@ -7,5 +7,5 @@ Bundle-Vendor: Espilce Commons
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional;visibility:=reexport
 Import-Package: org.eclipse.jdt.annotation;resolution:=optional
-Export-Package: org.espilce.commons.exception;version=0.2.0
+Export-Package: org.espilce.commons.exception;version="0.2.0"
 Automatic-Module-Name: org.espilce.commons.exception
