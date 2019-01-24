@@ -18,6 +18,10 @@
 		<module>../org.espilce.commons.generator</module>
 		<module>../org.espilce.commons.generator.api</module>
 		<module>../org.espilce.commons.generator.feature</module>
+		<module>../org.espilce.commons.generator.dependency.bundle.test</module>
+		<module>../org.espilce.commons.generator.dependency.pckg.test</module>
+		<module>../org.espilce.commons.generator.api.dependency.bundle.test</module>
+		<module>../org.espilce.commons.generator.api.dependency.pckg.test</module>
 	</modules>
 
 	<build>

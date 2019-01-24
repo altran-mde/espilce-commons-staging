@@ -17,6 +17,8 @@
 	<modules>
 		<module>../org.espilce.commons.emf.generator.xtext</module>
 		<module>../org.espilce.commons.emf.generator.xtext.feature</module>
+		<module>../org.espilce.commons.emf.generator.xtext.dependency.bundle.test</module>
+		<module>../org.espilce.commons.emf.generator.xtext.dependency.pckg.test</module>
 	</modules>
 
 	<build>
