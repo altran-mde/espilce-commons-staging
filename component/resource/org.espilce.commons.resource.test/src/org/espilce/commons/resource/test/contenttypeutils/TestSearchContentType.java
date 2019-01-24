@@ -44,6 +44,7 @@ public class TestSearchContentType {
 		);
 	}
 	
+	@SuppressWarnings("null")
 	@Test
 	public void searchTextFile() {
 		assertEquals(

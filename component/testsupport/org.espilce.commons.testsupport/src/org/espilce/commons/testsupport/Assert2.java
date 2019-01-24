@@ -22,13 +22,13 @@ public class Assert2 {
 	) {
 		if (expected == null || actual == null) {
 			assertEquals(message, expected, actual);
+		} else {
+			assertEquals(
+					message,
+					StringUtils2.normalizeNewline(expected.toString()),
+					StringUtils2.normalizeNewline(actual.toString())
+			);
 		}
-		
-		assertEquals(
-				message,
-				StringUtils2.normalizeNewline(expected.toString()),
-				StringUtils2.normalizeNewline(actual.toString())
-		);
 	}
 	
 	public static void assertEqualsNormalizedNewline(final @Nullable Object expected, final @Nullable Object actual) {

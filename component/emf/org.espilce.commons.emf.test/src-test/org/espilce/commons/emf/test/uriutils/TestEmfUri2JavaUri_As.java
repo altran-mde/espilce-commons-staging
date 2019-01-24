@@ -17,6 +17,7 @@ import org.espilce.commons.exception.UnconvertibleException;
 import org.junit.Test;
 
 public class TestEmfUri2JavaUri_As {
+	@SuppressWarnings("null")
 	@Test(expected = NullPointerException.class)
 	public void uriNull() throws Exception {
 		UriUtils.asJavaUri(null);

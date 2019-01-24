@@ -41,6 +41,6 @@ public class URIBasedFileSystemAccess4 extends URIBasedFileSystemAccess
 		final String path = uri.toString();
 		
 		return this.loadHelper.findMatchingResources(getClass(), path).stream()
-				.map(UriUtils::toEmfUri).map(u -> u.resolve(uri).toString()).collect(Collectors.toList());
+				.map(UriUtils::asEmfUri).map(u -> u.resolve(uri).toString()).collect(Collectors.toList());
 	}
 }

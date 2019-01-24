@@ -53,6 +53,7 @@ public class TestNewlineNormalizer {
 		return new NewlineNormalizer("<br/>");
 	}
 	
+	@SuppressWarnings("null")
 	@Test(expected = NullPointerException.class)
 	public void newNull() throws Exception {
 		new NewlineNormalizer(null);
@@ -132,6 +133,7 @@ public class TestNewlineNormalizer {
 		);
 	}
 	
+	@SuppressWarnings("null")
 	@Test(expected = NullPointerException.class)
 	public void setDefaultNull() throws Exception {
 		NewlineNormalizer.setDefault(null);
