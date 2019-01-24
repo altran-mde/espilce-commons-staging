@@ -21,9 +21,17 @@ import org.espilce.commons.emf.UriUtils;
 import org.espilce.commons.exception.UnconvertibleException;
 
 /**
- * Utilities for handling {@linkplain org.eclipse.emf.common.util.URI EMF URIs}
- * in an Eclipse {@linkplain org.eclipse.core.resources.ResourcesPlugin
+ * Utilities for converting {@linkplain org.eclipse.core.resources.IResource
+ * Eclipse IResources}, {@linkplain org.eclipse.core.runtime.IPath Eclipse
+ * IPaths}, {@linkplain org.eclipse.emf.common.util.URI EMF URIs},
+ * {@linkplain java.net.URI Java URIs}, {@linkplain java.net.URL Java URLs},
+ * {@linkplain java.io.File Java Files}, and {@linkplain java.nio.file.Path Java
+ * Paths} in an Eclipse {@linkplain org.eclipse.core.resources.ResourcesPlugin
  * Resources} environment.
+ * 
+ * @see org.espilce.commons.lang.ConversionUtils
+ * @see org.espilce.commons.emf.UriUtils
+ * @see org.espilce.commons.resource.ResourceUtils
  *
  * @since 0.1
  *
@@ -88,7 +96,10 @@ public class UriResourceUtils extends UriUtils {
 	 *
 	 * @since 0.1
 	 */
-	public static @Nullable IResource toIResource(final @NonNull URI emfUri) {
+	public static @Nullable IResource toIResource(final @Nullable URI emfUri) {
+		if (emfUri == null) {
+			return null;
+		}
 		if (emfUri.isPlatformResource()) {
 			final String platformString = emfUri.toPlatformString(true);
 			final IPath path = Path.fromOSString(platformString);
@@ -151,7 +162,7 @@ public class UriResourceUtils extends UriUtils {
 	 * result.exists()} will return {@code false}.
 	 * </p>
 	 *
-	 * @param uri
+	 * @param emfUri
 	 *            The EMF URI to return as Eclipse IResource.
 	 * @return {@code uri} as Eclipse IResource.
 	 *
@@ -162,14 +173,40 @@ public class UriResourceUtils extends UriUtils {
 	 *
 	 * @since 0.1
 	 */
-	public static @NonNull IResource asIResource(final @NonNull URI uri) throws UnconvertibleException {
-		final IResource result = toIResource(uri);
+	public static @NonNull IResource asIResource(final @NonNull URI emfUri) throws UnconvertibleException {
+		final IResource result = toIResource(emfUri);
 		
 		if (result != null) {
 			return result;
 		}
 		
-		throw new UnconvertibleException(uri, URI.class, IResource.class);
+		throw new UnconvertibleException(emfUri, URI.class, IResource.class);
+	}
+	
+	/**
+	 * 
+	 * @param emfUri
+	 * @return
+	 * @since 0.4
+	 * 
+	 */
+	public static @Nullable IPath toIPath(final @Nullable URI emfUri) {
+		if (emfUri == null) {
+			return null;
+		}
+		
+		return Path.fromOSString(emfUri.toFileString());
+	}
+	
+	/**
+	 * 
+	 * @param emfUri
+	 * @return
+	 * @throws UnconvertibleException
+	 * @since 0.4
+	 */
+	public static @NonNull IPath asIPath(final @NonNull URI emfUri) throws UnconvertibleException {
+		return Path.fromOSString(emfUri.toFileString());
 	}
 	
 	/**
@@ -181,7 +218,10 @@ public class UriResourceUtils extends UriUtils {
 	 *         conversion is unsuccessful.
 	 * @since 0.2
 	 */
-	public static @Nullable URI toEmfUri(final @NonNull IResource iResource) {
+	public static @Nullable URI toEmfUri(final @Nullable IResource iResource) {
+		if (iResource == null) {
+			return null;
+		}
 		try {
 			return URI.createPlatformResourceURI(iResource.getFullPath().toPortableString(), false);
 		} catch (final IllegalArgumentException e) {
@@ -216,7 +256,10 @@ public class UriResourceUtils extends UriUtils {
 	 *         conversion is unsuccessful.
 	 * @since 0.2
 	 */
-	public static @Nullable URI toEmfUri(final @NonNull IPath iPath) {
+	public static @Nullable URI toEmfUri(final @Nullable IPath iPath) {
+		if (iPath == null) {
+			return null;
+		}
 		try {
 			if (ResourcesPlugin.getWorkspace().getRoot().getFullPath().isPrefixOf(iPath)) {
 				return URI.createPlatformResourceURI(iPath.makeAbsolute().toPortableString(), false);

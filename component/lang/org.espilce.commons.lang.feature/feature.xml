@@ -2,7 +2,7 @@
 <feature
       id="org.espilce.commons.lang.feature"
       label="Espilce Commons Lang Feature"
-      version="0.1.0.qualifier"
+      version="0.2.0.qualifier"
       provider-name="Espilce Commons"
       license-feature="org.espilce.commons.license"
       license-feature-version="0.1.0.qualifier">
@@ -27,6 +27,13 @@
 
    <plugin
          id="org.espilce.commons.lang"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.espilce.commons.exception"
          download-size="0"
          install-size="0"
          version="0.0.0"
