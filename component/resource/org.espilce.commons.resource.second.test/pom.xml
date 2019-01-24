@@ -21,7 +21,7 @@
 				<executions>
 					<execution>
 						<id>createEmptyDirs</id>
-						<phase>pre-integration-test</phase>
+						<phase>generate-test-resources</phase>
 						<configuration>
 							<tasks>
 								<mkdir dir="${project.basedir}/emptyDir" />

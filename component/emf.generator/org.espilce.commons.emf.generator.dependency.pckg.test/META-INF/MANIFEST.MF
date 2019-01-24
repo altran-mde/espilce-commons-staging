@@ -21,4 +21,3 @@ Import-Package: org.eclipse.emf.common.util,
  org.espilce.commons.emf,
  org.espilce.commons.resource,
  org.junit;version=4
- 
