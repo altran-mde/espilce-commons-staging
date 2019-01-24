@@ -10,27 +10,33 @@ import org.espilce.commons.generator.AbstractFileSystemAccess;
  * @author Sven Efftinge - Initial contribution and API
  */
 public abstract class AbstractEmfFileSystemAccess extends AbstractFileSystemAccess implements
-		IFileSystemAccessExtension2 {
-
+		IFileSystemAccessExtension2
+{
+	
 	private IFilePostProcessor postProcessor;
-
+	
 	/**
 	 * @since 2.3
 	 */
-	protected CharSequence postProcess(final String fileName, final String outputConfiguration, final CharSequence content) {
+	protected CharSequence postProcess(
+			final String fileName, final String outputConfiguration, final CharSequence content
+	) {
 		if (this.postProcessor != null) {
 			return this.postProcessor.postProcess(getURI(fileName, outputConfiguration), content);
 		} else {
 			return content;
 		}
 	}
-
+	
 	/**
 	 * @since 2.4
 	 */
-	protected CharSequence postProcess(final String fileName, final String outputConfiguration, final CharSequence content, final String charset) {
+	protected CharSequence postProcess(
+			final String fileName, final String outputConfiguration, final CharSequence content, final String charset
+	) {
 		if (this.postProcessor instanceof IFilePostProcessorExtension) {
-			return ((IFilePostProcessorExtension)this.postProcessor).postProcess(getURI(fileName, outputConfiguration), content, Charset.forName(charset));
+			return ((IFilePostProcessorExtension) this.postProcessor)
+					.postProcess(getURI(fileName, outputConfiguration), content, Charset.forName(charset));
 		} else {
 			return postProcess(fileName, outputConfiguration, content);
 		}
@@ -44,7 +50,5 @@ public abstract class AbstractEmfFileSystemAccess extends AbstractFileSystemAcce
 		return getURI(path, DEFAULT_OUTPUT);
 	}
 	
-	void setPostProcessor(final IFilePostProcessor postProcessor) {
-		this.postProcessor = postProcessor;
-	}
+	void setPostProcessor(final IFilePostProcessor postProcessor) { this.postProcessor = postProcessor; }
 }

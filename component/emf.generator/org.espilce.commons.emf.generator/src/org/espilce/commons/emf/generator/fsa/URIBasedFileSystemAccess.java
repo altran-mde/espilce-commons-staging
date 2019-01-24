@@ -44,12 +44,12 @@ public class URIBasedFileSystemAccess extends AbstractFileSystemAccess2 implemen
 		InputStream beforeRead(URI changed, InputStream in);
 	}
 	
-	private URIConverter converter;
+	private final URIConverter converter;
 	private URI baseDir;
 	ILoadHelper loadHelper;
 	private IEncodingProvider encodingProvider = new IEncodingProvider.Runtime();
-	private BeforeWrite beforeWrite = (changed, outputCfgName, in) -> in;
-	private BeforeRead beforeRead = (changed, in) -> in;
+	private final BeforeWrite beforeWrite = (changed, outputCfgName, in) -> in;
+	private final BeforeRead beforeRead = (changed, in) -> in;
 	
 	/*
 	 * private BeforeDelete beforeDelete = changed -> true; private boolean
@@ -59,7 +59,7 @@ public class URIBasedFileSystemAccess extends AbstractFileSystemAccess2 implemen
 	public URIBasedFileSystemAccess() {
 		this(new ExtensibleURIConverterImpl(), new IEncodingProvider.Runtime(), new FilesystemClassloaderLoadHelper());
 	}
-
+	
 	public URIBasedFileSystemAccess(
 			final URIConverter uriConverter, final IEncodingProvider encodingProvider, final ILoadHelper loadHelper
 	) {
@@ -67,7 +67,7 @@ public class URIBasedFileSystemAccess extends AbstractFileSystemAccess2 implemen
 		this.encodingProvider = encodingProvider;
 		this.loadHelper = loadHelper;
 	}
-
+	
 	@Override
 	public void setPostProcessor(final IFilePostProcessor filePostProcessor) {
 		super.setPostProcessor(filePostProcessor);

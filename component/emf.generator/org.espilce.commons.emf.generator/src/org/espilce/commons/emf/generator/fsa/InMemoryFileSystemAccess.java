@@ -24,8 +24,10 @@ import org.espilce.commons.generator.api.fsa.RuntimeIOException;
  * @since 2.0
  */
 public class InMemoryFileSystemAccess extends AbstractFileSystemAccess2 implements IFileSystemAccessExtension4 {
-
-	private Map<String, Object> files = new TreeMap<>(); // the TreeMap sorts all files by name
+	
+	private final Map<String, Object> files = new TreeMap<>(); // the TreeMap
+																// sorts all
+																// files by name
 	
 	private String textFileEnconding;
 	
@@ -43,16 +45,12 @@ public class InMemoryFileSystemAccess extends AbstractFileSystemAccess2 implemen
 	/**
 	 * @since 2.4
 	 */
-	public String getTextFileEncoding() {
-		return this.textFileEnconding;
-	}
+	public String getTextFileEncoding() { return this.textFileEnconding; }
 	
 	/**
 	 * @since 2.4
 	 */
-	public void setTextFileEnconding(final String textFileEnconding) {
-		this.textFileEnconding = textFileEnconding;
-	}
+	public void setTextFileEnconding(final String textFileEnconding) { this.textFileEnconding = textFileEnconding; }
 	
 	/**
 	 * @since 2.4
@@ -61,19 +59,19 @@ public class InMemoryFileSystemAccess extends AbstractFileSystemAccess2 implemen
 	public void setPostProcessor(final IFilePostProcessor postProcessor) {
 		super.setPostProcessor(postProcessor);
 	}
-
+	
 	/**
 	 * @since 2.4
 	 */
 	protected String getFileName(final String fileName, final String outputConfigName) {
-		return outputConfigName+fileName;
+		return outputConfigName + fileName;
 	}
-
+	
 	@Override
 	public void deleteFile(final String fileName, final String outputConfigName) {
 		this.files.remove(getFileName(fileName, outputConfigName));
 	}
-
+	
 	/**
 	 * @since 2.4
 	 */
@@ -86,7 +84,7 @@ public class InMemoryFileSystemAccess extends AbstractFileSystemAccess2 implemen
 		}
 		return result;
 	}
-
+	
 	/**
 	 * @since 2.4
 	 */
@@ -99,22 +97,18 @@ public class InMemoryFileSystemAccess extends AbstractFileSystemAccess2 implemen
 		}
 		return result;
 	}
-
+	
 	/**
 	 * @since 2.4
 	 */
-	public Map<String, Object> getAllFiles() {
-		return this.files;
-	}
-
+	public Map<String, Object> getAllFiles() { return this.files; }
+	
 	/**
 	 * use {@link #getTextFiles()} or {@link #getAllFiles()}.
 	 */
 	@Deprecated
-	public Map<String, CharSequence> getFiles() {
-		return getTextFiles();
-	}
-
+	public Map<String, CharSequence> getFiles() { return getTextFiles(); }
+	
 	/**
 	 * @since 2.3
 	 */
@@ -122,7 +116,7 @@ public class InMemoryFileSystemAccess extends AbstractFileSystemAccess2 implemen
 	public URI getURI(final String fileName, final String outputConfiguration) {
 		return URI.createURI("memory:/" + outputConfiguration + "/" + fileName);
 	}
-
+	
 	/**
 	 * @since 2.4
 	 */
@@ -139,7 +133,7 @@ public class InMemoryFileSystemAccess extends AbstractFileSystemAccess2 implemen
 			throw new RuntimeIOException(e);
 		}
 	}
-
+	
 	/**
 	 * @since 2.4
 	 */
@@ -158,7 +152,7 @@ public class InMemoryFileSystemAccess extends AbstractFileSystemAccess2 implemen
 		}
 		throw new RuntimeIOException("Unknown File Data Type: " + contents.getClass() + " File: " + name);
 	}
-
+	
 	/**
 	 * @since 2.4
 	 */
@@ -177,7 +171,7 @@ public class InMemoryFileSystemAccess extends AbstractFileSystemAccess2 implemen
 		}
 		throw new RuntimeIOException("Unknown File Data Type: " + contents.getClass() + " File: " + name);
 	}
-
+	
 	@Override
 	public @NonNull List<@NonNull String> findMatchingFiles(@NonNull final String parentPath) {
 		return findMatchingFiles(parentPath, DEFAULT_OUTPUT);

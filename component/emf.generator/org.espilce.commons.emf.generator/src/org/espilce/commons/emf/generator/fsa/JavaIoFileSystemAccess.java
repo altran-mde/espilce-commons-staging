@@ -41,33 +41,33 @@ public class JavaIoFileSystemAccess extends AbstractFileSystemAccess2 implements
 	 */
 	public static interface IFileCallback {
 		void fileAdded(File file);
+		
 		void fileDeleted(File file);
 	}
-
+	
 	private IFileCallback callBack;
-
-	private IEncodingProvider encodingProvider;
-
+	
+	private final IEncodingProvider encodingProvider;
+	
 	private boolean writeTrace = true;
-
+	
 	public JavaIoFileSystemAccess() {
 		this(new IEncodingProvider.Runtime(), new FilesystemClassloaderLoadHelper());
 	}
-
+	
 	public JavaIoFileSystemAccess(final IEncodingProvider encodingProvider, final ILoadHelper loadHelper) {
 		this.encodingProvider = encodingProvider;
 		this.loadHelper = loadHelper;
 	}
-
+	
 	/**
 	 * @since 2.9
 	 */
-	public void setCallBack(final IFileCallback callBack) {
-		this.callBack = callBack;
-	}
+	public void setCallBack(final IFileCallback callBack) { this.callBack = callBack; }
 	
 	@Override
-	public void generateFile(final String fileName, final String outputConfigName, final CharSequence contents) throws RuntimeIOException {
+	public void generateFile(final String fileName, final String outputConfigName, final CharSequence contents)
+			throws RuntimeIOException {
 		final File file = getFile(fileName, outputConfigName);
 		if (!getOutputConfig(outputConfigName).isOverrideExistingResources() && file.exists()) {
 			return;
@@ -78,7 +78,7 @@ public class JavaIoFileSystemAccess extends AbstractFileSystemAccess2 implements
 			final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file), encoding);
 			try {
 				writer.append(postProcess(fileName, outputConfigName, contents, encoding));
-				if(this.callBack != null) {
+				if (this.callBack != null) {
 					this.callBack.fileAdded(file);
 				}
 				if (this.writeTrace) {
@@ -91,32 +91,30 @@ public class JavaIoFileSystemAccess extends AbstractFileSystemAccess2 implements
 			throw new RuntimeIOException(e);
 		}
 	}
-
-	protected void generateTrace(final String generatedFile, final String outputConfigName, final CharSequence contents) {
+	
+	protected void generateTrace(
+			final String generatedFile, final String outputConfigName, final CharSequence contents
+	) {
 		// not implemented
 	}
-
+	
 	/**
 	 * @since 2.4
 	 */
-	public boolean isWriteTrace() {
-		return this.writeTrace;
-	}
-
+	public boolean isWriteTrace() { return this.writeTrace; }
+	
 	/**
 	 * @since 2.4
 	 */
-	public void setWriteTrace(final boolean writeTrace) {
-		this.writeTrace = writeTrace;
-	}
-
+	public void setWriteTrace(final boolean writeTrace) { this.writeTrace = writeTrace; }
+	
 	/**
 	 * @since 2.3
 	 */
 	protected String getEncoding(final URI fileURI) {
 		return this.encodingProvider.getEncoding(fileURI);
 	}
-
+	
 	/**
 	 * @since 2.1
 	 */
@@ -129,13 +127,13 @@ public class JavaIoFileSystemAccess extends AbstractFileSystemAccess2 implements
 		final File file = new File(pathName).getAbsoluteFile();
 		return file;
 	}
-
+	
 	protected void createFolder(final File parent) {
 		if (parent != null && !parent.mkdirs() && !parent.isDirectory()) {
 			throw new RuntimeIOException("Could not create directory " + parent);
 		}
 	}
-
+	
 	@Override
 	public void deleteFile(final String fileName, final String outputConfiguration) {
 		final File file = getFile(fileName, outputConfiguration);
@@ -143,11 +141,11 @@ public class JavaIoFileSystemAccess extends AbstractFileSystemAccess2 implements
 			file.delete();
 		}
 	}
-
+	
 	protected String toSystemFileName(final String fileName) {
 		return fileName.replace("/", File.separator);
 	}
-
+	
 	/**
 	 * @since 2.3
 	 */
@@ -155,15 +153,16 @@ public class JavaIoFileSystemAccess extends AbstractFileSystemAccess2 implements
 	public URI getURI(final String fileName, final String outputConfiguration) {
 		return URI.createURI(getFile(fileName, outputConfiguration).toURI().toString());
 	}
-
+	
 	/**
 	 * @since 2.4
 	 */
 	@Override
-	public void generateFile(final String fileName, final String outputCfgName, final InputStream content) throws RuntimeIOException {
+	public void generateFile(final String fileName, final String outputCfgName, final InputStream content)
+			throws RuntimeIOException {
 		final File file = getFile(fileName, outputCfgName);
 		if (!getOutputConfig(outputCfgName).isOverrideExistingResources() && file.exists()) {
-	      return;
+			return;
 		}
 		try {
 			createFolder(file.getParentFile());
@@ -173,7 +172,7 @@ public class JavaIoFileSystemAccess extends AbstractFileSystemAccess2 implements
 			} finally {
 				try {
 					out.close();
-					if(this.callBack != null) {
+					if (this.callBack != null) {
 						this.callBack.fileAdded(file);
 					}
 				} finally {
@@ -184,7 +183,7 @@ public class JavaIoFileSystemAccess extends AbstractFileSystemAccess2 implements
 			throw new RuntimeIOException(e);
 		}
 	}
-
+	
 	/**
 	 * @since 2.4
 	 */
@@ -197,7 +196,7 @@ public class JavaIoFileSystemAccess extends AbstractFileSystemAccess2 implements
 			throw new RuntimeIOException(e);
 		}
 	}
-
+	
 	/**
 	 * @since 2.4
 	 */
@@ -213,21 +212,21 @@ public class JavaIoFileSystemAccess extends AbstractFileSystemAccess2 implements
 			throw new RuntimeIOException(e);
 		}
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean isFile(final String path, final String outputConfigurationName) throws RuntimeIOException {
 		final File file = getFile(path, outputConfigurationName);
-		return file!=null && file.exists() && file.isFile();
+		return file != null && file.exists() && file.isFile();
 	}
-
+	
 	@Override
 	public @NonNull List<@NonNull String> findMatchingFiles(@NonNull final String parentPath) {
 		return findMatchingFiles(parentPath, DEFAULT_OUTPUT);
 	}
-
+	
 	@Override
 	public @NonNull List<@NonNull String> findMatchingFiles(
 			@NonNull final String parentPath, @NonNull final String outputConfigurationName
