@@ -25,10 +25,9 @@ import org.osgi.framework.FrameworkUtil;
  */
 public class TestToIResourceNegative extends ATestWorkspace {
 	
-	@SuppressWarnings("null")
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void uriNull() throws Exception {
-		UriResourceUtils.toIResource(null);
+		assertNull(UriResourceUtils.toIResource(null));
 	}
 	
 	@Test

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.net.URI;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.espilce.commons.exception.UnconvertibleException;
 import org.espilce.commons.exception.UnmappableException;
 import org.espilce.commons.resource.ContentTypeUtils;
@@ -37,7 +38,10 @@ public class TestResourceDependency {
 	@Test
 	public void workspaceUtils() throws Exception {
 		final AtomicBoolean b = new AtomicBoolean(false);
-		WorkspaceUtils.waitForWorkspaceChanges(() -> b.set(true));
+		WorkspaceUtils.waitForWorkspaceChanges(() -> {
+			ResourcesPlugin.getWorkspace().getRoot().getProject("x").create(null);
+			b.set(true);
+		});
 		assertTrue(b.get());
 	}
 	

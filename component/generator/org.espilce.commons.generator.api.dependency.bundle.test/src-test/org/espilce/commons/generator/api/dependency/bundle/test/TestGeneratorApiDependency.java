@@ -10,8 +10,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Resource;
 
-import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.jdt.annotation.Nullable;
 import org.espilce.commons.generator.api.IGenerator1;
 import org.espilce.commons.generator.api.context.CancelIndicator;
 import org.espilce.commons.generator.api.context.IGeneratorContext;
@@ -33,23 +31,23 @@ public class TestGeneratorApiDependency {
 			
 			@Override
 			public void doGenerate(
-					@NonNull final Resource input, @NonNull final IFileSystemAccess fsa,
-					@NonNull final IGeneratorContext context
+					final Resource input, final IFileSystemAccess fsa,
+					final IGeneratorContext context
 			) {
 				b.set(true);
 			}
 			
 			@Override
 			public void beforeGenerate(
-					@NonNull final Resource input, @NonNull final IFileSystemAccess fsa,
-					@NonNull final IGeneratorContext context
+					final Resource input, final IFileSystemAccess fsa,
+					final IGeneratorContext context
 			) {
 			}
 			
 			@Override
 			public void afterGenerate(
-					@NonNull final Resource input, @NonNull final IFileSystemAccess fsa,
-					@NonNull final IGeneratorContext context
+					final Resource input, final IFileSystemAccess fsa,
+					final IGeneratorContext context
 			) {
 			}
 		}.doGenerate(null, null, null);
@@ -81,7 +79,7 @@ public class TestGeneratorApiDependency {
 		new IGeneratorContext() {
 			
 			@Override
-			public @NonNull CancelIndicator getCancelIndicator() {
+			public CancelIndicator getCancelIndicator() {
 				b.set(true);
 				return null;
 			}
@@ -99,19 +97,19 @@ public class TestGeneratorApiDependency {
 			
 			@Override
 			public void generateFile(
-					@NonNull final String fileName, @NonNull final String outputConfigurationName,
-					@NonNull final CharSequence contents
+					final String fileName, final String outputConfigurationName,
+					final CharSequence contents
 			) {
 			}
 			
 			@Override
-			public void generateFile(@NonNull final String fileName, @NonNull final CharSequence contents) {
+			public void generateFile(final String fileName, final CharSequence contents) {
 				b.set(true);
 				
 			}
 			
 			@Override
-			public void deleteFile(@NonNull final String fileName) {
+			public void deleteFile(final String fileName) {
 			}
 		}.generateFile(null, null);
 		
@@ -126,7 +124,7 @@ public class TestGeneratorApiDependency {
 		new IFileSystemAccessExtension() {
 			
 			@Override
-			public void deleteFile(@NonNull final String fileName, @NonNull final String outputConfigurationName) {
+			public void deleteFile(final String fileName, final String outputConfigurationName) {
 				b.set(true);
 			}
 		}.deleteFile(null, null);
@@ -141,46 +139,45 @@ public class TestGeneratorApiDependency {
 		new IFileSystemAccessExtension3() {
 			
 			@Override
-			public @NonNull CharSequence readTextFile(@NonNull final String fileName) throws RuntimeIOException {
-				b.set(true);
+			public CharSequence readTextFile(final String fileName) throws RuntimeIOException {
 				return null;
 			}
 			
 			@Override
-			public @NonNull CharSequence readTextFile(
-					@NonNull final String fileName, @NonNull final String outputCfgName
+			public CharSequence readTextFile(
+					final String fileName, final String outputCfgName
 			)
 					throws RuntimeIOException {
 				return null;
 			}
 			
 			@Override
-			public @NonNull InputStream readBinaryFile(@NonNull final String fileName) throws RuntimeIOException {
+			public InputStream readBinaryFile(final String fileName) throws RuntimeIOException {
 				return null;
 			}
 			
 			@Override
-			public @NonNull InputStream readBinaryFile(
-					@NonNull final String fileName, @NonNull final String outputCfgName
+			public InputStream readBinaryFile(
+					final String fileName, final String outputCfgName
 			)
 					throws RuntimeIOException {
 				return null;
 			}
 			
 			@Override
-			public void generateFile(@NonNull final String fileName, @NonNull final InputStream content)
+			public void generateFile(final String fileName, final InputStream content)
 					throws RuntimeIOException {
 			}
 			
 			@Override
 			public void generateFile(
-					@NonNull final String fileName, @NonNull final String outputCfgName,
-					@NonNull final InputStream content
+					final String fileName, final String outputCfgName,
+					final InputStream content
 			)
 					throws RuntimeIOException {
-				
+				b.set(true);
 			}
-		}.readBinaryFile(null);
+		}.generateFile(null, null, null);
 		
 		assertTrue(b.get());
 	}
@@ -193,14 +190,14 @@ public class TestGeneratorApiDependency {
 		new IFileSystemAccessExtension4() {
 			
 			@Override
-			public @NonNull List<@NonNull String> findMatchingFiles(
-					@NonNull final String parentPath, @NonNull final String outputConfigurationName
+			public List<String> findMatchingFiles(
+					final String parentPath, final String outputConfigurationName
 			) {
 				return null;
 			}
 			
 			@Override
-			public @NonNull List<@NonNull String> findMatchingFiles(@NonNull final String parentPath) {
+			public List<String> findMatchingFiles(final String parentPath) {
 				b.set(true);
 				return null;
 			}
@@ -211,7 +208,7 @@ public class TestGeneratorApiDependency {
 	
 	@Test
 	public void runtimeIOException() throws Exception {
-		assertNotNull(new RuntimeIOException().getMessage());
+		assertNotNull(new RuntimeIOException("hello").getMessage());
 	}
 	
 	@SuppressWarnings("null")
@@ -234,7 +231,7 @@ public class TestGeneratorApiDependency {
 			}
 			
 			@Override
-			public void setOutputDirectory(@Nullable final String outputDirectory) {
+			public void setOutputDirectory(final String outputDirectory) {
 			}
 			
 			@Override
@@ -250,7 +247,7 @@ public class TestGeneratorApiDependency {
 			}
 			
 			@Override
-			public void setDescription(@Nullable final String description) {
+			public void setDescription(final String description) {
 			}
 			
 			@Override
@@ -293,13 +290,13 @@ public class TestGeneratorApiDependency {
 			public boolean isCanClearOutputDirectory() { return false; }
 			
 			@Override
-			public @NonNull Set<@NonNull ? extends ISourceMapping> getSourceMappings() { return null; }
+			public Set<? extends ISourceMapping> getSourceMappings() { return null; }
 			
 			@Override
-			public @NonNull Set<@NonNull String> getSourceFolders() { return null; }
+			public Set<String> getSourceFolders() { return null; }
 			
 			@Override
-			public @Nullable String getOutputDirectory(@Nullable final String sourceFolder) {
+			public String getOutputDirectory(final String sourceFolder) {
 				return null;
 			}
 			
@@ -307,13 +304,13 @@ public class TestGeneratorApiDependency {
 			public String getOutputDirectory() { return null; }
 			
 			@Override
-			public @NonNull Set<@Nullable String> getOutputDirectories() { return null; }
+			public Set<String> getOutputDirectories() { return null; }
 			
 			@Override
-			public @NonNull String getName() { return null; }
+			public String getName() { return null; }
 			
 			@Override
-			public @Nullable String getDescription() {
+			public String getDescription() {
 				b.set(true);
 				return null;
 			}
@@ -330,7 +327,7 @@ public class TestGeneratorApiDependency {
 		new ISourceMapping() {
 			
 			@Override
-			public void setOutputDirectory(@Nullable final String outputDirectory) {
+			public void setOutputDirectory(final String outputDirectory) {
 			}
 			
 			@Override
@@ -341,10 +338,10 @@ public class TestGeneratorApiDependency {
 			public boolean isIgnore() { return false; }
 			
 			@Override
-			public @NonNull String getSourceFolder() { return null; }
+			public String getSourceFolder() { return null; }
 			
 			@Override
-			public @Nullable String getOutputDirectory() {
+			public String getOutputDirectory() {
 				b.set(true);
 				return null;
 			}

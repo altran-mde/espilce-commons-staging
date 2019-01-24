@@ -23,6 +23,7 @@ import org.espilce.commons.generator.api.outputconfig.ISourceMapping;
 import org.junit.Test;
 
 public class TestGeneratorApiDependency {
+	@SuppressWarnings("null")
 	@Test
 	public void iGenerator1() throws Exception {
 		final AtomicBoolean b = new AtomicBoolean(false);
@@ -70,6 +71,7 @@ public class TestGeneratorApiDependency {
 		assertTrue(b.get());
 	}
 	
+	@SuppressWarnings("null")
 	@Test
 	public void iGeneratorContext() throws Exception {
 		final AtomicBoolean b = new AtomicBoolean(false);
@@ -86,6 +88,7 @@ public class TestGeneratorApiDependency {
 		assertTrue(b.get());
 	}
 	
+	@SuppressWarnings("null")
 	@Test
 	public void iFileSystemAccess() throws Exception {
 		final AtomicBoolean b = new AtomicBoolean(false);
@@ -113,6 +116,7 @@ public class TestGeneratorApiDependency {
 		assertTrue(b.get());
 	}
 	
+	@SuppressWarnings("null")
 	@Test
 	public void iFileSystemAccessExtension() throws Exception {
 		final AtomicBoolean b = new AtomicBoolean(false);
@@ -128,6 +132,7 @@ public class TestGeneratorApiDependency {
 		assertTrue(b.get());
 	}
 	
+	@SuppressWarnings("null")
 	@Test
 	public void iFileSystemAccessExtension3() throws Exception {
 		final AtomicBoolean b = new AtomicBoolean(false);
@@ -135,7 +140,6 @@ public class TestGeneratorApiDependency {
 			
 			@Override
 			public CharSequence readTextFile(final String fileName) throws RuntimeIOException {
-				b.set(true);
 				return null;
 			}
 			
@@ -171,13 +175,14 @@ public class TestGeneratorApiDependency {
 					final InputStream content
 			)
 					throws RuntimeIOException {
-				
+				b.set(true);
 			}
-		}.readBinaryFile(null);
+		}.generateFile(null, null, null);
 		
 		assertTrue(b.get());
 	}
 	
+	@SuppressWarnings("null")
 	@Test
 	public void iFileSystemAccessExtension4() throws Exception {
 		final AtomicBoolean b = new AtomicBoolean(false);
@@ -203,9 +208,10 @@ public class TestGeneratorApiDependency {
 	
 	@Test
 	public void runtimeIOException() throws Exception {
-		assertNotNull(new RuntimeIOException().getMessage());
+		assertNotNull(new RuntimeIOException("hello").getMessage());
 	}
 	
+	@SuppressWarnings("null")
 	@Test
 	public void iOutputConfiguration() throws Exception {
 		final AtomicBoolean b = new AtomicBoolean(false);
@@ -313,6 +319,7 @@ public class TestGeneratorApiDependency {
 		assertTrue(b.get());
 	}
 	
+	@SuppressWarnings("null")
 	@Test
 	public void iSourceMapping() throws Exception {
 		final AtomicBoolean b = new AtomicBoolean(false);
