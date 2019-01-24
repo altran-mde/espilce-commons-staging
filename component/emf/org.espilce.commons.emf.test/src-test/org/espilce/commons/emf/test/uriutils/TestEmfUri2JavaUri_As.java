@@ -20,7 +20,7 @@ public class TestEmfUri2JavaUri_As {
 	@SuppressWarnings("null")
 	@Test(expected = NullPointerException.class)
 	public void uriNull() throws Exception {
-		UriUtils.asJavaUri(null);
+		UriUtils.asJavaUri((URI) null);
 	}
 	
 	@Test

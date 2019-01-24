@@ -17,10 +17,9 @@ import org.espilce.commons.emf.UriUtils;
 import org.junit.Test;
 
 public class TestEmfUri2JavaUrl_To {
-	@SuppressWarnings("null")
 	@Test
 	public void uriNull() throws Exception {
-		final java.net.URL javaUrl = UriUtils.toJavaUrl(null);
+		final java.net.URL javaUrl = UriUtils.toJavaUrl((URI) null);
 		
 		assertNull(javaUrl);
 	}

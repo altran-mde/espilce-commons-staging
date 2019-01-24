@@ -20,7 +20,7 @@ public class TestEmfUri2JavaUrl_As {
 	@SuppressWarnings("null")
 	@Test(expected = NullPointerException.class)
 	public void uriNull() throws Exception {
-		UriUtils.asJavaUrl(null);
+		UriUtils.asJavaUrl((URI) null);
 	}
 	
 	@Test(expected = UnconvertibleException.class)
