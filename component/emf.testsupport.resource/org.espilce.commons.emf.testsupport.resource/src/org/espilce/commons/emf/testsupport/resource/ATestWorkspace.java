@@ -12,9 +12,7 @@ package org.espilce.commons.emf.testsupport.resource;
 import static org.espilce.commons.resource.WorkspaceUtils.waitForWorkspaceChanges;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.junit.After;
-import org.junit.Before;
 
 /**
  * Base class for JUnit tests requiring an IProject.
@@ -24,15 +22,6 @@ import org.junit.Before;
 public abstract class ATestWorkspace {
 	
 	protected IProject project;
-	
-	@Before
-	public void createProject() throws Exception {
-		waitForWorkspaceChanges(() -> {
-			this.project = ResourcesPlugin.getWorkspace().getRoot().getProject("myProject");
-			this.project.create(null);
-			this.project.open(null);
-		});
-	}
 	
 	@After
 	public void destroyProject() throws Exception {

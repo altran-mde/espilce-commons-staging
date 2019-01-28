@@ -75,8 +75,46 @@ public class ConversionUtils {
 	 */
 	public static @NonNull Path asJavaPath(final @NonNull URI javaUri) throws UnconvertibleException {
 		try {
-			return Paths.get(javaUri);
-		} catch (IllegalArgumentException | FileSystemNotFoundException e) {
+			try {
+				return Paths.get(javaUri);
+			} catch (final IllegalArgumentException e) {
+				if (
+					javaUri.getAuthority() != null || javaUri.getQuery() != null || javaUri.getFragment() != null
+				) {
+					// we cannot represent any of the conditions in a Path
+					throw e;
+				}
+				try {
+					final String schemeSpecificPart = javaUri.getSchemeSpecificPart();
+					if (javaUri.isAbsolute()) {
+						return Paths.get(schemeSpecificPart);
+					}
+					if (!javaUri.isOpaque()) {
+						// try to resolve relative to current path
+						final Path currentPath = Paths.get("").toAbsolutePath();
+						final URI currentUri = currentPath.toUri();
+						final URI resolved = currentUri.resolve(schemeSpecificPart);
+						final Path resolvedPath = Paths.get(resolved);
+						try {
+							final Path result = currentPath.relativize(resolvedPath);
+							if (schemeSpecificPart.startsWith(".") && !result.toString().startsWith(".")) {
+								// retain explicit reference to current path
+								return Paths.get(".", result.toString());
+							}
+							return result;
+						} catch (final IllegalArgumentException ex) {
+							// e.g. "Path types differ exception"
+							return Paths.get(resolved.getSchemeSpecificPart());
+						}
+					}
+				} catch (IllegalArgumentException | FileSystemNotFoundException ex) {
+					// throw original exception, not the one from conversion
+					// attempts
+					throw e;
+				}
+				throw e;
+			}
+		} catch (final IllegalArgumentException | FileSystemNotFoundException e) {
 			throw new UnconvertibleException(javaUri, URI.class, Path.class, e);
 		}
 	}
@@ -90,6 +128,9 @@ public class ConversionUtils {
 	public static @Nullable Path toJavaPath(final @Nullable URL javaUrl) {
 		if (javaUrl == null) {
 			return null;
+		}
+		if (isEmpty(javaUrl)) {
+			return Paths.get("");
 		}
 		
 		try {
@@ -109,10 +150,16 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @NonNull Path asJavaPath(final @NonNull URL javaUrl) throws UnconvertibleException {
+		if (isEmpty(javaUrl)) {
+			return Paths.get("");
+		}
+
 		try {
-			return Paths.get(javaUrl.toURI());
-		} catch (IllegalArgumentException | FileSystemNotFoundException | URISyntaxException e) {
+			return asJavaPath(javaUrl.toURI());
+		} catch (final URISyntaxException e) {
 			throw new UnconvertibleException(javaUrl, URL.class, Path.class, e);
+		} catch (final UnconvertibleException e) {
+			throw new UnconvertibleException(javaUrl, URL.class, Path.class, e.getCause());
 		}
 	}
 	
@@ -174,8 +221,10 @@ public class ConversionUtils {
 	 */
 	public static @NonNull File asJavaFile(final @NonNull URI javaUri) throws UnconvertibleException {
 		try {
-			return new File(javaUri);
-		} catch (final IllegalArgumentException e) {
+			return asJavaPath(javaUri).toFile();
+		} catch (final UnconvertibleException e) {
+			throw new UnconvertibleException(javaUri, URI.class, File.class, e.getCause());
+		} catch (final UnsupportedOperationException e) {
 			throw new UnconvertibleException(javaUri, URI.class, File.class, e);
 		}
 	}
@@ -189,6 +238,9 @@ public class ConversionUtils {
 	public static @Nullable File toJavaFile(final @Nullable URL javaUrl) {
 		if (javaUrl == null) {
 			return null;
+		}
+		if (isEmpty(javaUrl)) {
+			return new File("");
 		}
 		try {
 			return toJavaFile(javaUrl.toURI());
@@ -205,11 +257,23 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @NonNull File asJavaFile(final @NonNull URL javaUrl) throws UnconvertibleException {
-		try {
-			return new File(javaUrl.toURI());
-		} catch (IllegalArgumentException | URISyntaxException e) {
-			throw new UnconvertibleException(javaUrl, URL.class, File.class, e);
+		if (isEmpty(javaUrl)) {
+			return new File("");
 		}
+		try {
+			return asJavaPath(javaUrl).toFile();
+		} catch (final UnconvertibleException e) {
+			throw new UnconvertibleException(javaUrl, URL.class, File.class, e.getCause());
+		}
+	}
+
+	private static boolean isEmpty(final @Nullable URL javaUrl) {
+		if (javaUrl == null) {
+			return false;
+		}
+
+		return "".equals(javaUrl.getPath()) && "file".equalsIgnoreCase(javaUrl.getProtocol())
+		&& javaUrl.getAuthority() == null && javaUrl.getQuery() == null && javaUrl.getRef() == null;
 	}
 	
 	/**

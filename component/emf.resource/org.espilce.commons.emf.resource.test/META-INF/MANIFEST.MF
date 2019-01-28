@@ -4,7 +4,8 @@ Bundle-Name: Espilce Commons EMF Resource Test
 Bundle-SymbolicName: org.espilce.commons.emf.resource.test
 Bundle-Version: 0.1.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.espilce.commons.emf.testsupport.resource;bundle-version=0.2.0
+Require-Bundle: org.espilce.commons.emf.testsupport.resource;bundle-version="0.2.0",
+ org.espilce.commons.testsupport.resource
 Import-Package: org.espilce.commons.emf,
  org.espilce.commons.emf.resource,
  org.junit,
