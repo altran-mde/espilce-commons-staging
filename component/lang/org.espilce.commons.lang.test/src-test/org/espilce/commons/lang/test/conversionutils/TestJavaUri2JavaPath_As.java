@@ -99,6 +99,22 @@ public class TestJavaUri2JavaPath_As {
 	}
 	
 	@Test
+	public void absoluteWindowsPathSingleSlash() throws Exception {
+		final URI uri = new URI("file:/c:/some/path/MyFile.ext");
+		final Path javaPath = ConversionUtils.asJavaPath(uri);
+		
+		assertEquals(Paths.get("c:/some/path/MyFile.ext"), javaPath);
+	}
+	
+	@Test
+	public void absoluteWindowsPathDoubleSlash() throws Exception {
+		final URI uri = new URI("file://c:/some/path/MyFile.ext");
+		final Path javaPath = ConversionUtils.asJavaPath(uri);
+		
+		assertEquals(Paths.get("c:/some/path/MyFile.ext"), javaPath);
+	}
+	
+	@Test
 	public void absoluteNestedFileNoScheme() throws Exception {
 		final URI uri = new URI(null, "/some/path/MyFile.ext", null);
 		final Path javaPath = ConversionUtils.asJavaPath(uri);

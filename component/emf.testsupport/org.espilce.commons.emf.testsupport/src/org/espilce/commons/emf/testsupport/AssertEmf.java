@@ -11,6 +11,7 @@ package org.espilce.commons.emf.testsupport;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.espilce.commons.emf.textrenderer.EmfStringRenderer;
 
 /**
@@ -82,14 +84,20 @@ public class AssertEmf {
 	 *            actual EObject
 	 * @since 0.1
 	 */
-	public static void assertModelEquals(final @NonNull EObject expected, final @NonNull EObject actual) {
+	public static void assertModelEquals(final @Nullable EObject expected, final @Nullable EObject actual) {
 		final boolean equals = EcoreUtil.equals(expected, actual);
 		if (!equals) {
-			assertEquals(
-					"EObjects do not match.", new EmfStringRenderer(expected).render(),
-					new EmfStringRenderer(actual).render()
-			);
-			assertTrue("EObjects do not match. expected: " + expected + ", actual: " + actual, equals);
+			if (expected == null && actual != null) {
+				fail("expected null, but actual is not null: " + new EmfStringRenderer(actual).render());
+			} else if (expected != null && actual == null) {
+				fail("actual is null, but expected: " + new EmfStringRenderer(expected).render());
+			} else if (expected != null && actual != null) {
+				assertEquals(
+						"EObjects do not match.", new EmfStringRenderer(expected).render(),
+						new EmfStringRenderer(actual).render()
+				);
+				assertTrue("EObjects do not match. expected: " + expected + ", actual: " + actual, equals);
+			}
 		}
 	}
 }

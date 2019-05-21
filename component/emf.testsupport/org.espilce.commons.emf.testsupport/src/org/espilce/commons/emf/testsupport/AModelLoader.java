@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -32,6 +33,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.espilce.commons.emf.UriUtils;
+import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.StringUtils2;
 import org.espilce.commons.lang.loadhelper.FilesystemClassloaderLoadHelper;
 import org.espilce.commons.lang.loadhelper.ILoadHelper;
@@ -201,9 +203,48 @@ public class AModelLoader {
 				break;
 			
 			default:
-				expectedNames = Arrays.asList(
-						StringUtils2.removeCommonPrefix(expectedUrlNames.toArray(new String[expectedUrlNames.size()]))
-				);
+				
+				final List<@NonNull Path> collect = expectedUrls.stream().map(ConversionUtils::asJavaPath).collect(Collectors.toList());
+				Path p = null;
+				for (final Path c : collect) {
+					if (p == null) {
+						p = c;
+					} else {
+						Path tmp = p;
+						for (final Path subpath : c) {
+							if (!subpath.startsWith(p)) {
+								break;
+							}
+							tmp = subpath;
+						}
+						p = tmp;
+					}
+				}
+				
+				final List<List<String>> expectedPathsSegments = expectedUrlNames.stream().map(s -> s.split("/"))
+						.map(Arrays::asList).collect(Collectors.toList());
+				
+				int prefixes;
+				boolean done = false;
+				for (prefixes = 0; !done; prefixes++) {
+					String segment = null;
+					for (final List<String> pathSegments : expectedPathsSegments) {
+						if (pathSegments.size() < prefixes) {
+							done = true;
+							break;
+						}
+						if (segment == null) {
+							segment = pathSegments.get(prefixes);
+						} else if (!segment.equals(pathSegments.get(prefixes))) {
+							done = true;
+							break;
+						}
+					}
+				}
+				final int finalPrefixes = Math.max(0, prefixes - 1);
+				
+				expectedNames = expectedPathsSegments.stream().map(px -> px.subList(finalPrefixes, px.size()))
+						.map(px -> String.join("/", px)).collect(Collectors.toList());
 				break;
 		}
 		

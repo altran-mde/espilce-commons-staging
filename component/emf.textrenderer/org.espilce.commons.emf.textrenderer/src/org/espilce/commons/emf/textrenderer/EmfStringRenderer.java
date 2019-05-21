@@ -24,7 +24,7 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
 /**
- * Creates a human-readable tree-like rendering of EMF contents.
+ * Creates a human-readable tree-like text rendering of EMF contents.
  * 
  * @since 0.1
  */
@@ -104,14 +104,14 @@ public class EmfStringRenderer {
 	
 	protected void renderEObjectCollection(
 			final @NonNull Collection<@NonNull EObject> eObjects, final int indent,
-			final @NonNull EObject context
+			final @Nullable EObject context
 	) {
 		renderCollection(eObjects, indent, context, eObject -> renderFiltered(eObject, (indent + 1), context));
 	}
 	
 	protected <T extends Object> void renderCollection(
 			final @NonNull Collection<@NonNull T> collection,
-			final int indent, final @NonNull EObject context, final @NonNull Consumer<@NonNull T> lineRenderer
+			final int indent, final @Nullable EObject context, final @NonNull Consumer<@NonNull T> lineRenderer
 	) {
 		this.builder.append("[");
 		for (final T element : collection) {
@@ -245,7 +245,7 @@ public class EmfStringRenderer {
 		} else if (obj instanceof EReference && context != null) {
 			renderEReference((EReference) obj, indent, context);
 			return;
-		} else if (obj instanceof Collection && context != null) {
+		} else if (obj instanceof Collection) {
 			@SuppressWarnings("unchecked")
 			final Collection<EObject> collection = (Collection<EObject>) obj;
 			renderEObjectCollection(collection, indent, context);

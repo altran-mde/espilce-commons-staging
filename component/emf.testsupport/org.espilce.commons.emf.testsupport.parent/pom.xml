@@ -17,6 +17,7 @@
 	<modules>
 		<module>../org.espilce.commons.emf.testsupport</module>
 		<module>../org.espilce.commons.emf.testsupport.feature</module>
+		<module>../org.espilce.commons.emf.testsupport.test</module>
 	</modules>
 
 	<build>
