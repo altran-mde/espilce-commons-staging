@@ -12,3 +12,4 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.common.util,
  org.espilce.commons.emf,
  org.junit
+Export-Package: org.espilce.commons.emf.test.uriutils
