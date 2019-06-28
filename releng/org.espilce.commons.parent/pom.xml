@@ -14,10 +14,15 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 
 		<commons-target-version>0.1.0-SNAPSHOT</commons-target-version>
-		
+
 		<!-- Tycho settings -->
 		<tycho-version>1.2.0</tycho-version>
-		
+		<!-- Define overridable properties for tycho-surefire-plugin -->
+		<platformSystemProperties></platformSystemProperties>
+		<moduleProperties></moduleProperties>
+		<systemProperties></systemProperties>
+		<tycho.testArgLine></tycho.testArgLine>
+
 	</properties>
 
 	<modules>
@@ -28,11 +33,17 @@
 		<module>../../component/emf.textrenderer/org.espilce.commons.emf.textrenderer.parent</module>
 		<module>../../component/exception/org.espilce.commons.exception.parent</module>
 		<module>../../component/resource/org.espilce.commons.resource.parent</module>
-		
+		<module>../../component/emf.generator/org.espilce.commons.emf.generator.parent</module>
+		<module>../../component/emf.generator.xtext/org.espilce.commons.emf.generator.xtext.parent</module>
+		<module>../../component/generator/org.espilce.commons.generator.parent</module>
+		<module>../../component/lang/org.espilce.commons.lang.parent</module>
+		<module>../../component/testsupport/org.espilce.commons.testsupport.parent</module>
+		<module>../../component/testsupport.resource/org.espilce.commons.testsupport.resource.parent</module>
+
 		<module>../org.espilce.commons.target</module>
 		<module>../org.espilce.commons.license</module>
 		<module>../org.espilce.commons.repository</module>
-		
+
 	</modules>
 
 	<build>
@@ -74,6 +85,21 @@
 					</environments>
 				</configuration>
 			</plugin>
+			<!-- to skip running (and compiling) tests use commandline flag: -Dmaven.test.skip 
+				To skip tests, but still compile them, use: -DskipTests To allow all tests 
+				in a pom to pass/fail, use commandline flag: -fae (fail at end) -->
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<!-- THE FOLLOWING LINE MUST NOT BE BROKEN BY AUTOFORMATTING -->
+					<argLine>${tycho.testArgLine} ${platformSystemProperties}
+						${systemProperties} ${moduleProperties}</argLine>
+					<failIfNoTests>false</failIfNoTests>
+					<useUIHarness>false</useUIHarness>
+				</configuration>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -107,6 +133,86 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<profiles>
+		<profile>
+			<id>plain-junit-test</id>
+			<activation>
+				<file>
+					<exists>${basedir}/src-test</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>3.0.0-M2</version>
+						<executions>
+							<execution>
+								<id>test</id>
+								<phase>test</phase>
+								<configuration>
+									<includes>
+										<include>**/Test*.java</include>
+									</includes>
+								</configuration>
+								<goals>
+									<goal>test</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>org.apache.maven.surefire</groupId>
+								<artifactId>surefire-junit47</artifactId>
+								<version>3.0.0-M2</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>2.5.1</version>
+						<executions>
+							<execution>
+								<id>compiletests</id>
+								<phase>test-compile</phase>
+								<goals>
+									<goal>testCompile</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.9.1</version>
+						<executions>
+							<execution>
+								<id>add-test-source</id>
+								<phase>generate-test-sources</phase>
+								<goals>
+									<goal>add-test-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src-test</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+
+			<dependencies>
+				<dependency>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+					<version>4.12</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
 	</profiles>
 
 	<dependencies>

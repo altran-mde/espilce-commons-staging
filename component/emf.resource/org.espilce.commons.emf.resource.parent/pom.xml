@@ -18,6 +18,8 @@
 		<module>../org.espilce.commons.emf.resource</module>
 		<module>../org.espilce.commons.emf.resource.feature</module>
 		<module>../org.espilce.commons.emf.resource.test</module>
+		<module>../org.espilce.commons.emf.resource.dependency.bundle.test</module>
+		<module>../org.espilce.commons.emf.resource.dependency.pckg.test</module>
 	</modules>
 
 	<build>

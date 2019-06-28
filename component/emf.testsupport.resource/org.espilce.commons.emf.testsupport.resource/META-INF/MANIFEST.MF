@@ -2,18 +2,19 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Espilce Commons EMF Testsupport Resource
 Bundle-SymbolicName: org.espilce.commons.emf.testsupport.resource
-Bundle-Version: 0.1.0.qualifier
+Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Espilce Commons
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.espilce.commons.resource;bundle-version=0.1.0;visibility:=reexport,
- org.espilce.commons.emf.resource;bundle-version=0.2.0;visibility:=reexport,
- org.espilce.commons.emf.testsupport;bundle-version=0.1.0;visibility:=reexport,
- org.espilce.commons.exception;bundle-version=0.1.0;visibility:=reexport,
- org.espilce.commons.emf;bundle-version=0.1.0;visibility:=reexport,
+Require-Bundle: org.espilce.commons.resource;bundle-version="0.1.0";visibility:=reexport,
+ org.espilce.commons.emf.resource;bundle-version="0.2.0";visibility:=reexport,
+ org.espilce.commons.emf.testsupport;bundle-version="0.1.0";visibility:=reexport,
+ org.espilce.commons.exception;bundle-version="0.1.0";visibility:=reexport,
+ org.espilce.commons.emf;bundle-version="0.1.0";visibility:=reexport,
  org.eclipse.emf.ecore;bundle-version=2,
- org.eclipse.core.runtime;bundle-version=3.2,
- org.eclipse.core.resources;bundle-version=3.0,
- org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional;visibility:=reexport
-Import-Package: org.junit 
-Export-Package: org.espilce.commons.emf.testsupport.resource;version=0.1.0.qualifier
+ org.eclipse.core.runtime;bundle-version="3.2",
+ org.eclipse.core.resources;bundle-version="3.0",
+ org.eclipse.jdt.annotation;bundle-version="2.1";resolution:=optional;visibility:=reexport,
+ org.junit;bundle-version=4,
+ org.espilce.commons.testsupport.resource
+Export-Package: org.espilce.commons.emf.testsupport.resource;version=0.1.0
 Automatic-Module-Name: org.espilce.commons.emf.testsupport.resource

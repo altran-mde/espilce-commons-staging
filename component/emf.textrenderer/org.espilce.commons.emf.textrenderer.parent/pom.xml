@@ -17,6 +17,8 @@
 	<modules>
 		<module>../org.espilce.commons.emf.textrenderer</module>
 		<module>../org.espilce.commons.emf.textrenderer.feature</module>
+		<module>../org.espilce.commons.emf.textrenderer.dependency.bundle.test</module>
+		<module>../org.espilce.commons.emf.textrenderer.dependency.pckg.test</module>
 	</modules>
 
 	<build>

@@ -20,45 +20,45 @@ import org.eclipse.jdt.annotation.Nullable;
  * @since 0.2
  */
 public class UnmappableException extends IllegalArgumentException {
-
+	
 	private static final long serialVersionUID = 8792469773257203504L;
-
+	
 	private final @Nullable Object source;
 	private final @NonNull Class<?> sourceType;
 	private final @NonNull Class<?> targetType;
-
-	public UnmappableException(final @Nullable Object source, final @NonNull Class<?> sourceType,
-			final @NonNull Class<?> targetType) {
+	
+	public UnmappableException(
+			final @Nullable Object source, final @NonNull Class<?> sourceType,
+			final @NonNull Class<?> targetType
+	) {
 		super(compileMessage(source, sourceType, targetType));
-
+		
 		this.source = source;
 		this.sourceType = sourceType;
 		this.targetType = targetType;
 	}
-
-	public UnmappableException(final @Nullable Object source, final @NonNull Class<?> sourceType,
-			final @NonNull Class<?> targetType, final @Nullable Throwable cause) {
+	
+	public UnmappableException(
+			final @Nullable Object source, final @NonNull Class<?> sourceType,
+			final @NonNull Class<?> targetType, final @Nullable Throwable cause
+	) {
 		super(compileMessage(source, sourceType, targetType), cause);
-
+		
 		this.source = source;
 		this.sourceType = sourceType;
 		this.targetType = targetType;
 	}
-
-	private static @NonNull String compileMessage(@Nullable Object source, @NonNull Class<?> sourceType,
-			@NonNull Class<?> targetType) {
+	
+	private static @NonNull String compileMessage(
+			@Nullable final Object source, @NonNull final Class<?> sourceType,
+			@NonNull final Class<?> targetType
+	) {
 		return "Cannot find [" + targetType + "] for " + sourceType;
 	}
-
-	public @Nullable Object getSource() {
-		return source;
-	}
-
-	public @NonNull Class<?> getSourceType() {
-		return sourceType;
-	}
-
-	public @NonNull Class<?> getTargetType() {
-		return targetType;
-	}
+	
+	public @Nullable Object getSource() { return this.source; }
+	
+	public @NonNull Class<?> getSourceType() { return this.sourceType; }
+	
+	public @NonNull Class<?> getTargetType() { return this.targetType; }
 }

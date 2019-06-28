@@ -1,9 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Espilce Commons EMF Test
+Bundle-Name: Espilce Commons EMF Resource Test
 Bundle-SymbolicName: org.espilce.commons.emf.resource.test
 Bundle-Version: 0.1.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.espilce.commons.emf.testsupport.resource;bundle-version="0.2.0",
+ org.espilce.commons.testsupport.resource
 Import-Package: org.espilce.commons.emf,
  org.espilce.commons.emf.resource,
  org.junit,
@@ -13,3 +15,4 @@ Import-Package: org.espilce.commons.emf,
  org.osgi.framework,
  org.apache.commons.io.input
 Automatic-Module-Name: org.espilce.commons.emf.resource.test
+Export-Package: org.espilce.commons.emf.resource.uriresourceutils

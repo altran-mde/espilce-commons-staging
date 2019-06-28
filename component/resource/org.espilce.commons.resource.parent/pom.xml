@@ -17,6 +17,11 @@
 	<modules>
 		<module>../org.espilce.commons.resource</module>
 		<module>../org.espilce.commons.resource.feature</module>
+		<module>../org.espilce.commons.resource.test</module>
+		<module>../org.espilce.commons.resource.second.test</module>
+		<module>../org.espilce.commons.resource.third.test</module>
+		<module>../org.espilce.commons.resource.dependency.bundle.test</module>
+		<module>../org.espilce.commons.resource.dependency.pckg.test</module>
 	</modules>
 
 	<build>
