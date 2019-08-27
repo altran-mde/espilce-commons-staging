@@ -46,6 +46,8 @@ import org.espilce.commons.exception.UnconvertibleException;
  * @since 0.5
  */
 public class ConversionUtils {
+	private static final String SCHEME_FILE = "file";
+
 	/**
 	 * 
 	 * @param javaUri
@@ -58,8 +60,10 @@ public class ConversionUtils {
 		}
 		
 		try {
-			return Paths.get(javaUri);
-		} catch (IllegalArgumentException | FileSystemNotFoundException e) {
+			@SuppressWarnings("null")
+			final @NonNull URI javaUriNonNull = javaUri;
+			return asJavaPath(javaUriNonNull);
+		} catch (final UnconvertibleException e) {
 			// fall-through
 		}
 		
@@ -76,8 +80,12 @@ public class ConversionUtils {
 	public static @NonNull Path asJavaPath(final @NonNull URI javaUri) throws UnconvertibleException {
 		try {
 			try {
+				final URI adjustedJavaUri = getFixedInvalid(javaUri);
+				if (adjustedJavaUri != null) {
+					return Paths.get(adjustedJavaUri);
+				}
 				return Paths.get(javaUri);
-			} catch (final IllegalArgumentException e) {
+			} catch (final IllegalArgumentException | URISyntaxException e) {
 				if (
 					javaUri.getAuthority() != null || javaUri.getQuery() != null || javaUri.getFragment() != null
 				) {
@@ -114,7 +122,7 @@ public class ConversionUtils {
 				}
 				throw e;
 			}
-		} catch (final IllegalArgumentException | FileSystemNotFoundException e) {
+		} catch (final IllegalArgumentException | FileSystemNotFoundException | URISyntaxException e) {
 			throw new UnconvertibleException(javaUri, URI.class, Path.class, e);
 		}
 	}
@@ -206,10 +214,26 @@ public class ConversionUtils {
 			return null;
 		}
 		try {
+			final URI adjustedJavaUri = getFixedInvalid(javaUri);
+			if (adjustedJavaUri != null) {
+				return new File(adjustedJavaUri);
+			}
 			return new File(javaUri);
 		} catch (final IllegalArgumentException e) {
-			return null;
+			if (javaUri.isOpaque()) {
+				if (javaUri.getAuthority() == null && javaUri.getFragment() == null && javaUri.getQuery() == null) {
+					try {
+						return new File(javaUri.getSchemeSpecificPart());
+					} catch (final IllegalArgumentException f) {
+						// fall-through
+					}
+				}
+			}
+			
+		} catch (final URISyntaxException e) {
+			// fall-through
 		}
+		return null;
 	}
 	
 	/**
@@ -239,10 +263,8 @@ public class ConversionUtils {
 		if (javaUrl == null) {
 			return null;
 		}
-		if (isEmpty(javaUrl)) {
-			return new File("");
-		}
 		try {
+			
 			return toJavaFile(javaUrl.toURI());
 		} catch (final URISyntaxException e) {
 			return null;
@@ -272,7 +294,7 @@ public class ConversionUtils {
 			return false;
 		}
 
-		return "".equals(javaUrl.getPath()) && "file".equalsIgnoreCase(javaUrl.getProtocol())
+		return "".equals(javaUrl.getPath()) && SCHEME_FILE.equalsIgnoreCase(javaUrl.getProtocol())
 		&& javaUrl.getAuthority() == null && javaUrl.getQuery() == null && javaUrl.getRef() == null;
 	}
 	
@@ -343,8 +365,13 @@ public class ConversionUtils {
 			return null;
 		}
 		try {
+			final URL adjustedJavaUrl = getFixedInvalid(javaUrl);
+			if (adjustedJavaUrl != null) {
+				return adjustedJavaUrl.toURI();
+			}
+			
 			return javaUrl.toURI();
-		} catch (final URISyntaxException e) {
+		} catch (final URISyntaxException | MalformedURLException e) {
 			return null;
 		}
 	}
@@ -358,8 +385,13 @@ public class ConversionUtils {
 	 */
 	public static @NonNull URI asJavaUri(final @NonNull URL javaUrl) throws UnconvertibleException {
 		try {
+			final URL adjustedJavaUrl = getFixedInvalid(javaUrl);
+			if (adjustedJavaUrl != null) {
+				return adjustedJavaUrl.toURI();
+			}
+			
 			return javaUrl.toURI();
-		} catch (final URISyntaxException e) {
+		} catch (final URISyntaxException | MalformedURLException e) {
 			throw new UnconvertibleException(javaUrl, URL.class, URI.class, e);
 		}
 	}
@@ -399,8 +431,13 @@ public class ConversionUtils {
 			return null;
 		}
 		try {
+			final URI adjustedJavaUri = getFixedInvalid(javaUri);
+			if (adjustedJavaUri != null) {
+				return adjustedJavaUri.toURL();
+			}
+			
 			return javaUri.toURL();
-		} catch (IllegalArgumentException | MalformedURLException e) {
+		} catch (IllegalArgumentException | MalformedURLException | URISyntaxException e) {
 			return null;
 		}
 	}
@@ -414,8 +451,13 @@ public class ConversionUtils {
 	 */
 	public static @NonNull URL asJavaUrl(final @NonNull URI javaUri) throws UnconvertibleException {
 		try {
+			final URI adjustedJavaUri = getFixedInvalid(javaUri);
+			if (adjustedJavaUri != null) {
+				return adjustedJavaUri.toURL();
+			}
+			
 			return javaUri.toURL();
-		} catch (IllegalArgumentException | MalformedURLException e) {
+		} catch (IllegalArgumentException | MalformedURLException | URISyntaxException e) {
 			throw new UnconvertibleException(javaUri, URI.class, URL.class, e);
 		}
 	}
@@ -474,5 +516,51 @@ public class ConversionUtils {
 		} catch (IllegalArgumentException | MalformedURLException e) {
 			throw new UnconvertibleException(javaPath, Path.class, URL.class, e);
 		}
+	}
+
+	/**
+	 * Handling invalid <tt>file://c:/path/to/file.txt</tt> URIs.
+	 * 
+	 * @param javaUri
+	 * @return
+	 * @throws URISyntaxException
+	 */
+	private static @Nullable URI getFixedInvalid(final @NonNull URI javaUri) throws URISyntaxException {
+		final String scheme = javaUri.getScheme();
+		if (scheme != null && SCHEME_FILE.equals(scheme.toLowerCase())) {
+			final String schemeSpecificPart = javaUri.getSchemeSpecificPart();
+			if (schemeSpecificPart != null && schemeSpecificPart.startsWith("//")) {
+				final String authority = javaUri.getAuthority();
+				if (authority != null && authority.endsWith(":")) {
+					final String path = "/" + authority + javaUri.getRawPath();
+					final URI adjustedJavaUri = new URI(
+							scheme, javaUri.getRawUserInfo(), null, javaUri.getPort(), path, javaUri.getRawQuery(),
+							javaUri.getRawFragment()
+					);
+					return adjustedJavaUri;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Handling invalid <tt>file://c:/path/to/file.txt</tt> URLs.
+	 * 
+	 * @param javaUrl
+	 * @return
+	 * @throws MalformedURLException
+	 */
+	private static @Nullable URL getFixedInvalid(final @NonNull URL javaUrl) throws MalformedURLException {
+		final String scheme = javaUrl.getProtocol();
+		if (scheme != null && SCHEME_FILE.equals(scheme.toLowerCase())) {
+			final String authority = javaUrl.getAuthority();
+			if (authority != null && authority.endsWith(":")) {
+				final String file = "/"+authority+javaUrl.getFile();
+					final URL adjustedJavaUrl = new URL(javaUrl.getProtocol(), null, javaUrl.getPort(), file);
+					return adjustedJavaUrl;
+			}
+		}
+		return null;
 	}
 }

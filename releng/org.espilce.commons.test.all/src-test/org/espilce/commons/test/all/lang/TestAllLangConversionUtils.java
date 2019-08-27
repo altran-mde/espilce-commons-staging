@@ -9,7 +9,9 @@ import org.espilce.commons.lang.test.conversionutils.TestJavaPath2JavaUri_To;
 import org.espilce.commons.lang.test.conversionutils.TestJavaPath2JavaUrl_As;
 import org.espilce.commons.lang.test.conversionutils.TestJavaPath2JavaUrl_To;
 import org.espilce.commons.lang.test.conversionutils.TestJavaUri2JavaFile_As;
+import org.espilce.commons.lang.test.conversionutils.TestJavaUri2JavaFile_To;
 import org.espilce.commons.lang.test.conversionutils.TestJavaUri2JavaPath_As;
+import org.espilce.commons.lang.test.conversionutils.TestJavaUri2JavaPath_To;
 import org.espilce.commons.lang.test.conversionutils.TestJavaUri2JavaUrl_As;
 import org.espilce.commons.lang.test.conversionutils.TestJavaUri2JavaUrl_To;
 import org.espilce.commons.lang.test.conversionutils.TestJavaUrl2JavaFile_As;
@@ -31,7 +33,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	TestJavaPath2JavaUrl_As.class,
 	TestJavaPath2JavaUrl_To.class,
 	TestJavaUri2JavaFile_As.class,
+		TestJavaUri2JavaFile_To.class,
 	TestJavaUri2JavaPath_As.class,
+		TestJavaUri2JavaPath_To.class,
 	TestJavaUri2JavaUrl_As.class,
 	TestJavaUri2JavaUrl_To.class,
 	TestJavaUrl2JavaFile_As.class,

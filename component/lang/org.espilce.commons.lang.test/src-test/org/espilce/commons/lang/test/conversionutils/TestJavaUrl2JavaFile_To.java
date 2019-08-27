@@ -25,6 +25,14 @@ public class TestJavaUrl2JavaFile_To {
 	}
 	
 	@Test
+	public void emptyWithScheme() throws Exception {
+		final URL url = new URL("file://");
+		final File javaFile = ConversionUtils.toJavaFile(url);
+		
+		assertNull(javaFile);
+	}
+	
+	@Test
 	public void root() throws Exception {
 		final URL url = new URL("file:/");
 		final File javaFile = new File("/");
@@ -46,6 +54,30 @@ public class TestJavaUrl2JavaFile_To {
 		final File javaFile = new File("/MyFile.ext");
 		
 		assertEquals(javaFile, ConversionUtils.toJavaFile(url));
+	}
+	
+	@Test
+	public void absoluteWindowsPathSingleSlash() throws Exception {
+		final URL url = new URL("file:/c:/some/path/MyFile.ext");
+		final File javaFile = ConversionUtils.toJavaFile(url);
+		
+		assertEquals(new File("c:/some/path/MyFile.ext"), javaFile);
+	}
+	
+	@Test
+	public void absoluteWindowsPathDoubleSlash() throws Exception {
+		final URL url = new URL("file://c:/some/path/MyFile.ext");
+		final File javaFile = ConversionUtils.toJavaFile(url);
+		
+		assertEquals(new File("c:/some/path/MyFile.ext"), javaFile);
+	}
+	
+	@Test
+	public void absoluteWindowsPathTripleSlash() throws Exception {
+		final URL url = new URL("file:///c:/some/path/MyFile.ext");
+		final File javaFile = ConversionUtils.toJavaFile(url);
+		
+		assertEquals(new File("c:/some/path/MyFile.ext"), javaFile);
 	}
 	
 	@Test

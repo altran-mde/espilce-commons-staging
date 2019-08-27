@@ -33,6 +33,46 @@ public class TestJavaPath2JavaUrl_As {
 	}
 	
 	@Test
+	public void slash() throws Exception {
+		final Path path = Paths.get("/");
+		final java.net.URL javaUrl = new java.net.URL("file:/");
+		
+		assertEquals(javaUrl, ConversionUtils.asJavaUrl(path));
+	}
+	
+	@Test
+	public void dot() throws Exception {
+		final Path path = Paths.get(".");
+		final java.net.URL javaUrl = new java.net.URL("file:.");
+		
+		assertEquals(javaUrl, ConversionUtils.asJavaUrl(path));
+	}
+	
+	@Test
+	public void dotSlash() throws Exception {
+		final Path path = Paths.get("./");
+		final java.net.URL javaUrl = new java.net.URL("file:./");
+		
+		assertEquals(javaUrl, ConversionUtils.asJavaUrl(path));
+	}
+	
+	@Test
+	public void relative() throws Exception {
+		final Path path = Paths.get("..");
+		final java.net.URL javaUrl = new java.net.URL("file:..");
+		
+		assertEquals(javaUrl, ConversionUtils.asJavaUrl(path));
+	}
+	
+	@Test
+	public void relativeMulti() throws Exception {
+		final Path path = Paths.get("some/../where/");
+		final java.net.URL javaUrl = new java.net.URL("file:some/../where/");
+		
+		assertEquals(javaUrl, ConversionUtils.asJavaUrl(path));
+	}
+	
+	@Test
 	public void absoluteNestedFile() throws Exception {
 		final Path path = Paths.get("//some/path/MyFile.ext");
 		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(path);

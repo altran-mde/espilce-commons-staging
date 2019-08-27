@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.net.URI;
+import java.net.URL;
 
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
@@ -31,6 +32,30 @@ public class TestJavaUri2JavaUrl_To {
 		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertNull(javaUrl);
+	}
+	
+	@Test
+	public void absoluteWindowsPathSingleSlash() throws Exception {
+		final URI uri = new URI("file:/c:/some/path/MyFile.ext");
+		final URL javaUrl = ConversionUtils.toJavaUrl(uri);
+		
+		assertEquals(new java.net.URL("file:/c:/some/path/MyFile.ext"), javaUrl);
+	}
+	
+	@Test
+	public void absoluteWindowsPathDoubleSlash() throws Exception {
+		final URI uri = new URI("file://c:/some/path/MyFile.ext");
+		final URL javaUrl = ConversionUtils.toJavaUrl(uri);
+		
+		assertEquals(new java.net.URL("file:/c:/some/path/MyFile.ext"), javaUrl);
+	}
+	
+	@Test
+	public void absoluteWindowsPathTripleSlash() throws Exception {
+		final URI uri = new URI("file:///c:/some/path/MyFile.ext");
+		final URL javaUrl = ConversionUtils.toJavaUrl(uri);
+		
+		assertEquals(new java.net.URL("file:/c:/some/path/MyFile.ext"), javaUrl);
 	}
 	
 	@Test

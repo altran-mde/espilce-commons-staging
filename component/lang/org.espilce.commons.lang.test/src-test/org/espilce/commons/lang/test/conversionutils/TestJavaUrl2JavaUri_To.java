@@ -53,6 +53,30 @@ public class TestJavaUrl2JavaUri_To {
 	}
 	
 	@Test
+	public void absoluteWindowsPathSingleSlash() throws Exception {
+		final URL url = new URL("file:/c:/some/path/MyFile.ext");
+		final URI javaUri = ConversionUtils.toJavaUri(url);
+		
+		assertEquals(new URI("file:/c:/some/path/MyFile.ext"), javaUri);
+	}
+	
+	@Test
+	public void absoluteWindowsPathDoubleSlash() throws Exception {
+		final URL url = new URL("file://c:/some/path/MyFile.ext");
+		final URI javaUri = ConversionUtils.toJavaUri(url);
+		
+		assertEquals(new URI("file:/c:/some/path/MyFile.ext"), javaUri);
+	}
+	
+	@Test
+	public void absoluteWindowsPathTripleSlash() throws Exception {
+		final URL url = new URL("file:///c:/some/path/MyFile.ext");
+		final URI javaUri = ConversionUtils.toJavaUri(url);
+		
+		assertEquals(new URI("file:/c:/some/path/MyFile.ext"), javaUri);
+	}
+	
+	@Test
 	public void fileNested() throws Exception {
 		final URL uri = new URL("http:/myProject/folder/deep/myFile.ext");
 		final URI javaUri = ConversionUtils.toJavaUri(uri);

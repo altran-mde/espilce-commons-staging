@@ -12,6 +12,7 @@ package org.espilce.commons.lang.test.conversionutils;
 import static org.junit.Assert.assertEquals;
 
 import java.net.URI;
+import java.net.URL;
 
 import org.espilce.commons.exception.UnconvertibleException;
 import org.espilce.commons.lang.ConversionUtils;
@@ -28,6 +29,30 @@ public class TestJavaUri2JavaUrl_As {
 	public void empty() throws Exception {
 		final URI uri = URI.create("");
 		ConversionUtils.asJavaUrl(uri);
+	}
+	
+	@Test
+	public void absoluteWindowsPathSingleSlash() throws Exception {
+		final URI uri = new URI("file:/c:/some/path/MyFile.ext");
+		final URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		
+		assertEquals(new java.net.URL("file:/c:/some/path/MyFile.ext"), javaUrl);
+	}
+	
+	@Test
+	public void absoluteWindowsPathDoubleSlash() throws Exception {
+		final URI uri = new URI("file://c:/some/path/MyFile.ext");
+		final URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		
+		assertEquals(new java.net.URL("file:/c:/some/path/MyFile.ext"), javaUrl);
+	}
+	
+	@Test
+	public void absoluteWindowsPathTripleSlash() throws Exception {
+		final URI uri = new URI("file:///c:/some/path/MyFile.ext");
+		final URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		
+		assertEquals(new java.net.URL("file:/c:/some/path/MyFile.ext"), javaUrl);
 	}
 	
 	@Test

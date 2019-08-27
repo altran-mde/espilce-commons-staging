@@ -66,6 +66,30 @@ public class TestJavaUrl2JavaFile_As {
 	}
 	
 	@Test
+	public void absoluteWindowsPathSingleSlash() throws Exception {
+		final URL url = new URL("file:/c:/some/path/MyFile.ext");
+		final File javaFile = ConversionUtils.asJavaFile(url);
+		
+		assertEquals(new File("c:/some/path/MyFile.ext"), javaFile);
+	}
+	
+	@Test
+	public void absoluteWindowsPathDoubleSlash() throws Exception {
+		final URL url = new URL("file://c:/some/path/MyFile.ext");
+		final File javaFile = ConversionUtils.asJavaFile(url);
+		
+		assertEquals(new File("c:/some/path/MyFile.ext"), javaFile);
+	}
+	
+	@Test
+	public void absoluteWindowsPathTripleSlash() throws Exception {
+		final URL url = new URL("file:///c:/some/path/MyFile.ext");
+		final File javaFile = ConversionUtils.asJavaFile(url);
+		
+		assertEquals(new File("c:/some/path/MyFile.ext"), javaFile);
+	}
+	
+	@Test
 	public void relativeFile() throws Exception {
 		final URL url = new URL("file:MyFile.ext");
 		final File javaFile = new File("MyFile.ext");
