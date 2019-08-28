@@ -7,34 +7,37 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils;
+package org.espilce.commons.lang.test.conversionutils.javauri;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.net.URI;
 import java.net.URL;
 
-import org.espilce.commons.exception.UnconvertibleException;
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
-public class TestJavaUri2JavaUrl_As {
-	@SuppressWarnings("null")
-	@Test(expected = NullPointerException.class)
+public class TestJavaUri2JavaUrl_To {
+	@Test
 	public void uriNull() throws Exception {
-		ConversionUtils.asJavaUrl((URI) null);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl((URI) null);
+		
+		assertNull(javaUrl);
 	}
 	
-	@Test(expected = UnconvertibleException.class)
+	@Test
 	public void empty() throws Exception {
 		final URI uri = URI.create("");
-		ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
+		
+		assertNull(javaUrl);
 	}
 	
 	@Test
 	public void absoluteWindowsPathSingleSlash() throws Exception {
 		final URI uri = new URI("file:/c:/some/path/MyFile.ext");
-		final URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("file:/c:/some/path/MyFile.ext"), javaUrl);
 	}
@@ -42,7 +45,7 @@ public class TestJavaUri2JavaUrl_As {
 	@Test
 	public void absoluteWindowsPathDoubleSlash() throws Exception {
 		final URI uri = new URI("file://c:/some/path/MyFile.ext");
-		final URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("file:/c:/some/path/MyFile.ext"), javaUrl);
 	}
@@ -50,7 +53,7 @@ public class TestJavaUri2JavaUrl_As {
 	@Test
 	public void absoluteWindowsPathTripleSlash() throws Exception {
 		final URI uri = new URI("file:///c:/some/path/MyFile.ext");
-		final URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("file:/c:/some/path/MyFile.ext"), javaUrl);
 	}
@@ -58,7 +61,7 @@ public class TestJavaUri2JavaUrl_As {
 	@Test
 	public void emptyWithScheme() throws Exception {
 		final URI uri = URI.create("http:///");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("http:///"), javaUrl);
 	}
@@ -66,21 +69,23 @@ public class TestJavaUri2JavaUrl_As {
 	@Test
 	public void uriOther() throws Exception {
 		final URI uri = URI.create("https://example.com/MyFile.ext");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("https://example.com/MyFile.ext"), javaUrl);
 	}
 	
-	@Test(expected = UnconvertibleException.class)
+	@Test
 	public void file() throws Exception {
 		final URI uri = URI.create("MyFile.ext");
-		ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
+		
+		assertNull(javaUrl);
 	}
 	
 	@Test
 	public void fileNested() throws Exception {
 		final URI uri = URI.create("http:/myProject/folder/deep/myFile.ext");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("http:/myProject/folder/deep/myFile.ext"), javaUrl);
 	}
@@ -88,7 +93,7 @@ public class TestJavaUri2JavaUrl_As {
 	@Test
 	public void fileSlashesExcess() throws Exception {
 		final URI uri = URI.create("http:////myProject///folder///deep/myFile.ext//");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("http:////myProject///folder///deep/myFile.ext//"), javaUrl);
 	}
@@ -96,7 +101,7 @@ public class TestJavaUri2JavaUrl_As {
 	@Test
 	public void folderSlash() throws Exception {
 		final URI uri = URI.create("http:/myProject/myFolder/");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("http:/myProject/myFolder/"), javaUrl);
 	}
@@ -104,7 +109,7 @@ public class TestJavaUri2JavaUrl_As {
 	@Test
 	public void folderSlashesInbetween() throws Exception {
 		final URI uri = URI.create("http:/myProject///myFolder");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("http:/myProject///myFolder"), javaUrl);
 	}
@@ -112,7 +117,7 @@ public class TestJavaUri2JavaUrl_As {
 	@Test
 	public void fragment() throws Exception {
 		final URI uri = URI.create("http:/myProject///myFolder#fragment");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("http:/myProject///myFolder#fragment"), javaUrl);
 	}
@@ -120,7 +125,7 @@ public class TestJavaUri2JavaUrl_As {
 	@Test
 	public void query() throws Exception {
 		final URI uri = URI.create("http:/myProject///myFolder?query");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("http:/myProject///myFolder?query"), javaUrl);
 	}
@@ -128,21 +133,23 @@ public class TestJavaUri2JavaUrl_As {
 	@Test
 	public void fragmentQuery() throws Exception {
 		final URI uri = URI.create("http:/myProject///myFolder?query#fragment");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("http:/myProject///myFolder?query#fragment"), javaUrl);
 	}
 	
-	@Test(expected = UnconvertibleException.class)
+	@Test
 	public void uriBroken() throws Exception {
 		final URI uri = URI.create("fasfasdf");
-		ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
+		
+		assertNull(javaUrl);
 	}
 	
 	@Test
 	public void relativeUri() throws Exception {
 		final URI uri = URI.create("mailto:/resource/...////");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
+		final java.net.URL javaUrl = ConversionUtils.toJavaUrl(uri);
 		
 		assertEquals(new java.net.URL("mailto:/resource/...////"), javaUrl);
 	}

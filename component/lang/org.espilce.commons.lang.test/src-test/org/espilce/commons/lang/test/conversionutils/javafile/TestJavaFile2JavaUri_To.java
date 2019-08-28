@@ -7,9 +7,10 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils;
+package org.espilce.commons.lang.test.conversionutils.javafile;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.File;
 import java.net.URI;
@@ -17,11 +18,10 @@ import java.net.URI;
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
-public class TestJavaFile2JavaUri_As {
-	@SuppressWarnings("null")
-	@Test(expected = NullPointerException.class)
+public class TestJavaFile2JavaUri_To {
+	@Test
 	public void fileNull() throws Exception {
-		ConversionUtils.asJavaUri((File) null);
+		assertNull(ConversionUtils.toJavaUri((File) null));
 	}
 	
 	@Test
@@ -29,13 +29,13 @@ public class TestJavaFile2JavaUri_As {
 		final File file = new File("");
 		final URI javaUri = new URI("file:/" + System.getProperty("user.dir").replace('\\', '/') + "/");
 		
-		assertEquals(javaUri, ConversionUtils.asJavaUri(file));
+		assertEquals(javaUri, ConversionUtils.toJavaUri(file));
 	}
 	
 	@Test
 	public void absoluteNestedFile() throws Exception {
 		final File file = new File("//some/path/MyFile.ext");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
+		final URI javaUri = ConversionUtils.toJavaUri(file);
 		
 		assertEquals(new URI("file:////some/path/MyFile.ext"), javaUri);
 	}
@@ -45,13 +45,13 @@ public class TestJavaFile2JavaUri_As {
 		final File file = new File("MyFile.ext");
 		final URI javaUri = new URI("file:/" + System.getProperty("user.dir").replace('\\', '/') + "/MyFile.ext");
 		
-		assertEquals(javaUri, ConversionUtils.asJavaUri(file));
+		assertEquals(javaUri, ConversionUtils.toJavaUri(file));
 	}
 	
 	@Test
 	public void absoluteFileNested() throws Exception {
 		final File file = new File("//path/to/myFile.ext");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
+		final URI javaUri = ConversionUtils.toJavaUri(file);
 		
 		assertEquals(new URI("file:////path/to/myFile.ext"), javaUri);
 	}
@@ -59,7 +59,7 @@ public class TestJavaFile2JavaUri_As {
 	@Test
 	public void absoluteFileSlashesExcess() throws Exception {
 		final File file = new File("//myProject///folder///deep/myFile.ext//");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
+		final URI javaUri = ConversionUtils.toJavaUri(file);
 		
 		assertEquals(new URI("file:////myProject/folder/deep/myFile.ext"), javaUri);
 	}
@@ -67,7 +67,7 @@ public class TestJavaFile2JavaUri_As {
 	@Test
 	public void absoluteFolderSlash() throws Exception {
 		final File file = new File("//myProject/myFolder/");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
+		final URI javaUri = ConversionUtils.toJavaUri(file);
 		
 		assertEquals(new URI("file:////myProject/myFolder"), javaUri);
 	}
@@ -75,7 +75,7 @@ public class TestJavaFile2JavaUri_As {
 	@Test
 	public void absoluteFolderSlashesInbetween() throws Exception {
 		final File file = new File("//myProject///myFolder");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
+		final URI javaUri = ConversionUtils.toJavaUri(file);
 		
 		assertEquals(new URI("file:////myProject/myFolder"), javaUri);
 	}
@@ -83,7 +83,7 @@ public class TestJavaFile2JavaUri_As {
 	@Test
 	public void absoluteFragmentQuery() throws Exception {
 		final File file = new File("//myProject///myFolder?query#fragment");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
+		final URI javaUri = ConversionUtils.toJavaUri(file);
 		
 		assertEquals(new URI("file:////myProject/myFolder%3Fquery%23fragment"), javaUri);
 	}
@@ -91,7 +91,7 @@ public class TestJavaFile2JavaUri_As {
 	@Test
 	public void path() throws Exception {
 		final File file = new File("//resource/..////");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
+		final URI javaUri = ConversionUtils.toJavaUri(file);
 		
 		assertEquals(new URI("file:////resource/.."), javaUri);
 	}

@@ -7,7 +7,7 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils;
+package org.espilce.commons.lang.test.conversionutils.javauri;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

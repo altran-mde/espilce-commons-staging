@@ -7,91 +7,92 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils;
+package org.espilce.commons.lang.test.conversionutils.javafile;
 
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.net.URI;
 
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
-public class TestJavaFile2JavaUrl_As {
+public class TestJavaFile2JavaUri_As {
 	@SuppressWarnings("null")
 	@Test(expected = NullPointerException.class)
 	public void fileNull() throws Exception {
-		ConversionUtils.asJavaUrl((File) null);
+		ConversionUtils.asJavaUri((File) null);
 	}
 	
 	@Test
 	public void empty() throws Exception {
 		final File file = new File("");
-		final java.net.URL javaUrl = new java.net.URL("file:/" + System.getProperty("user.dir") + "/");
+		final URI javaUri = new URI("file:/" + System.getProperty("user.dir").replace('\\', '/') + "/");
 		
-		assertEquals(javaUrl, ConversionUtils.asJavaUrl(file));
+		assertEquals(javaUri, ConversionUtils.asJavaUri(file));
 	}
 	
 	@Test
 	public void absoluteNestedFile() throws Exception {
 		final File file = new File("//some/path/MyFile.ext");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(file);
+		final URI javaUri = ConversionUtils.asJavaUri(file);
 		
-		assertEquals(new java.net.URL("file:////some/path/MyFile.ext"), javaUrl);
+		assertEquals(new URI("file:////some/path/MyFile.ext"), javaUri);
 	}
 	
 	@Test
 	public void file() throws Exception {
 		final File file = new File("MyFile.ext");
-		final java.net.URL javaUrl = new java.net.URL("file:/" + System.getProperty("user.dir") + "/MyFile.ext");
+		final URI javaUri = new URI("file:/" + System.getProperty("user.dir").replace('\\', '/') + "/MyFile.ext");
 		
-		assertEquals(javaUrl, ConversionUtils.asJavaUrl(file));
+		assertEquals(javaUri, ConversionUtils.asJavaUri(file));
 	}
 	
 	@Test
 	public void absoluteFileNested() throws Exception {
 		final File file = new File("//path/to/myFile.ext");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(file);
+		final URI javaUri = ConversionUtils.asJavaUri(file);
 		
-		assertEquals(new java.net.URL("file:////path/to/myFile.ext"), javaUrl);
+		assertEquals(new URI("file:////path/to/myFile.ext"), javaUri);
 	}
 	
 	@Test
 	public void absoluteFileSlashesExcess() throws Exception {
 		final File file = new File("//myProject///folder///deep/myFile.ext//");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(file);
+		final URI javaUri = ConversionUtils.asJavaUri(file);
 		
-		assertEquals(new java.net.URL("file:////myProject/folder/deep/myFile.ext"), javaUrl);
+		assertEquals(new URI("file:////myProject/folder/deep/myFile.ext"), javaUri);
 	}
 	
 	@Test
 	public void absoluteFolderSlash() throws Exception {
 		final File file = new File("//myProject/myFolder/");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(file);
+		final URI javaUri = ConversionUtils.asJavaUri(file);
 		
-		assertEquals(new java.net.URL("file:////myProject/myFolder"), javaUrl);
+		assertEquals(new URI("file:////myProject/myFolder"), javaUri);
 	}
 	
 	@Test
 	public void absoluteFolderSlashesInbetween() throws Exception {
 		final File file = new File("//myProject///myFolder");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(file);
+		final URI javaUri = ConversionUtils.asJavaUri(file);
 		
-		assertEquals(new java.net.URL("file:////myProject/myFolder"), javaUrl);
+		assertEquals(new URI("file:////myProject/myFolder"), javaUri);
 	}
 	
 	@Test
 	public void absoluteFragmentQuery() throws Exception {
 		final File file = new File("//myProject///myFolder?query#fragment");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(file);
+		final URI javaUri = ConversionUtils.asJavaUri(file);
 		
-		assertEquals(new java.net.URL("file:////myProject/myFolder%3Fquery%23fragment"), javaUrl);
+		assertEquals(new URI("file:////myProject/myFolder%3Fquery%23fragment"), javaUri);
 	}
 	
 	@Test
 	public void path() throws Exception {
 		final File file = new File("//resource/..////");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(file);
+		final URI javaUri = ConversionUtils.asJavaUri(file);
 		
-		assertEquals(new java.net.URL("file:////resource/.."), javaUrl);
+		assertEquals(new URI("file:////resource/.."), javaUri);
 	}
 }
