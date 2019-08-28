@@ -28,6 +28,7 @@ public class TestJavaUri2JavaUrl_As implements TestJavaUri2JavaUrl {
 	}
 	
 	@Override
+	@Test
 	public void root() throws Exception {
 		final URI input = URI.create("http:/");
 		final URL actual = ConversionUtils.asJavaUrl(input);
@@ -228,6 +229,7 @@ public class TestJavaUri2JavaUrl_As implements TestJavaUri2JavaUrl {
 	}
 	
 	@Override
+	@Test
 	public void absoluteFile() throws Exception {
 		final URI input = URI.create("file:/MyFile.ext");
 		final URL actual = ConversionUtils.asJavaUrl(input);
@@ -236,6 +238,7 @@ public class TestJavaUri2JavaUrl_As implements TestJavaUri2JavaUrl {
 	}
 	
 	@Override
+	@Test
 	public void absolutePath() throws Exception {
 		final URI input = URI.create("file:/resource/..////");
 		final URL actual = ConversionUtils.asJavaUrl(input);
@@ -244,10 +247,20 @@ public class TestJavaUri2JavaUrl_As implements TestJavaUri2JavaUrl {
 	}
 	
 	@Override
+	@Test
 	public void relativeNestedFile() throws Exception {
 		final URI input = URI.create("file:some/path/MyFile.ext");
 		final URL actual = ConversionUtils.asJavaUrl(input);
 		final URL expected = new URL("file:some/path/MyFile.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void inputNoSlashes() throws Exception {
+		final URI input = URI.create("file:fasfasdf");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:fasfasdf");
 		assertEquals(expected, actual);
 	}
 }

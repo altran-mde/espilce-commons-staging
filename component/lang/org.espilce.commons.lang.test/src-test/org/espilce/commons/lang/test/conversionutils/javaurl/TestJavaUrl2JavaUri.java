@@ -1,11 +1,10 @@
-package org.espilce.commons.lang.test.conversionutils.javauri;
+package org.espilce.commons.lang.test.conversionutils.javaurl;
 
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
 import org.espilce.commons.lang.test.conversionutils.TestIBase;
-import org.espilce.commons.lang.test.conversionutils.TestIJavaUri;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.espilce.commons.lang.test.conversionutils.TestIScheme;
 
-public interface TestJavaUri2JavaUrl extends TestIBase, TestIAbsolute, TestIRelative, TestIScheme, TestIJavaUri {
+public interface TestJavaUrl2JavaUri extends TestIBase, TestIAbsolute, TestIRelative, TestIScheme {
 	
 }

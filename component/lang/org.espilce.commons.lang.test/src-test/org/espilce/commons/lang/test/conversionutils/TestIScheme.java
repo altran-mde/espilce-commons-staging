@@ -12,9 +12,7 @@ public interface TestIScheme {
 	
 	void relativeUri() throws Exception;
 	
-	void noSchema() throws Exception;
-	
 	void otherSchema() throws Exception;
 	
-	void inputBroken() throws Exception;
+	void inputNoSlashes() throws Exception;
 }
