@@ -213,6 +213,11 @@ public class ConversionUtils {
 		if (javaUri == null) {
 			return null;
 		}
+		
+		if (!SCHEME_FILE.equals(javaUri.getScheme().toLowerCase())) {
+			return null;
+		}
+		
 		try {
 			final URI adjustedJavaUri = getFixedInvalid(javaUri);
 			if (adjustedJavaUri != null) {
@@ -263,8 +268,12 @@ public class ConversionUtils {
 		if (javaUrl == null) {
 			return null;
 		}
+
+		if (isEmpty(javaUrl)) {
+			return new File("");
+		}
+		
 		try {
-			
 			return toJavaFile(javaUrl.toURI());
 		} catch (final URISyntaxException e) {
 			return null;
@@ -279,6 +288,8 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @NonNull File asJavaFile(final @NonNull URL javaUrl) throws UnconvertibleException {
+		Objects.requireNonNull(javaUrl);
+		
 		if (isEmpty(javaUrl)) {
 			return new File("");
 		}

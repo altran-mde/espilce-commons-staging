@@ -6,5 +6,7 @@ public interface TestIParamsInvalid {
 	
 	void relativeFragmentQuery() throws Exception;
 	
-	void invalidProtocol() throws Exception;
+	void invalidScheme() throws Exception;
+	
+	void opaqueScheme() throws Exception;
 }

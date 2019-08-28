@@ -16,4 +16,12 @@ public interface TestIRelative {
 	
 	void multiRelativePath() throws Exception;
 	
+	void current() throws Exception;
+	
+	void currentSlash() throws Exception;
+	
+	void currentRelativeNestedFile() throws Exception;
+	
+	void startRelativePath() throws Exception;
+	
 }
