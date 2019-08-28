@@ -18,132 +18,236 @@ import org.espilce.commons.exception.UnconvertibleException;
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
-public class TestJavaUri2JavaUrl_As {
+public class TestJavaUri2JavaUrl_As implements TestJavaUri2JavaUrl {
+	@Override
 	@SuppressWarnings("null")
 	@Test(expected = NullPointerException.class)
-	public void uriNull() throws Exception {
-		ConversionUtils.asJavaUrl((URI) null);
+	public void paramNull() throws Exception {
+		final URI input = (URI) null;
+		ConversionUtils.asJavaUrl(input);
 	}
 	
+	@Override
+	public void root() throws Exception {
+		final URI input = URI.create("http:/");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("http:/");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
 	@Test(expected = UnconvertibleException.class)
 	public void empty() throws Exception {
-		final URI uri = URI.create("");
-		ConversionUtils.asJavaUrl(uri);
+		final URI input = URI.create("");
+		ConversionUtils.asJavaUrl(input);
 	}
 	
-	@Test
-	public void absoluteWindowsPathSingleSlash() throws Exception {
-		final URI uri = new URI("file:/c:/some/path/MyFile.ext");
-		final URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("file:/c:/some/path/MyFile.ext"), javaUrl);
+	@Override
+	@Test(expected = UnconvertibleException.class)
+	public void inputBroken() throws Exception {
+		final URI input = URI.create("fasfasdf");
+		ConversionUtils.asJavaUrl(input);
 	}
 	
-	@Test
-	public void absoluteWindowsPathDoubleSlash() throws Exception {
-		final URI uri = new URI("file://c:/some/path/MyFile.ext");
-		final URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("file:/c:/some/path/MyFile.ext"), javaUrl);
-	}
-	
-	@Test
-	public void absoluteWindowsPathTripleSlash() throws Exception {
-		final URI uri = new URI("file:///c:/some/path/MyFile.ext");
-		final URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("file:/c:/some/path/MyFile.ext"), javaUrl);
-	}
-	
+	@Override
 	@Test
 	public void emptyWithScheme() throws Exception {
-		final URI uri = URI.create("http:///");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("http:///"), javaUrl);
+		final URI input = URI.create("http:///");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("http:///");
+		assertEquals(expected, actual);
 	}
 	
+	@Override
 	@Test
-	public void uriOther() throws Exception {
-		final URI uri = URI.create("https://example.com/MyFile.ext");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("https://example.com/MyFile.ext"), javaUrl);
+	public void relativeFile() throws Exception {
+		final URI input = new URI("file:MyFile.ext");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:MyFile.ext");
+		assertEquals(expected, actual);
 	}
 	
+	@Override
+	@Test
+	public void relativeFileSlashesExcess() throws Exception {
+		final URI input = new URI("file:myProject///folder///deep/myFile.ext//");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:myProject///folder///deep/myFile.ext//");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativeFolderSlashesInbetween() throws Exception {
+		final URI input = new URI("file:myProject///myFolder");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:myProject///myFolder");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativePath() throws Exception {
+		final URI input = new URI("file:resource/..////");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:resource/..////");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void multiRelativePath() throws Exception {
+		final URI input = new URI("file:resource/../some/dir/../../file.ext");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:resource/../some/dir/../../file.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativeFolderSlash() throws Exception {
+		final URI input = new URI("file:myProject/myFolder/");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:myProject/myFolder/");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void absoluteWindowsPathSingleSlash() throws Exception {
+		final URI input = new URI("file:/c:/some/path/MyFile.ext");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:/c:/some/path/MyFile.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void absoluteWindowsPathDoubleSlash() throws Exception {
+		final URI input = new URI("file://c:/some/path/MyFile.ext");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:/c:/some/path/MyFile.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void absoluteWindowsPathTripleSlash() throws Exception {
+		final URI input = new URI("file:///c:/some/path/MyFile.ext");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:/c:/some/path/MyFile.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void otherSchema() throws Exception {
+		final URI input = URI.create("https://example.com/MyFile.ext");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("https://example.com/MyFile.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
 	@Test(expected = UnconvertibleException.class)
-	public void file() throws Exception {
-		final URI uri = URI.create("MyFile.ext");
-		ConversionUtils.asJavaUrl(uri);
+	public void noSchema() throws Exception {
+		final URI input = URI.create("MyFile.ext");
+		ConversionUtils.asJavaUrl(input);
 	}
 	
+	@Override
 	@Test
-	public void fileNested() throws Exception {
-		final URI uri = URI.create("http:/myProject/folder/deep/myFile.ext");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("http:/myProject/folder/deep/myFile.ext"), javaUrl);
+	public void absoluteNestedFile() throws Exception {
+		final URI input = URI.create("http:/myProject/folder/deep/myFile.ext");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("http:/myProject/folder/deep/myFile.ext");
+		assertEquals(expected, actual);
 	}
 	
+	@Override
 	@Test
-	public void fileSlashesExcess() throws Exception {
-		final URI uri = URI.create("http:////myProject///folder///deep/myFile.ext//");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("http:////myProject///folder///deep/myFile.ext//"), javaUrl);
+	public void absoluteFileSlashesExcess() throws Exception {
+		final URI input = URI.create("http:////myProject///folder///deep/myFile.ext//");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("http:////myProject///folder///deep/myFile.ext//");
+		assertEquals(expected, actual);
 	}
 	
+	@Override
 	@Test
-	public void folderSlash() throws Exception {
-		final URI uri = URI.create("http:/myProject/myFolder/");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("http:/myProject/myFolder/"), javaUrl);
+	public void absoluteFolderSlash() throws Exception {
+		final URI input = URI.create("http:/myProject/myFolder/");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("http:/myProject/myFolder/");
+		assertEquals(expected, actual);
 	}
 	
+	@Override
 	@Test
-	public void folderSlashesInbetween() throws Exception {
-		final URI uri = URI.create("http:/myProject///myFolder");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("http:/myProject///myFolder"), javaUrl);
+	public void absoluteFolderSlashesInbetween() throws Exception {
+		final URI input = URI.create("http:/myProject///myFolder");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("http:/myProject///myFolder");
+		assertEquals(expected, actual);
 	}
 	
+	@Override
 	@Test
 	public void fragment() throws Exception {
-		final URI uri = URI.create("http:/myProject///myFolder#fragment");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("http:/myProject///myFolder#fragment"), javaUrl);
+		final URI input = URI.create("http:/myProject///myFolder#fragment");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("http:/myProject///myFolder#fragment");
+		assertEquals(expected, actual);
 	}
 	
+	@Override
 	@Test
 	public void query() throws Exception {
-		final URI uri = URI.create("http:/myProject///myFolder?query");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("http:/myProject///myFolder?query"), javaUrl);
+		final URI input = URI.create("http:/myProject///myFolder?query");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("http:/myProject///myFolder?query");
+		assertEquals(expected, actual);
 	}
 	
+	@Override
 	@Test
 	public void fragmentQuery() throws Exception {
-		final URI uri = URI.create("http:/myProject///myFolder?query#fragment");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("http:/myProject///myFolder?query#fragment"), javaUrl);
+		final URI input = URI.create("http:/myProject///myFolder?query#fragment");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("http:/myProject///myFolder?query#fragment");
+		assertEquals(expected, actual);
 	}
 	
-	@Test(expected = UnconvertibleException.class)
-	public void uriBroken() throws Exception {
-		final URI uri = URI.create("fasfasdf");
-		ConversionUtils.asJavaUrl(uri);
-	}
-	
+	@Override
 	@Test
 	public void relativeUri() throws Exception {
-		final URI uri = URI.create("mailto:/resource/...////");
-		final java.net.URL javaUrl = ConversionUtils.asJavaUrl(uri);
-		
-		assertEquals(new java.net.URL("mailto:/resource/...////"), javaUrl);
+		final URI input = URI.create("mailto:/resource/...////");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("mailto:/resource/...////");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	public void absoluteFile() throws Exception {
+		final URI input = URI.create("file:/MyFile.ext");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:/MyFile.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	public void absolutePath() throws Exception {
+		final URI input = URI.create("file:/resource/..////");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:/resource/..////");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	public void relativeNestedFile() throws Exception {
+		final URI input = URI.create("file:some/path/MyFile.ext");
+		final URL actual = ConversionUtils.asJavaUrl(input);
+		final URL expected = new URL("file:some/path/MyFile.ext");
+		assertEquals(expected, actual);
 	}
 }

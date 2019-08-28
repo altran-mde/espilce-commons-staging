@@ -18,7 +18,7 @@ import org.espilce.commons.exception.UnconvertibleException;
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
-public class TestJavaUrl2JavaFile_As implements TestIJavaUrl2JavaFile {
+public class TestJavaUrl2JavaFile_As implements TestJavaUrl2JavaFile {
 	@Override
 	@SuppressWarnings("null")
 	@Test(expected = NullPointerException.class)

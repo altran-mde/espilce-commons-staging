@@ -18,7 +18,7 @@ import java.net.URL;
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
-public class TestJavaUrl2JavaFile_To implements TestIJavaUrl2JavaFile {
+public class TestJavaUrl2JavaFile_To implements TestJavaUrl2JavaFile {
 	@Override
 	@Test
 	public void paramNull() throws Exception {
