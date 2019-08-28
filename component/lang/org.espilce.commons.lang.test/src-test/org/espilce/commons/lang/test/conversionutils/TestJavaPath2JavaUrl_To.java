@@ -27,7 +27,47 @@ public class TestJavaPath2JavaUrl_To {
 	@Test
 	public void empty() throws Exception {
 		final Path path = Paths.get("");
-		final java.net.URL javaUrl = new java.net.URL("file:/" + System.getProperty("user.dir") + "/");
+		final java.net.URL javaUrl = new java.net.URL("file:");
+		
+		assertEquals(javaUrl, ConversionUtils.toJavaUrl(path));
+	}
+	
+	@Test
+	public void slash() throws Exception {
+		final Path path = Paths.get("/");
+		final java.net.URL javaUrl = new java.net.URL("file:/");
+		
+		assertEquals(javaUrl, ConversionUtils.toJavaUrl(path));
+	}
+	
+	@Test
+	public void dot() throws Exception {
+		final Path path = Paths.get(".");
+		final java.net.URL javaUrl = new java.net.URL("file:.");
+		
+		assertEquals(javaUrl, ConversionUtils.toJavaUrl(path));
+	}
+	
+	@Test
+	public void dotSlash() throws Exception {
+		final Path path = Paths.get("./");
+		final java.net.URL javaUrl = new java.net.URL("file:.");
+		
+		assertEquals(javaUrl, ConversionUtils.toJavaUrl(path));
+	}
+	
+	@Test
+	public void relative() throws Exception {
+		final Path path = Paths.get("..");
+		final java.net.URL javaUrl = new java.net.URL("file:..");
+		
+		assertEquals(javaUrl, ConversionUtils.toJavaUrl(path));
+	}
+	
+	@Test
+	public void relativeMulti() throws Exception {
+		final Path path = Paths.get("some/../where/");
+		final java.net.URL javaUrl = new java.net.URL("file:some/../where");
 		
 		assertEquals(javaUrl, ConversionUtils.toJavaUrl(path));
 	}
@@ -43,7 +83,7 @@ public class TestJavaPath2JavaUrl_To {
 	@Test
 	public void file() throws Exception {
 		final Path path = Paths.get("MyFile.ext");
-		final java.net.URL javaUrl = new java.net.URL("file:/" + System.getProperty("user.dir") + "/MyFile.ext");
+		final java.net.URL javaUrl = new java.net.URL("file:MyFile.ext");
 		
 		assertEquals(javaUrl, ConversionUtils.toJavaUrl(path));
 	}

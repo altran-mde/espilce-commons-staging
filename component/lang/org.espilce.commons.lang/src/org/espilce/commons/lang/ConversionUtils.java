@@ -500,7 +500,11 @@ public class ConversionUtils {
 		if (javaPath == null) {
 			return null;
 		}
-		return toJavaUrl(javaPath.toUri());
+		try {
+			return asJavaUrl(javaPath);
+		} catch (final UnconvertibleException e) {
+			return null;
+		}
 	}
 	
 	/**
@@ -512,7 +516,11 @@ public class ConversionUtils {
 	 */
 	public static @NonNull URL asJavaUrl(final @NonNull Path javaPath) throws UnconvertibleException {
 		try {
-			return javaPath.toUri().toURL();
+			if (javaPath.isAbsolute()) {
+				return javaPath.toUri().toURL();
+			}
+			
+			return new URL(SCHEME_FILE + ":" + javaPath.toString().replace(javaPath.getFileSystem().getSeparator(), "/"));
 		} catch (IllegalArgumentException | MalformedURLException e) {
 			throw new UnconvertibleException(javaPath, Path.class, URL.class, e);
 		}
