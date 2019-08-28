@@ -210,35 +210,12 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @Nullable File toJavaFile(final @Nullable URI javaUri) {
-		if (javaUri == null) {
+		final Path path = toJavaPath(javaUri);
+		if (path == null) {
 			return null;
 		}
 		
-		if (!SCHEME_FILE.equals(javaUri.getScheme().toLowerCase())) {
-			return null;
-		}
-		
-		try {
-			final URI adjustedJavaUri = getFixedInvalid(javaUri);
-			if (adjustedJavaUri != null) {
-				return new File(adjustedJavaUri);
-			}
-			return new File(javaUri);
-		} catch (final IllegalArgumentException e) {
-			if (javaUri.isOpaque()) {
-				if (javaUri.getAuthority() == null && javaUri.getFragment() == null && javaUri.getQuery() == null) {
-					try {
-						return new File(javaUri.getSchemeSpecificPart());
-					} catch (final IllegalArgumentException f) {
-						// fall-through
-					}
-				}
-			}
-			
-		} catch (final URISyntaxException e) {
-			// fall-through
-		}
-		return null;
+		return path.toFile();
 	}
 	
 	/**
