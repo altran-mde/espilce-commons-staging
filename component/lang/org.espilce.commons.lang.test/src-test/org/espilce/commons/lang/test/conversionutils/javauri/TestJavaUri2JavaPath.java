@@ -413,5 +413,32 @@ public abstract class TestJavaUri2JavaPath
 		assertEquals(expected, actual);
 	}
 	
+	@Override
+	@Test
+	public void absolutePseudoFragment() throws Exception {
+		final URI input = new URI("file://myProject///myFolder%23query");
+		final Path actual = invoke(input);
+		final Path expected = Paths.get("/myProject/myFolder#query/");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void parent() throws Exception {
+		final URI input = new URI("file:..");
+		final Path actual = invoke(input);
+		final Path expected = Paths.get("..");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativePseudoFragment() throws Exception {
+		final URI input = new URI("file:myProject///myFolder%23query");
+		final Path actual = invoke(input);
+		final Path expected = Paths.get("myProject/myFolder#query/");
+		assertEquals(expected, actual);
+	}
+	
 	protected abstract Path invoke(URI input);
 }

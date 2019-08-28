@@ -273,10 +273,38 @@ public abstract class TestJavaUrl2JavaUri implements TestIBase, TestIAbsolute, T
 	}
 	
 	@Override
+	@Test
 	public void startRelativePath() throws Exception {
 		final URL input = new URL("file:../resource/..////");
 		final URI actual = invoke(input);
 		final URI expected = URI.create("file:../resource/..////");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void absolutePseudoFragment() throws Exception {
+		final URL input = new URL("file://myProject///myFolder%23query");
+		final URI actual = invoke(input);
+		final URI expected = new URI("file://myProject///myFolder%23query");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void parent() throws Exception {
+		final URL input = new URL("file:..");
+		final URI actual = invoke(input);
+		final URI expected = new URI("file:..");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativePseudoFragment() throws Exception {
+		final URL input = new URL("file:myProject///myFolder%23query");
+		final URI actual = invoke(input);
+		final URI expected = new URI("file:myProject///myFolder%23query");
 		assertEquals(expected, actual);
 	}
 	

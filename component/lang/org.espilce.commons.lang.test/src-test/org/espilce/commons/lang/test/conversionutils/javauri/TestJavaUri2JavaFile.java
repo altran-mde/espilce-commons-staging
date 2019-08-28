@@ -413,5 +413,32 @@ public abstract class TestJavaUri2JavaFile
 		assertNull(actual);
 	}
 	
+	@Override
+	@Test
+	public void absolutePseudoFragment() throws Exception {
+		final URI input = new URI("file://myProject///myFolder%23query");
+		final File actual = invoke(input);
+		final File expected = new File("/myProject/myFolder#query/");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void parent() throws Exception {
+		final URI input = new URI("file:..");
+		final File actual = invoke(input);
+		final File expected = new File("..");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativePseudoFragment() throws Exception {
+		final URI input = new URI("file:myProject///myFolder%23query");
+		final File actual = invoke(input);
+		final File expected = new File("myProject/myFolder#query/");
+		assertEquals(expected, actual);
+	}
+	
 	protected abstract File invoke(URI input);
 }

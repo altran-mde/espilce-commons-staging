@@ -373,5 +373,32 @@ public abstract class TestJavaUri2JavaUrl
 		assertEquals(expected, actual);
 	}
 	
+	@Override
+	@Test
+	public void absolutePseudoFragment() throws Exception {
+		final URI input = new URI("file://myProject///myFolder%23query");
+		final URL actual = invoke(input);
+		final URL expected = new URL("file://myProject///myFolder%23query");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void parent() throws Exception {
+		final URI input = new URI("file:..");
+		final URL actual = invoke(input);
+		final URL expected = new URL("file:..");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativePseudoFragment() throws Exception {
+		final URI input = new URI("file:myProject///myFolder%23query");
+		final URL actual = invoke(input);
+		final URL expected = new URL("file:myProject///myFolder%23query");
+		assertEquals(expected, actual);
+	}
+	
 	protected abstract URL invoke(final URI input);
 }

@@ -24,4 +24,8 @@ public interface TestIRelative {
 	
 	void startRelativePath() throws Exception;
 	
+	void parent() throws Exception;
+	
+	void relativePseudoFragment() throws Exception;
+	
 }
