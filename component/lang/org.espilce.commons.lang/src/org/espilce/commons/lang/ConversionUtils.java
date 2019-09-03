@@ -47,6 +47,9 @@ import org.espilce.commons.exception.UnconvertibleException;
  * @since 0.5
  */
 public class ConversionUtils {
+	private static final String SEPARATOR_INVALID_AUTHORITY = "//";
+	private static final String SEPARATOR_SCHEME = ":";
+	private static final String SEPARATOR_URL_PATH = "/";
 	private static final String SCHEME_FILE = "file";
 
 	/**
@@ -329,7 +332,17 @@ public class ConversionUtils {
 		if (javaFile == null) {
 			return null;
 		}
-		return javaFile.toURI();
+		
+		if (javaFile.isAbsolute()) {
+			return javaFile.toURI();
+		}
+		
+		try {
+			final String adjustedSeparators = javaFile.getPath().replace(File.separator, SEPARATOR_URL_PATH);
+			return new URI(null, null, adjustedSeparators, null);
+		} catch (final URISyntaxException e) {
+			return null;
+		}
 	}
 	
 	/**
@@ -340,7 +353,16 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @NonNull URI asJavaUri(final @NonNull File javaFile) throws UnconvertibleException {
-		return javaFile.toURI();
+		if (javaFile.isAbsolute()) {
+			return javaFile.toURI();
+		}
+		
+		try {
+			final String adjustedSeparators = javaFile.getPath().replace(File.separator, SEPARATOR_URL_PATH);
+			return new URI(null, null, adjustedSeparators, null);
+		} catch (final URISyntaxException e) {
+			throw new UnconvertibleException(javaFile, File.class, URI.class, e);
+		}
 	}
 	
 	/**
@@ -395,7 +417,17 @@ public class ConversionUtils {
 		if (javaPath == null) {
 			return null;
 		}
-		return javaPath.toUri();
+		
+		if (javaPath.isAbsolute()) {
+			return javaPath.toUri();
+		}
+		
+		try {
+			final String adjustedSeparators = javaPath.toString().replace(javaPath.getFileSystem().getSeparator(), SEPARATOR_URL_PATH);
+			return new URI(null, adjustedSeparators, null);
+		} catch (final URISyntaxException e) {
+			return null;
+		}
 	}
 	
 	/**
@@ -406,7 +438,16 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @NonNull URI asJavaUri(final @NonNull Path javaPath) throws UnconvertibleException {
-		return javaPath.toUri();
+		if (javaPath.isAbsolute()) {
+			return javaPath.toUri();
+		}
+		
+		try {
+			final String adjustedSeparators = javaPath.toString().replace(javaPath.getFileSystem().getSeparator(), SEPARATOR_URL_PATH);
+			return new URI(null, adjustedSeparators, null);
+		} catch (final URISyntaxException e) {
+			throw new UnconvertibleException(javaPath, Path.class, URI.class, e);
+		}
 	}
 	
 	/**
@@ -509,9 +550,9 @@ public class ConversionUtils {
 				return javaPath.toUri().toURL();
 			}
 			
-			final String adjustedSeparators = javaPath.toString().replace(javaPath.getFileSystem().getSeparator(), "/");
+			final String adjustedSeparators = javaPath.toString().replace(javaPath.getFileSystem().getSeparator(), SEPARATOR_URL_PATH);
 			if (StringUtils.isBlank(adjustedSeparators)) {
-				return new URL(SCHEME_FILE + ":");
+				return new URL(SCHEME_FILE + SEPARATOR_SCHEME);
 			}
 			
 			return new URI(SCHEME_FILE, adjustedSeparators, null).toURL();
@@ -531,10 +572,10 @@ public class ConversionUtils {
 		final String scheme = javaUri.getScheme();
 		if (scheme != null && SCHEME_FILE.equals(scheme.toLowerCase())) {
 			final String schemeSpecificPart = javaUri.getSchemeSpecificPart();
-			if (schemeSpecificPart != null && schemeSpecificPart.startsWith("//")) {
+			if (schemeSpecificPart != null && schemeSpecificPart.startsWith(SEPARATOR_INVALID_AUTHORITY)) {
 				final String authority = javaUri.getAuthority();
-				if (authority != null && authority.endsWith(":")) {
-					final String path = "/" + authority + javaUri.getRawPath();
+				if (authority != null && authority.endsWith(SEPARATOR_SCHEME)) {
+					final String path = SEPARATOR_URL_PATH + authority + javaUri.getRawPath();
 					final URI adjustedJavaUri = new URI(
 							scheme, javaUri.getRawUserInfo(), null, javaUri.getPort(), path, javaUri.getRawQuery(),
 							javaUri.getRawFragment()
@@ -557,8 +598,8 @@ public class ConversionUtils {
 		final String scheme = javaUrl.getProtocol();
 		if (scheme != null && SCHEME_FILE.equals(scheme.toLowerCase())) {
 			final String authority = javaUrl.getAuthority();
-			if (authority != null && authority.endsWith(":")) {
-				final String file = "/"+authority+javaUrl.getFile();
+			if (authority != null && authority.endsWith(SEPARATOR_SCHEME)) {
+				final String file = SEPARATOR_URL_PATH+authority+javaUrl.getFile();
 					final URL adjustedJavaUrl = new URL(javaUrl.getProtocol(), null, javaUrl.getPort(), file);
 					return adjustedJavaUrl;
 			}

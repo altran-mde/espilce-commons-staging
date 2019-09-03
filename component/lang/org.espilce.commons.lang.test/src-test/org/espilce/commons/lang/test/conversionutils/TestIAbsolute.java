@@ -19,6 +19,8 @@ public interface TestIAbsolute {
 	
 	void absoluteFolderSlashesInbetween() throws Exception;
 	
+	void absoluteFragmentQuery() throws Exception;
+	
 	void absoluteNestedFile() throws Exception;
 	
 	void absolutePath() throws Exception;
@@ -32,5 +34,4 @@ public interface TestIAbsolute {
 	void absoluteWindowsPathTripleSlash() throws Exception;
 	
 	void root() throws Exception;
-	
 }

@@ -29,6 +29,8 @@ public interface TestIRelative {
 	
 	void relativeFolderSlashesInbetween() throws Exception;
 	
+	void relativeFragmentQuery() throws Exception;
+	
 	void relativeNestedFile() throws Exception;
 	
 	void relativePath() throws Exception;

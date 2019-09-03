@@ -63,6 +63,15 @@ public abstract class TestJavaUrl2JavaUri extends TestABase
 	
 	@Override
 	@Test
+	public void absoluteFragmentQuery() throws Exception {
+		final URL input = new URL("file:/myProject///myFolder?query#fragment");
+		final URI actual = invoke(input);
+		final URI expected = new URI("file:/myProject///myFolder?query#fragment");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
 	public void absoluteNestedFile() throws Exception {
 		final URL input = new URL("http:/myProject/folder/deep/myFile.ext");
 		final URI actual = invoke(input);
@@ -263,6 +272,15 @@ public abstract class TestJavaUrl2JavaUri extends TestABase
 		final URL input = new URL("file:myProject///myFolder");
 		final URI actual = invoke(input);
 		final URI expected = new URI("file:myProject///myFolder");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativeFragmentQuery() throws Exception {
+		final URL input = new URL("file:myProject///myFolder?query#fragment");
+		final URI actual = invoke(input);
+		final URI expected = new URI("file:myProject///myFolder?query#fragment");
 		assertEquals(expected, actual);
 	}
 	

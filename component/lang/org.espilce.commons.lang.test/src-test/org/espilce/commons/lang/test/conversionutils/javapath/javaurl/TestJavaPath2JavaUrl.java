@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.net.URL;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -57,6 +58,12 @@ public abstract class TestJavaPath2JavaUrl extends TestABase implements TestIBas
 		final URL actual = invoke(input);
 		final URL expected = new URL("file://myProject/myFolder/");
 		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test(expected = InvalidPathException.class)
+	public void absoluteFragmentQuery() throws Exception {
+		Paths.get("/myProject/myFolder?query#fragment");
 	}
 	
 	@Override
@@ -210,6 +217,12 @@ public abstract class TestJavaPath2JavaUrl extends TestABase implements TestIBas
 		final URL actual = invoke(input);
 		final URL expected = new URL("file:myProject/myFolder");
 		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test(expected = InvalidPathException.class)
+	public void relativeFragmentQuery() throws Exception {
+		Paths.get("myProject/myFolder?query#fragment");
 	}
 	
 	@Override

@@ -60,9 +60,9 @@ public class TestJavaUri2JavaUrl_As extends TestJavaUri2JavaUrl {
 	}
 	
 	@Override
-	public void noSchema() throws Exception {
+	public void noScheme() throws Exception {
 		expectUnconvertibleException();
-		super.noSchema();
+		super.noScheme();
 	}
 	
 	@Override

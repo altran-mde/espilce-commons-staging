@@ -64,6 +64,15 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 	
 	@Override
 	@Test
+	public void absoluteFragmentQuery() throws Exception {
+		final URI input = new URI("file:/myProject///myFolder?query#fragment");
+		final URL actual = invoke(input);
+		final URL expected = new URL("file:/myProject///myFolder?query#fragment");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
 	public void absoluteNestedFile() throws Exception {
 		final URI input = URI.create("http:/myProject/folder/deep/myFile.ext");
 		final URL actual = invoke(input);
@@ -136,7 +145,7 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 	@Override
 	@Test
 	public void currentNoScheme() throws Exception {
-		final URI input = new URI(null, ".", null);
+		final URI input = new URI(".");
 		final URL actual = invoke(input);
 		assertNull(actual);
 	}
@@ -246,7 +255,7 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 	
 	@Override
 	@Test
-	public void noSchema() throws Exception {
+	public void noScheme() throws Exception {
 		final URI input = URI.create("MyFile.ext");
 		final URL actual = invoke(input);
 		assertNull(actual);
@@ -320,6 +329,15 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 		final URI input = new URI("file:myProject///myFolder");
 		final URL actual = invoke(input);
 		final URL expected = new URL("file:myProject///myFolder");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativeFragmentQuery() throws Exception {
+		final URI input = new URI("file:myProject///myFolder?query#fragment");
+		final URL actual = invoke(input);
+		final URL expected = new URL("file:myProject///myFolder?query#fragment");
 		assertEquals(expected, actual);
 	}
 	

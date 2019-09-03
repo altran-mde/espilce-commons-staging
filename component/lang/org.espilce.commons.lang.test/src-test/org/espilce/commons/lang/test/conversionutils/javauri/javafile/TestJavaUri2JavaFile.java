@@ -267,7 +267,7 @@ public abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void noSchema() throws Exception {
+	public void noScheme() throws Exception {
 		final URI input = URI.create("MyFile.ext");
 		final File actual = invoke(input);
 		final File expected = new File("MyFile.ext");

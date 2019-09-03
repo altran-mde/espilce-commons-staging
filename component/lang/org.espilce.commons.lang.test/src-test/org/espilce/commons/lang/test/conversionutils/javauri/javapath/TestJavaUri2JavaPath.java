@@ -268,7 +268,7 @@ public abstract class TestJavaUri2JavaPath extends TestABase
 	
 	@Override
 	@Test
-	public void noSchema() throws Exception {
+	public void noScheme() throws Exception {
 		final URI input = URI.create("MyFile.ext");
 		final Path actual = invoke(input);
 		final Path expected = Paths.get("MyFile.ext");

@@ -22,7 +22,7 @@ public interface TestIJavaUri {
 	
 	void inputBroken() throws Exception;
 	
-	void noSchema() throws Exception;
+	void noScheme() throws Exception;
 	
 	void relativeNestedFileNoScheme() throws Exception;
 	
