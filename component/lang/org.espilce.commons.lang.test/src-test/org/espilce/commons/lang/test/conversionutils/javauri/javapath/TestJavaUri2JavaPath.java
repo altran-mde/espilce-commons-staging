@@ -451,10 +451,10 @@ public abstract class TestJavaUri2JavaPath extends TestABase
 	}
 	
 	@Override
-	protected Class<?> getSourceType() { return Path.class; }
+	protected Class<?> getSourceType() { return URI.class; }
 	
 	@Override
-	protected Class<?> getTargetType() { return URI.class; }
+	protected Class<?> getTargetType() { return Path.class; }
 	
 	protected abstract Path invoke(URI input);
 }

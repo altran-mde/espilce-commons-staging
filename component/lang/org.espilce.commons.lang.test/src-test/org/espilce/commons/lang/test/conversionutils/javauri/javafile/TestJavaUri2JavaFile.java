@@ -451,10 +451,10 @@ public abstract class TestJavaUri2JavaFile extends TestABase
 	}
 	
 	@Override
-	protected Class<?> getSourceType() { return File.class; }
+	protected Class<?> getSourceType() { return URI.class; }
 	
 	@Override
-	protected Class<?> getTargetType() { return URI.class; }
+	protected Class<?> getTargetType() { return File.class; }
 	
 	protected abstract File invoke(URI input);
 }

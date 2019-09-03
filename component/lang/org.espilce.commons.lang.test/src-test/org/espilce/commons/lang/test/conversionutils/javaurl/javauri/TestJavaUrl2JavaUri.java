@@ -321,10 +321,10 @@ public abstract class TestJavaUrl2JavaUri extends TestABase
 	}
 	
 	@Override
-	protected Class<?> getSourceType() { return URI.class; }
+	protected Class<?> getSourceType() { return URL.class; }
 	
 	@Override
-	protected Class<?> getTargetType() { return URL.class; }
+	protected Class<?> getTargetType() { return URI.class; }
 	
 	protected abstract URI invoke(URL input);
 }

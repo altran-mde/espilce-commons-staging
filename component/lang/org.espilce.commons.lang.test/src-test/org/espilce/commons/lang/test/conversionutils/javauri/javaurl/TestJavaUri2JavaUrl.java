@@ -14,7 +14,6 @@ import static org.junit.Assert.assertNull;
 
 import java.net.URI;
 import java.net.URL;
-import java.nio.file.Path;
 
 import org.espilce.commons.lang.test.conversionutils.TestABase;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
@@ -415,7 +414,7 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 	protected Class<?> getSourceType() { return URI.class; }
 	
 	@Override
-	protected Class<?> getTargetType() { return Path.class; }
+	protected Class<?> getTargetType() { return URL.class; }
 	
 	protected abstract URL invoke(final URI input);
 }

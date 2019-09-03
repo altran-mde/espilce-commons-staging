@@ -302,10 +302,10 @@ public abstract class TestJavaUrl2JavaFile extends TestABase
 	}
 	
 	@Override
-	protected Class<?> getSourceType() { return File.class; }
+	protected Class<?> getSourceType() { return URL.class; }
 	
 	@Override
-	protected Class<?> getTargetType() { return URL.class; }
+	protected Class<?> getTargetType() { return File.class; }
 	
 	protected abstract File invoke(URL input);
 }
