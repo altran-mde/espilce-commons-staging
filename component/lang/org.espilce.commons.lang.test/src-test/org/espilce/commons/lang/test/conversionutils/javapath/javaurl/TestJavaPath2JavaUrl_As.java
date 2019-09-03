@@ -7,17 +7,23 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils.javafile;
+package org.espilce.commons.lang.test.conversionutils.javapath.javaurl;
 
-import java.io.File;
-import java.net.URI;
+import java.net.URL;
+import java.nio.file.Path;
 
 import org.espilce.commons.lang.ConversionUtils;
+import org.junit.Test;
 
-public class TestJavaFile2JavaUri_To extends TestJavaFile2JavaUri {
+public class TestJavaPath2JavaUrl_As extends TestJavaPath2JavaUrl {
+	@Override
+	@Test(expected = NullPointerException.class)
+	public void paramNull() throws Exception {
+		super.paramNull();
+	}
 	
 	@Override
-	protected URI invoke(final File input) {
-		return ConversionUtils.toJavaUri(input);
+	protected URL invoke(final Path input) {
+		return ConversionUtils.asJavaUrl(input);
 	}
 }

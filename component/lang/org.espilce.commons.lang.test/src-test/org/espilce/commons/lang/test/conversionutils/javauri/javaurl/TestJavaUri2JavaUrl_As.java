@@ -7,7 +7,7 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils.javauri;
+package org.espilce.commons.lang.test.conversionutils.javauri.javaurl;
 
 import java.net.URI;
 import java.net.URL;

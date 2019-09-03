@@ -7,7 +7,7 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils.javapath;
+package org.espilce.commons.lang.test.conversionutils.javapath.javauri;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -19,7 +19,7 @@ import java.nio.file.Paths;
 import org.espilce.commons.lang.test.conversionutils.TestABase;
 import org.junit.Test;
 
-public abstract class TestJavaPath2JavaUri extends TestABase {
+abstract class TestJavaPath2JavaUri extends TestABase {
 	@Test
 	public void paramNull() throws Exception {
 		final Path input = (Path) null;

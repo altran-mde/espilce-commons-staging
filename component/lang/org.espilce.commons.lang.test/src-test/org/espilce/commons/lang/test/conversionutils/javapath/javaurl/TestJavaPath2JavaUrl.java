@@ -7,7 +7,7 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils.javapath;
+package org.espilce.commons.lang.test.conversionutils.javapath.javaurl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -22,7 +22,7 @@ import org.espilce.commons.lang.test.conversionutils.TestIBase;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.junit.Test;
 
-public abstract class TestJavaPath2JavaUrl extends TestABase implements TestIBase, TestIAbsolute, TestIRelative {
+abstract class TestJavaPath2JavaUrl extends TestABase implements TestIBase, TestIAbsolute, TestIRelative {
 	@Override
 	@Test
 	public void paramNull() throws Exception {

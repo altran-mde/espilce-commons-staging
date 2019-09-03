@@ -7,25 +7,19 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils.javauri;
+package org.espilce.commons.lang.test.conversionutils.javauri.javafile;
 
+import java.io.File;
 import java.net.URI;
-import java.nio.file.Path;
 
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
-public class TestJavaUri2JavaPath_As extends TestJavaUri2JavaPath {
+public class TestJavaUri2JavaFile_As extends TestJavaUri2JavaFile {
 	@Override
 	@Test(expected = NullPointerException.class)
 	public void paramNull() throws Exception {
 		super.paramNull();
-	}
-	
-	@Override
-	public void absoluteFragmentQuery() throws Exception {
-		expectUnconvertibleException();
-		super.absoluteFragmentQuery();
 	}
 	
 	@Override
@@ -35,15 +29,15 @@ public class TestJavaUri2JavaPath_As extends TestJavaUri2JavaPath {
 	}
 	
 	@Override
-	public void invalidScheme() throws Exception {
+	public void absoluteFragmentQuery() throws Exception {
 		expectUnconvertibleException();
-		super.invalidScheme();
+		super.absoluteFragmentQuery();
 	}
 	
 	@Override
-	public void opaqueScheme() throws Exception {
+	public void invalidScheme() throws Exception {
 		expectUnconvertibleException();
-		super.opaqueScheme();
+		super.invalidScheme();
 	}
 	
 	@Override
@@ -59,6 +53,12 @@ public class TestJavaUri2JavaPath_As extends TestJavaUri2JavaPath {
 	}
 	
 	@Override
+	public void query() throws Exception {
+		expectUnconvertibleException();
+		super.query();
+	}
+	
+	@Override
 	public void fragmentQuery() throws Exception {
 		expectUnconvertibleException();
 		super.fragmentQuery();
@@ -71,13 +71,13 @@ public class TestJavaUri2JavaPath_As extends TestJavaUri2JavaPath {
 	}
 	
 	@Override
-	public void query() throws Exception {
+	public void opaqueScheme() throws Exception {
 		expectUnconvertibleException();
-		super.query();
+		super.opaqueScheme();
 	}
 	
 	@Override
-	protected Path invoke(final URI input) {
-		return ConversionUtils.asJavaPath(input);
+	protected File invoke(final URI input) {
+		return ConversionUtils.asJavaFile(input);
 	}
 }

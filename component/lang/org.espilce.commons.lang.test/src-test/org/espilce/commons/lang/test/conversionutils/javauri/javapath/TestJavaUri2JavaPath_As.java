@@ -7,25 +7,19 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils.javaurl;
+package org.espilce.commons.lang.test.conversionutils.javauri.javapath;
 
-import java.io.File;
-import java.net.URL;
+import java.net.URI;
+import java.nio.file.Path;
 
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
-public class TestJavaUrl2JavaFile_As extends TestJavaUrl2JavaFile {
+public class TestJavaUri2JavaPath_As extends TestJavaUri2JavaPath {
 	@Override
 	@Test(expected = NullPointerException.class)
 	public void paramNull() throws Exception {
 		super.paramNull();
-	}
-	
-	@Override
-	public void invalidDoubleSlash() throws Exception {
-		expectUnconvertibleException();
-		super.invalidDoubleSlash();
 	}
 	
 	@Override
@@ -53,7 +47,37 @@ public class TestJavaUrl2JavaFile_As extends TestJavaUrl2JavaFile {
 	}
 	
 	@Override
-	protected File invoke(final URL input) {
-		return ConversionUtils.asJavaFile(input);
+	public void otherSchema() throws Exception {
+		expectUnconvertibleException();
+		super.otherSchema();
+	}
+	
+	@Override
+	public void fragment() throws Exception {
+		expectUnconvertibleException();
+		super.fragment();
+	}
+	
+	@Override
+	public void fragmentQuery() throws Exception {
+		expectUnconvertibleException();
+		super.fragmentQuery();
+	}
+	
+	@Override
+	public void inputBroken() throws Exception {
+		expectUnconvertibleException();
+		super.inputBroken();
+	}
+	
+	@Override
+	public void query() throws Exception {
+		expectUnconvertibleException();
+		super.query();
+	}
+	
+	@Override
+	protected Path invoke(final URI input) {
+		return ConversionUtils.asJavaPath(input);
 	}
 }

@@ -7,94 +7,94 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils.javafile;
+package org.espilce.commons.lang.test.conversionutils.javafile.javauri;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.io.File;
-import java.net.URL;
+import java.net.URI;
 
 import org.espilce.commons.lang.test.conversionutils.TestABase;
 import org.junit.Test;
 
-public abstract class TestJavaFile2JavaUrl extends TestABase {
+abstract class TestJavaFile2JavaUri extends TestABase {
 	@Test
 	public void paramNull() throws Exception {
 		final File input = (File) null;
-		final URL actual = invoke(input);
+		final URI actual = invoke(input);
 		assertNull(actual);
 	}
 	
 	@Test
 	public void empty() throws Exception {
 		final File input = new File("");
-		final URL actual = invoke(input);
-		final URL expected = new URL("input:/" + System.getProperty("user.dir") + "/");
+		final URI actual = invoke(input);
+		final URI expected = new URI("input:/" + System.getProperty("user.dir").replace('\\', '/') + "/");
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void absoluteNestedFile() throws Exception {
 		final File input = new File("//some/path/MyFile.ext");
-		final URL actual = invoke(input);
-		final URL expected = new URL("input:////some/path/MyFile.ext");
+		final URI actual = invoke(input);
+		final URI expected = new URI("input:////some/path/MyFile.ext");
 		assertEquals(expected, actual);
 	}
 	
 	@Test
-	public void input() throws Exception {
+	public void file() throws Exception {
 		final File input = new File("MyFile.ext");
-		final URL actual = invoke(input);
-		final URL expected = new URL("input:/" + System.getProperty("user.dir") + "/MyFile.ext");
+		final URI actual = invoke(input);
+		final URI expected = new URI("input:/" + System.getProperty("user.dir").replace('\\', '/') + "/MyFile.ext");
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void absoluteFileNested() throws Exception {
 		final File input = new File("//path/to/myFile.ext");
-		final URL actual = invoke(input);
-		final URL expected = new URL("input:////path/to/myFile.ext");
+		final URI actual = invoke(input);
+		final URI expected = new URI("input:////path/to/myFile.ext");
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void absoluteFileSlashesExcess() throws Exception {
 		final File input = new File("//myProject///folder///deep/myFile.ext//");
-		final URL actual = invoke(input);
-		final URL expected = new URL("input:////myProject/folder/deep/myFile.ext");
+		final URI actual = invoke(input);
+		final URI expected = new URI("input:////myProject/folder/deep/myFile.ext");
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void absoluteFolderSlash() throws Exception {
 		final File input = new File("//myProject/myFolder/");
-		final URL actual = invoke(input);
-		final URL expected = new URL("input:////myProject/myFolder");
+		final URI actual = invoke(input);
+		final URI expected = new URI("input:////myProject/myFolder");
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void absoluteFolderSlashesInbetween() throws Exception {
 		final File input = new File("//myProject///myFolder");
-		final URL actual = invoke(input);
-		final URL expected = new URL("input:////myProject/myFolder");
+		final URI actual = invoke(input);
+		final URI expected = new URI("input:////myProject/myFolder");
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void absoluteFragmentQuery() throws Exception {
 		final File input = new File("//myProject///myFolder?query#fragment");
-		final URL actual = invoke(input);
-		final URL expected = new URL("input:////myProject/myFolder%3Fquery%23fragment");
+		final URI actual = invoke(input);
+		final URI expected = new URI("input:////myProject/myFolder%3Fquery%23fragment");
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void path() throws Exception {
 		final File input = new File("//resource/..////");
-		final URL actual = invoke(input);
-		final URL expected = new URL("input:////resource/..");
+		final URI actual = invoke(input);
+		final URI expected = new URI("input:////resource/..");
 		assertEquals(expected, actual);
 	}
 	
@@ -102,7 +102,7 @@ public abstract class TestJavaFile2JavaUrl extends TestABase {
 	protected Class<?> getSourceType() { return File.class; }
 	
 	@Override
-	protected Class<?> getTargetType() { return URL.class; }
+	protected Class<?> getTargetType() { return URI.class; }
 	
-	protected abstract URL invoke(final File input);
+	protected abstract URI invoke(final File input);
 }

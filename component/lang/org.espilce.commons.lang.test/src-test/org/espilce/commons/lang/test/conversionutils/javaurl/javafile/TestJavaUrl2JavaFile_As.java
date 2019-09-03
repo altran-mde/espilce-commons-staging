@@ -7,15 +7,15 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils.javauri;
+package org.espilce.commons.lang.test.conversionutils.javaurl.javafile;
 
 import java.io.File;
-import java.net.URI;
+import java.net.URL;
 
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
-public class TestJavaUri2JavaFile_As extends TestJavaUri2JavaFile {
+public class TestJavaUrl2JavaFile_As extends TestJavaUrl2JavaFile {
 	@Override
 	@Test(expected = NullPointerException.class)
 	public void paramNull() throws Exception {
@@ -23,9 +23,9 @@ public class TestJavaUri2JavaFile_As extends TestJavaUri2JavaFile {
 	}
 	
 	@Override
-	public void relativeFragmentQuery() throws Exception {
+	public void invalidDoubleSlash() throws Exception {
 		expectUnconvertibleException();
-		super.relativeFragmentQuery();
+		super.invalidDoubleSlash();
 	}
 	
 	@Override
@@ -35,39 +35,15 @@ public class TestJavaUri2JavaFile_As extends TestJavaUri2JavaFile {
 	}
 	
 	@Override
+	public void relativeFragmentQuery() throws Exception {
+		expectUnconvertibleException();
+		super.relativeFragmentQuery();
+	}
+	
+	@Override
 	public void invalidScheme() throws Exception {
 		expectUnconvertibleException();
 		super.invalidScheme();
-	}
-	
-	@Override
-	public void otherSchema() throws Exception {
-		expectUnconvertibleException();
-		super.otherSchema();
-	}
-	
-	@Override
-	public void fragment() throws Exception {
-		expectUnconvertibleException();
-		super.fragment();
-	}
-	
-	@Override
-	public void query() throws Exception {
-		expectUnconvertibleException();
-		super.query();
-	}
-	
-	@Override
-	public void fragmentQuery() throws Exception {
-		expectUnconvertibleException();
-		super.fragmentQuery();
-	}
-	
-	@Override
-	public void inputBroken() throws Exception {
-		expectUnconvertibleException();
-		super.inputBroken();
 	}
 	
 	@Override
@@ -77,7 +53,7 @@ public class TestJavaUri2JavaFile_As extends TestJavaUri2JavaFile {
 	}
 	
 	@Override
-	protected File invoke(final URI input) {
+	protected File invoke(final URL input) {
 		return ConversionUtils.asJavaFile(input);
 	}
 }
