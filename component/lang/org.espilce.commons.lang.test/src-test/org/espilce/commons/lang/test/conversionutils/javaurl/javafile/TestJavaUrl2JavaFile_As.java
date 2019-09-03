@@ -17,27 +17,15 @@ import org.junit.Test;
 
 public class TestJavaUrl2JavaFile_As extends TestJavaUrl2JavaFile {
 	@Override
-	@Test(expected = NullPointerException.class)
-	public void paramNull() throws Exception {
-		super.paramNull();
-	}
-	
-	@Override
-	public void invalidDoubleSlash() throws Exception {
-		expectUnconvertibleException();
-		super.invalidDoubleSlash();
-	}
-	
-	@Override
 	public void absoluteFragmentQuery() throws Exception {
 		expectUnconvertibleException();
 		super.absoluteFragmentQuery();
 	}
 	
 	@Override
-	public void relativeFragmentQuery() throws Exception {
+	public void invalidDoubleSlash() throws Exception {
 		expectUnconvertibleException();
-		super.relativeFragmentQuery();
+		super.invalidDoubleSlash();
 	}
 	
 	@Override
@@ -50,6 +38,18 @@ public class TestJavaUrl2JavaFile_As extends TestJavaUrl2JavaFile {
 	public void opaqueScheme() throws Exception {
 		expectUnconvertibleException();
 		super.opaqueScheme();
+	}
+	
+	@Override
+	@Test(expected = NullPointerException.class)
+	public void paramNull() throws Exception {
+		super.paramNull();
+	}
+	
+	@Override
+	public void relativeFragmentQuery() throws Exception {
+		expectUnconvertibleException();
+		super.relativeFragmentQuery();
 	}
 	
 	@Override

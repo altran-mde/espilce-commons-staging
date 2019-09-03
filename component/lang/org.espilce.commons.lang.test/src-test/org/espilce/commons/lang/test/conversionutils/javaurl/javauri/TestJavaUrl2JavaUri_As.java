@@ -17,15 +17,15 @@ import org.junit.Test;
 
 public class TestJavaUrl2JavaUri_As extends TestJavaUrl2JavaUri {
 	@Override
-	@Test(expected = NullPointerException.class)
-	public void paramNull() throws Exception {
-		super.paramNull();
-	}
-	
-	@Override
 	public void empty() throws Exception {
 		expectUnconvertibleException();
 		super.empty();
+	}
+	
+	@Override
+	@Test(expected = NullPointerException.class)
+	public void paramNull() throws Exception {
+		super.paramNull();
 	}
 	
 	@Override

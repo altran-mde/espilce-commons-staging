@@ -11,7 +11,15 @@ package org.espilce.commons.lang.test.conversionutils;
 
 public interface TestIRelative {
 	
-	void relativeNestedFile() throws Exception;
+	void current() throws Exception;
+	
+	void currentRelativeNestedFile() throws Exception;
+	
+	void currentSlash() throws Exception;
+	
+	void multiRelativePath() throws Exception;
+	
+	void parent() throws Exception;
 	
 	void relativeFile() throws Exception;
 	
@@ -21,20 +29,12 @@ public interface TestIRelative {
 	
 	void relativeFolderSlashesInbetween() throws Exception;
 	
+	void relativeNestedFile() throws Exception;
+	
 	void relativePath() throws Exception;
 	
-	void multiRelativePath() throws Exception;
-	
-	void current() throws Exception;
-	
-	void currentSlash() throws Exception;
-	
-	void currentRelativeNestedFile() throws Exception;
+	void relativePseudoFragment() throws Exception;
 	
 	void startRelativePath() throws Exception;
-	
-	void parent() throws Exception;
-	
-	void relativePseudoFragment() throws Exception;
 	
 }

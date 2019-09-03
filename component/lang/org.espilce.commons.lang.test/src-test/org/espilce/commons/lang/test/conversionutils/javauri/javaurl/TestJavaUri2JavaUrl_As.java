@@ -18,15 +18,39 @@ import org.junit.Test;
 public class TestJavaUri2JavaUrl_As extends TestJavaUri2JavaUrl {
 	
 	@Override
-	@Test(expected = NullPointerException.class)
-	public void paramNull() throws Exception {
-		super.paramNull();
+	public void absoluteNestedFileNoScheme() throws Exception {
+		expectUnconvertibleException();
+		super.absoluteNestedFileNoScheme();
+	}
+	
+	@Override
+	public void currentNoScheme() throws Exception {
+		expectUnconvertibleException();
+		super.currentNoScheme();
+	}
+	
+	@Override
+	public void currentRelativeNestedFileNoScheme() throws Exception {
+		expectUnconvertibleException();
+		super.currentRelativeNestedFileNoScheme();
+	}
+	
+	@Override
+	public void currentSlashNoScheme() throws Exception {
+		expectUnconvertibleException();
+		super.currentSlashNoScheme();
 	}
 	
 	@Override
 	public void empty() throws Exception {
 		expectUnconvertibleException();
 		super.empty();
+	}
+	
+	@Override
+	public void emptyNoScheme() throws Exception {
+		expectUnconvertibleException();
+		super.emptyNoScheme();
 	}
 	
 	@Override
@@ -42,21 +66,15 @@ public class TestJavaUri2JavaUrl_As extends TestJavaUri2JavaUrl {
 	}
 	
 	@Override
-	public void currentNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.currentNoScheme();
+	@Test(expected = NullPointerException.class)
+	public void paramNull() throws Exception {
+		super.paramNull();
 	}
 	
 	@Override
-	public void currentSlashNoScheme() throws Exception {
+	public void relativeNestedFileNoScheme() throws Exception {
 		expectUnconvertibleException();
-		super.currentSlashNoScheme();
-	}
-	
-	@Override
-	public void absoluteNestedFileNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.absoluteNestedFileNoScheme();
+		super.relativeNestedFileNoScheme();
 	}
 	
 	@Override
@@ -69,24 +87,6 @@ public class TestJavaUri2JavaUrl_As extends TestJavaUri2JavaUrl {
 	public void startRelativePathNoScheme() throws Exception {
 		expectUnconvertibleException();
 		super.startRelativePathNoScheme();
-	}
-	
-	@Override
-	public void relativeNestedFileNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.relativeNestedFileNoScheme();
-	}
-	
-	@Override
-	public void currentRelativeNestedFileNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.currentRelativeNestedFileNoScheme();
-	}
-	
-	@Override
-	public void emptyNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.emptyNoScheme();
 	}
 	
 	@Override

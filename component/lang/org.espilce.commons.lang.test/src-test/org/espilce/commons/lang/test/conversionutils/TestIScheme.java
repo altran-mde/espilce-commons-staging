@@ -15,13 +15,13 @@ public interface TestIScheme {
 	
 	void fragment() throws Exception;
 	
-	void query() throws Exception;
-	
 	void fragmentQuery() throws Exception;
 	
-	void relativeUri() throws Exception;
+	void inputNoSlashes() throws Exception;
 	
 	void otherSchema() throws Exception;
 	
-	void inputNoSlashes() throws Exception;
+	void query() throws Exception;
+	
+	void relativeUri() throws Exception;
 }

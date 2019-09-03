@@ -17,39 +17,9 @@ import org.junit.Test;
 
 public class TestJavaUri2JavaPath_As extends TestJavaUri2JavaPath {
 	@Override
-	@Test(expected = NullPointerException.class)
-	public void paramNull() throws Exception {
-		super.paramNull();
-	}
-	
-	@Override
 	public void absoluteFragmentQuery() throws Exception {
 		expectUnconvertibleException();
 		super.absoluteFragmentQuery();
-	}
-	
-	@Override
-	public void relativeFragmentQuery() throws Exception {
-		expectUnconvertibleException();
-		super.relativeFragmentQuery();
-	}
-	
-	@Override
-	public void invalidScheme() throws Exception {
-		expectUnconvertibleException();
-		super.invalidScheme();
-	}
-	
-	@Override
-	public void opaqueScheme() throws Exception {
-		expectUnconvertibleException();
-		super.opaqueScheme();
-	}
-	
-	@Override
-	public void otherSchema() throws Exception {
-		expectUnconvertibleException();
-		super.otherSchema();
 	}
 	
 	@Override
@@ -71,9 +41,39 @@ public class TestJavaUri2JavaPath_As extends TestJavaUri2JavaPath {
 	}
 	
 	@Override
+	public void invalidScheme() throws Exception {
+		expectUnconvertibleException();
+		super.invalidScheme();
+	}
+	
+	@Override
+	public void opaqueScheme() throws Exception {
+		expectUnconvertibleException();
+		super.opaqueScheme();
+	}
+	
+	@Override
+	public void otherSchema() throws Exception {
+		expectUnconvertibleException();
+		super.otherSchema();
+	}
+	
+	@Override
+	@Test(expected = NullPointerException.class)
+	public void paramNull() throws Exception {
+		super.paramNull();
+	}
+	
+	@Override
 	public void query() throws Exception {
 		expectUnconvertibleException();
 		super.query();
+	}
+	
+	@Override
+	public void relativeFragmentQuery() throws Exception {
+		expectUnconvertibleException();
+		super.relativeFragmentQuery();
 	}
 	
 	@Override

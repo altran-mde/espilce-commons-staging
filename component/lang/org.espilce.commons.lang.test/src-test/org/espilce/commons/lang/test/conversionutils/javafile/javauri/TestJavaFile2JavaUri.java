@@ -18,38 +18,7 @@ import java.net.URI;
 import org.espilce.commons.lang.test.conversionutils.TestABase;
 import org.junit.Test;
 
-abstract class TestJavaFile2JavaUri extends TestABase {
-	@Test
-	public void paramNull() throws Exception {
-		final File input = (File) null;
-		final URI actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Test
-	public void empty() throws Exception {
-		final File input = new File("");
-		final URI actual = invoke(input);
-		final URI expected = new URI("input:/" + System.getProperty("user.dir").replace('\\', '/') + "/");
-		assertEquals(expected, actual);
-	}
-	
-	@Test
-	public void absoluteNestedFile() throws Exception {
-		final File input = new File("//some/path/MyFile.ext");
-		final URI actual = invoke(input);
-		final URI expected = new URI("input:////some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Test
-	public void file() throws Exception {
-		final File input = new File("MyFile.ext");
-		final URI actual = invoke(input);
-		final URI expected = new URI("input:/" + System.getProperty("user.dir").replace('\\', '/') + "/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
+public abstract class TestJavaFile2JavaUri extends TestABase {
 	@Test
 	public void absoluteFileNested() throws Exception {
 		final File input = new File("//path/to/myFile.ext");
@@ -88,6 +57,37 @@ abstract class TestJavaFile2JavaUri extends TestABase {
 		final URI actual = invoke(input);
 		final URI expected = new URI("input:////myProject/myFolder%3Fquery%23fragment");
 		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void absoluteNestedFile() throws Exception {
+		final File input = new File("//some/path/MyFile.ext");
+		final URI actual = invoke(input);
+		final URI expected = new URI("input:////some/path/MyFile.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void empty() throws Exception {
+		final File input = new File("");
+		final URI actual = invoke(input);
+		final URI expected = new URI("input:/" + System.getProperty("user.dir").replace('\\', '/') + "/");
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void file() throws Exception {
+		final File input = new File("MyFile.ext");
+		final URI actual = invoke(input);
+		final URI expected = new URI("input:/" + System.getProperty("user.dir").replace('\\', '/') + "/MyFile.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void paramNull() throws Exception {
+		final File input = (File) null;
+		final URI actual = invoke(input);
+		assertNull(actual);
 	}
 	
 	@Test

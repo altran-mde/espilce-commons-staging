@@ -14,7 +14,7 @@ import java.nio.file.Path;
 
 import org.espilce.commons.lang.test.conversionutils.TestABase;
 
-abstract class TestJavaFile2JavaPath extends TestABase {
+public abstract class TestJavaFile2JavaPath extends TestABase {
 	@Override
 	protected Class<?> getSourceType() { return File.class; }
 	

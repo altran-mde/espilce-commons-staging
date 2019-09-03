@@ -25,24 +25,51 @@ import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.espilce.commons.lang.test.conversionutils.TestIScheme;
 import org.junit.Test;
 
-abstract class TestJavaUri2JavaFile extends TestABase
+public abstract class TestJavaUri2JavaFile extends TestABase
 		implements TestIBase, TestIAbsolute, TestIRelative, TestIScheme, TestIJavaUri, TestIParamsInvalid
 {
 	@Override
 	@Test
-	public void paramNull() throws Exception {
-		final URI input = (URI) null;
-		final File actual = ConversionUtils.toJavaFile(input);
-		assertNull(actual);
+	public void absoluteFile() throws Exception {
+		final URI input = new URI("file:/MyFile.ext");
+		final File actual = invoke(input);
+		final File expected = new File("/MyFile.ext");
+		assertEquals(expected, actual);
 	}
 	
 	@Override
 	@Test
-	public void root() throws Exception {
-		final URI input = new URI("file:/");
+	public void absoluteFileSlashesExcess() throws Exception {
+		final URI input = new URI("file:/myProject///folder///deep/myFile.ext//");
 		final File actual = invoke(input);
-		final File expected = new File("/");
+		final File expected = new File("/myProject/folder/deep/myFile.ext");
 		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void absoluteFolderSlash() throws Exception {
+		final URI input = new URI("file:/myProject/myFolder/");
+		final File actual = invoke(input);
+		final File expected = new File("/myProject/myFolder");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void absoluteFolderSlashesInbetween() throws Exception {
+		final URI input = new URI("file:/myProject///myFolder");
+		final File actual = invoke(input);
+		final File expected = new File("/myProject/myFolder");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void absoluteFragmentQuery() throws Exception {
+		final URI input = new URI("file:/myProject///myFolder?query#fragment");
+		final File actual = invoke(input);
+		assertNull(actual);
 	}
 	
 	@Override
@@ -56,10 +83,28 @@ abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteWindowsPathSingleSlash() throws Exception {
-		final URI input = new URI("file:/c:/some/path/MyFile.ext");
+	public void absoluteNestedFileNoScheme() throws Exception {
+		final URI input = new URI(null, "/some/path/MyFile.ext", null);
 		final File actual = invoke(input);
-		final File expected = new File("c:/some/path/MyFile.ext");
+		final File expected = new File("/some/path/MyFile.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void absolutePath() throws Exception {
+		final URI input = new URI("file:/resource/..////");
+		final File actual = invoke(input);
+		final File expected = new File("/resource/..");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void absolutePseudoFragment() throws Exception {
+		final URI input = new URI("file://myProject///myFolder%23query");
+		final File actual = invoke(input);
+		final File expected = new File("/myProject/myFolder#query/");
 		assertEquals(expected, actual);
 	}
 	
@@ -67,6 +112,15 @@ abstract class TestJavaUri2JavaFile extends TestABase
 	@Test
 	public void absoluteWindowsPathDoubleSlash() throws Exception {
 		final URI input = new URI("file://c:/some/path/MyFile.ext");
+		final File actual = invoke(input);
+		final File expected = new File("c:/some/path/MyFile.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void absoluteWindowsPathSingleSlash() throws Exception {
+		final URI input = new URI("file:/c:/some/path/MyFile.ext");
 		final File actual = invoke(input);
 		final File expected = new File("c:/some/path/MyFile.ext");
 		assertEquals(expected, actual);
@@ -83,147 +137,6 @@ abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void relativeNestedFile() throws Exception {
-		final URI input = new URI("file:some/path/MyFile.ext");
-		final File actual = invoke(input);
-		final File expected = new File("some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absoluteFile() throws Exception {
-		final URI input = new URI("file:/MyFile.ext");
-		final File actual = invoke(input);
-		final File expected = new File("/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeFile() throws Exception {
-		final URI input = new URI("file:MyFile.ext");
-		final File actual = invoke(input);
-		final File expected = new File("MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absoluteFileSlashesExcess() throws Exception {
-		final URI input = new URI("file:/myProject///folder///deep/myFile.ext//");
-		final File actual = invoke(input);
-		final File expected = new File("/myProject/folder/deep/myFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeFileSlashesExcess() throws Exception {
-		final URI input = new URI("file:myProject///folder///deep/myFile.ext//");
-		final File actual = invoke(input);
-		final File expected = new File("myProject/folder/deep/myFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absoluteFolderSlash() throws Exception {
-		final URI input = new URI("file:/myProject/myFolder/");
-		final File actual = invoke(input);
-		final File expected = new File("/myProject/myFolder");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeFolderSlash() throws Exception {
-		final URI input = new URI("file:myProject/myFolder/");
-		final File actual = invoke(input);
-		final File expected = new File("myProject/myFolder");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absoluteFolderSlashesInbetween() throws Exception {
-		final URI input = new URI("file:/myProject///myFolder");
-		final File actual = invoke(input);
-		final File expected = new File("/myProject/myFolder");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeFolderSlashesInbetween() throws Exception {
-		final URI input = new URI("file:myProject///myFolder");
-		final File actual = invoke(input);
-		final File expected = new File("myProject/myFolder");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absoluteFragmentQuery() throws Exception {
-		final URI input = new URI("file:/myProject///myFolder?query#fragment");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeFragmentQuery() throws Exception {
-		final URI input = new URI("file:myProject///myFolder?query#fragment");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void absolutePath() throws Exception {
-		final URI input = new URI("file:/resource/..////");
-		final File actual = invoke(input);
-		final File expected = new File("/resource/..");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativePath() throws Exception {
-		final URI input = new URI("file:resource/..////");
-		final File actual = invoke(input);
-		final File expected = new File("resource/..");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void multiRelativePath() throws Exception {
-		final URI input = new URI("file:resource/../some/dir/../../file.ext");
-		final File actual = invoke(input);
-		final File expected = new File("resource/../some/dir/../../file.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void invalidScheme() throws Exception {
-		final URI input = new URI("http:/myProject/myFolder");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void empty() throws Exception {
-		final URI input = URI.create("");
-		final File actual = invoke(input);
-		final File expected = new File("");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
 	public void current() throws Exception {
 		final URI input = new URI("file", ".", null);
 		final File actual = invoke(input);
@@ -233,10 +146,10 @@ abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void currentSlash() throws Exception {
-		final URI input = new URI("file", "./", null);
+	public void currentNoScheme() throws Exception {
+		final URI input = new URI(null, ".", null);
 		final File actual = invoke(input);
-		final File expected = new File("./");
+		final File expected = new File(".");
 		assertEquals(expected, actual);
 	}
 	
@@ -251,10 +164,46 @@ abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void startRelativePath() throws Exception {
-		final URI input = new URI("file:../resource/..////");
+	public void currentRelativeNestedFileNoScheme() throws Exception {
+		final URI input = new URI(null, "./some/path/MyFile.ext", null);
 		final File actual = invoke(input);
-		final File expected = new File("../resource/..");
+		final File expected = new File("./some/path/MyFile.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void currentSlash() throws Exception {
+		final URI input = new URI("file", "./", null);
+		final File actual = invoke(input);
+		final File expected = new File("./");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void currentSlashNoScheme() throws Exception {
+		final URI input = new URI(null, "./", null);
+		final File actual = invoke(input);
+		final File expected = new File("./");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void empty() throws Exception {
+		final URI input = URI.create("");
+		final File actual = invoke(input);
+		final File expected = new File("");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void emptyNoScheme() throws Exception {
+		final URI input = new URI(null, "", null);
+		final File actual = invoke(input);
+		final File expected = new File("");
 		assertEquals(expected, actual);
 	}
 	
@@ -277,14 +226,6 @@ abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void query() throws Exception {
-		final URI input = URI.create("file:/myProject///myFolder?query");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
 	public void fragmentQuery() throws Exception {
 		final URI input = URI.create("file:/myProject///myFolder?query#fragment");
 		final File actual = invoke(input);
@@ -293,17 +234,8 @@ abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void relativeUri() throws Exception {
-		final URI input = URI.create("file:/resource/...////");
-		final File actual = invoke(input);
-		final File expected = new File("/resource/.../");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void otherSchema() throws Exception {
-		final URI input = URI.create("https://example.com/MyFile.ext");
+	public void inputBroken() throws Exception {
+		final URI input = URI.create("!@#fasfasdf");
 		final File actual = invoke(input);
 		assertNull(actual);
 	}
@@ -319,10 +251,19 @@ abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void inputBroken() throws Exception {
-		final URI input = URI.create("!@#fasfasdf");
+	public void invalidScheme() throws Exception {
+		final URI input = new URI("http:/myProject/myFolder");
 		final File actual = invoke(input);
 		assertNull(actual);
+	}
+	
+	@Override
+	@Test
+	public void multiRelativePath() throws Exception {
+		final URI input = new URI("file:resource/../some/dir/../../file.ext");
+		final File actual = invoke(input);
+		final File expected = new File("resource/../some/dir/../../file.ext");
+		assertEquals(expected, actual);
 	}
 	
 	@Override
@@ -336,28 +277,95 @@ abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteNestedFileNoScheme() throws Exception {
-		final URI input = new URI(null, "/some/path/MyFile.ext", null);
+	public void opaqueScheme() throws Exception {
+		final URI input = new URI("mailto:test@example.com");
 		final File actual = invoke(input);
-		final File expected = new File("/some/path/MyFile.ext");
+		assertNull(actual);
+	}
+	
+	@Override
+	@Test
+	public void otherSchema() throws Exception {
+		final URI input = URI.create("https://example.com/MyFile.ext");
+		final File actual = invoke(input);
+		assertNull(actual);
+	}
+	
+	@Override
+	@Test
+	public void paramNull() throws Exception {
+		final URI input = (URI) null;
+		final File actual = ConversionUtils.toJavaFile(input);
+		assertNull(actual);
+	}
+	
+	@Override
+	@Test
+	public void parent() throws Exception {
+		final URI input = new URI("file:..");
+		final File actual = invoke(input);
+		final File expected = new File("..");
 		assertEquals(expected, actual);
 	}
 	
 	@Override
 	@Test
-	public void startRelativePathNoScheme() throws Exception {
-		final URI input = new URI(null, "../resource/////", null);
+	public void query() throws Exception {
+		final URI input = URI.create("file:/myProject///myFolder?query");
 		final File actual = invoke(input);
-		final File expected = new File("../resource/");
+		assertNull(actual);
+	}
+	
+	@Override
+	@Test
+	public void relativeFile() throws Exception {
+		final URI input = new URI("file:MyFile.ext");
+		final File actual = invoke(input);
+		final File expected = new File("MyFile.ext");
 		assertEquals(expected, actual);
 	}
 	
 	@Override
 	@Test
-	public void currentRelativeNestedFileNoScheme() throws Exception {
-		final URI input = new URI(null, "./some/path/MyFile.ext", null);
+	public void relativeFileSlashesExcess() throws Exception {
+		final URI input = new URI("file:myProject///folder///deep/myFile.ext//");
 		final File actual = invoke(input);
-		final File expected = new File("./some/path/MyFile.ext");
+		final File expected = new File("myProject/folder/deep/myFile.ext");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativeFolderSlash() throws Exception {
+		final URI input = new URI("file:myProject/myFolder/");
+		final File actual = invoke(input);
+		final File expected = new File("myProject/myFolder");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativeFolderSlashesInbetween() throws Exception {
+		final URI input = new URI("file:myProject///myFolder");
+		final File actual = invoke(input);
+		final File expected = new File("myProject/myFolder");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativeFragmentQuery() throws Exception {
+		final URI input = new URI("file:myProject///myFolder?query#fragment");
+		final File actual = invoke(input);
+		assertNull(actual);
+	}
+	
+	@Override
+	@Test
+	public void relativeNestedFile() throws Exception {
+		final URI input = new URI("file:some/path/MyFile.ext");
+		final File actual = invoke(input);
+		final File expected = new File("some/path/MyFile.ext");
 		assertEquals(expected, actual);
 	}
 	
@@ -372,8 +380,35 @@ abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void rootNoScheme() throws Exception {
-		final URI input = new URI(null, "/", null);
+	public void relativePath() throws Exception {
+		final URI input = new URI("file:resource/..////");
+		final File actual = invoke(input);
+		final File expected = new File("resource/..");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativePseudoFragment() throws Exception {
+		final URI input = new URI("file:myProject///myFolder%23query");
+		final File actual = invoke(input);
+		final File expected = new File("myProject/myFolder#query/");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void relativeUri() throws Exception {
+		final URI input = URI.create("file:/resource/...////");
+		final File actual = invoke(input);
+		final File expected = new File("/resource/.../");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@Test
+	public void root() throws Exception {
+		final URI input = new URI("file:/");
 		final File actual = invoke(input);
 		final File expected = new File("/");
 		assertEquals(expected, actual);
@@ -381,28 +416,10 @@ abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void emptyNoScheme() throws Exception {
-		final URI input = new URI(null, "", null);
+	public void rootNoScheme() throws Exception {
+		final URI input = new URI(null, "/", null);
 		final File actual = invoke(input);
-		final File expected = new File("");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void currentNoScheme() throws Exception {
-		final URI input = new URI(null, ".", null);
-		final File actual = invoke(input);
-		final File expected = new File(".");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void currentSlashNoScheme() throws Exception {
-		final URI input = new URI(null, "./", null);
-		final File actual = invoke(input);
-		final File expected = new File("./");
+		final File expected = new File("/");
 		assertEquals(expected, actual);
 	}
 	
@@ -417,44 +434,27 @@ abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void opaqueScheme() throws Exception {
-		final URI input = new URI("mailto:test@example.com");
+	public void startRelativePath() throws Exception {
+		final URI input = new URI("file:../resource/..////");
 		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void absolutePseudoFragment() throws Exception {
-		final URI input = new URI("file://myProject///myFolder%23query");
-		final File actual = invoke(input);
-		final File expected = new File("/myProject/myFolder#query/");
+		final File expected = new File("../resource/..");
 		assertEquals(expected, actual);
 	}
 	
 	@Override
 	@Test
-	public void parent() throws Exception {
-		final URI input = new URI("file:..");
+	public void startRelativePathNoScheme() throws Exception {
+		final URI input = new URI(null, "../resource/////", null);
 		final File actual = invoke(input);
-		final File expected = new File("..");
+		final File expected = new File("../resource/");
 		assertEquals(expected, actual);
 	}
-	
-	@Override
-	@Test
-	public void relativePseudoFragment() throws Exception {
-		final URI input = new URI("file:myProject///myFolder%23query");
-		final File actual = invoke(input);
-		final File expected = new File("myProject/myFolder#query/");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	protected Class<?> getTargetType() { return URI.class; }
 	
 	@Override
 	protected Class<?> getSourceType() { return File.class; }
+	
+	@Override
+	protected Class<?> getTargetType() { return URI.class; }
 	
 	protected abstract File invoke(URI input);
 }

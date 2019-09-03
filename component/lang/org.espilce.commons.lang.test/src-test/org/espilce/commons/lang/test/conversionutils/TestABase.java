@@ -26,11 +26,11 @@ public abstract class TestABase {
 		this.exception.expect(hasProperty("targetType", equalTo(getTargetType())));
 	}
 	
-	protected Class<?> getTargetType() {
+	protected Class<?> getSourceType() {
 		throw new UnsupportedOperationException();
 	}
 	
-	protected Class<?> getSourceType() {
+	protected Class<?> getTargetType() {
 		throw new UnsupportedOperationException();
 	}
 }
