@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.espilce.commons.exception.UnconvertibleException;
@@ -508,8 +509,13 @@ public class ConversionUtils {
 				return javaPath.toUri().toURL();
 			}
 			
-			return new URL(SCHEME_FILE + ":" + javaPath.toString().replace(javaPath.getFileSystem().getSeparator(), "/"));
-		} catch (IllegalArgumentException | MalformedURLException e) {
+			final String adjustedSeparators = javaPath.toString().replace(javaPath.getFileSystem().getSeparator(), "/");
+			if (StringUtils.isBlank(adjustedSeparators)) {
+				return new URL(SCHEME_FILE + ":");
+			}
+			
+			return new URI(SCHEME_FILE, adjustedSeparators, null).toURL();
+		} catch (IllegalArgumentException | MalformedURLException | URISyntaxException e) {
 			throw new UnconvertibleException(javaPath, Path.class, URL.class, e);
 		}
 	}

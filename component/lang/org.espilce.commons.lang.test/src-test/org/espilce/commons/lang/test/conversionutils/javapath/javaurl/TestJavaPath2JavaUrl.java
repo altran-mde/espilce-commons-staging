@@ -189,7 +189,7 @@ public abstract class TestJavaPath2JavaUrl extends TestABase implements TestIBas
 	public void relativeFileSlashesExcess() throws Exception {
 		final Path input = Paths.get("myProject///folder///deep/myFile.ext//");
 		final URL actual = invoke(input);
-		final URL expected = new URL("file:myProject///folder///deep/myFile.ext//");
+		final URL expected = new URL("file:myProject/folder/deep/myFile.ext");
 		assertEquals(expected, actual);
 	}
 	
@@ -198,7 +198,8 @@ public abstract class TestJavaPath2JavaUrl extends TestABase implements TestIBas
 	public void relativeFolderSlash() throws Exception {
 		final Path input = Paths.get("myProject/myFolder/");
 		final URL actual = invoke(input);
-		final URL expected = new URL("file:myProject/myFolder/");
+		// trailing slash is swallowed by Paths.get()
+		final URL expected = new URL("file:myProject/myFolder");
 		assertEquals(expected, actual);
 	}
 	
@@ -207,7 +208,7 @@ public abstract class TestJavaPath2JavaUrl extends TestABase implements TestIBas
 	public void relativeFolderSlashesInbetween() throws Exception {
 		final Path input = Paths.get("myProject///myFolder");
 		final URL actual = invoke(input);
-		final URL expected = new URL("file:myProject///myFolder");
+		final URL expected = new URL("file:myProject/myFolder");
 		assertEquals(expected, actual);
 	}
 	
@@ -232,9 +233,9 @@ public abstract class TestJavaPath2JavaUrl extends TestABase implements TestIBas
 	@Override
 	@Test
 	public void relativePseudoFragment() throws Exception {
-		final Path input = Paths.get("myProject///myFolder#query");
+		final Path input = Paths.get("myProject/myFolder#query");
 		final URL actual = invoke(input);
-		final URL expected = new URL("file:myProject/myFolder%23query/");
+		final URL expected = new URL("file:myProject/myFolder%23query");
 		assertEquals(expected, actual);
 	}
 	
@@ -250,9 +251,9 @@ public abstract class TestJavaPath2JavaUrl extends TestABase implements TestIBas
 	@Override
 	@Test
 	public void startRelativePath() throws Exception {
-		final Path input = Paths.get("../resource/..////");
+		final Path input = Paths.get("../resource/..");
 		final URL actual = invoke(input);
-		final URL expected = new URL("file:../resource/..////");
+		final URL expected = new URL("file:../resource/..");
 		assertEquals(expected, actual);
 	}
 	

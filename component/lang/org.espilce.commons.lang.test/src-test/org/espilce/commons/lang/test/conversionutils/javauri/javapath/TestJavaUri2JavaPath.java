@@ -102,9 +102,9 @@ public abstract class TestJavaUri2JavaPath extends TestABase
 	@Override
 	@Test
 	public void absolutePseudoFragment() throws Exception {
-		final URI input = new URI("file://myProject///myFolder%23query");
+		final URI input = new URI("file:/myProject/myFolder%23query");
 		final Path actual = invoke(input);
-		final Path expected = Paths.get("/myProject/myFolder#query/");
+		final Path expected = Paths.get("/myProject/myFolder#query");
 		assertEquals(expected, actual);
 	}
 	

@@ -91,9 +91,9 @@ public abstract class TestJavaUrl2JavaFile extends TestABase
 	@Override
 	@Test
 	public void absolutePseudoFragment() throws Exception {
-		final URL input = new URL("file://myProject///myFolder%23query");
+		final URL input = new URL("file:/myProject/myFolder%23query");
 		final File actual = invoke(input);
-		final File expected = new File("/myProject/myFolder#query/");
+		final File expected = new File("/myProject/myFolder#query");
 		assertEquals(expected, actual);
 	}
 	

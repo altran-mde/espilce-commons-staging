@@ -15,7 +15,6 @@ import static org.junit.Assert.assertNull;
 import java.io.File;
 import java.net.URI;
 
-import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.test.conversionutils.TestABase;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
 import org.espilce.commons.lang.test.conversionutils.TestIBase;
@@ -102,9 +101,9 @@ public abstract class TestJavaUri2JavaFile extends TestABase
 	@Override
 	@Test
 	public void absolutePseudoFragment() throws Exception {
-		final URI input = new URI("file://myProject///myFolder%23query");
+		final URI input = new URI("file:/myProject/myFolder%23query");
 		final File actual = invoke(input);
-		final File expected = new File("/myProject/myFolder#query/");
+		final File expected = new File("/myProject/myFolder#query");
 		assertEquals(expected, actual);
 	}
 	
@@ -295,7 +294,7 @@ public abstract class TestJavaUri2JavaFile extends TestABase
 	@Test
 	public void paramNull() throws Exception {
 		final URI input = (URI) null;
-		final File actual = ConversionUtils.toJavaFile(input);
+		final File actual = invoke(input);
 		assertNull(actual);
 	}
 	
