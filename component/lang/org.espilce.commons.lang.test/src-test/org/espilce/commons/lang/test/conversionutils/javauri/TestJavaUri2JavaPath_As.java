@@ -12,7 +12,6 @@ package org.espilce.commons.lang.test.conversionutils.javauri;
 import java.net.URI;
 import java.nio.file.Path;
 
-import org.espilce.commons.exception.UnconvertibleException;
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
@@ -24,56 +23,56 @@ public class TestJavaUri2JavaPath_As extends TestJavaUri2JavaPath {
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void absoluteFragmentQuery() throws Exception {
+		expectUnconvertibleException();
 		super.absoluteFragmentQuery();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void relativeFragmentQuery() throws Exception {
+		expectUnconvertibleException();
 		super.relativeFragmentQuery();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void invalidScheme() throws Exception {
+		expectUnconvertibleException();
 		super.invalidScheme();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void opaqueScheme() throws Exception {
+		expectUnconvertibleException();
 		super.opaqueScheme();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void otherSchema() throws Exception {
+		expectUnconvertibleException();
 		super.otherSchema();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void fragment() throws Exception {
+		expectUnconvertibleException();
 		super.fragment();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void fragmentQuery() throws Exception {
+		expectUnconvertibleException();
 		super.fragmentQuery();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void inputBroken() throws Exception {
+		expectUnconvertibleException();
 		super.inputBroken();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void query() throws Exception {
+		expectUnconvertibleException();
 		super.query();
 	}
 	

@@ -12,7 +12,6 @@ package org.espilce.commons.lang.test.conversionutils.javaurl;
 import java.net.URI;
 import java.net.URL;
 
-import org.espilce.commons.exception.UnconvertibleException;
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
@@ -24,8 +23,8 @@ public class TestJavaUrl2JavaUri_As extends TestJavaUrl2JavaUri {
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void empty() throws Exception {
+		expectUnconvertibleException();
 		super.empty();
 	}
 	

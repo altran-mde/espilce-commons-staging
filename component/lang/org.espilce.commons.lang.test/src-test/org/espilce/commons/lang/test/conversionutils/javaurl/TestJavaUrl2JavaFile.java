@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (C) 2019 Altran Netherlands B.V.
+ * 
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javaurl;
 
 import static org.junit.Assert.assertEquals;
@@ -6,6 +15,7 @@ import static org.junit.Assert.assertNull;
 import java.io.File;
 import java.net.URL;
 
+import org.espilce.commons.lang.test.conversionutils.TestABase;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
 import org.espilce.commons.lang.test.conversionutils.TestIBase;
 import org.espilce.commons.lang.test.conversionutils.TestIJavaUrl;
@@ -13,7 +23,7 @@ import org.espilce.commons.lang.test.conversionutils.TestIParamsInvalid;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.junit.Test;
 
-public abstract class TestJavaUrl2JavaFile
+public abstract class TestJavaUrl2JavaFile extends TestABase
 		implements TestIBase, TestIRelative, TestIAbsolute, TestIParamsInvalid, TestIJavaUrl
 {
 	@Override
@@ -290,6 +300,12 @@ public abstract class TestJavaUrl2JavaFile
 		final File expected = new File("myProject/myFolder#query/");
 		assertEquals(expected, actual);
 	}
+	
+	@Override
+	protected Class<?> getTargetType() { return URL.class; }
+	
+	@Override
+	protected Class<?> getSourceType() { return File.class; }
 	
 	protected abstract File invoke(URL input);
 }

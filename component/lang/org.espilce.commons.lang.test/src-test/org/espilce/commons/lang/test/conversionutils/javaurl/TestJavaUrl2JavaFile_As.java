@@ -12,7 +12,6 @@ package org.espilce.commons.lang.test.conversionutils.javaurl;
 import java.io.File;
 import java.net.URL;
 
-import org.espilce.commons.exception.UnconvertibleException;
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
@@ -24,32 +23,32 @@ public class TestJavaUrl2JavaFile_As extends TestJavaUrl2JavaFile {
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void invalidDoubleSlash() throws Exception {
+		expectUnconvertibleException();
 		super.invalidDoubleSlash();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void absoluteFragmentQuery() throws Exception {
+		expectUnconvertibleException();
 		super.absoluteFragmentQuery();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void relativeFragmentQuery() throws Exception {
+		expectUnconvertibleException();
 		super.relativeFragmentQuery();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void invalidScheme() throws Exception {
+		expectUnconvertibleException();
 		super.invalidScheme();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void opaqueScheme() throws Exception {
+		expectUnconvertibleException();
 		super.opaqueScheme();
 	}
 	

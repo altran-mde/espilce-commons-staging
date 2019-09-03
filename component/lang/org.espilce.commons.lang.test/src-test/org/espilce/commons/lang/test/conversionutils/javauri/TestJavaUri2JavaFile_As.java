@@ -12,63 +12,67 @@ package org.espilce.commons.lang.test.conversionutils.javauri;
 import java.io.File;
 import java.net.URI;
 
-import org.espilce.commons.exception.UnconvertibleException;
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
 public class TestJavaUri2JavaFile_As extends TestJavaUri2JavaFile {
+	@Override
+	@Test(expected = NullPointerException.class)
+	public void paramNull() throws Exception {
+		super.paramNull();
+	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void relativeFragmentQuery() throws Exception {
+		expectUnconvertibleException();
 		super.relativeFragmentQuery();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void absoluteFragmentQuery() throws Exception {
+		expectUnconvertibleException();
 		super.absoluteFragmentQuery();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void invalidScheme() throws Exception {
+		expectUnconvertibleException();
 		super.invalidScheme();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void otherSchema() throws Exception {
+		expectUnconvertibleException();
 		super.otherSchema();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void fragment() throws Exception {
+		expectUnconvertibleException();
 		super.fragment();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void query() throws Exception {
+		expectUnconvertibleException();
 		super.query();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void fragmentQuery() throws Exception {
+		expectUnconvertibleException();
 		super.fragmentQuery();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void inputBroken() throws Exception {
+		expectUnconvertibleException();
 		super.inputBroken();
 	}
 	
 	@Override
-	@Test(expected = UnconvertibleException.class)
 	public void opaqueScheme() throws Exception {
+		expectUnconvertibleException();
 		super.opaqueScheme();
 	}
 	

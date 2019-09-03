@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (C) 2019 Altran Netherlands B.V.
+ * 
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javauri;
 
 import static org.junit.Assert.assertEquals;
@@ -7,6 +16,7 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.espilce.commons.lang.test.conversionutils.TestABase;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
 import org.espilce.commons.lang.test.conversionutils.TestIBase;
 import org.espilce.commons.lang.test.conversionutils.TestIJavaUri;
@@ -15,7 +25,7 @@ import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.espilce.commons.lang.test.conversionutils.TestIScheme;
 import org.junit.Test;
 
-public abstract class TestJavaUri2JavaPath
+public abstract class TestJavaUri2JavaPath extends TestABase
 		implements TestIBase, TestIAbsolute, TestIRelative, TestIScheme, TestIJavaUri, TestIParamsInvalid
 {
 	@Override
@@ -439,6 +449,12 @@ public abstract class TestJavaUri2JavaPath
 		final Path expected = Paths.get("myProject/myFolder#query/");
 		assertEquals(expected, actual);
 	}
+	
+	@Override
+	protected Class<?> getTargetType() { return URI.class; }
+	
+	@Override
+	protected Class<?> getSourceType() { return Path.class; }
 	
 	protected abstract Path invoke(URI input);
 }

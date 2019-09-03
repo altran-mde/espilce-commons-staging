@@ -9,90 +9,21 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javafile;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 import java.net.URI;
 
 import org.espilce.commons.lang.ConversionUtils;
 import org.junit.Test;
 
-public class TestJavaFile2JavaUri_As {
-	@SuppressWarnings("null")
+public class TestJavaFile2JavaUri_As extends TestJavaFile2JavaUri {
+	@Override
 	@Test(expected = NullPointerException.class)
-	public void fileNull() throws Exception {
-		ConversionUtils.asJavaUri((File) null);
+	public void paramNull() throws Exception {
+		super.paramNull();
 	}
 	
-	@Test
-	public void empty() throws Exception {
-		final File file = new File("");
-		final URI javaUri = new URI("file:/" + System.getProperty("user.dir").replace('\\', '/') + "/");
-		
-		assertEquals(javaUri, ConversionUtils.asJavaUri(file));
-	}
-	
-	@Test
-	public void absoluteNestedFile() throws Exception {
-		final File file = new File("//some/path/MyFile.ext");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
-		
-		assertEquals(new URI("file:////some/path/MyFile.ext"), javaUri);
-	}
-	
-	@Test
-	public void file() throws Exception {
-		final File file = new File("MyFile.ext");
-		final URI javaUri = new URI("file:/" + System.getProperty("user.dir").replace('\\', '/') + "/MyFile.ext");
-		
-		assertEquals(javaUri, ConversionUtils.asJavaUri(file));
-	}
-	
-	@Test
-	public void absoluteFileNested() throws Exception {
-		final File file = new File("//path/to/myFile.ext");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
-		
-		assertEquals(new URI("file:////path/to/myFile.ext"), javaUri);
-	}
-	
-	@Test
-	public void absoluteFileSlashesExcess() throws Exception {
-		final File file = new File("//myProject///folder///deep/myFile.ext//");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
-		
-		assertEquals(new URI("file:////myProject/folder/deep/myFile.ext"), javaUri);
-	}
-	
-	@Test
-	public void absoluteFolderSlash() throws Exception {
-		final File file = new File("//myProject/myFolder/");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
-		
-		assertEquals(new URI("file:////myProject/myFolder"), javaUri);
-	}
-	
-	@Test
-	public void absoluteFolderSlashesInbetween() throws Exception {
-		final File file = new File("//myProject///myFolder");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
-		
-		assertEquals(new URI("file:////myProject/myFolder"), javaUri);
-	}
-	
-	@Test
-	public void absoluteFragmentQuery() throws Exception {
-		final File file = new File("//myProject///myFolder?query#fragment");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
-		
-		assertEquals(new URI("file:////myProject/myFolder%3Fquery%23fragment"), javaUri);
-	}
-	
-	@Test
-	public void path() throws Exception {
-		final File file = new File("//resource/..////");
-		final URI javaUri = ConversionUtils.asJavaUri(file);
-		
-		assertEquals(new URI("file:////resource/.."), javaUri);
+	@Override
+	protected URI invoke(final File input) {
+		return ConversionUtils.asJavaUri(input);
 	}
 }

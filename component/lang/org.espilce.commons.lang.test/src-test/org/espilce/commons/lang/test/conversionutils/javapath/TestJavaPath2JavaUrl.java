@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (C) 2019 Altran Netherlands B.V.
+ * 
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javapath;
 
 import static org.junit.Assert.assertEquals;
@@ -7,12 +16,13 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.espilce.commons.lang.test.conversionutils.TestABase;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
 import org.espilce.commons.lang.test.conversionutils.TestIBase;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.junit.Test;
 
-public abstract class TestJavaPath2JavaUrl implements TestIBase, TestIAbsolute, TestIRelative {
+public abstract class TestJavaPath2JavaUrl extends TestABase implements TestIBase, TestIAbsolute, TestIRelative {
 	@Override
 	@Test
 	public void paramNull() throws Exception {
@@ -146,6 +156,12 @@ public abstract class TestJavaPath2JavaUrl implements TestIBase, TestIAbsolute, 
 		final URL expected = new URL("file://resource/../");
 		assertEquals(expected, actual);
 	}
+	
+	@Override
+	protected Class<?> getTargetType() { return Path.class; }
+	
+	@Override
+	protected Class<?> getSourceType() { return URL.class; }
 	
 	protected abstract URL invoke(Path input);
 }

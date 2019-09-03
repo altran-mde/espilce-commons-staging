@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (C) 2019 Altran Netherlands B.V.
+ * 
+ * This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License 2.0
+ * which is available at https://www.eclipse.org/legal/epl-2.0/
+ * 
+ * SPDX-License-Identifier: EPL-2.0
+ ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javaurl;
 
 import static org.junit.Assert.assertEquals;
@@ -6,13 +15,16 @@ import static org.junit.Assert.assertNull;
 import java.net.URI;
 import java.net.URL;
 
+import org.espilce.commons.lang.test.conversionutils.TestABase;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
 import org.espilce.commons.lang.test.conversionutils.TestIBase;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.espilce.commons.lang.test.conversionutils.TestIScheme;
 import org.junit.Test;
 
-public abstract class TestJavaUrl2JavaUri implements TestIBase, TestIAbsolute, TestIRelative, TestIScheme {
+public abstract class TestJavaUrl2JavaUri extends TestABase
+		implements TestIBase, TestIAbsolute, TestIRelative, TestIScheme
+{
 	@Override
 	@Test
 	public void paramNull() throws Exception {
@@ -307,6 +319,12 @@ public abstract class TestJavaUrl2JavaUri implements TestIBase, TestIAbsolute, T
 		final URI expected = new URI("file:myProject///myFolder%23query");
 		assertEquals(expected, actual);
 	}
+	
+	@Override
+	protected Class<?> getTargetType() { return URL.class; }
+	
+	@Override
+	protected Class<?> getSourceType() { return URI.class; }
 	
 	protected abstract URI invoke(URL input);
 }
