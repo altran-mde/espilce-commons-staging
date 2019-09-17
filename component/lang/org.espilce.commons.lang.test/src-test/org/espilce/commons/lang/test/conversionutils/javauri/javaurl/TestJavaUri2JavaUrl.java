@@ -9,8 +9,8 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javauri.javaurl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.net.URI;
 import java.net.URL;
@@ -21,14 +21,14 @@ import org.espilce.commons.lang.test.conversionutils.TestIBase;
 import org.espilce.commons.lang.test.conversionutils.TestIJavaUri;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.espilce.commons.lang.test.conversionutils.TestIScheme;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public abstract class TestJavaUri2JavaUrl extends TestABase
 		implements TestIBase, TestIAbsolute, TestIRelative, TestIScheme, TestIJavaUri
 {
 	@Override
 	@Test
-	public void absoluteFile() throws Exception {
+	public void absoluteFile_win_win() throws Exception {
 		final URI input = URI.create("file:/MyFile.ext");
 		final URL actual = invoke(input);
 		final URL expected = new URL("file:/MyFile.ext");
@@ -37,7 +37,7 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteFileSlashesExcess() throws Exception {
+	public void absoluteFileSlashesExcess_win_win() throws Exception {
 		final URI input = URI.create("http:////myProject///folder///deep/myFile.ext//");
 		final URL actual = invoke(input);
 		final URL expected = new URL("http:////myProject///folder///deep/myFile.ext//");
@@ -46,7 +46,7 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteFolderSlash() throws Exception {
+	public void absoluteFolderSlash_win_win() throws Exception {
 		final URI input = URI.create("http:/myProject/myFolder/");
 		final URL actual = invoke(input);
 		final URL expected = new URL("http:/myProject/myFolder/");
@@ -55,7 +55,7 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteFolderSlashesInbetween() throws Exception {
+	public void absoluteFolderSlashesInbetween_win_win() throws Exception {
 		final URI input = URI.create("http:/myProject///myFolder");
 		final URL actual = invoke(input);
 		final URL expected = new URL("http:/myProject///myFolder");
@@ -64,7 +64,7 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteFragmentQuery() throws Exception {
+	public void absoluteFragmentQuery_win_win() throws Exception {
 		final URI input = new URI("file:/myProject///myFolder?query#fragment");
 		final URL actual = invoke(input);
 		final URL expected = new URL("file:/myProject///myFolder?query#fragment");
@@ -73,7 +73,7 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteNestedFile() throws Exception {
+	public void absoluteNestedFile_win_win() throws Exception {
 		final URI input = URI.create("http:/myProject/folder/deep/myFile.ext");
 		final URL actual = invoke(input);
 		final URL expected = new URL("http:/myProject/folder/deep/myFile.ext");
@@ -90,7 +90,7 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 	
 	@Override
 	@Test
-	public void absolutePath() throws Exception {
+	public void absolutePath_win_win() throws Exception {
 		final URI input = URI.create("file:/resource/..////");
 		final URL actual = invoke(input);
 		final URL expected = new URL("file:/resource/..////");
@@ -99,7 +99,7 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 	
 	@Override
 	@Test
-	public void absolutePseudoFragment() throws Exception {
+	public void absolutePseudoFragment_win_win() throws Exception {
 		final URI input = new URI("file://myProject///myFolder%23query");
 		final URL actual = invoke(input);
 		final URL expected = new URL("file://myProject///myFolder%23query");
@@ -387,7 +387,7 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 	
 	@Override
 	@Test
-	public void root() throws Exception {
+	public void root_win_win() throws Exception {
 		final URI input = URI.create("http:/");
 		final URL actual = invoke(input);
 		final URL expected = new URL("http:/");

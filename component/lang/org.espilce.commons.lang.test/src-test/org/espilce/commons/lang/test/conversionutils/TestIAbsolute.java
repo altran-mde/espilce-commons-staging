@@ -9,29 +9,100 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils;
 
+import org.espilce.commons.lang.test.junit5.ConversionFunction;
+
 public interface TestIAbsolute {
 	
-	void absoluteFile() throws Exception;
+	void absoluteFile_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception;
 	
-	void absoluteFileSlashesExcess() throws Exception;
+	void absoluteFile_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception;
 	
-	void absoluteFolderSlash() throws Exception;
 	
-	void absoluteFolderSlashesInbetween() throws Exception;
+	void absoluteFileSlashesExcess_win(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception;
 	
-	void absoluteFragmentQuery() throws Exception;
+	void absoluteFileSlashesExcess_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception;
 	
-	void absoluteNestedFile() throws Exception;
 	
-	void absolutePath() throws Exception;
+	void absoluteFolderSlash_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception;
 	
-	void absolutePseudoFragment() throws Exception;
+	void absoluteFolderSlash_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception;
 	
-	void absoluteWindowsPathDoubleSlash() throws Exception;
 	
-	void absoluteWindowsPathSingleSlash() throws Exception;
+	void absoluteFolderSlashesInbetween_win(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception;
 	
-	void absoluteWindowsPathTripleSlash() throws Exception;
+	void absoluteFolderSlashesInbetween_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception;
 	
-	void root() throws Exception;
+	
+	void absoluteFragmentQuery_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception;
+	
+	void absoluteFragmentQuery_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception;
+	
+	
+	void absoluteNestedFile_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception;
+	
+	void absoluteNestedFile_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception;
+	
+	
+	void absolutePath_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception;
+	
+	void absolutePath_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception;
+	
+	
+	void absolutePseudoFragment_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception;
+	
+	void absolutePseudoFragment_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception;
+	
+	
+	void absoluteWindowsPathDoubleSlash_win(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception;
+	
+	void absoluteWindowsPathDoubleSlash_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception;
+	
+	
+	void absoluteWindowsPathSingleSlash_win(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception;
+	
+	void absoluteWindowsPathSingleSlash_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception;
+	
+	
+	void absoluteWindowsPathTripleSlash_win(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception;
+	
+	void absoluteWindowsPathTripleSlash_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception;
+	
+	
+	void root_win(final ConversionFunction fun, final String inputStr, final String expectedStr) throws Exception;
+	
+	void root_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception;
 }

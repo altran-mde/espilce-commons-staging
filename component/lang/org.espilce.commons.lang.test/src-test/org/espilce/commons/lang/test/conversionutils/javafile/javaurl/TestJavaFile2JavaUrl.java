@@ -9,14 +9,14 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javafile.javaurl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.net.URL;
 
 import org.espilce.commons.lang.test.conversionutils.TestABase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public abstract class TestJavaFile2JavaUrl extends TestABase {
 	@Test

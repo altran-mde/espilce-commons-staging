@@ -338,11 +338,20 @@ public class ConversionUtils {
 		}
 		
 		try {
-			final String adjustedSeparators = javaFile.getPath().replace(File.separator, SEPARATOR_URL_PATH);
+			final String adjustedSeparators = adjustFileSeparators(javaFile);
 			return new URI(null, null, adjustedSeparators, null);
 		} catch (final URISyntaxException e) {
 			return null;
 		}
+	}
+	
+	private static @NonNull String adjustFileSeparators(final @NonNull File javaFile) {
+		String adjustedSeparators = javaFile.getPath().replace(File.separator, SEPARATOR_URL_PATH);
+		if (adjustedSeparators.endsWith(":")) {
+			adjustedSeparators += "/";
+		}
+		
+		return adjustedSeparators;
 	}
 	
 	/**
@@ -358,7 +367,7 @@ public class ConversionUtils {
 		}
 		
 		try {
-			final String adjustedSeparators = javaFile.getPath().replace(File.separator, SEPARATOR_URL_PATH);
+			final String adjustedSeparators = adjustFileSeparators(javaFile);
 			return new URI(null, null, adjustedSeparators, null);
 		} catch (final URISyntaxException e) {
 			throw new UnconvertibleException(javaFile, File.class, URI.class, e);

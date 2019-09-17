@@ -9,17 +9,19 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javafile.javaurl;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.File;
 import java.net.URL;
 
 import org.espilce.commons.lang.ConversionUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestJavaFile2JavaUrl_As extends TestJavaFile2JavaUrl {
 	@Override
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void paramNull() throws Exception {
-		super.paramNull();
+		assertThrows(NullPointerException.class, () -> super.paramNull());
 	}
 	
 	@Override

@@ -9,23 +9,24 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javaurl.javauri;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.URI;
 import java.net.URL;
 
 import org.espilce.commons.lang.ConversionUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestJavaUrl2JavaUri_As extends TestJavaUrl2JavaUri {
 	@Override
 	public void empty() throws Exception {
-		expectUnconvertibleException();
-		super.empty();
+		expectUnconvertibleException(() -> super.empty());
 	}
 	
 	@Override
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void paramNull() throws Exception {
-		super.paramNull();
+		assertThrows(NullPointerException.class, () -> super.paramNull());
 	}
 	
 	@Override

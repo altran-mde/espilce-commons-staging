@@ -1,6 +1,6 @@
 package org.espilce.commons.lang.test.loadhelper.filesystem;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.espilce.commons.lang.loadhelper.FilesystemClassloaderLoadHelper;
 import org.espilce.commons.lang.loadhelper.ILoadHelper;

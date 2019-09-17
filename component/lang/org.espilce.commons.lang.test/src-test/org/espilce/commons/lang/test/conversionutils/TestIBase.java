@@ -9,9 +9,11 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils;
 
+import org.espilce.commons.lang.test.junit5.ConversionFunction;
+
 public interface TestIBase {
 	
-	void empty() throws Exception;
+	void empty(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void paramNull() throws Exception;
+	void paramNull(final ConversionFunction fun, final String inputStr) throws Exception;
 }

@@ -9,71 +9,64 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javauri.javapath;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.URI;
 import java.nio.file.Path;
 
 import org.espilce.commons.lang.ConversionUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestJavaUri2JavaPath_As extends TestJavaUri2JavaPath {
 	@Override
-	public void absoluteFragmentQuery() throws Exception {
-		expectUnconvertibleException();
-		super.absoluteFragmentQuery();
+	public void absoluteFragmentQuery_win_win() throws Exception {
+		expectUnconvertibleException(() -> super.absoluteFragmentQuery_win_win());
 	}
 	
 	@Override
 	public void fragment() throws Exception {
-		expectUnconvertibleException();
-		super.fragment();
+		expectUnconvertibleException(() -> super.fragment());
 	}
 	
 	@Override
 	public void fragmentQuery() throws Exception {
-		expectUnconvertibleException();
-		super.fragmentQuery();
+		expectUnconvertibleException(() -> super.fragmentQuery());
 	}
 	
 	@Override
 	public void inputBroken() throws Exception {
-		expectUnconvertibleException();
-		super.inputBroken();
+		expectUnconvertibleException(() -> super.inputBroken());
 	}
 	
 	@Override
 	public void invalidScheme() throws Exception {
-		expectUnconvertibleException();
-		super.invalidScheme();
+		expectUnconvertibleException(() -> super.invalidScheme());
 	}
 	
 	@Override
 	public void opaqueScheme() throws Exception {
-		expectUnconvertibleException();
-		super.opaqueScheme();
+		expectUnconvertibleException(() -> super.opaqueScheme());
 	}
 	
 	@Override
 	public void otherSchema() throws Exception {
-		expectUnconvertibleException();
-		super.otherSchema();
+		expectUnconvertibleException(() -> super.otherSchema());
 	}
 	
 	@Override
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void paramNull() throws Exception {
-		super.paramNull();
+		assertThrows(NullPointerException.class, () -> super.paramNull());
 	}
 	
 	@Override
 	public void query() throws Exception {
-		expectUnconvertibleException();
-		super.query();
+		expectUnconvertibleException(() -> super.query());
 	}
 	
 	@Override
 	public void relativeFragmentQuery() throws Exception {
-		expectUnconvertibleException();
-		super.relativeFragmentQuery();
+		expectUnconvertibleException(() -> super.relativeFragmentQuery());
 	}
 	
 	@Override

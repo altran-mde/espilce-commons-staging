@@ -9,84 +9,75 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javauri.javaurl;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.URI;
 import java.net.URL;
 
 import org.espilce.commons.lang.ConversionUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestJavaUri2JavaUrl_As extends TestJavaUri2JavaUrl {
 	
 	@Override
 	public void absoluteNestedFileNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.absoluteNestedFileNoScheme();
+		expectUnconvertibleException(() -> super.absoluteNestedFileNoScheme());
 	}
 	
 	@Override
 	public void currentNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.currentNoScheme();
+		expectUnconvertibleException(() -> super.currentNoScheme());
 	}
 	
 	@Override
 	public void currentRelativeNestedFileNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.currentRelativeNestedFileNoScheme();
+		expectUnconvertibleException(() -> super.currentRelativeNestedFileNoScheme());
 	}
 	
 	@Override
 	public void currentSlashNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.currentSlashNoScheme();
+		expectUnconvertibleException(() -> super.currentSlashNoScheme());
 	}
 	
 	@Override
 	public void empty() throws Exception {
-		expectUnconvertibleException();
-		super.empty();
+		expectUnconvertibleException(() -> super.empty());
 	}
 	
 	@Override
 	public void emptyNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.emptyNoScheme();
+		expectUnconvertibleException(() -> super.emptyNoScheme());
 	}
 	
 	@Override
 	public void inputBroken() throws Exception {
-		expectUnconvertibleException();
-		super.inputBroken();
+		expectUnconvertibleException(() -> super.inputBroken());
 	}
 	
 	@Override
 	public void noScheme() throws Exception {
-		expectUnconvertibleException();
-		super.noScheme();
+		expectUnconvertibleException(() -> super.noScheme());
 	}
 	
 	@Override
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void paramNull() throws Exception {
-		super.paramNull();
+		assertThrows(NullPointerException.class, () -> super.paramNull());
 	}
 	
 	@Override
 	public void relativeNestedFileNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.relativeNestedFileNoScheme();
+		expectUnconvertibleException(() -> super.relativeNestedFileNoScheme());
 	}
 	
 	@Override
 	public void rootNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.rootNoScheme();
+		expectUnconvertibleException(() -> super.rootNoScheme());
 	}
 	
 	@Override
 	public void startRelativePathNoScheme() throws Exception {
-		expectUnconvertibleException();
-		super.startRelativePathNoScheme();
+		expectUnconvertibleException(() -> super.startRelativePathNoScheme());
 	}
 	
 	@Override

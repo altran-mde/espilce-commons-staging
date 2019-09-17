@@ -9,16 +9,16 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.stringutils2;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.espilce.commons.lang.NewlineNormalizer;
 import org.espilce.commons.lang.StringUtils2;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TestNormalizeNewlineSingleString {
-	@Before
+	@BeforeEach
 	public void resetDefault() {
 		NewlineNormalizer.setDefault(NewlineNormalizer.LF);
 	}

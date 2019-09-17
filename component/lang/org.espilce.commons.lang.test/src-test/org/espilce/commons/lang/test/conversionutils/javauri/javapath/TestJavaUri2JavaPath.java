@@ -9,8 +9,8 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javauri.javapath;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.net.URI;
 import java.nio.file.Path;
@@ -23,14 +23,14 @@ import org.espilce.commons.lang.test.conversionutils.TestIJavaUri;
 import org.espilce.commons.lang.test.conversionutils.TestIParamsInvalid;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.espilce.commons.lang.test.conversionutils.TestIScheme;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public abstract class TestJavaUri2JavaPath extends TestABase
 		implements TestIBase, TestIAbsolute, TestIRelative, TestIScheme, TestIJavaUri, TestIParamsInvalid
 {
 	@Override
 	@Test
-	public void absoluteFile() throws Exception {
+	public void absoluteFile_win_win() throws Exception {
 		final URI input = new URI("file:/MyFile.ext");
 		final Path actual = invoke(input);
 		final Path expected = Paths.get("/MyFile.ext");
@@ -39,7 +39,7 @@ public abstract class TestJavaUri2JavaPath extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteFileSlashesExcess() throws Exception {
+	public void absoluteFileSlashesExcess_win_win() throws Exception {
 		final URI input = new URI("file:/myProject///folder///deep/myFile.ext//");
 		final Path actual = invoke(input);
 		final Path expected = Paths.get("/myProject/folder/deep/myFile.ext");
@@ -48,7 +48,7 @@ public abstract class TestJavaUri2JavaPath extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteFolderSlash() throws Exception {
+	public void absoluteFolderSlash_win_win() throws Exception {
 		final URI input = new URI("file:/myProject/myFolder/");
 		final Path actual = invoke(input);
 		final Path expected = Paths.get("/myProject/myFolder");
@@ -57,7 +57,7 @@ public abstract class TestJavaUri2JavaPath extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteFolderSlashesInbetween() throws Exception {
+	public void absoluteFolderSlashesInbetween_win_win() throws Exception {
 		final URI input = new URI("file:/myProject///myFolder");
 		final Path actual = invoke(input);
 		final Path expected = Paths.get("/myProject/myFolder");
@@ -66,7 +66,7 @@ public abstract class TestJavaUri2JavaPath extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteFragmentQuery() throws Exception {
+	public void absoluteFragmentQuery_win_win() throws Exception {
 		final URI input = new URI("file:/myProject///myFolder?query#fragment");
 		final Path actual = invoke(input);
 		assertNull(actual);
@@ -74,7 +74,7 @@ public abstract class TestJavaUri2JavaPath extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteNestedFile() throws Exception {
+	public void absoluteNestedFile_win_win() throws Exception {
 		final URI input = new URI("file:/some/path/MyFile.ext");
 		final Path actual = invoke(input);
 		final Path expected = Paths.get("/some/path/MyFile.ext");
@@ -92,7 +92,7 @@ public abstract class TestJavaUri2JavaPath extends TestABase
 	
 	@Override
 	@Test
-	public void absolutePath() throws Exception {
+	public void absolutePath_win_win() throws Exception {
 		final URI input = new URI("file:/resource/..////");
 		final Path actual = invoke(input);
 		final Path expected = Paths.get("/resource/..");
@@ -101,7 +101,7 @@ public abstract class TestJavaUri2JavaPath extends TestABase
 	
 	@Override
 	@Test
-	public void absolutePseudoFragment() throws Exception {
+	public void absolutePseudoFragment_win_win() throws Exception {
 		final URI input = new URI("file:/myProject/myFolder%23query");
 		final Path actual = invoke(input);
 		final Path expected = Paths.get("/myProject/myFolder#query");
@@ -407,7 +407,7 @@ public abstract class TestJavaUri2JavaPath extends TestABase
 	
 	@Override
 	@Test
-	public void root() throws Exception {
+	public void root_win_win() throws Exception {
 		final URI input = new URI("file:/");
 		final Path actual = invoke(input);
 		final Path expected = Paths.get("/");

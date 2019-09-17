@@ -9,34 +9,36 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils;
 
+import org.espilce.commons.lang.test.junit5.ConversionFunction;
+
 public interface TestIRelative {
 	
-	void current() throws Exception;
+	void current(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void currentRelativeNestedFile() throws Exception;
+	void currentRelativeNestedFile(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void currentSlash() throws Exception;
+	void currentSlash(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void multiRelativePath() throws Exception;
+	void multiRelativePath(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void parent() throws Exception;
+	void parent(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void relativeFile() throws Exception;
+	void relativeFile(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void relativeFileSlashesExcess() throws Exception;
+	void relativeFileSlashesExcess(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void relativeFolderSlash() throws Exception;
+	void relativeFolderSlash(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void relativeFolderSlashesInbetween() throws Exception;
+	void relativeFolderSlashesInbetween(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void relativeFragmentQuery() throws Exception;
+	void relativeFragmentQuery(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void relativeNestedFile() throws Exception;
+	void relativeNestedFile(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void relativePath() throws Exception;
+	void relativePath(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void relativePseudoFragment() throws Exception;
+	void relativePseudoFragment(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void startRelativePath() throws Exception;
+	void startRelativePath(final ConversionFunction fun, final String inputStr) throws Exception;
 	
 }

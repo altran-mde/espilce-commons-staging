@@ -9,8 +9,8 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javauri.javafile;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.net.URI;
@@ -22,14 +22,14 @@ import org.espilce.commons.lang.test.conversionutils.TestIJavaUri;
 import org.espilce.commons.lang.test.conversionutils.TestIParamsInvalid;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.espilce.commons.lang.test.conversionutils.TestIScheme;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public abstract class TestJavaUri2JavaFile extends TestABase
 		implements TestIBase, TestIAbsolute, TestIRelative, TestIScheme, TestIJavaUri, TestIParamsInvalid
 {
 	@Override
 	@Test
-	public void absoluteFile() throws Exception {
+	public void absoluteFile_win_win() throws Exception {
 		final URI input = new URI("file:/MyFile.ext");
 		final File actual = invoke(input);
 		final File expected = new File("/MyFile.ext");
@@ -38,7 +38,7 @@ public abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteFileSlashesExcess() throws Exception {
+	public void absoluteFileSlashesExcess_win_win() throws Exception {
 		final URI input = new URI("file:/myProject///folder///deep/myFile.ext//");
 		final File actual = invoke(input);
 		final File expected = new File("/myProject/folder/deep/myFile.ext");
@@ -47,7 +47,7 @@ public abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteFolderSlash() throws Exception {
+	public void absoluteFolderSlash_win_win() throws Exception {
 		final URI input = new URI("file:/myProject/myFolder/");
 		final File actual = invoke(input);
 		final File expected = new File("/myProject/myFolder");
@@ -56,7 +56,7 @@ public abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteFolderSlashesInbetween() throws Exception {
+	public void absoluteFolderSlashesInbetween_win_win() throws Exception {
 		final URI input = new URI("file:/myProject///myFolder");
 		final File actual = invoke(input);
 		final File expected = new File("/myProject/myFolder");
@@ -65,7 +65,7 @@ public abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteFragmentQuery() throws Exception {
+	public void absoluteFragmentQuery_win_win() throws Exception {
 		final URI input = new URI("file:/myProject///myFolder?query#fragment");
 		final File actual = invoke(input);
 		assertNull(actual);
@@ -73,7 +73,7 @@ public abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void absoluteNestedFile() throws Exception {
+	public void absoluteNestedFile_win_win() throws Exception {
 		final URI input = new URI("file:/some/path/MyFile.ext");
 		final File actual = invoke(input);
 		final File expected = new File("/some/path/MyFile.ext");
@@ -91,7 +91,7 @@ public abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void absolutePath() throws Exception {
+	public void absolutePath_win_win() throws Exception {
 		final URI input = new URI("file:/resource/..////");
 		final File actual = invoke(input);
 		final File expected = new File("/resource/..");
@@ -100,7 +100,7 @@ public abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void absolutePseudoFragment() throws Exception {
+	public void absolutePseudoFragment_win_win() throws Exception {
 		final URI input = new URI("file:/myProject/myFolder%23query");
 		final File actual = invoke(input);
 		final File expected = new File("/myProject/myFolder#query");
@@ -406,7 +406,7 @@ public abstract class TestJavaUri2JavaFile extends TestABase
 	
 	@Override
 	@Test
-	public void root() throws Exception {
+	public void root_win_win() throws Exception {
 		final URI input = new URI("file:/");
 		final File actual = invoke(input);
 		final File expected = new File("/");

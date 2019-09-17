@@ -9,8 +9,9 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javapath.javauri;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.net.URI;
 import java.nio.file.InvalidPathException;
@@ -21,13 +22,14 @@ import org.espilce.commons.lang.test.conversionutils.TestABase;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
 import org.espilce.commons.lang.test.conversionutils.TestIBase;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.espilce.commons.lang.test.junit5.TestOnWindows;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public abstract class TestJavaPath2JavaUri extends TestABase implements TestIBase, TestIAbsolute, TestIRelative {
 	@Override
 	@Test
-	public void absoluteFile() throws Exception {
+	public void absoluteFile_win_win() throws Exception {
 		final Path input = Paths.get("//bla/MyFile.ext");
 		final URI actual = invoke(input);
 		final URI expected = new URI("file://bla/MyFile.ext/");
@@ -44,7 +46,7 @@ public abstract class TestJavaPath2JavaUri extends TestABase implements TestIBas
 	
 	@Override
 	@Test
-	public void absoluteFileSlashesExcess() throws Exception {
+	public void absoluteFileSlashesExcess_win_win() throws Exception {
 		final Path input = Paths.get("//myProject///folder///deep/myFile.ext//");
 		final URI actual = invoke(input);
 		final URI expected = new URI("file://myProject/folder/deep/myFile.ext");
@@ -53,7 +55,7 @@ public abstract class TestJavaPath2JavaUri extends TestABase implements TestIBas
 	
 	@Override
 	@Test
-	public void absoluteFolderSlash() throws Exception {
+	public void absoluteFolderSlash_win_win() throws Exception {
 		final Path input = Paths.get("//myProject/myFolder/");
 		final URI actual = invoke(input);
 		final URI expected = new URI("file://myProject/myFolder/");
@@ -62,7 +64,7 @@ public abstract class TestJavaPath2JavaUri extends TestABase implements TestIBas
 	
 	@Override
 	@Test
-	public void absoluteFolderSlashesInbetween() throws Exception {
+	public void absoluteFolderSlashesInbetween_win_win() throws Exception {
 		final Path input = Paths.get("//myProject///myFolder");
 		final URI actual = invoke(input);
 		final URI expected = new URI("file://myProject/myFolder/");
@@ -70,14 +72,14 @@ public abstract class TestJavaPath2JavaUri extends TestABase implements TestIBas
 	}
 	
 	@Override
-	@Test(expected = InvalidPathException.class)
-	public void absoluteFragmentQuery() throws Exception {
-		Paths.get("//myProject/myFolder?query#fragment");
+	@Test
+	public void absoluteFragmentQuery_win_win() throws Exception {
+		assertThrows(InvalidPathException.class, () -> Paths.get("//myProject/myFolder?query#fragment"));
 	}
 	
 	@Override
 	@Test
-	public void absoluteNestedFile() throws Exception {
+	public void absoluteNestedFile_win_win() throws Exception {
 		final Path input = Paths.get("//some/input/MyFile.ext");
 		final URI actual = invoke(input);
 		final URI expected = new URI("file://some/input/MyFile.ext");
@@ -86,7 +88,7 @@ public abstract class TestJavaPath2JavaUri extends TestABase implements TestIBas
 	
 	@Override
 	@Test
-	public void absolutePath() throws Exception {
+	public void absolutePath_win_win() throws Exception {
 		final Path input = Paths.get("//resource/..////");
 		final URI actual = invoke(input);
 		final URI expected = new URI("file://resource/../");
@@ -94,8 +96,8 @@ public abstract class TestJavaPath2JavaUri extends TestABase implements TestIBas
 	}
 	
 	@Override
-	@Test
-	public void absolutePseudoFragment() throws Exception {
+	@TestOnWindows
+	public void absolutePseudoFragment_win_win() throws Exception {
 		final Path input = Paths.get("//myProject///myFolder#query");
 		final URI actual = invoke(input);
 		final URI expected = new URI("file://myProject/myFolder%23query/");
@@ -229,9 +231,9 @@ public abstract class TestJavaPath2JavaUri extends TestABase implements TestIBas
 	}
 	
 	@Override
-	@Test(expected = InvalidPathException.class)
+	@Test
 	public void relativeFragmentQuery() throws Exception {
-		Paths.get("myProject/myFolder?query#fragment");
+		assertThrows(InvalidPathException.class, () -> Paths.get("myProject/myFolder?query#fragment"));
 	}
 	
 	@Override
@@ -263,8 +265,8 @@ public abstract class TestJavaPath2JavaUri extends TestABase implements TestIBas
 	
 	@Override
 	@Test
-	@Ignore("Windows path mess")
-	public void root() throws Exception {
+	@Disabled("Windows path mess")
+	public void root_win_win() throws Exception {
 		final Path input = Paths.get("/");
 		final URI actual = invoke(input);
 		final URI expected = new URI("file:////");

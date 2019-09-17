@@ -9,11 +9,11 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.newlinenormalizer;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.espilce.commons.lang.NewlineNormalizer;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestMultiString {
 	@Test

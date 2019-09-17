@@ -9,47 +9,44 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javaurl.javafile;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.File;
 import java.net.URL;
 
 import org.espilce.commons.lang.ConversionUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestJavaUrl2JavaFile_As extends TestJavaUrl2JavaFile {
 	@Override
-	public void absoluteFragmentQuery() throws Exception {
-		expectUnconvertibleException();
-		super.absoluteFragmentQuery();
+	public void absoluteFragmentQuery_win_win() throws Exception {
+		expectUnconvertibleException(() -> super.absoluteFragmentQuery_win_win());
 	}
 	
 	@Override
 	public void invalidDoubleSlash() throws Exception {
-		expectUnconvertibleException();
-		super.invalidDoubleSlash();
+		expectUnconvertibleException(() -> super.invalidDoubleSlash());
 	}
 	
 	@Override
 	public void invalidScheme() throws Exception {
-		expectUnconvertibleException();
-		super.invalidScheme();
+		expectUnconvertibleException(() -> super.invalidScheme());
 	}
 	
 	@Override
 	public void opaqueScheme() throws Exception {
-		expectUnconvertibleException();
-		super.opaqueScheme();
+		expectUnconvertibleException(() -> super.opaqueScheme());
 	}
 	
 	@Override
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void paramNull() throws Exception {
-		super.paramNull();
+		assertThrows(NullPointerException.class, () -> super.paramNull());
 	}
 	
 	@Override
 	public void relativeFragmentQuery() throws Exception {
-		expectUnconvertibleException();
-		super.relativeFragmentQuery();
+		expectUnconvertibleException(() -> super.relativeFragmentQuery());
 	}
 	
 	@Override

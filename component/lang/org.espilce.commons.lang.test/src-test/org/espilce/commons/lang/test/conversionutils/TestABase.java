@@ -9,21 +9,21 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.espilce.commons.exception.UnconvertibleException;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.function.Executable;
 
 public abstract class TestABase {
-	@Rule
-	public ExpectedException exception = ExpectedException.none();
 	
-	protected void expectUnconvertibleException() {
-		this.exception.expect(UnconvertibleException.class);
-		this.exception.expect(hasProperty("sourceType", equalTo(getSourceType())));
-		this.exception.expect(hasProperty("targetType", equalTo(getTargetType())));
+	protected void expectUnconvertibleException(final Executable executable) {
+		final UnconvertibleException ex = assertThrows(UnconvertibleException.class, executable);
+		
+		assertThat(ex, hasProperty("sourceType", equalTo(getSourceType())));
+		assertThat(ex, hasProperty("targetType", equalTo(getTargetType())));
 	}
 	
 	protected Class<?> getSourceType() {
