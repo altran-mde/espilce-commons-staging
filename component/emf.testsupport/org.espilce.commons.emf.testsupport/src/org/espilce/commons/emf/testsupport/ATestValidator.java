@@ -837,7 +837,7 @@ public abstract class ATestValidator {
 			final @Nullable String code
 			) {
 		if (isValidCode(code)) {
-			assertEquals(message, code, diagnostic.getData().stream().filter(String.class::isInstance).findAny());
+			assertEquals(message, code, diagnostic.getData().stream().filter(String.class::isInstance).findAny().get());
 		}
 	}
 	
