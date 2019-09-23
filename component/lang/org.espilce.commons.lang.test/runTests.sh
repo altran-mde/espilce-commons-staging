@@ -10,7 +10,7 @@ java \
 	-ea \
 	-Dfile.encoding=UTF-8 \
 	-agentlib:jdwp=transport=dt_socket,server=y,address=8998,suspend=n \
-	-jar $MAVEN_DIR/repository/org/junit/platform/junit-platform-console-standalone/1.5.2/junit-platform-console-standalone-1.5.2.jar \ 
+	-jar $MAVEN_DIR/repository/org/junit/platform/junit-platform-console-standalone/1.5.2/junit-platform-console-standalone-1.5.2.jar \
 	-classpath \
 "$WORKSPACE_DIR/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.hamcrest.library_1.3.0.v20180524-2246.jar:"\
 "$WORKSPACE_DIR/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.junit.jupiter.api_5.1.0.v20180327-1502.jar:"\
@@ -32,7 +32,7 @@ java \
 "$MAVEN_DIR/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:"\
 "$ECLIPSE_DIR/configuration/org.eclipse.osgi/352/0/.cp:"\
 "$ECLIPSE_DIR/configuration/org.eclipse.osgi/350/0/.cp:"\
-"$ECLIPSE_DIR/configuration/org.eclipse.osgi/657/0/.cp"
+"$ECLIPSE_DIR/configuration/org.eclipse.osgi/657/0/.cp" \
 	--scan-classpath \
 	--reports-dir=./target/reports \
 	-n=org.espilce.commons.lang.test.conversionutils.javafile.javauri.*
