@@ -10,8 +10,6 @@ import java.lang.annotation.Target;
 public @interface ConversionConfig {
 	Class<?> conversionClass();
 	
-	String methodName();
-	
 	Class<?> paramType();
 	
 	Class<?> returnType();

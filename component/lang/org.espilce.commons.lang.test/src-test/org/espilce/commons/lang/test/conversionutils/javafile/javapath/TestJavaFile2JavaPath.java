@@ -12,14 +12,9 @@ package org.espilce.commons.lang.test.conversionutils.javafile.javapath;
 import java.io.File;
 import java.nio.file.Path;
 
-import org.espilce.commons.lang.test.conversionutils.TestABase;
+import org.espilce.commons.lang.ConversionUtils;
+import org.espilce.commons.lang.test.junit5.ConversionConfig;
 
-public abstract class TestJavaFile2JavaPath extends TestABase {
-	@Override
-	protected Class<?> getSourceType() { return File.class; }
-	
-	@Override
-	protected Class<?> getTargetType() { return Path.class; }
-	
-	protected abstract Path invoke(final File input);
+@ConversionConfig(conversionClass = ConversionUtils.class, paramType = File.class, returnType = Path.class)
+public class TestJavaFile2JavaPath {
 }

@@ -9,19 +9,21 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils;
 
+import org.espilce.commons.lang.test.junit5.ConversionFunction;
+
 public interface TestIScheme {
 	
-	void emptyWithScheme() throws Exception;
+	void emptyWithScheme(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void fragment() throws Exception;
+	void fragment(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void fragmentQuery() throws Exception;
+	void fragmentQuery(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void inputNoSlashes() throws Exception;
+	void inputNoSlashes(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void otherSchema() throws Exception;
+	void otherSchema(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void query() throws Exception;
+	void query(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void relativeUri() throws Exception;
+	void relativeUri(final ConversionFunction fun, final String inputStr) throws Exception;
 }

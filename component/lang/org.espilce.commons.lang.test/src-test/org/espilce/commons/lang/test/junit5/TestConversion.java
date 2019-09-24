@@ -15,5 +15,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 public @interface TestConversion {
 	String value() default DEFAULT;
 	
+	boolean backslash() default true;
+	
 	static final String DEFAULT = "org.espilce.commons.lang.test.junit5.TestConversion.DEFAULT_VALUE";
 }

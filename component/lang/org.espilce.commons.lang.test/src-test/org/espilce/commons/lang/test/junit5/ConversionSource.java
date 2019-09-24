@@ -12,4 +12,6 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 @ArgumentsSource(ConversionSourceArgumentsProvider.class)
 public @interface ConversionSource {
 	String[] value();
+	
+	boolean backslash() default true;
 }

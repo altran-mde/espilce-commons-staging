@@ -9,9 +9,11 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils;
 
+import org.espilce.commons.lang.test.junit5.ConversionFunction;
+
 public interface TestIParamsInvalid {
 	
-	void invalidScheme() throws Exception;
+	void invalidScheme(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void opaqueScheme() throws Exception;
+	void opaqueScheme(final ConversionFunction fun, final String inputStr) throws Exception;
 }

@@ -20,17 +20,19 @@ import org.junit.platform.commons.util.Preconditions;
 public class ConversionSourceArgumentsProvider extends AConversionArgumentsProvider
 		implements AnnotationConsumer<ConversionSource>
 {
-	private static final String[] SEPARATORS = new String[] { "/", "\\" };
+	private static final String[] SEPARATORS = new String[] { SEPARATOR, ALT_SEPARATOR };
 	private static final String[] ROOTS = new String[] { "/", "c:/", "//" };
 	
 	private static final String PLACEHOLDER = "{}";
 	private static final String NEWLINE = "\n";
 	
 	private String[] values;
+	private boolean backslash;
 	
 	@Override
 	public void accept(final ConversionSource t) {
 		this.values = t.value();
+		this.backslash = t.backslash();
 	}
 	
 	@Override
@@ -79,17 +81,26 @@ public class ConversionSourceArgumentsProvider extends AConversionArgumentsProvi
 		
 		outputMap.remove(template);
 		
+		final String[] separators = this.backslash ? SEPARATORS : new String[] { SEPARATOR };
+		
+		final int expectedSize = ROOTS.length * separators.length * (int) getMethods().count();
+		
 		for (final String start : ROOTS) {
 			final Pattern pattern = Pattern
 					.compile("^" + ((start.length() == 1) ? (start + "([^" + SEPARATOR + "]|$)") : start) + ".*");
 			final String tpl = inputMap.keySet().stream().filter(k -> pattern.matcher(k).matches()).findAny()
 					.orElse(template);
-			for (final String sep : SEPARATORS) {
+			for (final String sep : separators) {
 				final String key = tpl.replace(PLACEHOLDER, start).replace(SEPARATOR, sep);
 				final String value = inputMap.getOrDefault(tpl, tplValue).replace(PLACEHOLDER, start);
-				if (!outputMap.containsKey(key)) {
-					outputMap.put(key, value);
-				}
+				// if (!start.replace(SEPARATOR, sep).startsWith(ALT_SEPARATOR)
+				// || this.backslash) {
+					if (!outputMap.containsKey(key)) {
+						outputMap.put(key, value);
+					}
+				// } else {
+				// expectedSize -= 2;
+				// }
 			}
 		}
 		
@@ -97,7 +108,6 @@ public class ConversionSourceArgumentsProvider extends AConversionArgumentsProvi
 				.flatMap(k -> getMethods().map(f -> Arguments.of(f, k, outputMap.get(k))))
 				.collect(Collectors.toList());
 		
-		final int expectedSize = ROOTS.length * SEPARATORS.length * (int) getMethods().count();
 		
 		Preconditions.condition(
 				result.size() == expectedSize,

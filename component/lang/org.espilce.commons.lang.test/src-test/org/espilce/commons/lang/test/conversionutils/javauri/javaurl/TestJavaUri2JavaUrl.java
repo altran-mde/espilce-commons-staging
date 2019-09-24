@@ -15,15 +15,17 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.net.URI;
 import java.net.URL;
 
-import org.espilce.commons.lang.test.conversionutils.TestABase;
+import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
 import org.espilce.commons.lang.test.conversionutils.TestIBase;
 import org.espilce.commons.lang.test.conversionutils.TestIJavaUri;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.espilce.commons.lang.test.conversionutils.TestIScheme;
+import org.espilce.commons.lang.test.junit5.ConversionConfig;
 import org.junit.jupiter.api.Test;
 
-public abstract class TestJavaUri2JavaUrl extends TestABase
+@ConversionConfig(conversionClass = ConversionUtils.class, paramType = URI.class, returnType = URL.class)
+public class TestJavaUri2JavaUrl
 		implements TestIBase, TestIAbsolute, TestIRelative, TestIScheme, TestIJavaUri
 {
 	@Override
@@ -427,12 +429,4 @@ public abstract class TestJavaUri2JavaUrl extends TestABase
 		final URL actual = invoke(input);
 		assertNull(actual);
 	}
-	
-	@Override
-	protected Class<?> getSourceType() { return URI.class; }
-	
-	@Override
-	protected Class<?> getTargetType() { return URL.class; }
-	
-	protected abstract URL invoke(final URI input);
 }

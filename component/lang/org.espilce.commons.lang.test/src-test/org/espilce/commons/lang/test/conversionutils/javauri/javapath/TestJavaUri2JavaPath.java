@@ -16,16 +16,18 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.espilce.commons.lang.test.conversionutils.TestABase;
+import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
 import org.espilce.commons.lang.test.conversionutils.TestIBase;
 import org.espilce.commons.lang.test.conversionutils.TestIJavaUri;
 import org.espilce.commons.lang.test.conversionutils.TestIParamsInvalid;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.espilce.commons.lang.test.conversionutils.TestIScheme;
+import org.espilce.commons.lang.test.junit5.ConversionConfig;
 import org.junit.jupiter.api.Test;
 
-public abstract class TestJavaUri2JavaPath extends TestABase
+@ConversionConfig(conversionClass = ConversionUtils.class, paramType = URI.class, returnType = Path.class)
+public class TestJavaUri2JavaPath
 		implements TestIBase, TestIAbsolute, TestIRelative, TestIScheme, TestIJavaUri, TestIParamsInvalid
 {
 	@Override
@@ -449,12 +451,4 @@ public abstract class TestJavaUri2JavaPath extends TestABase
 		final Path expected = Paths.get("../resource/");
 		assertEquals(expected, actual);
 	}
-	
-	@Override
-	protected Class<?> getSourceType() { return URI.class; }
-	
-	@Override
-	protected Class<?> getTargetType() { return Path.class; }
-	
-	protected abstract Path invoke(URI input);
 }

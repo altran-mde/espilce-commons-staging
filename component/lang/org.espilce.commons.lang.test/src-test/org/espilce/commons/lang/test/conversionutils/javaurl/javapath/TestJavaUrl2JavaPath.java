@@ -12,14 +12,9 @@ package org.espilce.commons.lang.test.conversionutils.javaurl.javapath;
 import java.net.URL;
 import java.nio.file.Path;
 
-import org.espilce.commons.lang.test.conversionutils.TestABase;
+import org.espilce.commons.lang.ConversionUtils;
+import org.espilce.commons.lang.test.junit5.ConversionConfig;
 
-public abstract class TestJavaUrl2JavaPath extends TestABase {
-	@Override
-	protected Class<?> getSourceType() { return URL.class; }
-	
-	@Override
-	protected Class<?> getTargetType() { return Path.class; }
-	
-	protected abstract Path invoke(final URL input);
+@ConversionConfig(conversionClass = ConversionUtils.class, paramType = URL.class, returnType = Path.class)
+public abstract class TestJavaUrl2JavaPath {
 }

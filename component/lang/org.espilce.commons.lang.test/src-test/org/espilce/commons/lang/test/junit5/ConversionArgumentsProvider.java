@@ -10,9 +10,8 @@ import org.junit.jupiter.params.support.AnnotationConsumer;
 public class ConversionArgumentsProvider extends AConversionArgumentsProvider
 		implements AnnotationConsumer<TestConversion>
 {
-	private static final String ALT_SEPARATOR = "\\";
-	
 	private String value;
+	private boolean backslash;
 
 	@Override
 	public void accept(final TestConversion t) {
@@ -23,6 +22,8 @@ public class ConversionArgumentsProvider extends AConversionArgumentsProvider
 		} else {
 			this.value = null;
 		}
+		
+		this.backslash = t.backslash();
 	}
 	
 	@Override
@@ -30,7 +31,7 @@ public class ConversionArgumentsProvider extends AConversionArgumentsProvider
 		retrieveClassConfig(context);
 		
 		final Stream<String> base;
-		if (OS.WINDOWS.isCurrentOs()) {
+		if (this.backslash && OS.WINDOWS.isCurrentOs()) {
 			base = Stream.of(this.value, this.value.replace(SEPARATOR, ALT_SEPARATOR));
 		} else {
 			base = Stream.of(this.value);

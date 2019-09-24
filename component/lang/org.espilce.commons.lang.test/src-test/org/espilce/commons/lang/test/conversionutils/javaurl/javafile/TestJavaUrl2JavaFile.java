@@ -15,15 +15,17 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.io.File;
 import java.net.URL;
 
-import org.espilce.commons.lang.test.conversionutils.TestABase;
+import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
 import org.espilce.commons.lang.test.conversionutils.TestIBase;
 import org.espilce.commons.lang.test.conversionutils.TestIJavaUrl;
 import org.espilce.commons.lang.test.conversionutils.TestIParamsInvalid;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
+import org.espilce.commons.lang.test.junit5.ConversionConfig;
 import org.junit.jupiter.api.Test;
 
-public abstract class TestJavaUrl2JavaFile extends TestABase
+@ConversionConfig(conversionClass = ConversionUtils.class, paramType = URL.class, returnType = File.class)
+public class TestJavaUrl2JavaFile
 		implements TestIBase, TestIRelative, TestIAbsolute, TestIParamsInvalid, TestIJavaUrl
 {
 	@Override
@@ -300,12 +302,4 @@ public abstract class TestJavaUrl2JavaFile extends TestABase
 		final File expected = new File("../resource/..////");
 		assertEquals(expected, actual);
 	}
-	
-	@Override
-	protected Class<?> getSourceType() { return URL.class; }
-	
-	@Override
-	protected Class<?> getTargetType() { return File.class; }
-	
-	protected abstract File invoke(URL input);
 }

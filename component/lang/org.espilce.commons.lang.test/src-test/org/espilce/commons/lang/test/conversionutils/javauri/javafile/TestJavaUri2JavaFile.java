@@ -9,451 +9,618 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javauri.javafile;
 
+import static org.espilce.commons.lang.test.junit5.AssertConversion.assertIllegalConversion;
+import static org.espilce.commons.lang.test.junit5.AssertConversion.assertNullResult;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URISyntaxException;
 
-import org.espilce.commons.lang.test.conversionutils.TestABase;
+import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
 import org.espilce.commons.lang.test.conversionutils.TestIBase;
 import org.espilce.commons.lang.test.conversionutils.TestIJavaUri;
 import org.espilce.commons.lang.test.conversionutils.TestIParamsInvalid;
 import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.espilce.commons.lang.test.conversionutils.TestIScheme;
-import org.junit.jupiter.api.Test;
+import org.espilce.commons.lang.test.junit5.ConversionConfig;
+import org.espilce.commons.lang.test.junit5.ConversionFunction;
+import org.espilce.commons.lang.test.junit5.ConversionSource;
+import org.espilce.commons.lang.test.junit5.TestConversion;
+import org.espilce.commons.lang.test.junit5.TestOnUnix;
+import org.espilce.commons.lang.test.junit5.TestOnWindows;
 
-public abstract class TestJavaUri2JavaFile extends TestABase
+@ConversionConfig(conversionClass = ConversionUtils.class, paramType = URI.class, returnType = File.class)
+public class TestJavaUri2JavaFile
 		implements TestIBase, TestIAbsolute, TestIRelative, TestIScheme, TestIJavaUri, TestIParamsInvalid
 {
+	
+	//// TestIAbsolute ////
+	
 	@Override
-	@Test
-	public void absoluteFile_win_win() throws Exception {
-		final URI input = new URI("file:/MyFile.ext");
-		final File actual = invoke(input);
-		final File expected = new File("/MyFile.ext");
+	@TestOnWindows
+	@ConversionSource(value = {
+			"file:{}MyFile.ext, {}MyFile.ext"
+	}, backslash = false)
+	public void absoluteFile_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource({
+			"file:{}MyFile.ext, {}MyFile.ext"
+	})
+	public void absoluteFile_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource(value = {
+			"file:{}myProject///folder///deep/myFile.ext//, {}myProject/folder/deep/myFile.ext"
+	}, backslash = false)
+	public void absoluteFileSlashesExcess_win(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource({
+			"file:{}myProject///folder///deep/myFile.ext//, {}myProject/folder/deep/myFile.ext"
+	})
+	public void absoluteFileSlashesExcess_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource(value = {
+			"file:{}myProject/myFolder/, {}myProject/myFolder"
+	}, backslash = false)
+	public void absoluteFolderSlash_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource(value = {
+			"file:{}myProject/myFolder/, {}myProject/myFolder"
+	}, backslash = false)
+	public void absoluteFolderSlash_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource(value = {
+			"file:{}myProject///myFolder, {}myProject/myFolder"
+	}, backslash = false)
+	public void absoluteFolderSlashesInbetween_win(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource(value = {
+			"file:{}myProject///myFolder, {}myProject/myFolder"
+	}, backslash = false)
+	public void absoluteFolderSlashesInbetween_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource(value = {
+			"file:{}myProject///myFolder?query#fragment, null"
+	}, backslash = false)
+	public void absoluteFragmentQuery_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		final URI input = new URI(inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource(value = {
+			"file:{}myProject///myFolder?query#fragment, null"
+	}, backslash = false)
+	public void absoluteFragmentQuery_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	)
+			throws Exception {
+		final URI input = new URI(inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource(value = {
+			"file:{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+	}, backslash = false)
+	public void absoluteNestedFile_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource(value = {
+			"file:{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+	}, backslash = false)
+	public void absoluteNestedFile_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource(value = {
+			"file:{}resource/..////, {}resource/.."
+	}, backslash = false)
+	public void absolutePath_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource(value = {
+			"file:{}resource/..////, {}resource/.."
+	}, backslash = false)
+	public void absolutePath_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource(value = {
+			"file:{}myProject/myFolder%23query, {}myProject/myFolder#query"
+	}, backslash = false)
+	public void absolutePseudoFragment_win(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource(value = {
+			"file:{}myProject/myFolder%23query, {}myProject/myFolder#query"
+	}, backslash = false)
+	public void absolutePseudoFragment_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource(value = {
+			"file:{}, {}",
+			"file://"
+	}, backslash = false)
+	public void root_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource(value = {
+			"file:{}, {}",
+			"file://"
+	}, backslash = false)
+	public void root_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource({
+			"file:/{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+	})
+	public void absoluteWindowsPathSingleSlash_win(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource({
+			"file:/{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+	})
+	public void absoluteWindowsPathSingleSlash_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource({
+			"file://{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+	})
+	public void absoluteWindowsPathDoubleSlash_win(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource({
+			"file://{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+	})
+	public void absoluteWindowsPathDoubleSlash_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource({
+			"file:///{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+	})
+	public void absoluteWindowsPathTripleSlash_win(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource({
+			"file:///{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+	})
+	public void absoluteWindowsPathTripleSlash_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	
+	//// TestIRelative ////
+	
+	
+	@Override
+	@TestConversion(".")
+	public void current(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI("file", inputStr, null);
+		assertConversionEquals(fun, input, ".");
+	}
+	
+	@Override
+	@TestConversion(value = "file:./some/path/MyFile.ext", backslash = false)
+	public void currentRelativeNestedFile(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "./some/path/MyFile.ext");
+	}
+	
+	@Override
+	@TestConversion("./")
+	public void currentSlash(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI("file", inputStr, null);
+		assertConversionEquals(fun, input, "./");
+	}
+	
+	@Override
+	@TestConversion(value = "file:resource/../some/dir/../../file.ext", backslash = false)
+	public void multiRelativePath(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "resource/../some/dir/../../file.ext");
+	}
+	
+	@Override
+	@TestConversion("file:..")
+	public void parent(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "..");
+	}
+	
+	@Override
+	@TestConversion("file:MyFile.ext")
+	public void relativeFile(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "MyFile.ext");
+	}
+	
+	@Override
+	@TestConversion(value = "file:myProject///folder///deep/myFile.ext//", backslash = false)
+	public void relativeFileSlashesExcess(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "myProject/folder/deep/myFile.ext");
+	}
+	
+	@Override
+	@TestConversion(value = "file:myProject/myFolder/", backslash = false)
+	public void relativeFolderSlash(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "myProject/myFolder");
+	}
+	
+	@Override
+	@TestConversion(value = "file:myProject///myFolder", backslash = false)
+	public void relativeFolderSlashesInbetween(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "myProject/myFolder");
+	}
+	
+	@Override
+	@TestConversion(value = "file:myProject///myFolder?query#fragment", backslash = false)
+	public void relativeFragmentQuery(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	@Override
+	@TestConversion(value = "file:some/path/MyFile.ext", backslash = false)
+	public void relativeNestedFile(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "some/path/MyFile.ext");
+	}
+	
+	@Override
+	@TestConversion(value = "file:resource/..////", backslash = false)
+	public void relativePath(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "resource/..");
+	}
+	
+	@Override
+	@TestConversion(value = "file:myProject///myFolder%23query", backslash = false)
+	public void relativePseudoFragment(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "myProject/myFolder#query/");
+	}
+	
+	@Override
+	@TestConversion(value = "file:../resource/..////", backslash = false)
+	public void startRelativePath(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "../resource/..");
+	}
+	
+	
+	//// TestIBase ////
+	
+	
+	@Override
+	@TestConversion("")
+	public void empty(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "");
+	}
+	
+	@Override
+	@TestConversion(/* null */)
+	public void paramNull(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = null;
+		assertNullResult(fun, input);
+	}
+	
+	
+	//// TestIJavaUri ////
+	
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource(value = {
+			"{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+	}, backslash = false)
+	public void absoluteNestedFileNoScheme_win(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource(value = {
+			"{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+	}, backslash = false)
+	public void absoluteNestedFileNoScheme_unix(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws Exception {
+		assertConversionEquals(fun, inputStr, expectedStr);
+	}
+	
+	@Override
+	@TestConversion("some/path/MyFile.ext")
+	public void relativeNestedFileNoScheme(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(null, inputStr, null);
+		assertConversionEquals(fun, input, "some/path/MyFile.ext");
+	}
+	
+	@Override
+	@TestConversion(".")
+	public void currentNoScheme(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(null, inputStr, null);
+		assertConversionEquals(fun, input, ".");
+	}
+	
+	@Override
+	@TestConversion("./some/path/MyFile.ext")
+	public void currentRelativeNestedFileNoScheme(final ConversionFunction fun, final String inputStr)
+			throws Exception {
+		final URI input = new URI(null, inputStr, null);
+		assertConversionEquals(fun, input, "./some/path/MyFile.ext");
+	}
+	
+	@Override
+	@TestConversion("./")
+	public void currentSlashNoScheme(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(null, inputStr, null);
+		assertConversionEquals(fun, input, "./");
+	}
+	
+	@Override
+	@TestConversion("")
+	public void emptyNoScheme(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(null, inputStr, null);
+		assertConversionEquals(fun, input, "");
+	}
+	
+	@Override
+	@TestConversion("!@#fasfasdf")
+	public void inputBroken(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	@Override
+	@TestConversion("MyFile.ext")
+	public void noScheme(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "MyFile.ext");
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource(value = {
+			"{}, {}"
+	})
+	public void rootNoScheme_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		final URI input = new URI(null, inputStr, null);
+		assertConversionEquals(fun, input, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource(value = {
+			"{}, {}"
+	})
+	public void rootNoScheme_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		final URI input = new URI(null, inputStr, null);
+		assertConversionEquals(fun, input, expectedStr);
+	}
+	
+	@Override
+	@TestOnWindows
+	@ConversionSource(value = {
+			"{}, {}"
+	})
+	public void rootScheme_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		final URI input = new URI("file", inputStr, null);
+		assertConversionEquals(fun, input, expectedStr);
+	}
+	
+	@Override
+	@TestOnUnix
+	@ConversionSource(value = {
+			"{}, {}"
+	})
+	public void rootScheme_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws Exception {
+		final URI input = new URI("file", inputStr, null);
+		assertConversionEquals(fun, input, expectedStr);
+	}
+	
+	@Override
+	@TestConversion("../resource/////")
+	public void startRelativePathNoScheme(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(null, inputStr, null);
+		assertConversionEquals(fun, input, "../resource/");
+	}
+	
+	
+	//// TestIScheme ////
+	
+	
+	@Override
+	@TestConversion(value = "file:/resource/...////", backslash = false)
+	public void relativeUri(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "/resource/.../");
+	}
+	
+	@Override
+	@TestConversion(value = "file:/", backslash = false)
+	public void emptyWithScheme(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "/");
+	}
+	
+	@Override
+	@TestConversion(value = "file:/myProject///myFolder#fragment", backslash = false)
+	public void fragment(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	@Override
+	@TestConversion(value = "file:/myProject///myFolder?query#fragment", backslash = false)
+	public void fragmentQuery(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	@Override
+	@TestConversion("file:fasfasdf")
+	public void inputNoSlashes(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "fasfasdf");
+	}
+	
+	@Override
+	@TestConversion(value = "https://example.com/MyFile.ext", backslash = false)
+	public void otherSchema(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	@Override
+	@TestConversion(value = "file:/myProject///myFolder?query", backslash = false)
+	public void query(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	
+	//// TestIParamsInvalid ////
+	
+	
+	@Override
+	@TestConversion(value = "http:/myProject/myFolder", backslash = false)
+	public void invalidScheme(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	@Override
+	@TestConversion("mailto:test@example.com")
+	public void opaqueScheme(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI(inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	private void assertConversionEquals(final ConversionFunction fun, final String inputStr, final String expectedStr)
+			throws URISyntaxException {
+		final URI input = new URI(inputStr);
+		assertConversionEquals(fun, input, expectedStr);
+	}
+	
+	private void assertConversionEquals(final ConversionFunction fun, final URI input, final String expectedStr) {
+		final Object actual = fun.apply(input);
+		final File expected = new File(expectedStr);
 		assertEquals(expected, actual);
 	}
 	
-	@Override
-	@Test
-	public void absoluteFileSlashesExcess_win_win() throws Exception {
-		final URI input = new URI("file:/myProject///folder///deep/myFile.ext//");
-		final File actual = invoke(input);
-		final File expected = new File("/myProject/folder/deep/myFile.ext");
-		assertEquals(expected, actual);
+	private void assertConversionEquals_Exceptional(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws URISyntaxException {
+		final URI input = new URI(inputStr);
+		
+		if (expectedStr != null) {
+			final Object actual = fun.apply(input);
+			final File expected = new File(expectedStr);
+			assertEquals(expected, actual);
+		} else {
+			assertIllegalConversion(fun, input);
+		}
 	}
-	
-	@Override
-	@Test
-	public void absoluteFolderSlash_win_win() throws Exception {
-		final URI input = new URI("file:/myProject/myFolder/");
-		final File actual = invoke(input);
-		final File expected = new File("/myProject/myFolder");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absoluteFolderSlashesInbetween_win_win() throws Exception {
-		final URI input = new URI("file:/myProject///myFolder");
-		final File actual = invoke(input);
-		final File expected = new File("/myProject/myFolder");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absoluteFragmentQuery_win_win() throws Exception {
-		final URI input = new URI("file:/myProject///myFolder?query#fragment");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void absoluteNestedFile_win_win() throws Exception {
-		final URI input = new URI("file:/some/path/MyFile.ext");
-		final File actual = invoke(input);
-		final File expected = new File("/some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absoluteNestedFileNoScheme() throws Exception {
-		final URI input = new URI(null, "/some/path/MyFile.ext", null);
-		final File actual = invoke(input);
-		final File expected = new File("/some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absolutePath_win_win() throws Exception {
-		final URI input = new URI("file:/resource/..////");
-		final File actual = invoke(input);
-		final File expected = new File("/resource/..");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absolutePseudoFragment_win_win() throws Exception {
-		final URI input = new URI("file:/myProject/myFolder%23query");
-		final File actual = invoke(input);
-		final File expected = new File("/myProject/myFolder#query");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absoluteWindowsPathDoubleSlash() throws Exception {
-		final URI input = new URI("file://c:/some/path/MyFile.ext");
-		final File actual = invoke(input);
-		final File expected = new File("c:/some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absoluteWindowsPathSingleSlash() throws Exception {
-		final URI input = new URI("file:/c:/some/path/MyFile.ext");
-		final File actual = invoke(input);
-		final File expected = new File("c:/some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void absoluteWindowsPathTripleSlash() throws Exception {
-		final URI input = new URI("file:///c:/some/path/MyFile.ext");
-		final File actual = invoke(input);
-		final File expected = new File("c:/some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void current() throws Exception {
-		final URI input = new URI("file", ".", null);
-		final File actual = invoke(input);
-		final File expected = new File(".");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void currentNoScheme() throws Exception {
-		final URI input = new URI(null, ".", null);
-		final File actual = invoke(input);
-		final File expected = new File(".");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void currentRelativeNestedFile() throws Exception {
-		final URI input = new URI("file:./some/path/MyFile.ext");
-		final File actual = invoke(input);
-		final File expected = new File("./some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void currentRelativeNestedFileNoScheme() throws Exception {
-		final URI input = new URI(null, "./some/path/MyFile.ext", null);
-		final File actual = invoke(input);
-		final File expected = new File("./some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void currentSlash() throws Exception {
-		final URI input = new URI("file", "./", null);
-		final File actual = invoke(input);
-		final File expected = new File("./");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void currentSlashNoScheme() throws Exception {
-		final URI input = new URI(null, "./", null);
-		final File actual = invoke(input);
-		final File expected = new File("./");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void empty() throws Exception {
-		final URI input = URI.create("");
-		final File actual = invoke(input);
-		final File expected = new File("");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void emptyNoScheme() throws Exception {
-		final URI input = new URI(null, "", null);
-		final File actual = invoke(input);
-		final File expected = new File("");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void emptyWithScheme() throws Exception {
-		final URI input = URI.create("file:/");
-		final File actual = invoke(input);
-		final File expected = new File("/");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void fragment() throws Exception {
-		final URI input = URI.create("file:/myProject///myFolder#fragment");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void fragmentQuery() throws Exception {
-		final URI input = URI.create("file:/myProject///myFolder?query#fragment");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void inputBroken() throws Exception {
-		final URI input = URI.create("!@#fasfasdf");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void inputNoSlashes() throws Exception {
-		final URI input = URI.create("file:fasfasdf");
-		final File actual = invoke(input);
-		final File expected = new File("fasfasdf");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void invalidScheme() throws Exception {
-		final URI input = new URI("http:/myProject/myFolder");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void multiRelativePath() throws Exception {
-		final URI input = new URI("file:resource/../some/dir/../../file.ext");
-		final File actual = invoke(input);
-		final File expected = new File("resource/../some/dir/../../file.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void noScheme() throws Exception {
-		final URI input = URI.create("MyFile.ext");
-		final File actual = invoke(input);
-		final File expected = new File("MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void opaqueScheme() throws Exception {
-		final URI input = new URI("mailto:test@example.com");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void otherSchema() throws Exception {
-		final URI input = URI.create("https://example.com/MyFile.ext");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void paramNull() throws Exception {
-		final URI input = (URI) null;
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void parent() throws Exception {
-		final URI input = new URI("file:..");
-		final File actual = invoke(input);
-		final File expected = new File("..");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void query() throws Exception {
-		final URI input = URI.create("file:/myProject///myFolder?query");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeFile() throws Exception {
-		final URI input = new URI("file:MyFile.ext");
-		final File actual = invoke(input);
-		final File expected = new File("MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeFileSlashesExcess() throws Exception {
-		final URI input = new URI("file:myProject///folder///deep/myFile.ext//");
-		final File actual = invoke(input);
-		final File expected = new File("myProject/folder/deep/myFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeFolderSlash() throws Exception {
-		final URI input = new URI("file:myProject/myFolder/");
-		final File actual = invoke(input);
-		final File expected = new File("myProject/myFolder");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeFolderSlashesInbetween() throws Exception {
-		final URI input = new URI("file:myProject///myFolder");
-		final File actual = invoke(input);
-		final File expected = new File("myProject/myFolder");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeFragmentQuery() throws Exception {
-		final URI input = new URI("file:myProject///myFolder?query#fragment");
-		final File actual = invoke(input);
-		assertNull(actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeNestedFile() throws Exception {
-		final URI input = new URI("file:some/path/MyFile.ext");
-		final File actual = invoke(input);
-		final File expected = new File("some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeNestedFileNoScheme() throws Exception {
-		final URI input = new URI(null, "some/path/MyFile.ext", null);
-		final File actual = invoke(input);
-		final File expected = new File("some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativePath() throws Exception {
-		final URI input = new URI("file:resource/..////");
-		final File actual = invoke(input);
-		final File expected = new File("resource/..");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativePseudoFragment() throws Exception {
-		final URI input = new URI("file:myProject///myFolder%23query");
-		final File actual = invoke(input);
-		final File expected = new File("myProject/myFolder#query/");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void relativeUri() throws Exception {
-		final URI input = URI.create("file:/resource/...////");
-		final File actual = invoke(input);
-		final File expected = new File("/resource/.../");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void root_win_win() throws Exception {
-		final URI input = new URI("file:/");
-		final File actual = invoke(input);
-		final File expected = new File("/");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void rootNoScheme() throws Exception {
-		final URI input = new URI(null, "/", null);
-		final File actual = invoke(input);
-		final File expected = new File("/");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void rootScheme() throws Exception {
-		final URI input = new URI("file", "/", null);
-		final File actual = invoke(input);
-		final File expected = new File("/");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void startRelativePath() throws Exception {
-		final URI input = new URI("file:../resource/..////");
-		final File actual = invoke(input);
-		final File expected = new File("../resource/..");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@Test
-	public void startRelativePathNoScheme() throws Exception {
-		final URI input = new URI(null, "../resource/////", null);
-		final File actual = invoke(input);
-		final File expected = new File("../resource/");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	protected Class<?> getSourceType() { return URI.class; }
-	
-	@Override
-	protected Class<?> getTargetType() { return File.class; }
-	
-	protected abstract File invoke(URI input);
 }
