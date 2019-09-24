@@ -30,6 +30,9 @@ import org.espilce.commons.lang.test.junit5.TestOnWindows;
 
 @ConversionConfig(conversionClass = ConversionUtils.class, paramType = File.class, returnType = URL.class)
 public class TestJavaFile2JavaUrl implements TestIBase, TestIAbsolute, TestIRelative {
+	
+	//// TestIAbsolute ////
+	
 	@Override
 	@TestOnWindows
 	@ConversionSource({
@@ -362,6 +365,10 @@ public class TestJavaFile2JavaUrl implements TestIBase, TestIAbsolute, TestIRela
 	) throws Exception {
 		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
 	}
+
+	
+	//// TestIRelative ////
+	
 	
 	@Override
 	@TestConversion(".")
@@ -392,28 +399,12 @@ public class TestJavaFile2JavaUrl implements TestIBase, TestIAbsolute, TestIRela
 	}
 	
 	@Override
-	@TestConversion("")
-	public void empty(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
 	@TestConversion("resource/../some/dir/../../file.ext")
 	public void multiRelativePath(final ConversionFunction fun, final String inputStr) throws Exception {
 		final File input = new File(inputStr);
 		final Object actual = fun.apply(input);
 		final URL expected = new URL("resource/../some/dir/../../file.ext");
 		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion(/* null */)
-	public void paramNull(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = (File) null;
-		assertNullResult(fun, input);
 	}
 	
 	@Override
@@ -506,6 +497,25 @@ public class TestJavaFile2JavaUrl implements TestIBase, TestIAbsolute, TestIRela
 		assertEquals(expected, actual);
 	}
 	
+	
+	//// TestIBase ////
+	
+	
+	@Override
+	@TestConversion("")
+	public void empty(final ConversionFunction fun, final String inputStr) throws Exception {
+		final File input = new File(inputStr);
+		final Object actual = fun.apply(input);
+		final URL expected = new URL("");
+		assertEquals(expected, actual);
+	}
+	
+	@Override
+	@TestConversion(/* null */)
+	public void paramNull(final ConversionFunction fun, final String inputStr) throws Exception {
+		final File input = (File) null;
+		assertNullResult(fun, input);
+	}
 	
 	private void assertConversionEquals(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws MalformedURLException {
