@@ -125,7 +125,7 @@ public class TestJavaUri2JavaFile
 	@Override
 	@TestOnWindows
 	@ConversionSource(value = {
-			"file:{}myProject///myFolder?query#fragment, null"
+			"file:{}myProject///myFolder?query#fragment, {}myProject///myFolder"
 	}, backslash = false)
 	public void absoluteFragmentQuery_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
@@ -136,7 +136,7 @@ public class TestJavaUri2JavaFile
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"file:{}myProject///myFolder?query#fragment, null"
+			"file:{}myProject///myFolder?query#fragment, {}myProject///myFolder"
 	}, backslash = false)
 	public void absoluteFragmentQuery_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -416,7 +416,8 @@ public class TestJavaUri2JavaFile
 	public void absoluteNestedFileNoScheme_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		final URI input = new URI(null, inputStr, null);
+		assertConversionEquals(fun, input, expectedStr);
 	}
 	
 	@Override
@@ -427,7 +428,8 @@ public class TestJavaUri2JavaFile
 	public void absoluteNestedFileNoScheme_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		final URI input = new URI(null, inputStr, null);
+		assertConversionEquals(fun, input, expectedStr);
 	}
 	
 	@Override
@@ -541,9 +543,10 @@ public class TestJavaUri2JavaFile
 	}
 	
 	@Override
-	@TestConversion(value = "file:/", backslash = false)
+	@TestConversion(value = " ", backslash = false)
 	public void emptyWithScheme(final ConversionFunction fun, final String inputStr) throws Exception {
-		assertConversionEquals(fun, inputStr, "/");
+		final URI input = new URI("file", inputStr, null);
+		assertConversionEquals(fun, input, "");
 	}
 	
 	@Override
