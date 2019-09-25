@@ -9,6 +9,8 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils;
 
+import org.espilce.commons.lang.test.junit5.ConversionFunction;
+
 public interface TestIJavaUrl {
-	void invalidDoubleSlash() throws Exception;
+	void invalidDoubleSlash(final ConversionFunction fun, final String inputStr) throws Exception;
 }
