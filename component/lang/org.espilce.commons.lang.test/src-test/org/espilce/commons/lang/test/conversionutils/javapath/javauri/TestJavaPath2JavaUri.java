@@ -372,11 +372,11 @@ public class TestJavaPath2JavaUri implements TestIBase, TestIAbsolute, TestIRela
 	
 	
 	@Override
-	@TestConversion(".")
+	@TestConversion(value = ".", backslash = false)
 	public void current(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
-		final URI expected = URI.create(".");
+		final URI expected = new URI(".");
 		assertEquals(expected, actual);
 	}
 	
@@ -385,7 +385,7 @@ public class TestJavaPath2JavaUri implements TestIBase, TestIAbsolute, TestIRela
 	public void currentRelativeNestedFile(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
-		final URI expected = URI.create("./some/path/MyFile.ext");
+		final URI expected = new URI("./some/path/MyFile.ext");
 		assertEquals(expected, actual);
 	}
 	
@@ -395,7 +395,7 @@ public class TestJavaPath2JavaUri implements TestIBase, TestIAbsolute, TestIRela
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
 		// trailing slash is swallowed by File()
-		final URI expected = URI.create(".");
+		final URI expected = new URI(".");
 		assertEquals(expected, actual);
 	}
 	
@@ -409,7 +409,7 @@ public class TestJavaPath2JavaUri implements TestIBase, TestIAbsolute, TestIRela
 	}
 	
 	@Override
-	@TestConversion("..")
+	@TestConversion(value = "file:..", backslash = false)
 	public void parent(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
@@ -418,7 +418,7 @@ public class TestJavaPath2JavaUri implements TestIBase, TestIAbsolute, TestIRela
 	}
 	
 	@Override
-	@TestConversion("MyFile.ext")
+	@TestConversion(value = "file:MyFile.ext", backslash = false)
 	public void relativeFile(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
@@ -494,7 +494,7 @@ public class TestJavaPath2JavaUri implements TestIBase, TestIAbsolute, TestIRela
 	public void startRelativePath(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
-		final URI expected = URI.create("../resource/..");
+		final URI expected = new URI("../resource/..");
 		assertEquals(expected, actual);
 	}
 	
@@ -502,16 +502,16 @@ public class TestJavaPath2JavaUri implements TestIBase, TestIAbsolute, TestIRela
 	//// TestIBase ////
 	
 	@Override
-	@TestConversion("")
+	@TestConversion(value = "", backslash = false)
 	public void empty(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
-		final URI expected = URI.create("");
+		final URI expected = new URI("");
 		assertEquals(expected, actual);
 	}
 	
 	@Override
-	@TestConversion(/* null */)
+	@TestConversion(/* null */ backslash = false)
 	public void paramNull(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		assertNullResult(fun, input);

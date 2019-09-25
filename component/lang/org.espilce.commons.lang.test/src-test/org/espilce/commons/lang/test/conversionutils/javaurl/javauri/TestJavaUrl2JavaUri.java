@@ -131,7 +131,7 @@ public class TestJavaUrl2JavaUri
 	public void current() throws Exception {
 		final URL input = new URL("file:.");
 		final URI actual = invoke(input);
-		final URI expected = URI.create("file:.");
+		final URI expected = new URI("file:.");
 		assertEquals(expected, actual);
 	}
 	
@@ -140,7 +140,7 @@ public class TestJavaUrl2JavaUri
 	public void currentRelativeNestedFile() throws Exception {
 		final URL input = new URL("file:./some/path/MyFile.ext");
 		final URI actual = invoke(input);
-		final URI expected = URI.create("file:./some/path/MyFile.ext");
+		final URI expected = new URI("file:./some/path/MyFile.ext");
 		assertEquals(expected, actual);
 	}
 	
@@ -149,7 +149,7 @@ public class TestJavaUrl2JavaUri
 	public void currentSlash() throws Exception {
 		final URL input = new URL("file:./");
 		final URI actual = invoke(input);
-		final URI expected = URI.create("file:./");
+		final URI expected = new URI("file:./");
 		assertEquals(expected, actual);
 	}
 	
@@ -336,7 +336,7 @@ public class TestJavaUrl2JavaUri
 	public void startRelativePath() throws Exception {
 		final URL input = new URL("file:../resource/..////");
 		final URI actual = invoke(input);
-		final URI expected = URI.create("file:../resource/..////");
+		final URI expected = new URI("file:../resource/..////");
 		assertEquals(expected, actual);
 	}
 }

@@ -282,7 +282,7 @@ public class TestJavaUri2JavaPath
 	
 	
 	@Override
-	@TestConversion(".")
+	@TestConversion(value = ".", backslash = false)
 	public void current(final ConversionFunction fun, final String inputStr) throws Exception {
 		final URI input = new URI("file", inputStr, null);
 		assertConversionEquals(fun, input, ".");
@@ -308,13 +308,13 @@ public class TestJavaUri2JavaPath
 	}
 	
 	@Override
-	@TestConversion("file:..")
+	@TestConversion(value = "file:..", backslash = false)
 	public void parent(final ConversionFunction fun, final String inputStr) throws Exception {
 		assertConversionEquals(fun, inputStr, "..");
 	}
 	
 	@Override
-	@TestConversion("file:MyFile.ext")
+	@TestConversion(value = "file:MyFile.ext", backslash = false)
 	public void relativeFile(final ConversionFunction fun, final String inputStr) throws Exception {
 		assertConversionEquals(fun, inputStr, "MyFile.ext");
 	}
@@ -373,13 +373,13 @@ public class TestJavaUri2JavaPath
 	
 	
 	@Override
-	@TestConversion("")
+	@TestConversion(value = "", backslash = false)
 	public void empty(final ConversionFunction fun, final String inputStr) throws Exception {
 		assertConversionEquals(fun, inputStr, "");
 	}
 	
 	@Override
-	@TestConversion(/* null */)
+	@TestConversion(/* null */ backslash = false)
 	public void paramNull(final ConversionFunction fun, final String inputStr) throws Exception {
 		final URI input = null;
 		assertNullResult(fun, input);
@@ -463,21 +463,21 @@ public class TestJavaUri2JavaPath
 	}
 	
 	@Override
-	@TestConversion("")
+	@TestConversion(value = "", backslash = false)
 	public void emptyNoScheme(final ConversionFunction fun, final String inputStr) throws Exception {
 		final URI input = new URI(null, inputStr, null);
 		assertConversionEquals(fun, input, "");
 	}
 	
 	@Override
-	@TestConversion("!@#fasfasdf")
+	@TestConversion(value = "!@#fasfasdf", backslash = false)
 	public void inputBroken(final ConversionFunction fun, final String inputStr) throws Exception {
 		final URI input = new URI(inputStr);
 		assertIllegalConversion(fun, input);
 	}
 	
 	@Override
-	@TestConversion("MyFile.ext")
+	@TestConversion(value = "MyFile.ext", backslash = false)
 	public void noScheme(final ConversionFunction fun, final String inputStr) throws Exception {
 		assertConversionEquals(fun, inputStr, "MyFile.ext");
 	}
@@ -538,9 +538,9 @@ public class TestJavaUri2JavaPath
 	
 	
 	@Override
-	@TestConversion(value = "file:/resource/...////", backslash = false)
+	@TestConversion(value = "file:resource/...////", backslash = false)
 	public void relativeUri(final ConversionFunction fun, final String inputStr) throws Exception {
-		assertConversionEquals(fun, inputStr, "/resource/.../");
+		assertConversionEquals(fun, inputStr, "resource/.../");
 	}
 	
 	@Override
@@ -565,7 +565,7 @@ public class TestJavaUri2JavaPath
 	}
 	
 	@Override
-	@TestConversion("file:fasfasdf")
+	@TestConversion(value = "file:fasfasdf", backslash = false)
 	public void inputNoSlashes(final ConversionFunction fun, final String inputStr) throws Exception {
 		assertConversionEquals(fun, inputStr, "fasfasdf");
 	}
@@ -596,7 +596,7 @@ public class TestJavaUri2JavaPath
 	}
 	
 	@Override
-	@TestConversion("mailto:test@example.com")
+	@TestConversion(value = "mailto:test@example.com", backslash = false)
 	public void opaqueScheme(final ConversionFunction fun, final String inputStr) throws Exception {
 		final URI input = new URI(inputStr);
 		assertIllegalConversion(fun, input);

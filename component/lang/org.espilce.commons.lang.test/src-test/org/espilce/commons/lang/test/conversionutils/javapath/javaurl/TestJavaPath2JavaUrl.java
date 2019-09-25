@@ -372,7 +372,7 @@ public class TestJavaPath2JavaUrl implements TestIBase, TestIAbsolute, TestIRela
 	
 	
 	@Override
-	@TestConversion(".")
+	@TestConversion(value = ".", backslash = false)
 	public void current(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
@@ -409,7 +409,7 @@ public class TestJavaPath2JavaUrl implements TestIBase, TestIAbsolute, TestIRela
 	}
 	
 	@Override
-	@TestConversion("..")
+	@TestConversion(value = "file:..", backslash = false)
 	public void parent(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
@@ -418,7 +418,7 @@ public class TestJavaPath2JavaUrl implements TestIBase, TestIAbsolute, TestIRela
 	}
 	
 	@Override
-	@TestConversion("MyFile.ext")
+	@TestConversion(value = "file:MyFile.ext", backslash = false)
 	public void relativeFile(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
@@ -503,7 +503,7 @@ public class TestJavaPath2JavaUrl implements TestIBase, TestIAbsolute, TestIRela
 	
 	
 	@Override
-	@TestConversion("")
+	@TestConversion(value = "", backslash = false)
 	public void empty(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
@@ -512,7 +512,7 @@ public class TestJavaPath2JavaUrl implements TestIBase, TestIAbsolute, TestIRela
 	}
 	
 	@Override
-	@TestConversion(/* null */)
+	@TestConversion(/* null */ backslash = false)
 	public void paramNull(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = null;
 		assertNullResult(fun, input);
