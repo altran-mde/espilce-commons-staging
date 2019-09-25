@@ -405,6 +405,17 @@ public class TestJavaUrl2JavaFile
 	}
 	
 	
+	//// TestIJavaUrl ////
+	
+	
+	@Override
+	@TestConversion(value = "file://")
+	public void invalidDoubleSlash(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URL input = new URL(inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	
 	//// TestIParamsInvalid ////
 	
 	
@@ -419,13 +430,6 @@ public class TestJavaUrl2JavaFile
 	@TestConversion(value = "mailto:test@example.com", backslash = false)
 	public void opaqueScheme(final ConversionFunction fun, final String inputStr) throws Exception {
 		final URL input = new URL(inputStr);
-		assertIllegalConversion(fun, input);
-	}
-	
-	@Override
-	@TestConversion(value = "file://")
-	public void invalidDoubleSlash(final ConversionFunction fun, final String inputStr) throws Exception {
-		final URL input = new URL("file://");
 		assertIllegalConversion(fun, input);
 	}
 	
