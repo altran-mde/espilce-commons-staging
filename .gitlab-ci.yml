@@ -1,7 +1,7 @@
 image: registry.manatree.io/rvanduijnhoven/maven-python-dockerimage
 
 before_script:
-  - mkdir -p /root/.m2 && cp settings.xml "$_"
+  - chmod -R +x ./scripts
 
 stages:
   - build
@@ -13,7 +13,7 @@ Build maven projects:
     - linux_docker
   script:
     - cd releng/org.espilce.commons.parent
-    - mvn -e clean install
+    - mvn -e clean install -Dmaven.test.failure.ignore=true
   artifacts:
     when: always
     paths:
