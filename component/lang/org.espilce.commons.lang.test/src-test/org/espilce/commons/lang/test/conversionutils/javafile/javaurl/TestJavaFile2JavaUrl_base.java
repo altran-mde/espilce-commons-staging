@@ -10,7 +10,6 @@
 package org.espilce.commons.lang.test.conversionutils.javafile.javaurl;
 
 import static org.espilce.commons.lang.test.junit5.AssertConversion.assertNullResult;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.net.URL;
@@ -27,10 +26,7 @@ public class TestJavaFile2JavaUrl_base extends ATestJavaFile2JavaUrl implements 
 	@Override
 	@TestConversion(value = "", backslash = false)
 	public void empty(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("");
-		assertEquals(expected, actual);
+		assertConversionEquals(fun, inputStr);
 	}
 	
 	@Override

@@ -27,7 +27,7 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}MyFile.ext, file:/c:/MyFile.ext",
-			"/MyFile.ext,  /MyFile.ext",
+			"/MyFile.ext,  file:/MyFile.ext",
 			"//MyFile.ext, file:////MyFile.ext",
 	})
 	public void absoluteFile_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
@@ -53,7 +53,7 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}myProject///folder///deep/myFile.ext//, file:/{}myProject/folder/deep/myFile.ext",
-			"/myProject///folder///deep/myFile.ext//,  /myProject/folder/deep/myFile.ext",
+			"/myProject///folder///deep/myFile.ext//,  file:/myProject/folder/deep/myFile.ext",
 			"//myProject///folder///deep/myFile.ext//, file:////myProject/folder/deep/myFile.ext",
 	})
 	public void absoluteFileSlashesExcess_win(
@@ -81,7 +81,7 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}myProject/myFolder/, file:/{}myProject/myFolder",
-			"/myProject/myFolder/,  /myProject/myFolder",
+			"/myProject/myFolder/,  file:/myProject/myFolder",
 			"//myProject/myFolder/, file:////myProject/myFolder",
 	})
 	public void absoluteFolderSlash_win(
@@ -109,7 +109,7 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}myProject///myFolder, file:/{}myProject/myFolder",
-			"/myProject///myFolder,  /myProject/myFolder",
+			"/myProject///myFolder,  file:/myProject/myFolder",
 			"//myProject///myFolder, file:////myProject/myFolder",
 	})
 	public void absoluteFolderSlashesInbetween_win(
@@ -137,7 +137,7 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}myProject/myFolder?query#fragment, file:/{}myProject/myFolder%3Fquery%23fragment",
-			"/myProject/myFolder?query#fragment,  /myProject/myFolder%3Fquery%23fragment",
+			"/myProject/myFolder?query#fragment,  file:/myProject/myFolder%3Fquery%23fragment",
 			"//myProject/myFolder?query#fragment, file:////myProject/myFolder%3Fquery%23fragment",
 	})
 	public void absoluteFragmentQuery_win(
@@ -165,7 +165,7 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}some/path/MyFile.ext, file:/{}some/path/MyFile.ext",
-			"/some/path/MyFile.ext,  /some/path/MyFile.ext",
+			"/some/path/MyFile.ext,  file:/some/path/MyFile.ext",
 			"//some/path/MyFile.ext, file:////some/path/MyFile.ext",
 	})
 	public void absoluteNestedFile_win(
@@ -193,7 +193,7 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}resource/..////, file:/{}resource/../",
-			"/resource/..////,  /resource/..",
+			"/resource/..////,  file:/resource/..",
 			"//resource/..////, file:////resource/.."
 	})
 	public void absolutePath_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
@@ -220,7 +220,7 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}myProject/myFolder#query, file:/{}myProject/myFolder%23query",
-			"/myProject/myFolder#query,  /myProject/myFolder%23query",
+			"/myProject/myFolder#query,  file:/myProject/myFolder%23query",
 			"//myProject/myFolder#query, file:////myProject/myFolder%23query",
 	})
 	public void absolutePseudoFragment_win(
@@ -248,7 +248,7 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}, file:/{}",
-			"/,  /",
+			"/,  file:/",
 			"//, file:////",
 	})
 	public void root_win(final ConversionFunction fun, final String inputStr, final String expectedStr)

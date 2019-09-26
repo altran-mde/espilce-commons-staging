@@ -508,10 +508,22 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @Nullable URL toJavaUrl(final @Nullable File javaFile) {
-		if (javaFile == null) {
+		final URI uri = toJavaUri(javaFile);
+		if (uri == null) {
 			return null;
 		}
-		return toJavaUrl(javaFile.toURI());
+		
+		try {
+			if (uri.isAbsolute()) {
+				final URL result = uri.toURL();
+				return result;
+			}
+			
+			final URL result = new URL("file:"+uri.toASCIIString());
+			return result;
+		} catch (final MalformedURLException e) {
+			return null;
+		}
 	}
 	
 	/**
@@ -522,8 +534,21 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @NonNull URL asJavaUrl(final @NonNull File javaFile) throws UnconvertibleException {
+		final URI uri;
 		try {
-			return javaFile.toURI().toURL();
+		uri = asJavaUri(javaFile);
+		} catch (final UnconvertibleException e) {
+			throw new UnconvertibleException(javaFile, File.class, URL.class, e.getCause());
+		}
+		
+		try {
+			if (uri.isAbsolute()) {
+				final URL result = uri.toURL();
+				return result;
+			}
+			
+			final URL result = new URL("file:"+uri.toASCIIString());
+			return result;
 		} catch (IllegalArgumentException | MalformedURLException e) {
 			throw new UnconvertibleException(javaFile, File.class, URL.class, e);
 		}
