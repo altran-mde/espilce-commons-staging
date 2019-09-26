@@ -19,25 +19,16 @@ import java.net.URISyntaxException;
 import org.espilce.commons.lang.test.junit5.ConversionFunction;
 
 public abstract class ATestJavaFile2JavaUri {
+	
 	protected void assertConversionEquals(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws URISyntaxException {
-		forward(fun, inputStr, expectedStr);
-		// backward(fun, inputStr, expectedStr);
-	}
-
-	private void forward(final ConversionFunction fun, final String inputStr, final String expectedStr)
-			throws URISyntaxException {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
 		final URI expected = new URI(expectedStr);
-		assertEquals(expected, actual);
+		assertConversionEquals(fun, inputStr, expected);
 	}
 	
-	private void backward(final ConversionFunction fun, final String inputStr, final String expectedStr)
-			throws URISyntaxException {
-		final URI input = new URI(expectedStr);
-		final Object actual = fun.applyInverse(input);
-		final File expected = new File(expectedStr);
+	protected void assertConversionEquals(final ConversionFunction fun, final String inputStr, final URI expected) {
+		final File input = new File(inputStr);
+		final Object actual = fun.apply(input);
 		assertEquals(expected, actual);
 	}
 	
