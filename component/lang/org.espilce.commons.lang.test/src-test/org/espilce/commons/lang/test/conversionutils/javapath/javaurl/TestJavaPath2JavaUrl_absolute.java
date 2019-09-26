@@ -9,8 +9,12 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javapath.javaurl;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.URL;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
@@ -27,12 +31,16 @@ public class TestJavaPath2JavaUrl_absolute extends ATestJavaPath2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}MyFile.ext, file:/c:/MyFile.ext",
-			"/MyFile.ext,  /MyFile.ext",
-			"//MyFile.ext, file:////MyFile.ext",
+			"/MyFile.ext,  file:/MyFile.ext",
+			"//MyFile.ext, file://MyFile.ext",
 	})
 	public void absoluteFile_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		if (inputStr.startsWith("//") || inputStr.startsWith("\\\\")) {
+			assertThrows(InvalidPathException.class, () -> Paths.get(inputStr));
+		} else {
+			assertConversionEquals(fun, inputStr, expectedStr);
+		}
 	}
 	
 	@Override
@@ -53,8 +61,8 @@ public class TestJavaPath2JavaUrl_absolute extends ATestJavaPath2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}myProject///folder///deep/myFile.ext//, file:/{}myProject/folder/deep/myFile.ext",
-			"/myProject///folder///deep/myFile.ext//,  /myProject/folder/deep/myFile.ext",
-			"//myProject///folder///deep/myFile.ext//, file:////myProject/folder/deep/myFile.ext",
+			"/myProject///folder///deep/myFile.ext//,  file:/myProject/folder/deep/myFile.ext",
+			"//myProject///folder///deep/myFile.ext//, file://myProject/folder/deep/myFile.ext",
 	})
 	public void absoluteFileSlashesExcess_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -81,8 +89,8 @@ public class TestJavaPath2JavaUrl_absolute extends ATestJavaPath2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}myProject/myFolder/, file:/{}myProject/myFolder",
-			"/myProject/myFolder/,  /myProject/myFolder",
-			"//myProject/myFolder/, file:////myProject/myFolder",
+			"/myProject/myFolder/,  file:/myProject/myFolder",
+			"//myProject/myFolder/, file://myProject/myFolder/",
 	})
 	public void absoluteFolderSlash_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -109,8 +117,8 @@ public class TestJavaPath2JavaUrl_absolute extends ATestJavaPath2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}myProject///myFolder, file:/{}myProject/myFolder",
-			"/myProject///myFolder,  /myProject/myFolder",
-			"//myProject///myFolder, file:////myProject/myFolder",
+			"/myProject///myFolder,  file:/myProject/myFolder",
+			"//myProject///myFolder, file://myProject/myFolder/",
 	})
 	public void absoluteFolderSlashesInbetween_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -137,13 +145,13 @@ public class TestJavaPath2JavaUrl_absolute extends ATestJavaPath2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}myProject/myFolder?query#fragment, file:/{}myProject/myFolder%3Fquery%23fragment",
-			"/myProject/myFolder?query#fragment,  /myProject/myFolder%3Fquery%23fragment",
-			"//myProject/myFolder?query#fragment, file:////myProject/myFolder%3Fquery%23fragment",
+			"/myProject/myFolder?query#fragment,  file:/myProject/myFolder%3Fquery%23fragment",
+			"//myProject/myFolder?query#fragment, file://myProject/myFolder%3Fquery%23fragment",
 	})
 	public void absoluteFragmentQuery_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		assertThrows(InvalidPathException.class, () -> Paths.get(inputStr));
 	}
 	
 	@Override
@@ -165,8 +173,8 @@ public class TestJavaPath2JavaUrl_absolute extends ATestJavaPath2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}some/path/MyFile.ext, file:/{}some/path/MyFile.ext",
-			"/some/path/MyFile.ext,  /some/path/MyFile.ext",
-			"//some/path/MyFile.ext, file:////some/path/MyFile.ext",
+			"/some/path/MyFile.ext,  file:/some/path/MyFile.ext",
+			"//some/path/MyFile.ext, file://some/path/MyFile.ext",
 	})
 	public void absoluteNestedFile_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -193,8 +201,8 @@ public class TestJavaPath2JavaUrl_absolute extends ATestJavaPath2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}resource/..////, file:/{}resource/../",
-			"/resource/..////,  /resource/..",
-			"//resource/..////, file:////resource/.."
+			"/resource/..////,  file:/resource/..",
+			"//resource/..////, file://resource/../"
 	})
 	public void absolutePath_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
@@ -220,8 +228,8 @@ public class TestJavaPath2JavaUrl_absolute extends ATestJavaPath2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}myProject/myFolder#query, file:/{}myProject/myFolder%23query",
-			"/myProject/myFolder#query,  /myProject/myFolder%23query",
-			"//myProject/myFolder#query, file:////myProject/myFolder%23query",
+			"/myProject/myFolder#query,  file:/myProject/myFolder%23query",
+			"//myProject/myFolder#query, file://myProject/myFolder%23query/",
 	})
 	public void absolutePseudoFragment_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -248,12 +256,16 @@ public class TestJavaPath2JavaUrl_absolute extends ATestJavaPath2JavaUrl impleme
 	@TestOnWindows
 	@ConversionSource({
 			"{}, file:/{}",
-			"/,  /",
+			"/,  file:/",
 			"//, file:////",
 	})
 	public void root_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		if (inputStr.startsWith("//") || inputStr.startsWith("\\\\")) {
+			assertThrows(InvalidPathException.class, () -> Paths.get(inputStr));
+		} else {
+			assertConversionEquals(fun, inputStr, expectedStr);
+		}
 	}
 	
 	@Override
@@ -273,9 +285,9 @@ public class TestJavaPath2JavaUrl_absolute extends ATestJavaPath2JavaUrl impleme
 	@Override
 	@TestOnWindows
 	@ConversionSource({
-			"/{}some/path/MyFile.ext,    file:///{}some/path/MyFile.ext",
-			"\\\\some\\path\\MyFile.ext, file:////some/path/MyFile.ext",
-			"///some/path/MyFile.ext,    file:////some/path/MyFile.ext",
+			"{}some/path/MyFile.ext, file:/{}some/path/MyFile.ext",
+			"//some/path/MyFile.ext, file://some/path/MyFile.ext",
+			"/some/path/MyFile.ext,  file:/some/path/MyFile.ext",
 	})
 	public void absoluteWindowsPathSingleSlash_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -301,15 +313,18 @@ public class TestJavaPath2JavaUrl_absolute extends ATestJavaPath2JavaUrl impleme
 	@Override
 	@TestOnWindows
 	@ConversionSource({
-			"//{}some/path/MyFile.ext,       file:///{}some/path/MyFile.ext",
-			"\\\\\\some\\path\\MyFile.ext,   file:////some/path/MyFile.ext",
-			"\\\\\\\\some\\path\\MyFile.ext, file:////some/path/MyFile.ext",
-			"////some/path/MyFile.ext,       file:////some/path/MyFile.ext",
+			"/{}some/path/MyFile.ext, file:/{}some/path/MyFile.ext",
+			"///some/path/MyFile.ext, file://some/path/MyFile.ext",
+			"//some/path/MyFile.ext,  file://some/path/MyFile.ext",
 	})
 	public void absoluteWindowsPathDoubleSlash_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		if (inputStr.charAt(2) == ':') {
+			assertThrows(InvalidPathException.class, () -> Paths.get(inputStr));
+		} else {
+			assertConversionEquals(fun, inputStr, expectedStr);
+		}
 	}
 	
 	@Override
@@ -330,15 +345,19 @@ public class TestJavaPath2JavaUrl_absolute extends ATestJavaPath2JavaUrl impleme
 	@Override
 	@TestOnWindows
 	@ConversionSource({
-			"///{}some/path/MyFile.ext,        file:///{}some/path/MyFile.ext",
-			"\\\\\\\\some\\path\\MyFile.ext,   file:////some/path/MyFile.ext",
-			"\\\\\\\\\\some\\path\\MyFile.ext, file:////some/path/MyFile.ext",
-			"/////some/path/MyFile.ext,        file:////some/path/MyFile.ext",
+			"///{}some/path/MyFile.ext,        file:/{}some/path/MyFile.ext",
+			"////some/path/MyFile.ext,         file://some/path/MyFile.ext",
+			"/////some/path/MyFile.ext,        file://some/path/MyFile.ext",
+			"\\\\\\\\\\some\\path\\MyFile.ext, file://some/path/MyFile.ext",
 	})
 	public void absoluteWindowsPathTripleSlash_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		if (inputStr.charAt(4) == ':') {
+			assertThrows(InvalidPathException.class, () -> Paths.get(inputStr));
+		} else {
+			assertConversionEquals(fun, inputStr, expectedStr);
+		}
 	}
 	
 	@Override

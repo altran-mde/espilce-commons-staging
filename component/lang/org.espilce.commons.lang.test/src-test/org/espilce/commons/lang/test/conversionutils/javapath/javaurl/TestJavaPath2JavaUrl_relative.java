@@ -9,9 +9,10 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javapath.javaurl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.net.URL;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -27,127 +28,93 @@ public class TestJavaPath2JavaUrl_relative extends ATestJavaPath2JavaUrl impleme
 	@Override
 	@TestConversion(value = ".", backslash = false)
 	public void current(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL(".");
-		assertEquals(expected, actual);
+		assertConversionEquals(fun, inputStr);
 	}
 	
 	@Override
 	@TestConversion("./some/path/MyFile.ext")
 	public void currentRelativeNestedFile(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("./some/path/MyFile.ext");
-		assertEquals(expected, actual);
+		assertConversionEquals(fun, inputStr);
 	}
 	
 	@Override
 	@TestConversion("./")
 	public void currentSlash(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
 		// trailing slash is swallowed by File()
-		final URL expected = new URL(".");
-		assertEquals(expected, actual);
+		final URL expected = new URL("file:.");
+		assertConversionEquals(fun, inputStr, expected);
 	}
 	
 	@Override
 	@TestConversion("resource/../some/dir/../../file.ext")
 	public void multiRelativePath(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("resource/../some/dir/../../file.ext");
-		assertEquals(expected, actual);
+		assertConversionEquals(fun, inputStr);
 	}
 	
 	@Override
-	@TestConversion(value = "file:..", backslash = false)
+	@TestConversion(value = "..", backslash = false)
 	public void parent(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("..");
-		assertEquals(expected, actual);
+		assertConversionEquals(fun, inputStr);
 	}
 	
 	@Override
-	@TestConversion(value = "file:MyFile.ext", backslash = false)
+	@TestConversion(value = "MyFile.ext", backslash = false)
 	public void relativeFile(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("MyFile.ext");
-		assertEquals(expected, actual);
+		assertConversionEquals(fun, inputStr);
 	}
 	
 	@Override
 	@TestConversion("myProject///folder///deep/myFile.ext//")
 	public void relativeFileSlashesExcess(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("myProject/folder/deep/myFile.ext");
-		assertEquals(expected, actual);
+		final URL expected = new URL("file:myProject/folder/deep/myFile.ext");
+		assertConversionEquals(fun, inputStr, expected);
 	}
 	
 	@Override
 	@TestConversion("myProject/myFolder/")
 	public void relativeFolderSlash(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("myProject/myFolder");
-		assertEquals(expected, actual);
+		final URL expected = new URL("file:myProject/myFolder");
+		assertConversionEquals(fun, inputStr, expected);
 	}
 	
 	@Override
 	@TestConversion("myProject///myFolder")
 	public void relativeFolderSlashesInbetween(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("myProject/myFolder");
-		assertEquals(expected, actual);
+		final URL expected = new URL("file:myProject/myFolder");
+		assertConversionEquals(fun, inputStr, expected);
 	}
 	
 	@Override
 	@TestConversion("myProject/myFolder?query#fragment")
 	public void relativeFragmentQuery(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("myProject/myFolder%3Fquery%23fragment");
-		assertEquals(expected, actual);
+		final URL expected = new URL("file:myProject/myFolder%3Fquery%23fragment");
+		assertThrows(InvalidPathException.class, () -> Paths.get(inputStr));
 	}
 	
 	@Override
 	@TestConversion("some/path/MyFile.ext")
 	public void relativeNestedFile(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("some/path/MyFile.ext");
-		assertEquals(expected, actual);
+		assertConversionEquals(fun, inputStr);
 	}
 	
 	@Override
 	@TestConversion("resource/..////")
 	public void relativePath(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("resource/..");
-		assertEquals(expected, actual);
+		final URL expected = new URL("file:resource/..");
+		assertConversionEquals(fun, inputStr, expected);
 	}
 	
 	@Override
 	@TestConversion("myProject///myFolder#query")
 	public void relativePseudoFragment(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("myProject/myFolder%23query");
-		assertEquals(expected, actual);
+		final URL expected = new URL("file:myProject/myFolder%23query");
+		assertConversionEquals(fun, inputStr, expected);
 	}
 	
 	@Override
 	@TestConversion("../resource/..////")
 	public void startRelativePath(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("../resource/..");
-		assertEquals(expected, actual);
+		final URL expected = new URL("file:../resource/..");
+		assertConversionEquals(fun, inputStr, expected);
 	}
 }

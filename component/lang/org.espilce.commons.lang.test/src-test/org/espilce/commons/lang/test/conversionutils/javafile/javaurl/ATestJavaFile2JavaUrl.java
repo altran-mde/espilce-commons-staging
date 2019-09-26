@@ -38,7 +38,6 @@ public abstract class ATestJavaFile2JavaUrl {
 		assertEquals(expected, actual);
 	}
 	
-	
 	protected void assertConversionEquals_Exceptional(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws MalformedURLException {

@@ -21,11 +21,22 @@ import org.espilce.commons.lang.test.junit5.ConversionFunction;
 
 public abstract class ATestJavaPath2JavaUrl {
 	
+	protected void assertConversionEquals(final ConversionFunction fun, final String inputStr)
+			throws MalformedURLException {
+		final URL expected = new URL("file:" + inputStr);
+		assertConversionEquals(fun, inputStr, expected);
+		
+	}
+	
 	protected void assertConversionEquals(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws MalformedURLException {
+		final URL expected = new URL(expectedStr);
+		assertConversionEquals(fun, inputStr, expected);
+	}
+	
+	protected void assertConversionEquals(final ConversionFunction fun, final String inputStr, final URL expected) {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
-		final URL expected = new URL(expectedStr);
 		assertEquals(expected, actual);
 	}
 	

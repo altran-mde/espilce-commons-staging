@@ -10,11 +10,9 @@
 package org.espilce.commons.lang.test.conversionutils.javapath.javaurl;
 
 import static org.espilce.commons.lang.test.junit5.AssertConversion.assertNullResult;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.test.conversionutils.TestIBase;
@@ -28,10 +26,7 @@ public class TestJavaPath2JavaUrl_base extends ATestJavaPath2JavaUrl implements 
 	@Override
 	@TestConversion(value = "", backslash = false)
 	public void empty(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URL expected = new URL("");
-		assertEquals(expected, actual);
+		assertConversionEquals(fun, inputStr);
 	}
 	
 	@Override

@@ -263,14 +263,10 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	})
 	public void root_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		switch (inputStr) {
-			case "//":
-			case "\\\\":
-				assertThrows(InvalidPathException.class, () -> Paths.get(inputStr));
-				break;
-			default:
-				assertConversionEquals(fun, inputStr, expectedStr);
-				break;
+		if (inputStr.startsWith("//") || inputStr.startsWith("\\\\")) {
+			assertThrows(InvalidPathException.class, () -> Paths.get(inputStr));
+		} else {
+			assertConversionEquals(fun, inputStr, expectedStr);
 		}
 	}
 	
@@ -291,9 +287,9 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	@Override
 	@TestOnWindows
 	@ConversionSource({
-			"{}some/path/MyFile.ext,    file:/{}some/path/MyFile.ext",
+			"{}some/path/MyFile.ext, file:/{}some/path/MyFile.ext",
 			"//some/path/MyFile.ext, file://some/path/MyFile.ext",
-			"/some/path/MyFile.ext, /some/path/MyFile.ext",
+			"/some/path/MyFile.ext,  /some/path/MyFile.ext",
 	})
 	public void absoluteWindowsPathSingleSlash_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -319,9 +315,9 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	@Override
 	@TestOnWindows
 	@ConversionSource({
-			"/{}some/path/MyFile.ext,    file:/{}some/path/MyFile.ext",
+			"/{}some/path/MyFile.ext, file:/{}some/path/MyFile.ext",
 			"///some/path/MyFile.ext, file://some/path/MyFile.ext",
-			"//some/path/MyFile.ext, file://some/path/MyFile.ext",
+			"//some/path/MyFile.ext,  file://some/path/MyFile.ext",
 	})
 	public void absoluteWindowsPathDoubleSlash_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -351,9 +347,9 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	@Override
 	@TestOnWindows
 	@ConversionSource({
-			"///{}some/path/MyFile.ext,    file:/{}some/path/MyFile.ext",
-			"////some/path/MyFile.ext, file://some/path/MyFile.ext",
-			"/////some/path/MyFile.ext, file://some/path/MyFile.ext",
+			"///{}some/path/MyFile.ext,        file:/{}some/path/MyFile.ext",
+			"////some/path/MyFile.ext,         file://some/path/MyFile.ext",
+			"/////some/path/MyFile.ext,        file://some/path/MyFile.ext",
 			"\\\\\\\\\\some\\path\\MyFile.ext, file://some/path/MyFile.ext",
 	})
 	public void absoluteWindowsPathTripleSlash_win(
