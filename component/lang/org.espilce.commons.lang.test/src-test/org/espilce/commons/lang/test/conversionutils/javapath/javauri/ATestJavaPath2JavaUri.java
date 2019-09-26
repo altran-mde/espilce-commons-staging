@@ -23,9 +23,13 @@ public abstract class ATestJavaPath2JavaUri {
 	
 	protected void assertConversionEquals(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws URISyntaxException {
+		final URI expected = new URI(expectedStr);
+		assertConversionEquals(fun, inputStr, expected);
+	}
+	
+	protected void assertConversionEquals(final ConversionFunction fun, final String inputStr, final URI expected) {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
-		final URI expected = new URI(expectedStr);
 		assertEquals(expected, actual);
 	}
 	
