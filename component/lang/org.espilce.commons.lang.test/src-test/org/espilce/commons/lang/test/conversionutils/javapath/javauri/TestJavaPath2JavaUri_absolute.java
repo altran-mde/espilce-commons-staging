@@ -7,31 +7,21 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils.javafile.javauri;
+package org.espilce.commons.lang.test.conversionutils.javapath.javauri;
 
-import static org.espilce.commons.lang.test.junit5.AssertConversion.assertIllegalConversion;
-import static org.espilce.commons.lang.test.junit5.AssertConversion.assertNullResult;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.io.File;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.nio.file.Path;
 
 import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
-import org.espilce.commons.lang.test.conversionutils.TestIBase;
-import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.espilce.commons.lang.test.junit5.ConversionConfig;
 import org.espilce.commons.lang.test.junit5.ConversionFunction;
 import org.espilce.commons.lang.test.junit5.ConversionSource;
-import org.espilce.commons.lang.test.junit5.TestConversion;
 import org.espilce.commons.lang.test.junit5.TestOnUnix;
 import org.espilce.commons.lang.test.junit5.TestOnWindows;
 
-@ConversionConfig(conversionClass = ConversionUtils.class, paramType = File.class, returnType = URI.class)
-public class TestJavaFile2JavaUri implements TestIBase, TestIAbsolute, TestIRelative {
-	
-	//// TestIAbsolute ////
+@ConversionConfig(conversionClass = ConversionUtils.class, paramType = Path.class, returnType = URI.class)
+public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri implements TestIAbsolute {
 	
 	@Override
 	@TestOnWindows
@@ -307,7 +297,7 @@ public class TestJavaFile2JavaUri implements TestIBase, TestIAbsolute, TestIRela
 	) throws Exception {
 		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
 	}
-
+	
 	@Override
 	@TestOnWindows
 	@ConversionSource({
@@ -364,192 +354,5 @@ public class TestJavaFile2JavaUri implements TestIBase, TestIAbsolute, TestIRela
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
 		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
-	}
-	
-	
-	//// TestIRelative ////
-	
-	
-	@Override
-	@TestConversion(value = ".", backslash = false)
-	public void current(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI(".");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion("./some/path/MyFile.ext")
-	public void currentRelativeNestedFile(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("./some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion("./")
-	public void currentSlash(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		// trailing slash is swallowed by File()
-		final URI expected = new URI(".");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion("resource/../some/dir/../../file.ext")
-	public void multiRelativePath(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("resource/../some/dir/../../file.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion(value = "file:..", backslash = false)
-	public void parent(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("..");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion(value = "file:MyFile.ext", backslash = false)
-	public void relativeFile(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion("myProject///folder///deep/myFile.ext//")
-	public void relativeFileSlashesExcess(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("myProject/folder/deep/myFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion("myProject/myFolder/")
-	public void relativeFolderSlash(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("myProject/myFolder");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion("myProject///myFolder")
-	public void relativeFolderSlashesInbetween(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("myProject/myFolder");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion("myProject/myFolder?query#fragment")
-	public void relativeFragmentQuery(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("myProject/myFolder%3Fquery%23fragment");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion("some/path/MyFile.ext")
-	public void relativeNestedFile(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("some/path/MyFile.ext");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion("resource/..////")
-	public void relativePath(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("resource/..");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion("myProject///myFolder#query")
-	public void relativePseudoFragment(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("myProject/myFolder%23query");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion("../resource/..////")
-	public void startRelativePath(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("../resource/..");
-		assertEquals(expected, actual);
-	}
-	
-	
-	//// TestIBase ////
-	
-	
-	@Override
-	@TestConversion(value = "", backslash = false)
-	public void empty(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("");
-		assertEquals(expected, actual);
-	}
-	
-	@Override
-	@TestConversion(/* null */ backslash = false)
-	public void paramNull(final ConversionFunction fun, final String inputStr) throws Exception {
-		final File input = (File) null;
-		assertNullResult(fun, input);
-	}
-	
-	private void assertConversionEquals(final ConversionFunction fun, final String inputStr, final String expectedStr)
-			throws URISyntaxException {
-		forward(fun, inputStr, expectedStr);
-		// backward(fun, inputStr, expectedStr);
-	}
-
-	private void forward(final ConversionFunction fun, final String inputStr, final String expectedStr)
-			throws URISyntaxException {
-		final File input = new File(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI(expectedStr);
-		assertEquals(expected, actual);
-	}
-	
-	private void backward(final ConversionFunction fun, final String inputStr, final String expectedStr)
-			throws URISyntaxException {
-		final URI input = new URI(expectedStr);
-		final Object actual = fun.applyInverse(input);
-		final File expected = new File(expectedStr);
-		assertEquals(expected, actual);
-	}
-	
-	private void assertConversionEquals_Exceptional(
-			final ConversionFunction fun, final String inputStr, final String expectedStr
-	) throws URISyntaxException {
-		final File input = new File(inputStr);
-		
-		if (expectedStr != null) {
-			final Object actual = fun.apply(input);
-			final URI expected = new URI(expectedStr);
-			assertEquals(expected, actual);
-		} else {
-			assertIllegalConversion(fun, input);
-		}
 	}
 }
