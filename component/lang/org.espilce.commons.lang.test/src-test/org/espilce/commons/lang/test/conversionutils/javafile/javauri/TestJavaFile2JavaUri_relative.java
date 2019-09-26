@@ -60,7 +60,7 @@ public class TestJavaFile2JavaUri_relative extends ATestJavaFile2JavaUri impleme
 	}
 	
 	@Override
-	@TestConversion(value = "file:..", backslash = false)
+	@TestConversion(value = "..", backslash = false)
 	public void parent(final ConversionFunction fun, final String inputStr) throws Exception {
 		final File input = new File(inputStr);
 		final Object actual = fun.apply(input);
@@ -69,7 +69,7 @@ public class TestJavaFile2JavaUri_relative extends ATestJavaFile2JavaUri impleme
 	}
 	
 	@Override
-	@TestConversion(value = "file:MyFile.ext", backslash = false)
+	@TestConversion(value = "MyFile.ext", backslash = false)
 	public void relativeFile(final ConversionFunction fun, final String inputStr) throws Exception {
 		final File input = new File(inputStr);
 		final Object actual = fun.apply(input);
