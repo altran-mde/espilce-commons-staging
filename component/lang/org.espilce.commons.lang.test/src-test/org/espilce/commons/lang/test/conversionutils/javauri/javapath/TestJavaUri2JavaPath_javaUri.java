@@ -10,8 +10,10 @@
 package org.espilce.commons.lang.test.conversionutils.javauri.javapath;
 
 import static org.espilce.commons.lang.test.junit5.AssertConversion.assertIllegalConversion;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 import org.espilce.commons.lang.ConversionUtils;
@@ -29,20 +31,21 @@ public class TestJavaUri2JavaPath_javaUri extends ATestJavaUri2JavaPath implemen
 	@Override
 	@TestOnWindows
 	@ConversionSource(value = {
-			"{}some/path/MyFile.ext, {}some/path/MyFile.ext"
-	}, backslash = false)
+			"{}some/path/MyFile.ext, {}some/path/MyFile.ext",
+			"c:/"
+	})
 	public void absoluteNestedFileNoScheme_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
 		final URI input = new URI(null, inputStr, null);
-		assertConversionEquals(fun, input, expectedStr);
+		assertConversionEquals_Exceptional(fun, input, expectedStr);
 	}
 	
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
 			"{}some/path/MyFile.ext, {}some/path/MyFile.ext"
-	}, backslash = false)
+	})
 	public void absoluteNestedFileNoScheme_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -102,12 +105,18 @@ public class TestJavaUri2JavaPath_javaUri extends ATestJavaUri2JavaPath implemen
 	@Override
 	@TestOnWindows
 	@ConversionSource(value = {
-			"{}, {}"
+			"{}, {}",
+			"c:/",
+			"//"
 	})
 	public void rootNoScheme_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		final URI input = new URI(null, inputStr, null);
-		assertConversionEquals(fun, input, expectedStr);
+		if (inputStr.endsWith("//")) {
+			assertThrows(URISyntaxException.class, () -> new URI(inputStr));
+		} else {
+			final URI input = new URI(null, inputStr, null);
+			assertConversionEquals_Exceptional(fun, input, expectedStr);
+		}
 	}
 	
 	@Override
@@ -124,12 +133,17 @@ public class TestJavaUri2JavaPath_javaUri extends ATestJavaUri2JavaPath implemen
 	@Override
 	@TestOnWindows
 	@ConversionSource(value = {
-			"{}, {}"
+			"{}, {}",
+			"//"
 	})
 	public void rootScheme_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		final URI input = new URI("file", inputStr, null);
-		assertConversionEquals(fun, input, expectedStr);
+		if (inputStr.endsWith("//")) {
+			assertThrows(URISyntaxException.class, () -> new URI(inputStr));
+		} else {
+			final URI input = new URI("file", inputStr, null);
+			assertConversionEquals_Exceptional(fun, input, expectedStr);
+		}
 	}
 	
 	@Override

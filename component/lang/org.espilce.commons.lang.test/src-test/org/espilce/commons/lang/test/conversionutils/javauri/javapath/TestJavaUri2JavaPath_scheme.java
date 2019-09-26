@@ -33,7 +33,7 @@ public class TestJavaUri2JavaPath_scheme extends ATestJavaUri2JavaPath implement
 	@TestConversion(value = " ", backslash = false)
 	public void emptyWithScheme(final ConversionFunction fun, final String inputStr) throws Exception {
 		final URI input = new URI("file", inputStr, null);
-		assertConversionEquals(fun, input, "");
+		assertIllegalConversion(fun, input);
 	}
 	
 	@Override

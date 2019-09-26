@@ -92,7 +92,8 @@ public class ConversionSourceArgumentsProvider extends AConversionArgumentsProvi
 					.orElse(template);
 			for (final String sep : separators) {
 				final String key = tpl.replace(PLACEHOLDER, start).replace(SEPARATOR, sep);
-				final String value = inputMap.getOrDefault(tpl, tplValue).replace(PLACEHOLDER, start);
+				final String valueRaw = inputMap.getOrDefault(tpl, tplValue);
+				final String value = valueRaw == null ? null : valueRaw.replace(PLACEHOLDER, start);
 				// if (!start.replace(SEPARATOR, sep).startsWith(ALT_SEPARATOR)
 				// || this.backslash) {
 					if (!outputMap.containsKey(key)) {

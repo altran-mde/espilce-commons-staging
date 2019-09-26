@@ -10,9 +10,11 @@
 package org.espilce.commons.lang.test.conversionutils.javauri.javafile;
 
 import static org.espilce.commons.lang.test.junit5.AssertConversion.assertIllegalConversion;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.test.conversionutils.TestIJavaUri;
@@ -29,13 +31,14 @@ public class TestJavaUri2JavaFile_javaUri extends ATestJavaUri2JavaFile implemen
 	@Override
 	@TestOnWindows
 	@ConversionSource(value = {
-			"{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+			"{}some/path/MyFile.ext, {}some/path/MyFile.ext",
+			"c:/"
 	}, backslash = false)
 	public void absoluteNestedFileNoScheme_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
 		final URI input = new URI(null, inputStr, null);
-		assertConversionEquals(fun, input, expectedStr);
+		assertConversionEquals_Exceptional(fun, input, expectedStr);
 	}
 	
 	@Override
@@ -102,12 +105,18 @@ public class TestJavaUri2JavaFile_javaUri extends ATestJavaUri2JavaFile implemen
 	@Override
 	@TestOnWindows
 	@ConversionSource(value = {
-			"{}, {}"
+			"{}, {}",
+			"c:/",
+			"//"
 	})
 	public void rootNoScheme_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		final URI input = new URI(null, inputStr, null);
-		assertConversionEquals(fun, input, expectedStr);
+		if (inputStr.startsWith("//")) {
+			assertThrows(URISyntaxException.class, () -> new URI(null, inputStr, null));
+		} else {
+			final URI input = new URI(null, inputStr, null);
+			assertConversionEquals_Exceptional(fun, input, expectedStr);
+		}
 	}
 	
 	@Override
@@ -124,12 +133,17 @@ public class TestJavaUri2JavaFile_javaUri extends ATestJavaUri2JavaFile implemen
 	@Override
 	@TestOnWindows
 	@ConversionSource(value = {
-			"{}, {}"
+			"{}, {}",
+			"//"
 	})
 	public void rootScheme_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		final URI input = new URI("file", inputStr, null);
-		assertConversionEquals(fun, input, expectedStr);
+		if (inputStr.endsWith("//")) {
+			assertThrows(URISyntaxException.class, () -> new URI(inputStr));
+		} else {
+			final URI input = new URI("file", inputStr, null);
+			assertConversionEquals_Exceptional(fun, input, expectedStr);
+		}
 	}
 	
 	@Override

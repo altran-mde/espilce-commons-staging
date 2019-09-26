@@ -37,7 +37,12 @@ public abstract class ATestJavaUri2JavaPath {
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws URISyntaxException {
 		final URI input = new URI(inputStr);
-		
+		assertConversionEquals_Exceptional(fun, input, expectedStr);
+	}
+	
+	protected void assertConversionEquals_Exceptional(
+			final ConversionFunction fun, final URI input, final String expectedStr
+	) throws URISyntaxException {
 		if (expectedStr != null) {
 			final Object actual = fun.apply(input);
 			final Path expected = Paths.get(expectedStr);
