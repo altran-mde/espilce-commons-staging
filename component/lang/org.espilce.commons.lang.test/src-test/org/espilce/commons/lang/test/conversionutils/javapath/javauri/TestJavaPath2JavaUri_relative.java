@@ -10,8 +10,10 @@
 package org.espilce.commons.lang.test.conversionutils.javapath.javauri;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.net.URI;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -62,7 +64,7 @@ public class TestJavaPath2JavaUri_relative extends ATestJavaPath2JavaUri impleme
 	}
 	
 	@Override
-	@TestConversion(value = "file:..", backslash = false)
+	@TestConversion(value = "..", backslash = false)
 	public void parent(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
@@ -71,7 +73,7 @@ public class TestJavaPath2JavaUri_relative extends ATestJavaPath2JavaUri impleme
 	}
 	
 	@Override
-	@TestConversion(value = "file:MyFile.ext", backslash = false)
+	@TestConversion(value = "MyFile.ext", backslash = false)
 	public void relativeFile(final ConversionFunction fun, final String inputStr) throws Exception {
 		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
@@ -109,10 +111,7 @@ public class TestJavaPath2JavaUri_relative extends ATestJavaPath2JavaUri impleme
 	@Override
 	@TestConversion("myProject/myFolder?query#fragment")
 	public void relativeFragmentQuery(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
-		final Object actual = fun.apply(input);
-		final URI expected = new URI("myProject/myFolder%3Fquery%23fragment");
-		assertEquals(expected, actual);
+		assertThrows(InvalidPathException.class, () -> Paths.get(inputStr));
 	}
 	
 	@Override

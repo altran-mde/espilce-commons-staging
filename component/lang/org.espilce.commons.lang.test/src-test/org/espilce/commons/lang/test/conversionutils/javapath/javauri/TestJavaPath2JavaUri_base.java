@@ -37,7 +37,7 @@ public class TestJavaPath2JavaUri_base extends ATestJavaPath2JavaUri implements 
 	@Override
 	@TestConversion(/* null */ backslash = false)
 	public void paramNull(final ConversionFunction fun, final String inputStr) throws Exception {
-		final Path input = Paths.get(inputStr);
+		final Path input = null;
 		assertNullResult(fun, input);
 	}
 }
