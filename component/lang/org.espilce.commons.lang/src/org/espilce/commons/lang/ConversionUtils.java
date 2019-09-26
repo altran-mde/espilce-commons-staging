@@ -486,13 +486,13 @@ public class ConversionUtils {
 			return null;
 		}
 		try {
-			final URI adjustedJavaUri = getFixedInvalid(javaUri);
-			if (adjustedJavaUri != null) {
-				return adjustedJavaUri.toURL();
-			}
+//			final URI adjustedJavaUri = getFixedInvalid(javaUri);
+//			if (adjustedJavaUri != null) {
+//				return adjustedJavaUri.toURL();
+//			}
 			
 			return javaUri.toURL();
-		} catch (IllegalArgumentException | MalformedURLException | URISyntaxException e) {
+		} catch (IllegalArgumentException | MalformedURLException e) {
 			return null;
 		}
 	}
@@ -506,13 +506,13 @@ public class ConversionUtils {
 	 */
 	public static @NonNull URL asJavaUrl(final @NonNull URI javaUri) throws UnconvertibleException {
 		try {
-			final URI adjustedJavaUri = getFixedInvalid(javaUri);
-			if (adjustedJavaUri != null) {
-				return adjustedJavaUri.toURL();
-			}
+//			final URI adjustedJavaUri = getFixedInvalid(javaUri);
+//			if (adjustedJavaUri != null) {
+//				return adjustedJavaUri.toURL();
+//			}
 			
 			return javaUri.toURL();
-		} catch (IllegalArgumentException | MalformedURLException | URISyntaxException e) {
+		} catch (IllegalArgumentException | MalformedURLException e) {
 			throw new UnconvertibleException(javaUri, URI.class, URL.class, e);
 		}
 	}

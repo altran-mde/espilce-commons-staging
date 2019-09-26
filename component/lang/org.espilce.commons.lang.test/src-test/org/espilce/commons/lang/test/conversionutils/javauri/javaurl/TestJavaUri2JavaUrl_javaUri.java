@@ -10,8 +10,10 @@
 package org.espilce.commons.lang.test.conversionutils.javauri.javaurl;
 
 import static org.espilce.commons.lang.test.junit5.AssertConversion.assertIllegalConversion;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.espilce.commons.lang.ConversionUtils;
@@ -103,12 +105,16 @@ public class TestJavaUri2JavaUrl_javaUri extends ATestJavaUri2JavaUrl implements
 	@Override
 	@TestOnWindows
 	@ConversionSource(value = {
-			"{}, {}"
+			"{},   {}",
 	})
 	public void rootNoScheme_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		final URI input = new URI(null, inputStr, null);
-		assertIllegalConversion(fun, input);
+		if (inputStr.endsWith("//")) {
+			assertThrows(URISyntaxException.class, () -> new URI(inputStr));
+		} else {
+			final URI input = new URI(null, inputStr, null);
+			assertIllegalConversion(fun, input);
+		}
 	}
 	
 	@Override
@@ -125,11 +131,15 @@ public class TestJavaUri2JavaUrl_javaUri extends ATestJavaUri2JavaUrl implements
 	@Override
 	@TestOnWindows
 	@ConversionSource(value = {
-			"{}, {}"
+			"{},   {}",
 	}, backslash = false)
 	public void rootScheme_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals(fun, inputStr);
+		if (inputStr.endsWith("//")) {
+			assertThrows(URISyntaxException.class, () -> new URI(inputStr));
+		} else {
+			assertConversionEquals(fun, inputStr);
+		}
 	}
 	
 	@Override

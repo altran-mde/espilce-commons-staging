@@ -9,7 +9,10 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javauri.javaurl;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.espilce.commons.lang.ConversionUtils;
@@ -198,7 +201,11 @@ public class TestJavaUri2JavaUrl_absolute extends ATestJavaUri2JavaUrl implement
 	}, backslash = false)
 	public void root_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		if (inputStr.endsWith("//")) {
+			assertThrows(URISyntaxException.class, () -> new URI(inputStr));
+		} else {
+			assertConversionEquals(fun, inputStr, expectedStr);
+		}
 	}
 	
 	@Override
@@ -213,9 +220,9 @@ public class TestJavaUri2JavaUrl_absolute extends ATestJavaUri2JavaUrl implement
 	
 	@Override
 	@TestOnWindows
-	@ConversionSource({
+	@ConversionSource(value = {
 			"file:/{}some/path/MyFile.ext, file:/{}some/path/MyFile.ext"
-	})
+	}, backslash = false)
 	public void absoluteWindowsPathSingleSlash_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -224,9 +231,9 @@ public class TestJavaUri2JavaUrl_absolute extends ATestJavaUri2JavaUrl implement
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"file:/{}some/path/MyFile.ext, file:/{}some/path/MyFile.ext"
-	})
+	}, backslash = false)
 	public void absoluteWindowsPathSingleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -235,9 +242,9 @@ public class TestJavaUri2JavaUrl_absolute extends ATestJavaUri2JavaUrl implement
 	
 	@Override
 	@TestOnWindows
-	@ConversionSource({
+	@ConversionSource(value = {
 			"file://{}some/path/MyFile.ext, file://{}some/path/MyFile.ext"
-	})
+	}, backslash = false)
 	public void absoluteWindowsPathDoubleSlash_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -257,9 +264,9 @@ public class TestJavaUri2JavaUrl_absolute extends ATestJavaUri2JavaUrl implement
 	
 	@Override
 	@TestOnWindows
-	@ConversionSource({
+	@ConversionSource(value = {
 			"file:///{}some/path/MyFile.ext, file:///{}some/path/MyFile.ext"
-	})
+	}, backslash = false)
 	public void absoluteWindowsPathTripleSlash_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
