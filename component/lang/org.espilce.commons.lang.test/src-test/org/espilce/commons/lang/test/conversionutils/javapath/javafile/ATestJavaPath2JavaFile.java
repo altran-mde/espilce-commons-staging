@@ -7,7 +7,7 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils.javafile.javapath;
+package org.espilce.commons.lang.test.conversionutils.javapath.javafile;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,17 +17,17 @@ import java.nio.file.Paths;
 
 import org.espilce.commons.lang.test.junit5.ConversionFunction;
 
-public abstract class ATestJavaFile2JavaPath {
+public abstract class ATestJavaPath2JavaFile {
 	
 	protected void assertConversionEquals(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) {
-		final Path expected = Paths.get(expectedStr);
+		final File expected = new File(expectedStr);
 		assertConversionEquals(fun, inputStr, expected);
 	}
 	
-	protected void assertConversionEquals(final ConversionFunction fun, final String inputStr, final Path expected) {
-		final File input = new File(inputStr);
+	protected void assertConversionEquals(final ConversionFunction fun, final String inputStr, final File expected) {
+		final Path input = Paths.get(inputStr);
 		final Object actual = fun.apply(input);
 		assertEquals(expected, actual);
 	}

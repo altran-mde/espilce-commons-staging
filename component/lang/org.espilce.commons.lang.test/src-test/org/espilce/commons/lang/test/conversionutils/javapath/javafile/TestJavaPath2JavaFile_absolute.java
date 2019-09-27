@@ -7,22 +7,25 @@
  * 
  * SPDX-License-Identifier: EPL-2.0
  ******************************************************************************/
-package org.espilce.commons.lang.test.conversionutils.javafile.javapath;
+package org.espilce.commons.lang.test.conversionutils.javapath.javafile;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.test.conversionutils.TestIAbsolute;
-import org.espilce.commons.lang.test.junit5.AssertConversion;
 import org.espilce.commons.lang.test.junit5.ConversionConfig;
 import org.espilce.commons.lang.test.junit5.ConversionFunction;
 import org.espilce.commons.lang.test.junit5.ConversionSource;
 import org.espilce.commons.lang.test.junit5.TestOnUnix;
 import org.espilce.commons.lang.test.junit5.TestOnWindows;
 
-@ConversionConfig(conversionClass = ConversionUtils.class, paramType = File.class, returnType = Path.class)
-public class TestJavaFile2JavaPath_absolute extends ATestJavaFile2JavaPath implements TestIAbsolute {
+@ConversionConfig(conversionClass = ConversionUtils.class, paramType = Path.class, returnType = File.class)
+public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile implements TestIAbsolute {
 	
 	@Override
 	@TestOnWindows
@@ -32,8 +35,7 @@ public class TestJavaFile2JavaPath_absolute extends ATestJavaFile2JavaPath imple
 	public void absoluteFile_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		if (inputStr.startsWith("//") || inputStr.startsWith("\\\\")) {
-			final File input = new File(inputStr);
-			AssertConversion.assertIllegalConversion(fun, input);
+			assertThrows(InvalidPathException.class, () -> Paths.get(inputStr));
 		} else {
 			assertConversionEquals(fun, inputStr, expectedStr);
 		}
@@ -123,8 +125,7 @@ public class TestJavaFile2JavaPath_absolute extends ATestJavaFile2JavaPath imple
 	public void absoluteFragmentQuery_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
-		final File input = new File(inputStr);
-		AssertConversion.assertIllegalConversion(fun, input);
+		assertThrows(InvalidPathException.class, () -> Paths.get(inputStr));
 	}
 	
 	@Override
@@ -210,8 +211,7 @@ public class TestJavaFile2JavaPath_absolute extends ATestJavaFile2JavaPath imple
 	public void root_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		if (inputStr.endsWith("//") || inputStr.endsWith("\\\\")) {
-			final File input = new File(inputStr);
-			AssertConversion.assertIllegalConversion(fun, input);
+			assertThrows(InvalidPathException.class, () -> Paths.get(inputStr));
 		} else {
 			assertConversionEquals(fun, inputStr, expectedStr);
 		}
