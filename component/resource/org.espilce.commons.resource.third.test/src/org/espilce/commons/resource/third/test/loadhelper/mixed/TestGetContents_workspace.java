@@ -14,6 +14,7 @@ import org.espilce.commons.lang.test.base.loadhelper.ATestGetContents;
 import org.espilce.commons.resource.loadhelper.WorkspacePluginLoadHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class TestGetContents_workspace extends ATestGetContents {
@@ -53,6 +54,7 @@ public class TestGetContents_workspace extends ATestGetContents {
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
+	@Disabled
 	public void existingFileStartSlash() throws Exception {
 		super.existingFileStartSlash();
 	}

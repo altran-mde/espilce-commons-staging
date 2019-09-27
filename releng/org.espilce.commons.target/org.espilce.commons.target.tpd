@@ -36,6 +36,9 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/R201908271527
 	org.junit.platform.commons.source
 	org.junit.platform.engine [1.5.1,2.0.0)
 	org.junit.platform.engine.source
+	
+	org.opentest4j [1.2.0,2.0.0)
+	org.opentest4j.source
 }
 
 location "http://ftp.snt.utwente.nl/pub/software/eclipse/releases/oxygen" {

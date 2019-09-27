@@ -6,17 +6,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.espilce.commons.lang.loadhelper.ILoadHelper;
 import org.espilce.commons.lang.test.base.loadhelper.ATestGetContents;
 import org.espilce.commons.resource.loadhelper.WorkspacePluginLoadHelper;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class TestGetContents extends ATestGetContents {
 	@Override
 	@Test
+	@Disabled
 	public void rootFileStartSlash() throws Exception {
 		super.rootFileStartSlash();
 	}
 	
 	@Override
 	@Test
+	@Disabled
 	public void existingFileStartSlash() throws Exception {
 		super.existingFileStartSlash();
 	}

@@ -18,6 +18,7 @@ import org.espilce.commons.lang.test.base.loadhelper.ATestToLocalmostUrl;
 import org.espilce.commons.resource.loadhelper.WorkspacePluginLoadHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class TestToLocalmostUrl_both extends ATestToLocalmostUrl {
@@ -60,6 +61,7 @@ public class TestToLocalmostUrl_both extends ATestToLocalmostUrl {
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
+	@Disabled
 	public void existingFileStartSlash() throws Exception {
 		super.existingFileStartSlash();
 	}
@@ -67,6 +69,7 @@ public class TestToLocalmostUrl_both extends ATestToLocalmostUrl {
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
+	@Disabled
 	public void existingDirStartSlash() throws Exception {
 		super.existingDirStartSlash();
 	}
@@ -74,6 +77,7 @@ public class TestToLocalmostUrl_both extends ATestToLocalmostUrl {
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
+	@Disabled
 	public void existingDirStartEndSlash() throws Exception {
 		super.existingDirStartEndSlash();
 	}
