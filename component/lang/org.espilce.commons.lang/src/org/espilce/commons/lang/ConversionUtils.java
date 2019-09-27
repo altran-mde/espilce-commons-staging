@@ -134,9 +134,7 @@ public class ConversionUtils {
 						}
 					}
 				} catch (IllegalArgumentException | FileSystemNotFoundException ex) {
-					// throw original exception, not the one from conversion
-					// attempts
-					throw e;
+					throw ex;
 				}
 				throw e;
 			}
