@@ -158,8 +158,8 @@ public class ConversionUtils {
 		}
 		
 		try {
-			return Paths.get(javaUrl.toURI());
-		} catch (IllegalArgumentException | FileSystemNotFoundException | URISyntaxException e) {
+			return toJavaPath(javaUrl.toURI());
+		} catch (final URISyntaxException e) {
 			// fall-through
 		}
 		

@@ -28,11 +28,13 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@Override
 	@TestOnWindows
 	@ConversionSource(value = {
-			"file:{}MyFile.ext, {}MyFile.ext"
-	}, backslash = false)
+			"file:{}MyFile.ext, {}MyFile.ext",
+			"file://MyFile.ext",
+			"file:\\\\MyFile.ext",
+	})
 	public void absoluteFile_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
 	}
 	
 	@Override
@@ -49,7 +51,7 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}myProject///folder///deep/myFile.ext//, {}myProject/folder/deep/myFile.ext"
-	}, backslash = false)
+	})
 	public void absoluteFileSlashesExcess_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -71,7 +73,7 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}myProject/myFolder/, {}myProject/myFolder"
-	}, backslash = false)
+	})
 	public void absoluteFolderSlash_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
@@ -91,7 +93,7 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}myProject///myFolder, {}myProject/myFolder"
-	}, backslash = false)
+	})
 	public void absoluteFolderSlashesInbetween_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -113,7 +115,7 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}myProject///myFolder?query#fragment, {}myProject///myFolder"
-	}, backslash = false)
+	})
 	public void absoluteFragmentQuery_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		final URL input = new URL(inputStr);
@@ -137,7 +139,7 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}resource/..////, {}resource/.."
-	}, backslash = false)
+	})
 	public void absolutePath_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
@@ -157,7 +159,7 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}myProject/myFolder%23query, {}myProject/myFolder#query"
-	}, backslash = false)
+	})
 	public void absolutePseudoFragment_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -179,8 +181,9 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}, {}",
-			"file://"
-	}, backslash = false)
+			"file://",
+			"file:\\\\",
+	})
 	public void root_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
@@ -200,7 +203,11 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@Override
 	@TestOnWindows
 	@ConversionSource({
-			"file:/{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+			"file:/{}some/path/MyFile.ext, {}some/path/MyFile.ext",
+			"file://some/path/MyFile.ext, //some/path/MyFile.ext",
+			"file:///some/path/MyFile.ext, /some/path/MyFile.ext",
+			"file:\\\\some\\path\\MyFile.ext, //some/path/MyFile.ext",
+			"file:\\\\\\some\\path\\MyFile.ext, /some/path/MyFile.ext",
 	})
 	public void absoluteWindowsPathSingleSlash_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -222,7 +229,9 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@Override
 	@TestOnWindows
 	@ConversionSource({
-			"file://{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+			"file://{}some/path/MyFile.ext, {}some/path/MyFile.ext",
+			"file:///some/path/MyFile.ext, /some/path/MyFile.ext",
+			"file:////some/path/MyFile.ext, //some/path/MyFile.ext",
 	})
 	public void absoluteWindowsPathDoubleSlash_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -244,7 +253,11 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@Override
 	@TestOnWindows
 	@ConversionSource({
-			"file:///{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+			"file:///{}some/path/MyFile.ext, {}some/path/MyFile.ext",
+			"file:////some/path/MyFile.ext, //some/path/MyFile.ext",
+			"file://///some/path/MyFile.ext, //some/path/MyFile.ext",
+			"file:\\\\\\\\some\\path\\MyFile.ext, //some/path/MyFile.ext",
+			"file:\\\\\\\\\\some\\path\\MyFile.ext, //some/path/MyFile.ext",
 	})
 	public void absoluteWindowsPathTripleSlash_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
