@@ -1,9 +1,11 @@
 package org.espilce.commons.lang.test.base.loadhelper;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.URL;
 
 import org.espilce.commons.lang.loadhelper.ILoadHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public abstract class ATestToLocalmostUrl {
 	@Test
@@ -11,9 +13,12 @@ public abstract class ATestToLocalmostUrl {
 		checkToLocalmostUrl(someDir() + separator() + dir() + separator() + file());
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nonExistingFile() throws Exception {
-		checkToLocalmostUrl(someDir() + separator() + dir() + separator() + noFile());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkToLocalmostUrl(someDir() + separator() + dir() + separator() + noFile())
+		);
 	}
 	
 	@Test
@@ -21,25 +26,38 @@ public abstract class ATestToLocalmostUrl {
 		checkToLocalmostUrl(file());
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void rootNonFile() throws Exception {
-		checkToLocalmostUrl(noFile());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkToLocalmostUrl(noFile())
+		);
 	}
 	
-	// @Test TODO
-	@Test(expected = IllegalArgumentException.class)
+	// TODO
+	@Test
 	public void rootFileStartSlash() throws Exception {
-		checkToLocalmostUrl(separator() + file());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkToLocalmostUrl(separator() + file())
+		);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void rootNonFileStartSlash() throws Exception {
-		checkToLocalmostUrl(separator() + noFile());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkToLocalmostUrl(separator() + noFile())
+		);
+		
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void existingFileStartSlash() throws Exception {
-		checkToLocalmostUrl(separator() + someDir() + separator() + dir() + separator() + file());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkToLocalmostUrl(separator() + someDir() + separator() + dir() + separator() + file())
+		);
 	}
 	
 	@Test
@@ -47,9 +65,12 @@ public abstract class ATestToLocalmostUrl {
 		checkToLocalmostUrl(someDir() + separator() + dir());
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nonExistingDir() throws Exception {
-		checkToLocalmostUrl(someDir() + separator() + noDir());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkToLocalmostUrl(someDir() + separator() + noDir())
+		);
 	}
 	
 	@Test
@@ -57,19 +78,28 @@ public abstract class ATestToLocalmostUrl {
 		checkToLocalmostUrl(someDir() + separator() + dir() + separator());
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nonExistingDirEndSlash() throws Exception {
-		checkToLocalmostUrl(someDir() + separator() + noDir() + separator());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkToLocalmostUrl(someDir() + separator() + noDir() + separator())
+		);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void existingDirStartSlash() throws Exception {
-		checkToLocalmostUrl(separator() + someDir() + separator() + dir());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkToLocalmostUrl(separator() + someDir() + separator() + dir())
+		);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void existingDirStartEndSlash() throws Exception {
-		checkToLocalmostUrl(separator() + someDir() + separator() + dir() + separator());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkToLocalmostUrl(separator() + someDir() + separator() + dir() + separator())
+		);
 	}
 	
 	protected void checkToLocalmostUrl(final String relativePath) throws Exception {

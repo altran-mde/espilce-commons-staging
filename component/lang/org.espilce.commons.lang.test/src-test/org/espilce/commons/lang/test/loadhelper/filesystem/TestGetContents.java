@@ -16,9 +16,9 @@ public class TestGetContents extends ATestGetContents {
 	@Override
 	protected void assertContents(final String relativePath, final String contents) {
 		if (relativePath.contains(dir())) {
-			assertEquals(relativePath, "file.txt in filesystem", contents);
+			assertEquals(contents, "file.txt in filesystem", relativePath);
 		} else {
-			assertEquals(relativePath, "file.txt in filesystem root", contents);
+			assertEquals(contents, "file.txt in filesystem root", relativePath);
 		}
 	}
 	
