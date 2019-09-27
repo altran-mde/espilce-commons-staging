@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(JUnitPlatform.class)
 @SelectClasses({
-		org.espilce.commons.lang.test.conversionutils.javafile.javapath.TestJavaFile2JavaPath.class,
+		org.espilce.commons.lang.test.conversionutils.javafile.javapath.ATestJavaFile2JavaPath.class,
 		org.espilce.commons.lang.test.conversionutils.javafile.javauri.TestJavaFile2JavaUri_absolute.class
 })
 public class TestAllLangConversionUtils {

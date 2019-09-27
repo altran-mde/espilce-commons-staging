@@ -9,12 +9,29 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javafile.javapath;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.test.junit5.ConversionConfig;
+import org.espilce.commons.lang.test.junit5.ConversionFunction;
 
 @ConversionConfig(conversionClass = ConversionUtils.class, paramType = File.class, returnType = Path.class)
-public class TestJavaFile2JavaPath {
+public abstract class ATestJavaFile2JavaPath {
+	
+	protected void assertConversionEquals(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) {
+		final Path expected = Paths.get(expectedStr);
+		assertConversionEquals(fun, inputStr, expected);
+	}
+	
+	protected void assertConversionEquals(final ConversionFunction fun, final String inputStr, final Path expected) {
+		final File input = new File(inputStr);
+		final Object actual = fun.apply(input);
+		assertEquals(expected, actual);
+	}
 }
