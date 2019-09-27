@@ -1,6 +1,6 @@
 package org.espilce.commons.lang.third.test.loadhelper.mixed;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.espilce.commons.lang.loadhelper.FilesystemClassloaderLoadHelper;
 import org.espilce.commons.lang.loadhelper.ILoadHelper;
@@ -16,9 +16,9 @@ public class TestGetContents_both extends ATestGetContents {
 	@Override
 	protected void assertContents(final String relativePath, final String contents) {
 		if (relativePath.contains(dir())) {
-			assertEquals(relativePath, "file.txt in filesystem", contents);
+			assertEquals(contents, "file.txt in filesystem", relativePath);
 		} else {
-			assertEquals(relativePath, "file.txt in filesystem root", contents);
+			assertEquals(contents, "file.txt in filesystem root", relativePath);
 		}
 	}
 	

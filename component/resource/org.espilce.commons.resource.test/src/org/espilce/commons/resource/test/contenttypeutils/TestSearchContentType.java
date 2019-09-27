@@ -10,21 +10,22 @@
 package org.espilce.commons.resource.test.contenttypeutils;
 
 import static org.espilce.commons.resource.WorkspaceUtils.waitForWorkspaceChanges;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.eclipse.core.resources.IProject;
 import org.espilce.commons.exception.UnmappableException;
 import org.espilce.commons.resource.ContentTypeUtils;
 import org.espilce.commons.testsupport.resource.builder.ProjectBuilder;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TestSearchContentType {
 	IProject project;
 	
-	@Before
+	@BeforeEach
 	public void createProjects() throws Exception {
 		waitForWorkspaceChanges(() -> {
 			// @formatter:off
@@ -53,9 +54,12 @@ public class TestSearchContentType {
 		);
 	}
 	
-	@Test(expected = UnmappableException.class)
+	@Test
 	public void findFileWithoutExtension() {
-		ContentTypeUtils.findContentType(this.project.getFile("fileWithoutExtension"));
+		assertThrows(
+				UnmappableException.class,
+				() -> ContentTypeUtils.findContentType(this.project.getFile("fileWithoutExtension"))
+		);
 	}
 	
 	@Test
@@ -63,7 +67,7 @@ public class TestSearchContentType {
 		assertNull(ContentTypeUtils.searchContentType(this.project.getFile("fileWithoutExtension")));
 	}
 	
-	@After
+	@AfterEach
 	public void destroyProjects() throws Exception {
 		destroyProject(this.project);
 	}

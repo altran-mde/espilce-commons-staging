@@ -1,6 +1,6 @@
 package org.espilce.commons.lang.fifth.test.loadhelper.mixed;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URL;
 

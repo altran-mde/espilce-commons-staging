@@ -20,8 +20,8 @@ import org.espilce.commons.lang.loadhelper.ILoadHelper;
 import org.espilce.commons.lang.test.base.loadhelper.ATestFindMatchingResources;
 import org.espilce.commons.resource.loadhelper.WorkspacePluginLoadHelper;
 import org.espilce.commons.testsupport.resource.builder.ProjectBuilder;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 public class TestFindMatchingResources extends ATestFindMatchingResources {
 	protected IProject emptyDir;
@@ -40,7 +40,7 @@ public class TestFindMatchingResources extends ATestFindMatchingResources {
 	// return file;
 	// }
 	
-	@Before
+	@BeforeEach
 	public void createProjects() throws Exception {
 		waitForWorkspaceChanges(() -> {
 			// @formatter:off
@@ -112,7 +112,7 @@ public class TestFindMatchingResources extends ATestFindMatchingResources {
 		}
 	}
 	
-	@After
+	@AfterEach
 	public void destroyProjects() throws Exception {
 		destroyProject(this.emptyDir);
 		destroyProject(this.manyDirectFilesDir);

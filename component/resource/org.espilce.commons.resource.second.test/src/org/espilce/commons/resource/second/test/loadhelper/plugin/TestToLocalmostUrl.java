@@ -1,13 +1,14 @@
 package org.espilce.commons.resource.second.test.loadhelper.plugin;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URL;
 
 import org.espilce.commons.lang.loadhelper.ILoadHelper;
 import org.espilce.commons.lang.test.base.loadhelper.ATestToLocalmostUrl;
 import org.espilce.commons.resource.loadhelper.WorkspacePluginLoadHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	@Override
