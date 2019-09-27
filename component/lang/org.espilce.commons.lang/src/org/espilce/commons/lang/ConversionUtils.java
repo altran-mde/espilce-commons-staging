@@ -397,13 +397,9 @@ public class ConversionUtils {
 			return null;
 		}
 		try {
-			final URL adjustedJavaUrl = getFixedInvalid(javaUrl);
-			if (adjustedJavaUrl != null) {
-				return adjustedJavaUrl.toURI();
-			}
 			
 			return javaUrl.toURI();
-		} catch (final URISyntaxException | MalformedURLException e) {
+		} catch (final URISyntaxException e) {
 			return null;
 		}
 	}
@@ -417,13 +413,9 @@ public class ConversionUtils {
 	 */
 	public static @NonNull URI asJavaUri(final @NonNull URL javaUrl) throws UnconvertibleException {
 		try {
-			final URL adjustedJavaUrl = getFixedInvalid(javaUrl);
-			if (adjustedJavaUrl != null) {
-				return adjustedJavaUrl.toURI();
-			}
 			
 			return javaUrl.toURI();
-		} catch (final URISyntaxException | MalformedURLException e) {
+		} catch (final URISyntaxException e) {
 			throw new UnconvertibleException(javaUrl, URL.class, URI.class, e);
 		}
 	}

@@ -9,7 +9,10 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javaurl.javauri;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.espilce.commons.lang.ConversionUtils;
@@ -27,7 +30,7 @@ public class TestJavaUrl2JavaUri_absolute extends ATestJavaUrl2JavaUri implement
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}MyFile.ext, file:{}MyFile.ext"
-	}, backslash = false)
+	})
 	public void absoluteFile_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
@@ -47,7 +50,7 @@ public class TestJavaUrl2JavaUri_absolute extends ATestJavaUrl2JavaUri implement
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}myProject///folder///deep/myFile.ext//, file:{}myProject///folder///deep/myFile.ext//"
-	}, backslash = false)
+	})
 	public void absoluteFileSlashesExcess_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -69,7 +72,7 @@ public class TestJavaUrl2JavaUri_absolute extends ATestJavaUrl2JavaUri implement
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}myProject/myFolder/, file:{}myProject/myFolder/"
-	}, backslash = false)
+	})
 	public void absoluteFolderSlash_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
@@ -89,7 +92,7 @@ public class TestJavaUrl2JavaUri_absolute extends ATestJavaUrl2JavaUri implement
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}myProject///myFolder, file:{}myProject///myFolder"
-	}, backslash = false)
+	})
 	public void absoluteFolderSlashesInbetween_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -111,7 +114,7 @@ public class TestJavaUrl2JavaUri_absolute extends ATestJavaUrl2JavaUri implement
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}myProject///myFolder?query#fragment, file:{}myProject///myFolder?query#fragment"
-	}, backslash = false)
+	})
 	public void absoluteFragmentQuery_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
@@ -133,7 +136,7 @@ public class TestJavaUrl2JavaUri_absolute extends ATestJavaUrl2JavaUri implement
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}some/path/MyFile.ext, file:{}some/path/MyFile.ext"
-	}, backslash = false)
+	})
 	public void absoluteNestedFile_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
@@ -153,7 +156,7 @@ public class TestJavaUrl2JavaUri_absolute extends ATestJavaUrl2JavaUri implement
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}resource/..////, file:{}resource/..////"
-	}, backslash = false)
+	})
 	public void absolutePath_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
@@ -173,7 +176,7 @@ public class TestJavaUrl2JavaUri_absolute extends ATestJavaUrl2JavaUri implement
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}myProject/myFolder%23query, file:{}myProject/myFolder%23query"
-	}, backslash = false)
+	})
 	public void absolutePseudoFragment_win(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -195,10 +198,14 @@ public class TestJavaUrl2JavaUri_absolute extends ATestJavaUrl2JavaUri implement
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:{}, file:{}"
-	}, backslash = false)
+	})
 	public void root_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		if (inputStr.endsWith("//") || inputStr.endsWith("\\\\")) {
+			assertThrows(URISyntaxException.class, () -> new URI(inputStr));
+		} else {
+			assertConversionEquals(fun, inputStr, expectedStr);
+		}
 	}
 	
 	@Override
