@@ -54,6 +54,7 @@ public class ConversionUtils {
 	private static final String SEPARATOR_URL_PATH = "/";
 	private static final String SEPARATOR_WIN = "\\";
 	private static final String SCHEME_FILE = "file";
+	private static final String SCHEME_FILE_SEPARATOR = SCHEME_FILE + SEPARATOR_SCHEME;
 	
 	/**
 	 * 
@@ -62,12 +63,11 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @Nullable Path toJavaPath(final @Nullable URI javaUri) {
-		if (Objects.isNull(javaUri)) {
+		if (javaUri == null) {
 			return null;
 		}
 		
 		try {
-			@SuppressWarnings("null")
 			final @NonNull URI javaUriNonNull = javaUri;
 			return asJavaPath(javaUriNonNull);
 		} catch (final UnconvertibleException e) {
@@ -93,9 +93,7 @@ public class ConversionUtils {
 				}
 				return Paths.get(javaUri);
 			} catch (final IllegalArgumentException | URISyntaxException e) {
-				if (
-					javaUri.getQuery() != null || javaUri.getFragment() != null
-				) {
+				if (hasQueryOrFragment(javaUri)) {
 					// we cannot represent any of the conditions in a Path
 					throw e;
 				}
@@ -104,6 +102,7 @@ public class ConversionUtils {
 					if (javaUri.isAbsolute()) {
 						return Paths.get(schemeSpecificPart);
 					}
+					
 					if (!javaUri.isOpaque()) {
 						// try to resolve relative to current path
 						final Path currentPath = Paths.get("").toAbsolutePath();
@@ -112,12 +111,8 @@ public class ConversionUtils {
 						try {
 							resolved = currentUri.resolve(schemeSpecificPart);
 						} catch (final IllegalArgumentException ex) {
-//							if (schemeSpecificPart.startsWith(SEPARATOR_WIN) || schemeSpecificPart.startsWith(CURRENT+ SEPARATOR_WIN) || schemeSpecificPart.startsWith(PARENT+SEPARATOR_WIN)) {
-								schemeSpecificPart = schemeSpecificPart.replace(SEPARATOR_WIN, SEPARATOR_URL_PATH);
-								resolved = currentUri.resolve(schemeSpecificPart);
-//							} else {
-//								throw ex;
-//							}
+							schemeSpecificPart = replaceSeparatorWinUrl(schemeSpecificPart);
+							resolved = currentUri.resolve(schemeSpecificPart);
 						}
 						final Path resolvedPath = Paths.get(resolved);
 						
@@ -143,6 +138,10 @@ public class ConversionUtils {
 		}
 	}
 	
+	private static boolean hasQueryOrFragment(final URI javaUri) {
+		return javaUri.getQuery() != null || javaUri.getFragment() != null;
+	}
+	
 	/**
 	 * 
 	 * @param javaUrl
@@ -153,6 +152,7 @@ public class ConversionUtils {
 		if (javaUrl == null) {
 			return null;
 		}
+		
 		if (isEmpty(javaUrl)) {
 			return Paths.get("");
 		}
@@ -197,6 +197,7 @@ public class ConversionUtils {
 		if (javaFile == null) {
 			return null;
 		}
+		
 		try {
 			return javaFile.toPath();
 		} catch (final InvalidPathException e) {
@@ -293,15 +294,6 @@ public class ConversionUtils {
 		}
 	}
 	
-	private static boolean isEmpty(final @Nullable URL javaUrl) {
-		if (javaUrl == null) {
-			return false;
-		}
-		
-		return "".equals(javaUrl.getPath()) && SCHEME_FILE.equalsIgnoreCase(javaUrl.getProtocol())
-				&& javaUrl.getAuthority() == null && javaUrl.getQuery() == null && javaUrl.getRef() == null;
-	}
-	
 	/**
 	 * 
 	 * @param javaPath
@@ -312,6 +304,7 @@ public class ConversionUtils {
 		if (javaPath == null) {
 			return null;
 		}
+		
 		try {
 			return javaPath.toFile();
 		} catch (final UnsupportedOperationException e) {
@@ -357,15 +350,6 @@ public class ConversionUtils {
 		}
 	}
 	
-	private static @NonNull String adjustFileSeparators(final @NonNull File javaFile) {
-		String adjustedSeparators = javaFile.getPath().replace(File.separator, SEPARATOR_URL_PATH);
-		if (adjustedSeparators.endsWith(":")) {
-			adjustedSeparators += "/";
-		}
-		
-		return adjustedSeparators;
-	}
-	
 	/**
 	 * 
 	 * @param javaFile
@@ -396,8 +380,8 @@ public class ConversionUtils {
 		if (javaUrl == null) {
 			return null;
 		}
+		
 		try {
-			
 			return javaUrl.toURI();
 		} catch (final URISyntaxException e) {
 			return null;
@@ -413,7 +397,6 @@ public class ConversionUtils {
 	 */
 	public static @NonNull URI asJavaUri(final @NonNull URL javaUrl) throws UnconvertibleException {
 		try {
-			
 			return javaUrl.toURI();
 		} catch (final URISyntaxException e) {
 			throw new UnconvertibleException(javaUrl, URL.class, URI.class, e);
@@ -436,8 +419,7 @@ public class ConversionUtils {
 		}
 		
 		try {
-			final String adjustedSeparators = javaPath.toString()
-					.replace(javaPath.getFileSystem().getSeparator(), SEPARATOR_URL_PATH);
+			final String adjustedSeparators = replaceSeparatorPathUrl(javaPath);
 			return new URI(null, adjustedSeparators, null);
 		} catch (final URISyntaxException e) {
 			return null;
@@ -457,8 +439,7 @@ public class ConversionUtils {
 		}
 		
 		try {
-			final String adjustedSeparators = javaPath.toString()
-					.replace(javaPath.getFileSystem().getSeparator(), SEPARATOR_URL_PATH);
+			final String adjustedSeparators = replaceSeparatorPathUrl(javaPath);
 			return new URI(null, adjustedSeparators, null);
 		} catch (final URISyntaxException e) {
 			throw new UnconvertibleException(javaPath, Path.class, URI.class, e);
@@ -475,12 +456,8 @@ public class ConversionUtils {
 		if (javaUri == null) {
 			return null;
 		}
+		
 		try {
-//			final URI adjustedJavaUri = getFixedInvalid(javaUri);
-//			if (adjustedJavaUri != null) {
-//				return adjustedJavaUri.toURL();
-//			}
-			
 			return javaUri.toURL();
 		} catch (IllegalArgumentException | MalformedURLException e) {
 			return null;
@@ -496,11 +473,6 @@ public class ConversionUtils {
 	 */
 	public static @NonNull URL asJavaUrl(final @NonNull URI javaUri) throws UnconvertibleException {
 		try {
-//			final URI adjustedJavaUri = getFixedInvalid(javaUri);
-//			if (adjustedJavaUri != null) {
-//				return adjustedJavaUri.toURL();
-//			}
-			
 			return javaUri.toURL();
 		} catch (IllegalArgumentException | MalformedURLException e) {
 			throw new UnconvertibleException(javaUri, URI.class, URL.class, e);
@@ -525,7 +497,7 @@ public class ConversionUtils {
 				return result;
 			}
 			
-			final URL result = new URL("file:" + uri.toASCIIString());
+			final URL result = new URL(SCHEME_FILE_SEPARATOR + uri.toASCIIString());
 			return result;
 		} catch (final MalformedURLException e) {
 			return null;
@@ -553,7 +525,7 @@ public class ConversionUtils {
 				return result;
 			}
 			
-			final URL result = new URL("file:" + uri.toASCIIString());
+			final URL result = new URL(SCHEME_FILE_SEPARATOR + uri.toASCIIString());
 			return result;
 		} catch (IllegalArgumentException | MalformedURLException e) {
 			throw new UnconvertibleException(javaFile, File.class, URL.class, e);
@@ -570,6 +542,7 @@ public class ConversionUtils {
 		if (javaPath == null) {
 			return null;
 		}
+		
 		try {
 			return asJavaUrl(javaPath);
 		} catch (final UnconvertibleException e) {
@@ -590,16 +563,58 @@ public class ConversionUtils {
 				return javaPath.toUri().toURL();
 			}
 			
-			final String adjustedSeparators = javaPath.toString()
-					.replace(javaPath.getFileSystem().getSeparator(), SEPARATOR_URL_PATH);
+			final String adjustedSeparators = replaceSeparatorPathUrl(javaPath);
 			if (StringUtils.isBlank(adjustedSeparators)) {
-				return new URL(SCHEME_FILE + SEPARATOR_SCHEME);
+				return new URL(SCHEME_FILE_SEPARATOR);
 			}
 			
 			return new URI(SCHEME_FILE, adjustedSeparators, null).toURL();
 		} catch (IllegalArgumentException | MalformedURLException | URISyntaxException e) {
 			throw new UnconvertibleException(javaPath, Path.class, URL.class, e);
 		}
+	}
+	
+	private static boolean isEmpty(final @Nullable URL javaUrl) {
+		if (javaUrl == null) {
+			return false;
+		}
+		
+		return "".equals(javaUrl.getPath())
+				&& hasFileScheme(javaUrl)
+				&& javaUrl.getAuthority() == null
+				&& javaUrl.getQuery() == null
+				&& javaUrl.getRef() == null;
+	}
+
+	private static boolean hasFileScheme(final URL javaUrl) {
+		final String protocol = javaUrl.getProtocol();
+		return protocol != null && SCHEME_FILE.equalsIgnoreCase(protocol);
+	}
+	
+	private static boolean hasFileScheme(final URI javaUri) {
+		final String scheme = javaUri.getScheme();
+		return scheme != null && SCHEME_FILE.equalsIgnoreCase(scheme);
+	}
+	
+	private static @NonNull String adjustFileSeparators(final @NonNull File javaFile) {
+		String adjustedSeparators = replaceSeparatorFileUrl(javaFile.getPath());
+		if (adjustedSeparators.endsWith(":")) {
+			adjustedSeparators += "/";
+		}
+		
+		return adjustedSeparators;
+	}
+	
+	private static String replaceSeparatorWinUrl(final String schemeSpecificPart) {
+		return schemeSpecificPart.replace(SEPARATOR_WIN, SEPARATOR_URL_PATH);
+	}
+	
+	private static String replaceSeparatorFileUrl(final String path) {
+		return path.replace(File.separator, SEPARATOR_URL_PATH);
+	}
+	
+	private static String replaceSeparatorPathUrl(final Path javaPath) {
+		return javaPath.toString().replace(javaPath.getFileSystem().getSeparator(), SEPARATOR_URL_PATH);
 	}
 	
 	/**
@@ -611,7 +626,7 @@ public class ConversionUtils {
 	 */
 	private static @Nullable URI getFixedInvalid(final @NonNull URI javaUri) throws URISyntaxException {
 		final String scheme = javaUri.getScheme();
-		if (scheme != null && SCHEME_FILE.equals(scheme.toLowerCase())) {
+		if (hasFileScheme(javaUri)) {
 			final String schemeSpecificPart = javaUri.getSchemeSpecificPart();
 			if (schemeSpecificPart != null && schemeSpecificPart.startsWith(SEPARATOR_INVALID_AUTHORITY)) {
 				final String authority = javaUri.getAuthority();
@@ -636,8 +651,7 @@ public class ConversionUtils {
 	 * @throws MalformedURLException
 	 */
 	private static @Nullable URL getFixedInvalid(final @NonNull URL javaUrl) throws MalformedURLException {
-		final String scheme = javaUrl.getProtocol();
-		if (scheme != null && SCHEME_FILE.equals(scheme.toLowerCase())) {
+		if (hasFileScheme(javaUrl)) {
 			final String authority = javaUrl.getAuthority();
 			if (authority != null && authority.endsWith(SEPARATOR_SCHEME)) {
 				final String file = SEPARATOR_URL_PATH + authority + javaUrl.getFile();
