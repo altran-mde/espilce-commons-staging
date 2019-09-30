@@ -8,8 +8,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.hamcrest.library,
  org.junit.jupiter.params,
  org.junit.platform.commons,
- org.junit.platform.engine,
- org.junit.jupiter.engine,
  org.opentest4j,
  org.espilce.commons.lang.test.base;bundle-version=0.1.0,
  org.espilce.commons.lang;bundle-version=0.5.0
