@@ -34,4 +34,4 @@ java \
 "$ECLIPSE_DIR/configuration/org.eclipse.osgi/657/0/.cp" \
 	--scan-classpath \
 	--reports-dir=./target/reports \
-	-n=org.espilce.commons.lang.test.conversionutils.javauri.javafile.*
+	-n=org.espilce.commons.lang.test.conversionutils.javafile.javaurl.*

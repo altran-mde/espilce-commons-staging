@@ -215,7 +215,11 @@ public class TestJavaUri2JavaUrl_absolute extends ATestJavaUri2JavaUrl implement
 	}, backslash = false)
 	public void root_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		if (inputStr.endsWith("//")) {
+			assertThrows(URISyntaxException.class, () -> new URI(inputStr));
+		} else {
+			assertConversionEquals(fun, inputStr, expectedStr);
+		}
 	}
 	
 	@Override
@@ -253,9 +257,9 @@ public class TestJavaUri2JavaUrl_absolute extends ATestJavaUri2JavaUrl implement
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"file://{}some/path/MyFile.ext, file://{}some/path/MyFile.ext"
-	})
+	}, backslash = false)
 	public void absoluteWindowsPathDoubleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -275,9 +279,9 @@ public class TestJavaUri2JavaUrl_absolute extends ATestJavaUri2JavaUrl implement
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"file:///{}some/path/MyFile.ext, file:///{}some/path/MyFile.ext"
-	})
+	}, backslash = false)
 	public void absoluteWindowsPathTripleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {

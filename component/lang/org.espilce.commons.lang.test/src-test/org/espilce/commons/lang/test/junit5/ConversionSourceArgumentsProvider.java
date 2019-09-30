@@ -28,11 +28,13 @@ public class ConversionSourceArgumentsProvider extends AConversionArgumentsProvi
 	
 	private String[] values;
 	private boolean backslash;
+	private boolean replace;
 	
 	@Override
 	public void accept(final ConversionSource t) {
 		this.values = t.value();
 		this.backslash = t.backslash();
+		this.replace = t.replace();
 	}
 	
 	@Override
@@ -93,7 +95,15 @@ public class ConversionSourceArgumentsProvider extends AConversionArgumentsProvi
 			for (final String sep : separators) {
 				final String key = tpl.replace(PLACEHOLDER, start).replace(SEPARATOR, sep);
 				final String valueRaw = inputMap.getOrDefault(tpl, tplValue);
-				final String value = valueRaw == null ? null : valueRaw.replace(PLACEHOLDER, start);
+				String value;
+				if (valueRaw == null) {
+					value = valueRaw;
+				} else {
+					value = valueRaw.replace(PLACEHOLDER, start);
+					if (this.replace) {
+						value = value.replace(SEPARATOR, sep);
+					}
+				}
 				// if (!start.replace(SEPARATOR, sep).startsWith(ALT_SEPARATOR)
 				// || this.backslash) {
 					if (!outputMap.containsKey(key)) {

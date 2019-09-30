@@ -19,6 +19,8 @@ import org.espilce.commons.lang.test.conversionutils.TestIRelative;
 import org.espilce.commons.lang.test.junit5.ConversionConfig;
 import org.espilce.commons.lang.test.junit5.ConversionFunction;
 import org.espilce.commons.lang.test.junit5.TestConversion;
+import org.espilce.commons.lang.test.junit5.TestOnUnix;
+import org.espilce.commons.lang.test.junit5.TestOnWindows;
 
 @ConversionConfig(conversionClass = ConversionUtils.class, paramType = URL.class, returnType = Path.class)
 public class TestJavaUrl2JavaPath_relative extends ATestJavaUrl2JavaPath implements TestIRelative {
@@ -80,8 +82,17 @@ public class TestJavaUrl2JavaPath_relative extends ATestJavaUrl2JavaPath impleme
 	}
 	
 	@Override
+	@TestOnWindows
 	@TestConversion(value = "file:myProject///myFolder?query#fragment", backslash = false)
-	public void relativeFragmentQuery(final ConversionFunction fun, final String inputStr) throws Exception {
+	public void relativeFragmentQuery_win(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URL input = new URL(inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	@Override
+	@TestOnUnix
+	@TestConversion(value = "file:myProject///myFolder?query#fragment", backslash = false)
+	public void relativeFragmentQuery_unix(final ConversionFunction fun, final String inputStr) throws Exception {
 		final URL input = new URL(inputStr);
 		assertIllegalConversion(fun, input);
 	}

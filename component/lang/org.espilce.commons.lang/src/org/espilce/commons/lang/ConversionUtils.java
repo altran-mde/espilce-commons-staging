@@ -344,7 +344,12 @@ public class ConversionUtils {
 		
 		try {
 			final String adjustedSeparators = adjustFileSeparators(javaFile);
-			return new URI(null, null, adjustedSeparators, null);
+			final URI result = new URI(null, null, adjustedSeparators, null);
+			if (result.getScheme() == null) {
+				return result;
+			} else {
+				return new URI(SCHEME_FILE_SEPARATOR + adjustedSeparators);
+			}
 		} catch (final URISyntaxException e) {
 			return null;
 		}

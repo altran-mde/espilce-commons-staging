@@ -37,13 +37,10 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}MyFile.ext,   file:/MyFile.ext",
 			"c:/MyFile.ext,  c:/MyFile.ext",
-			"\\MyFile.ext,   %5cMyFile.ext",
-			"c:\\MyFile.ext, c:%5cMyFile.ext",
-			"\\\\MyFile.ext, %5c%5cMyFile.ext",
-	})
+	}, replace = true)
 	public void absoluteFile_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
@@ -64,13 +61,10 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}myProject///folder///deep/myFile.ext//,            file:/myProject/folder/deep/myFile.ext",
 			"c:/myProject///folder///deep/myFile.ext//,           c:/myProject/folder/deep/myFile.ext",
-			"\\myProject\\\\\\folder\\\\\\deep\\myFile.ext\\\\,   %5CmyProject%5C%5C%5Cfolder%5C%5C%5Cdeep%5CmyFile.ext%5C%5C",
-			"c:\\myProject\\\\\\folder\\\\\\deep\\myFile.ext\\\\, c:%5CmyProject%5C%5C%5Cfolder%5C%5C%5Cdeep%5CmyFile.ext%5C%5C",
-			"\\\\myProject\\\\\\folder\\\\\\deep\\myFile.ext\\\\, %5C%5CmyProject%5C%5C%5Cfolder%5C%5C%5Cdeep%5CmyFile.ext%5C%5C",
-	})
+	}, replace = true)
 	public void absoluteFileSlashesExcess_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -92,13 +86,10 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}myProject/myFolder/,     file:/myProject/myFolder",
 			"c:/myProject/myFolder/,    c:/myProject/myFolder",
-			"\\myProject\\myFolder\\,   %5CmyProject%5CmyFolder%5C",
-			"c:\\myProject\\myFolder\\, c:%5CmyProject%5CmyFolder%5C",
-			"\\\\myProject\\myFolder\\, %5C%5CmyProject%5CmyFolder%5C",
-	})
+	}, replace = true)
 	public void absoluteFolderSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -120,13 +111,10 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}myProject///myFolder,      file:/myProject/myFolder",
 			"c:/myProject///myFolder,     c:/myProject/myFolder",
-			"\\myProject\\\\\\myFolder,   %5CmyProject%5C%5C%5CmyFolder",
-			"c:\\myProject\\\\\\myFolder, c:%5CmyProject%5C%5C%5CmyFolder",
-			"\\\\myProject\\\\\\myFolder, %5C%5CmyProject%5C%5C%5CmyFolder",
-	})
+	}, replace = true)
 	public void absoluteFolderSlashesInbetween_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -148,13 +136,10 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}myProject/myFolder?query#fragment,    file:/myProject/myFolder%3Fquery%23fragment",
 			"c:/myProject/myFolder?query#fragment,   c:/myProject/myFolder%3Fquery%23fragment",
-			"\\myProject\\myFolder?query#fragment,   %5CmyProject%5CmyFolder%3Fquery%23fragment",
-			"c:\\myProject\\myFolder?query#fragment, c:%5CmyProject%5CmyFolder%3Fquery%23fragment",
-			"\\\\myProject\\myFolder?query#fragment, %5C%5CmyProject%5CmyFolder%3Fquery%23fragment",
-	})
+	}, replace = true)
 	public void absoluteFragmentQuery_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -176,13 +161,10 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}some/path/MyFile.ext,     file:/some/path/MyFile.ext",
 			"c:/some/path/MyFile.ext,    c:/some/path/MyFile.ext",
-			"\\some\\path\\MyFile.ext,   %5Csome%5Cpath%5CMyFile.ext",
-			"c:\\some\\path\\MyFile.ext, c:%5Csome%5Cpath%5CMyFile.ext",
-			"\\\\some\\path\\MyFile.ext, %5C%5Csome%5Cpath%5CMyFile.ext",
-	})
+	}, replace = true)
 	public void absoluteNestedFile_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -203,17 +185,16 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
-			"{}resource/..////,        file:/resource/..",
-			"c:/resource/..////,       c:/resource/..",
-			"\\resource\\..\\\\\\\\,   %5Cresource%5C..%5C%5C%5C%5C",
-			"c:\\resource\\..\\\\\\\\, c:%5Cresource%5C..%5C%5C%5C%5C",
-			"\\\\resource\\..\\\\\\\\, %5C%5Cresource%5C..%5C%5C%5C%5C",
-	
+	@ConversionSource(value = {
+			"{}resource/..////,        file:{}resource/..",
+			"//resource/..////, file:/resource/..",
+			"c:\\resource\\..\\\\\\\\",
+			"\\resource\\..\\\\\\\\, file:%5Cresource%5C..%5C%5C%5C%5C",
+			"\\\\resource\\..\\\\\\\\, file:%5C%5Cresource%5C..%5C%5C%5C%5C",
 	})
 	public void absolutePath_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
 	}
 	
 	@Override
@@ -231,13 +212,10 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}myProject/myFolder#query,    file:/myProject/myFolder%23query",
 			"c:/myProject/myFolder#query,   c:/myProject/myFolder%23query",
-			"\\myProject\\myFolder#query,   %5CmyProject%5CmyFolder%23query",
-			"c:\\myProject\\myFolder#query, c:%5CmyProject%5CmyFolder%23query",
-			"\\\\myProject\\myFolder#query, %5C%5CmyProject%5CmyFolder%23query",
-	})
+	}, replace = true)
 	public void absolutePseudoFragment_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -258,13 +236,10 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{},   file:/",
 			"c:/,  c:/",
-			"\\,   %5C",
-			"c:\\, c:%5C",
-			"\\\\, %5C%5C",
-	})
+	}, replace = true)
 	public void root_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
@@ -285,13 +260,11 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"/{}some/path/MyFile.ext,      file:/some/path/MyFile.ext",
 			"/c:/some/path/MyFile.ext,     file:/c:/some/path/MyFile.ext",
-			"\\\\some\\path\\MyFile.ext,   %5C%5Csome%5Cpath%5CMyFile.ext",
 			"\\c:\\some\\path\\MyFile.ext",
-			"\\\\\\some\\path\\MyFile.ext, %5C%5C%5Csome%5Cpath%5CMyFile.ext",
-	})
+	}, replace = true)
 	public void absoluteWindowsPathSingleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -314,13 +287,11 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"//{}some/path/MyFile.ext,       file:/some/path/MyFile.ext",
 			"//c:/some/path/MyFile.ext,      file:/c:/some/path/MyFile.ext",
-			"\\\\\\some\\path\\MyFile.ext,   %5C%5C%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\c:\\some\\path\\MyFile.ext",
-			"\\\\\\\\some\\path\\MyFile.ext, %5C%5C%5C%5Csome%5Cpath%5CMyFile.ext",
-	})
+	}, replace = true)
 	public void absoluteWindowsPathDoubleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -343,13 +314,11 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"///{}some/path/MyFile.ext,        file:/some/path/MyFile.ext",
 			"///c:/some/path/MyFile.ext,       file:/c:/some/path/MyFile.ext",
-			"\\\\\\\\some\\path\\MyFile.ext,   %5C%5C%5C%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\\\c:\\some\\path\\MyFile.ext",
-			"\\\\\\\\\\some\\path\\MyFile.ext, %5C%5C%5C%5C%5Csome%5Cpath%5CMyFile.ext",
-	})
+	}, replace = true)
 	public void absoluteWindowsPathTripleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {

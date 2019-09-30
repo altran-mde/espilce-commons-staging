@@ -44,13 +44,14 @@ public class TestJavaUri2JavaPath_javaUri extends ATestJavaUri2JavaPath implemen
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+			"{}some/path/MyFile.ext, {}some/path/MyFile.ext",
+			"c:/"
 	})
 	public void absoluteNestedFileNoScheme_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
 		final URI input = new URI(null, inputStr, null);
-		assertConversionEquals(fun, input, expectedStr);
+		assertConversionEquals_Exceptional(fun, input, expectedStr);
 	}
 	
 	@Override

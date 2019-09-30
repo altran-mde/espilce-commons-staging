@@ -31,7 +31,11 @@ public interface TestIRelative {
 	
 	void relativeFolderSlashesInbetween(final ConversionFunction fun, final String inputStr) throws Exception;
 	
-	void relativeFragmentQuery(final ConversionFunction fun, final String inputStr) throws Exception;
+	
+	void relativeFragmentQuery_win(final ConversionFunction fun, final String inputStr) throws Exception;
+	
+	void relativeFragmentQuery_unix(final ConversionFunction fun, final String inputStr) throws Exception;
+	
 	
 	void relativeNestedFile(final ConversionFunction fun, final String inputStr) throws Exception;
 	

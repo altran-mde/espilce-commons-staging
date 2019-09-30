@@ -127,8 +127,7 @@ public class TestJavaUrl2JavaUri_absolute extends ATestJavaUrl2JavaUri implement
 	}, backslash = false)
 	public void absoluteFragmentQuery_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
-	)
-			throws Exception {
+	) throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
 	}
 	
@@ -212,10 +211,14 @@ public class TestJavaUrl2JavaUri_absolute extends ATestJavaUrl2JavaUri implement
 	@TestOnUnix
 	@ConversionSource(value = {
 			"file:{}, file:{}"
-	}, backslash = false)
+	})
 	public void root_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		if (inputStr.endsWith("//") || inputStr.endsWith("\\\\")) {
+			assertThrows(URISyntaxException.class, () -> new URI(inputStr));
+		} else {
+			assertConversionEquals(fun, inputStr, expectedStr);
+		}
 	}
 	
 	@Override

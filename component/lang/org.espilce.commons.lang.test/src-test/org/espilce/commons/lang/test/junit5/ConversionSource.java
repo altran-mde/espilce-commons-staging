@@ -14,4 +14,6 @@ public @interface ConversionSource {
 	String[] value();
 	
 	boolean backslash() default true;
+	
+	boolean replace() default false;
 }

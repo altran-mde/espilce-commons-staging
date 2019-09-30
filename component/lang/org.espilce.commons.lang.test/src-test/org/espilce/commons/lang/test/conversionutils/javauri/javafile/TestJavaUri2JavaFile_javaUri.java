@@ -44,7 +44,8 @@ public class TestJavaUri2JavaFile_javaUri extends ATestJavaUri2JavaFile implemen
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+			"{}some/path/MyFile.ext, {}some/path/MyFile.ext",
+			"c:/"
 	}, backslash = false)
 	public void absoluteNestedFileNoScheme_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr

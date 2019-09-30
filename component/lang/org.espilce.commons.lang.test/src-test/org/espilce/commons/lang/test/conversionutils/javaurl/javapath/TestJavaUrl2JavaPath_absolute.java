@@ -40,11 +40,13 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource({
-			"file:{}MyFile.ext, {}MyFile.ext"
+			"file:{}MyFile.ext, {}MyFile.ext",
+			"file://MyFile.ext",
+			"file:\\\\MyFile.ext",
 	})
 	public void absoluteFile_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals(fun, inputStr, expectedStr);
+		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
 	}
 	
 	@Override
@@ -129,8 +131,7 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	}, backslash = false)
 	public void absoluteFragmentQuery_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
-	)
-			throws Exception {
+	) throws Exception {
 		final URL input = new URL(inputStr);
 		assertIllegalConversion(fun, input);
 	}
@@ -218,7 +219,11 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource({
-			"file:/{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+			"file:/{}some/path/MyFile.ext, {}some/path/MyFile.ext",
+			"file://some/path/MyFile.ext, //some/path/MyFile.ext",
+			"file:///some/path/MyFile.ext, /some/path/MyFile.ext",
+			"file:\\\\some\\path\\MyFile.ext, //some/path/MyFile.ext",
+			"file:\\\\\\some\\path\\MyFile.ext, /some/path/MyFile.ext",
 	})
 	public void absoluteWindowsPathSingleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -242,7 +247,9 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource({
-			"file://{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+			"file://{}some/path/MyFile.ext, {}some/path/MyFile.ext",
+			"file:///some/path/MyFile.ext, /some/path/MyFile.ext",
+			"file:////some/path/MyFile.ext, //some/path/MyFile.ext",
 	})
 	public void absoluteWindowsPathDoubleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -268,7 +275,11 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource({
-			"file:///{}some/path/MyFile.ext, {}some/path/MyFile.ext"
+			"file:///{}some/path/MyFile.ext, {}some/path/MyFile.ext",
+			"file:////some/path/MyFile.ext, //some/path/MyFile.ext",
+			"file://///some/path/MyFile.ext, //some/path/MyFile.ext",
+			"file:\\\\\\\\some\\path\\MyFile.ext, //some/path/MyFile.ext",
+			"file:\\\\\\\\\\some\\path\\MyFile.ext, //some/path/MyFile.ext",
 	})
 	public void absoluteWindowsPathTripleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
