@@ -68,13 +68,10 @@ public class ConversionUtils {
 		}
 		
 		try {
-			final @NonNull URI javaUriNonNull = javaUri;
-			return asJavaPath(javaUriNonNull);
+			return asJavaPath(javaUri);
 		} catch (final UnconvertibleException e) {
-			// fall-through
+			return null;
 		}
-		
-		return null;
 	}
 	
 	/**
@@ -153,17 +150,11 @@ public class ConversionUtils {
 			return null;
 		}
 		
-		if (isEmpty(javaUrl)) {
-			return Paths.get("");
-		}
-		
 		try {
-			return toJavaPath(javaUrl.toURI());
-		} catch (final URISyntaxException e) {
-			// fall-through
+			return asJavaPath(javaUrl);
+		} catch (final UnconvertibleException e) {
+			return null;
 		}
-		
-		return null;
 	}
 	
 	/**
@@ -199,8 +190,8 @@ public class ConversionUtils {
 		}
 		
 		try {
-			return javaFile.toPath();
-		} catch (final InvalidPathException e) {
+			return asJavaPath(javaFile);
+		} catch (final UnconvertibleException e) {
 			return null;
 		}
 	}
@@ -227,12 +218,15 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @Nullable File toJavaFile(final @Nullable URI javaUri) {
-		final Path path = toJavaPath(javaUri);
-		if (path == null) {
+		if (javaUri == null) {
 			return null;
 		}
 		
-		return path.toFile();
+		try {
+		return asJavaFile(javaUri);
+		} catch (final UnconvertibleException e) {
+			return null;
+		}
 	}
 	
 	/**
@@ -263,13 +257,9 @@ public class ConversionUtils {
 			return null;
 		}
 		
-		if (isEmpty(javaUrl)) {
-			return new File("");
-		}
-		
 		try {
-			return toJavaFile(javaUrl.toURI());
-		} catch (final URISyntaxException e) {
+			return asJavaFile(javaUrl);
+		} catch (final UnconvertibleException e) {
 			return null;
 		}
 	}
@@ -306,8 +296,8 @@ public class ConversionUtils {
 		}
 		
 		try {
-			return javaPath.toFile();
-		} catch (final UnsupportedOperationException e) {
+			return asJavaFile(javaPath);
+		} catch (final UnconvertibleException e) {
 			return null;
 		}
 	}
@@ -338,19 +328,9 @@ public class ConversionUtils {
 			return null;
 		}
 		
-		if (javaFile.isAbsolute()) {
-			return javaFile.toURI();
-		}
-		
 		try {
-			final String adjustedSeparators = adjustFileSeparators(javaFile);
-			final URI result = new URI(null, null, adjustedSeparators, null);
-			if (result.getScheme() == null) {
-				return result;
-			} else {
-				return new URI(SCHEME_FILE_SEPARATOR + adjustedSeparators);
-			}
-		} catch (final URISyntaxException e) {
+			return asJavaUri(javaFile);
+		} catch (final UnconvertibleException e) {
 			return null;
 		}
 	}
@@ -367,11 +347,21 @@ public class ConversionUtils {
 			return javaFile.toURI();
 		}
 		
+		final String adjustedSeparators = adjustFileSeparators(javaFile);
 		try {
-			final String adjustedSeparators = adjustFileSeparators(javaFile);
-			return new URI(null, null, adjustedSeparators, null);
+			final URI result = new URI(null, null, adjustedSeparators, null);
+			if (result.getScheme() == null) {
+				return result;
+			} else {
+				return new URI(SCHEME_FILE_SEPARATOR + result.toASCIIString());
+			}
 		} catch (final URISyntaxException e) {
-			throw new UnconvertibleException(javaFile, File.class, URI.class, e);
+			try {
+//				return new URI(SCHEME_FILE_SEPARATOR + adjustedSeparators);
+				return new URI(SCHEME_FILE,adjustedSeparators,null);
+			} catch (final URISyntaxException e1) {
+				throw new UnconvertibleException(javaFile, File.class, URI.class, e);
+			}
 		}
 	}
 	
@@ -387,8 +377,8 @@ public class ConversionUtils {
 		}
 		
 		try {
-			return javaUrl.toURI();
-		} catch (final URISyntaxException e) {
+			return asJavaUri(javaUrl);
+		} catch (final UnconvertibleException e) {
 			return null;
 		}
 	}
@@ -419,14 +409,9 @@ public class ConversionUtils {
 			return null;
 		}
 		
-		if (javaPath.isAbsolute()) {
-			return javaPath.toUri();
-		}
-		
 		try {
-			final String adjustedSeparators = replaceSeparatorPathUrl(javaPath);
-			return new URI(null, adjustedSeparators, null);
-		} catch (final URISyntaxException e) {
+			return asJavaUri(javaPath);
+		} catch (final UnconvertibleException e) {
 			return null;
 		}
 	}
@@ -463,8 +448,8 @@ public class ConversionUtils {
 		}
 		
 		try {
-			return javaUri.toURL();
-		} catch (IllegalArgumentException | MalformedURLException e) {
+			return asJavaUrl(javaUri);
+		} catch (final UnconvertibleException e) {
 			return null;
 		}
 	}
@@ -491,20 +476,13 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @Nullable URL toJavaUrl(final @Nullable File javaFile) {
-		final URI uri = toJavaUri(javaFile);
-		if (uri == null) {
+		if (javaFile == null) {
 			return null;
 		}
 		
 		try {
-			if (uri.isAbsolute()) {
-				final URL result = uri.toURL();
-				return result;
-			}
-			
-			final URL result = new URL(SCHEME_FILE_SEPARATOR + uri.toASCIIString());
-			return result;
-		} catch (final MalformedURLException e) {
+			return asJavaUrl(javaFile);
+		} catch (final UnconvertibleException e) {
 			return null;
 		}
 	}
