@@ -5,7 +5,7 @@ WORKSPACE_DIR=$WIN_HOME_DIR/eclipse-workspaces/espilce-commons
 GIT_DIR=$WIN_HOME_DIR/git/espilce-commons
 ECLIPSE_DIR=$WIN_HOME_DIR/eclipse-distros/dsl-latest-stable
 MAVEN_DIR=$WIN_HOME_DIR/.m2
-WAIT_FOR_DEBUG=n
+WAIT_FOR_DEBUG=y
 
 java \
 	-ea \
@@ -34,4 +34,4 @@ java \
 "$ECLIPSE_DIR/configuration/org.eclipse.osgi/657/0/.cp" \
 	--scan-classpath \
 	--reports-dir=./target/reports \
-	-n=org.espilce.commons.lang.test.conversionutils.javafile.javaurl.*
+	-n=org.espilce.commons.lang.test.conversionutils.javafile.javauri.*

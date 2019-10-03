@@ -10,6 +10,7 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.annotation.NonNull;
@@ -353,12 +354,38 @@ public class ConversionUtils {
 			if (result.getScheme() == null) {
 				return result;
 			} else {
-				return new URI(SCHEME_FILE_SEPARATOR + result.toASCIIString());
+				final String asciiString = result.toASCIIString();
+				final int indexFirstSlash = asciiString.indexOf('/');
+				String s;
+				if (indexFirstSlash > -1) {
+					s = asciiString.substring(0, indexFirstSlash).replace(":", "%3A")
+							+ asciiString.substring(indexFirstSlash);
+				} else {
+					s = asciiString.replace(":", "%3A");
+				}
+				final URI relativize = new URI(s);
+				return relativize;
 			}
 		} catch (final URISyntaxException e) {
 			try {
-//				return new URI(SCHEME_FILE_SEPARATOR + adjustedSeparators);
-				return new URI(SCHEME_FILE,adjustedSeparators,null);
+				final String asciiString=adjustedSeparators;
+				final StringBuilder tmp = new StringBuilder("__tmp__");
+				final Random random = new Random();
+				while (asciiString.contains(tmp)) {
+					tmp.append(random.nextInt());
+					tmp.append("__");
+				}
+				final int indexFirstSlash = asciiString.indexOf('/');
+				String s;
+				if (indexFirstSlash > -1) {
+					s = asciiString.substring(0, indexFirstSlash).replace(":", tmp)
+							+ asciiString.substring(indexFirstSlash);
+				} else {
+					s = asciiString.replace(":", tmp);
+				}
+				final URI tmpUri = new URI(null, null, s, null);
+				final URI relativize = new URI(tmpUri.toASCIIString().replace(tmp, "%3A"));
+				return relativize;
 			} catch (final URISyntaxException e1) {
 				throw new UnconvertibleException(javaFile, File.class, URI.class, e);
 			}
