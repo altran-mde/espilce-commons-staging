@@ -224,7 +224,7 @@ public class ConversionUtils {
 		}
 		
 		try {
-		return asJavaFile(javaUri);
+			return asJavaFile(javaUri);
 		} catch (final UnconvertibleException e) {
 			return null;
 		}
@@ -345,6 +345,14 @@ public class ConversionUtils {
 	 */
 	public static @NonNull URI asJavaUri(final @NonNull File javaFile) throws UnconvertibleException {
 		if (javaFile.isAbsolute()) {
+//			try {
+//				final URI uri = javaFile.toURI();
+//				final String schemeSpecificPart = uri.getSchemeSpecificPart();
+//				final String replace = schemeSpecificPart.replace(":", "%3A");
+//				return new URI(SCHEME_FILE_SEPARATOR + replace);
+//			} catch (final URISyntaxException e) {
+//				// fall-through
+//			}
 			return javaFile.toURI();
 		}
 		
@@ -368,7 +376,7 @@ public class ConversionUtils {
 			}
 		} catch (final URISyntaxException e) {
 			try {
-				final String asciiString=adjustedSeparators;
+				final String asciiString = adjustedSeparators;
 				final StringBuilder tmp = new StringBuilder("__tmp__");
 				final Random random = new Random();
 				while (asciiString.contains(tmp)) {
@@ -522,7 +530,20 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @NonNull URL asJavaUrl(final @NonNull File javaFile) throws UnconvertibleException {
+//		final String adjustedSeparators = adjustFileSeparators(javaFile);
+//		try {
+//			if (!javaFile.isAbsolute() &&
+//				/*adjustedSeparators.indexOf(':') == -1 &&*/ adjustedSeparators.indexOf('#') == -1
+//						&& adjustedSeparators.indexOf('?') == -1 && adjustedSeparators.indexOf('\\') == -1/*&& !adjustedSeparators.startsWith("//")*/ /* && !adjustedSeparators.endsWith("/")*/
+//			) {
+//				return new URL(SCHEME_FILE_SEPARATOR + adjustedSeparators);
+//			}
+//		} catch (final MalformedURLException e1) {
+//			// fall-through
+//		}
+		
 		final URI uri;
+		
 		try {
 			uri = asJavaUri(javaFile);
 		} catch (final UnconvertibleException e) {
@@ -595,7 +616,7 @@ public class ConversionUtils {
 				&& javaUrl.getQuery() == null
 				&& javaUrl.getRef() == null;
 	}
-
+	
 	private static boolean hasFileScheme(final URL javaUrl) {
 		final String protocol = javaUrl.getProtocol();
 		return protocol != null && SCHEME_FILE.equalsIgnoreCase(protocol);

@@ -38,9 +38,9 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"{}MyFile.ext,    file:{}MyFile.ext",
-			"//MyFile.ext,    file:/MyFile.ext",
-			"c:\\MyFile.ext,  file:c:%5CMyFile.ext",
+			"{}MyFile.ext,    file:/MyFile.ext",
+			"c:/MyFile.ext,    file:c%3A/MyFile.ext",
+			"c:\\MyFile.ext,  file:c%3A%5CMyFile.ext",
 			"\\MyFile.ext,    file:%5CMyFile.ext",
 			"\\\\MyFile.ext,  file:%5C%5CMyFile.ext",
 	})
@@ -65,9 +65,9 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"{}myProject///folder///deep/myFile.ext//,             file:{}myProject/folder/deep/myFile.ext",
-			"//myProject///folder///deep/myFile.ext//,             file:/myProject/folder/deep/myFile.ext",
-			"c:\\myProject\\\\\\folder\\\\\\deep\\myFile.ext\\\\,  file:c:%5CmyProject%5C%5C%5Cfolder%5C%5C%5Cdeep%5CmyFile.ext%5C%5C",
+			"{}myProject///folder///deep/myFile.ext//,             file:/myProject/folder/deep/myFile.ext",
+			"c:/myProject///folder///deep/myFile.ext//,            file:c%3A/myProject/folder/deep/myFile.ext",
+			"c:\\myProject\\\\\\folder\\\\\\deep\\myFile.ext\\\\,  file:c%3A%5CmyProject%5C%5C%5Cfolder%5C%5C%5Cdeep%5CmyFile.ext%5C%5C",
 			"\\myProject\\\\\\folder\\\\\\deep\\myFile.ext\\\\,    file:%5CmyProject%5C%5C%5Cfolder%5C%5C%5Cdeep%5CmyFile.ext%5C%5C",
 			"\\\\myProject\\\\\\folder\\\\\\deep\\myFile.ext\\\\,  file:%5C%5CmyProject%5C%5C%5Cfolder%5C%5C%5Cdeep%5CmyFile.ext%5C%5C",
 	})
@@ -93,9 +93,9 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"{}myProject/myFolder/,      file:{}myProject/myFolder",
-			"//myProject/myFolder/,      file:/myProject/myFolder",
-			"c:\\myProject\\myFolder\\,  file:c:%5CmyProject%5CmyFolder%5C",
+			"{}myProject/myFolder/,      file:/myProject/myFolder",
+			"c:/myProject/myFolder/,     file:c%3A/myProject/myFolder",
+			"c:\\myProject\\myFolder\\,  file:c%3A%5CmyProject%5CmyFolder%5C",
 			"\\myProject\\myFolder\\,    file:%5CmyProject%5CmyFolder%5C",
 			"\\\\myProject\\myFolder\\,  file:%5C%5CmyProject%5CmyFolder%5C",
 	})
@@ -121,9 +121,9 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"{}myProject///myFolder,        file:{}myProject/myFolder",
-			"//myProject///myFolder,        file:/myProject/myFolder",
-			"c:\\myProject\\\\\\myFolder,   file:c:%5CmyProject%5C%5C%5CmyFolder",
+			"{}myProject///myFolder,        file:/myProject/myFolder",
+			"c:/myProject///myFolder,       file:c%3A/myProject/myFolder",
+			"c:\\myProject\\\\\\myFolder,   file:c%3A%5CmyProject%5C%5C%5CmyFolder",
 			"\\myProject\\\\\\myFolder,     file:%5CmyProject%5C%5C%5CmyFolder",
 			"\\\\myProject\\\\\\myFolder,   file:%5C%5CmyProject%5C%5C%5CmyFolder",
 	})
@@ -149,9 +149,9 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"{}myProject/myFolder?query#fragment,    file:{}myProject/myFolder%3Fquery%23fragment",
-			"//myProject/myFolder?query#fragment,    file:/myProject/myFolder%3Fquery%23fragment",
-			"c:\\myProject\\myFolder?query#fragment, file:c:%5CmyProject%5CmyFolder%3Fquery%23fragment",
+			"{}myProject/myFolder?query#fragment,    file:/myProject/myFolder%3Fquery%23fragment",
+			"c:/myProject/myFolder?query#fragment,   file:c%3A/myProject/myFolder%3Fquery%23fragment",
+			"c:\\myProject\\myFolder?query#fragment, file:c%3A%5CmyProject%5CmyFolder%3Fquery%23fragment",
 			"\\myProject\\myFolder?query#fragment,   file:%5CmyProject%5CmyFolder%3Fquery%23fragment",
 			"\\\\myProject\\myFolder?query#fragment, file:%5C%5CmyProject%5CmyFolder%3Fquery%23fragment",
 	})
@@ -177,9 +177,9 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"{}some/path/MyFile.ext,      file:{}some/path/MyFile.ext",
-			"//some/path/MyFile.ext,      file:/some/path/MyFile.ext",
-			"c:\\some\\path\\MyFile.ext,  file:c:%5Csome%5Cpath%5CMyFile.ext",
+			"{}some/path/MyFile.ext,      file:/some/path/MyFile.ext",
+			"c:/some/path/MyFile.ext,     file:c%3A/some/path/MyFile.ext",
+			"c:\\some\\path\\MyFile.ext,  file:c%3A%5Csome%5Cpath%5CMyFile.ext",
 			"\\some\\path\\MyFile.ext,    file:%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\some\\path\\MyFile.ext,  file:%5C%5Csome%5Cpath%5CMyFile.ext",
 	})
@@ -204,9 +204,9 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"{}resource/..////,         file:{}resource/..",
-			"//resource/..////,         file:/resource/..",
-			"c:\\resource\\..\\\\\\\\,  file:c:%5Cresource%5C..%5C%5C%5C%5C",
+			"{}resource/..////,         file:/resource/..",
+			"c:/resource/..////,        file:c%3A/resource/..",
+			"c:\\resource\\..\\\\\\\\,  file:c%3A%5Cresource%5C..%5C%5C%5C%5C",
 			"\\resource\\..\\\\\\\\,    file:%5Cresource%5C..%5C%5C%5C%5C",
 			"\\\\resource\\..\\\\\\\\,  file:%5C%5Cresource%5C..%5C%5C%5C%5C",
 	})
@@ -231,9 +231,9 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"{}myProject/myFolder#query,     file:{}myProject/myFolder%23query",
-			"//myProject/myFolder#query,     file:/myProject/myFolder%23query",
-			"c:\\myProject\\myFolder#query,  file:c:%5CmyProject%5CmyFolder%23query",
+			"{}myProject/myFolder#query,     file:/myProject/myFolder%23query",
+			"c:/myProject/myFolder#query,    file:c%3A/myProject/myFolder%23query",
+			"c:\\myProject\\myFolder#query,  file:c%3A%5CmyProject%5CmyFolder%23query",
 			"\\myProject\\myFolder#query,    file:%5CmyProject%5CmyFolder%23query",
 			"\\\\myProject\\myFolder#query,  file:%5C%5CmyProject%5CmyFolder%23query",
 	})
@@ -258,9 +258,9 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"{},    file:{}",
-			"//,    file:/",
-			"c:\\,  file:c:%5C",
+			"{},    file:/",
+			"c:/,   file:c%3A/",
+			"c:\\,  file:c%3A%5C",
 			"\\,    file:%5C",
 			"\\\\,  file:%5C%5C",
 	})
@@ -287,7 +287,7 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@ConversionSource(value = {
 			"/{}some/path/MyFile.ext,      file:/some/path/MyFile.ext",
 			"/c:/some/path/MyFile.ext,     file:/c:/some/path/MyFile.ext",
-			"\\c:\\some\\path\\MyFile.ext, file:%5Cc:%5Csome%5Cpath%5CMyFile.ext",
+			"\\c:\\some\\path\\MyFile.ext, file:%5Cc%3A%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\some\\path\\MyFile.ext,   file:%5C%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\\\some\\path\\MyFile.ext, file:%5C%5C%5Csome%5Cpath%5CMyFile.ext",
 	})
@@ -316,7 +316,7 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@ConversionSource(value = {
 			"//{}some/path/MyFile.ext,       file:/some/path/MyFile.ext",
 			"//c:/some/path/MyFile.ext,      file:/c:/some/path/MyFile.ext",
-			"\\\\c:\\some\\path\\MyFile.ext, file:%5C%5Cc:%5Csome%5Cpath%5CMyFile.ext",
+			"\\\\c:\\some\\path\\MyFile.ext, file:%5C%5Cc%3A%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\\\some\\path\\MyFile.ext,   file:%5C%5C%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\\\\\some\\path\\MyFile.ext, file:%5C%5C%5C%5Csome%5Cpath%5CMyFile.ext",
 	})
@@ -345,7 +345,7 @@ public class TestJavaFile2JavaUrl_absolute extends ATestJavaFile2JavaUrl impleme
 	@ConversionSource(value = {
 			"///{}some/path/MyFile.ext,        file:/some/path/MyFile.ext",
 			"///c:/some/path/MyFile.ext,       file:/c:/some/path/MyFile.ext",
-			"\\\\\\c:\\some\\path\\MyFile.ext, file:%5C%5C%5Cc:%5Csome%5Cpath%5CMyFile.ext",
+			"\\\\\\c:\\some\\path\\MyFile.ext, file:%5C%5C%5Cc%3A%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\\\\\some\\path\\MyFile.ext,   file:%5C%5C%5C%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\\\\\\\some\\path\\MyFile.ext, file:%5C%5C%5C%5C%5Csome%5Cpath%5CMyFile.ext",
 	})
