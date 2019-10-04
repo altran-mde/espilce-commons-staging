@@ -602,13 +602,18 @@ public class ConversionUtils {
 				return javaPath.toUri().toURL();
 			}
 			
-			final String adjustedSeparators = replaceSeparatorPathUrl(javaPath);
-			if (StringUtils.isBlank(adjustedSeparators)) {
+			if (StringUtils.isBlank(javaPath.toString())) {
 				return new URL(SCHEME_FILE_SEPARATOR);
 			}
-			
-			return new URI(SCHEME_FILE, adjustedSeparators, null).toURL();
-		} catch (IllegalArgumentException | MalformedURLException | URISyntaxException e) {
+
+			final URI uri = asJavaUri(javaPath);
+			final URL result = new URL(SCHEME_FILE_SEPARATOR + uri.toASCIIString());
+			return result;
+//
+//			return new URI(SCHEME_FILE, adjustedSeparators, null).toURL();
+		} catch (final UnconvertibleException e) {
+			throw new UnconvertibleException(javaPath, Path.class, URL.class, e.getCause());
+		} catch (IllegalArgumentException | MalformedURLException e) {
 			throw new UnconvertibleException(javaPath, Path.class, URL.class, e);
 		}
 	}
