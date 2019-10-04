@@ -15,6 +15,12 @@ public interface TestIScheme {
 	
 	void emptyWithScheme(final ConversionFunction fun, final String inputStr) throws Exception;
 	
+	
+	void blankWithScheme_win(final ConversionFunction fun, final String inputStr) throws Exception;
+	
+	void blankWithScheme_unix(final ConversionFunction fun, final String inputStr) throws Exception;
+	
+	
 	void fragment(final ConversionFunction fun, final String inputStr) throws Exception;
 	
 	void fragmentQuery(final ConversionFunction fun, final String inputStr) throws Exception;

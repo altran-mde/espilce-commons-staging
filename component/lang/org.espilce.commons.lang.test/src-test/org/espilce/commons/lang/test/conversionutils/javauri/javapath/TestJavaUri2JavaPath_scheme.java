@@ -10,8 +10,10 @@
 package org.espilce.commons.lang.test.conversionutils.javauri.javapath;
 
 import static org.espilce.commons.lang.test.junit5.AssertConversion.assertIllegalConversion;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 import org.espilce.commons.lang.ConversionUtils;
@@ -19,6 +21,8 @@ import org.espilce.commons.lang.test.conversionutils.TestIScheme;
 import org.espilce.commons.lang.test.junit5.ConversionConfig;
 import org.espilce.commons.lang.test.junit5.ConversionFunction;
 import org.espilce.commons.lang.test.junit5.TestConversion;
+import org.espilce.commons.lang.test.junit5.TestOnUnix;
+import org.espilce.commons.lang.test.junit5.TestOnWindows;
 
 @ConversionConfig(conversionClass = ConversionUtils.class, paramType = URI.class, returnType = Path.class)
 public class TestJavaUri2JavaPath_scheme extends ATestJavaUri2JavaPath implements TestIScheme {
@@ -30,10 +34,25 @@ public class TestJavaUri2JavaPath_scheme extends ATestJavaUri2JavaPath implement
 	}
 	
 	@Override
-	@TestConversion(value = " ", backslash = false)
+	@TestConversion(value = "", backslash = false)
 	public void emptyWithScheme(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertThrows(URISyntaxException.class, () -> new URI("file", inputStr, null));
+	}
+	
+	@Override
+	@TestOnWindows
+	@TestConversion(value = " ", backslash = false)
+	public void blankWithScheme_win(final ConversionFunction fun, final String inputStr) throws Exception {
 		final URI input = new URI("file", inputStr, null);
 		assertIllegalConversion(fun, input);
+	}
+	
+	@Override
+	@TestOnUnix
+	@TestConversion(value = " ", backslash = false)
+	public void blankWithScheme_unix(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URI input = new URI("file", inputStr, null);
+		assertConversionEquals(fun, input, " ");
 	}
 	
 	@Override

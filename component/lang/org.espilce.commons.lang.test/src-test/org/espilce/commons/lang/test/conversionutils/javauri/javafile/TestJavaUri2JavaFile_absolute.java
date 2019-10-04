@@ -42,11 +42,10 @@ public class TestJavaUri2JavaFile_absolute extends ATestJavaUri2JavaFile impleme
 	@TestOnUnix
 	@ConversionSource(value = {
 			"file:{}MyFile.ext, {}MyFile.ext",
-			"file://MyFile.ext"
 	}, backslash = false)
 	public void absoluteFile_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
+		assertConversionEquals(fun, inputStr, expectedStr);
 	}
 	
 	@Override
@@ -231,7 +230,7 @@ public class TestJavaUri2JavaFile_absolute extends ATestJavaUri2JavaFile impleme
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:/{}some/path/MyFile.ext, {}some/path/MyFile.ext",
-			"file://some/path/MyFile.ext, //some/path/MyFile.ext",
+			"file://some/path/MyFile.ext,  //some/path/MyFile.ext",
 			"file:///some/path/MyFile.ext, /some/path/MyFile.ext",
 	}, backslash = false)
 	public void absoluteWindowsPathSingleSlash_win(
@@ -243,9 +242,9 @@ public class TestJavaUri2JavaFile_absolute extends ATestJavaUri2JavaFile impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"file:/{}some/path/MyFile.ext, {}some/path/MyFile.ext",
-			"file://some/path/MyFile.ext, //some/path/MyFile.ext",
-			"file:///some/path/MyFile.ext, /some/path/MyFile.ext",
+			"file:/{}some/path/MyFile.ext,  /some/path/MyFile.ext",
+			"file://some/path/MyFile.ext,   //some/path/MyFile.ext",
+			"file:/c:/some/path/MyFile.ext, /c:/some/path/MyFile.ext",
 	}, backslash = false)
 	public void absoluteWindowsPathSingleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -257,7 +256,7 @@ public class TestJavaUri2JavaFile_absolute extends ATestJavaUri2JavaFile impleme
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file://{}some/path/MyFile.ext, {}some/path/MyFile.ext",
-			"file:///some/path/MyFile.ext, /some/path/MyFile.ext",
+			"file:///some/path/MyFile.ext,  /some/path/MyFile.ext",
 			"file:////some/path/MyFile.ext, //some/path/MyFile.ext",
 	}, backslash = false)
 	public void absoluteWindowsPathDoubleSlash_win(
@@ -269,9 +268,9 @@ public class TestJavaUri2JavaFile_absolute extends ATestJavaUri2JavaFile impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"file://{}some/path/MyFile.ext, {}some/path/MyFile.ext",
-			"file:///some/path/MyFile.ext, /some/path/MyFile.ext",
-			"file:////some/path/MyFile.ext, //some/path/MyFile.ext",
+			"file://{}some/path/MyFile.ext,  /some/path/MyFile.ext",
+			"file:////some/path/MyFile.ext,  //some/path/MyFile.ext",
+			"file://c:/some/path/MyFile.ext, /c:/some/path/MyFile.ext",
 	}, backslash = false)
 	public void absoluteWindowsPathDoubleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -283,7 +282,7 @@ public class TestJavaUri2JavaFile_absolute extends ATestJavaUri2JavaFile impleme
 	@TestOnWindows
 	@ConversionSource(value = {
 			"file:///{}some/path/MyFile.ext, {}some/path/MyFile.ext",
-			"file:////some/path/MyFile.ext, //some/path/MyFile.ext",
+			"file:////some/path/MyFile.ext,  //some/path/MyFile.ext",
 			"file://///some/path/MyFile.ext, //some/path/MyFile.ext",
 	}, backslash = false)
 	public void absoluteWindowsPathTripleSlash_win(
@@ -295,9 +294,9 @@ public class TestJavaUri2JavaFile_absolute extends ATestJavaUri2JavaFile impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"file:///{}some/path/MyFile.ext, {}some/path/MyFile.ext",
-			"file:////some/path/MyFile.ext, //some/path/MyFile.ext",
-			"file://///some/path/MyFile.ext, //some/path/MyFile.ext",
+			"file:///{}some/path/MyFile.ext,  /some/path/MyFile.ext",
+			"file:////some/path/MyFile.ext,   //some/path/MyFile.ext",
+			"file:///c:/some/path/MyFile.ext, /c:/some/path/MyFile.ext",
 	}, backslash = false)
 	public void absoluteWindowsPathTripleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr

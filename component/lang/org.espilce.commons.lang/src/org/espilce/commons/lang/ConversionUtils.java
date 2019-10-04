@@ -83,6 +83,10 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @NonNull Path asJavaPath(final @NonNull URI javaUri) throws UnconvertibleException {
+		if (javaUri.getScheme() != null && !hasFileScheme(javaUri)) {
+			throw new UnconvertibleException(javaUri, URI.class, Path.class);
+		}
+		
 		try {
 			try {
 				final URI adjustedJavaUri = getFixedInvalid(javaUri);
@@ -90,43 +94,49 @@ public class ConversionUtils {
 					return Paths.get(adjustedJavaUri);
 				}
 				return Paths.get(javaUri);
-			} catch (final IllegalArgumentException | URISyntaxException e) {
+			} catch (final IllegalArgumentException | FileSystemNotFoundException | URISyntaxException e) {
 				if (hasQueryOrFragment(javaUri)) {
 					// we cannot represent any of the conditions in a Path
 					throw e;
 				}
 				try {
 					String schemeSpecificPart = javaUri.getSchemeSpecificPart();
-					if (javaUri.isAbsolute()) {
+					if (javaUri.isAbsolute() || true) {
 						return Paths.get(schemeSpecificPart);
 					}
 					
-					if (!javaUri.isOpaque()) {
-						// try to resolve relative to current path
-						final Path currentPath = Paths.get("").toAbsolutePath();
-						final URI currentUri = currentPath.toUri();
-						URI resolved = null;
-						try {
-							resolved = currentUri.resolve(schemeSpecificPart);
-						} catch (final IllegalArgumentException ex) {
-							schemeSpecificPart = replaceSeparatorWinUrl(schemeSpecificPart);
-							resolved = currentUri.resolve(schemeSpecificPart);
-						}
-						final Path resolvedPath = Paths.get(resolved);
+					try {
+						final URI uri = new URI(SCHEME_FILE, javaUri.toASCIIString(), null);
+						return Paths.get(uri);
+					} catch (final IllegalArgumentException | URISyntaxException e1) {
 						
-						try {
-							final Path result = currentPath.relativize(resolvedPath);
-							if (schemeSpecificPart.startsWith(CURRENT) && !result.toString().startsWith(CURRENT)) {
-								// retain explicit reference to current path
-								return Paths.get(CURRENT, result.toString());
+						if (!javaUri.isOpaque()) {
+							// try to resolve relative to current path
+							final Path currentPath = Paths.get("").toAbsolutePath();
+							final URI currentUri = currentPath.toUri();
+							URI resolved = null;
+							try {
+								resolved = currentUri.resolve(schemeSpecificPart);
+							} catch (final IllegalArgumentException ex) {
+								schemeSpecificPart = replaceSeparatorWinUrl(schemeSpecificPart);
+								resolved = currentUri.resolve(schemeSpecificPart);
 							}
-							return result;
-						} catch (final IllegalArgumentException ex) {
-							// e.g. "Path types differ exception"
-							return Paths.get(resolved.getSchemeSpecificPart());
+							final Path resolvedPath = Paths.get(resolved);
+							
+							try {
+								final Path result = currentPath.relativize(resolvedPath);
+								if (schemeSpecificPart.startsWith(CURRENT) && !result.toString().startsWith(CURRENT)) {
+									// retain explicit reference to current path
+									return Paths.get(CURRENT, result.toString());
+								}
+								return result;
+							} catch (final IllegalArgumentException ex) {
+								// e.g. "Path types differ exception"
+								return Paths.get(resolved.getSchemeSpecificPart());
+							}
 						}
 					}
-				} catch (IllegalArgumentException | FileSystemNotFoundException ex) {
+				} catch (final FileSystemNotFoundException ex) {
 					throw ex;
 				}
 				throw e;
@@ -605,12 +615,12 @@ public class ConversionUtils {
 			if (StringUtils.isBlank(javaPath.toString())) {
 				return new URL(SCHEME_FILE_SEPARATOR);
 			}
-
+			
 			final URI uri = asJavaUri(javaPath);
 			final URL result = new URL(SCHEME_FILE_SEPARATOR + uri.toASCIIString());
 			return result;
-//
-//			return new URI(SCHEME_FILE, adjustedSeparators, null).toURL();
+			//
+			// return new URI(SCHEME_FILE, adjustedSeparators, null).toURL();
 		} catch (final UnconvertibleException e) {
 			throw new UnconvertibleException(javaPath, Path.class, URL.class, e.getCause());
 		} catch (IllegalArgumentException | MalformedURLException e) {

@@ -19,6 +19,8 @@ import org.espilce.commons.lang.test.conversionutils.TestIScheme;
 import org.espilce.commons.lang.test.junit5.ConversionConfig;
 import org.espilce.commons.lang.test.junit5.ConversionFunction;
 import org.espilce.commons.lang.test.junit5.TestConversion;
+import org.espilce.commons.lang.test.junit5.TestOnUnix;
+import org.espilce.commons.lang.test.junit5.TestOnWindows;
 
 @ConversionConfig(conversionClass = ConversionUtils.class, paramType = URL.class, returnType = URI.class)
 public class TestJavaUrl2JavaUri_scheme extends ATestJavaUrl2JavaUri implements TestIScheme {
@@ -30,10 +32,26 @@ public class TestJavaUrl2JavaUri_scheme extends ATestJavaUrl2JavaUri implements 
 	}
 	
 	@Override
-	@TestConversion(value = " ", backslash = false)
+	@TestConversion(value = "", backslash = false)
 	public void emptyWithScheme(final ConversionFunction fun, final String inputStr) throws Exception {
 		final URL input = new URL("file:" + inputStr);
 		assertIllegalConversion(fun, input);
+	}
+	
+	@Override
+	@TestOnWindows
+	@TestConversion(value = " ", backslash = false)
+	public void blankWithScheme_win(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URL input = new URL("file:" + inputStr);
+		assertIllegalConversion(fun, input);
+	}
+	
+	@Override
+	@TestOnUnix
+	@TestConversion(value = " ", backslash = false)
+	public void blankWithScheme_unix(final ConversionFunction fun, final String inputStr) throws Exception {
+		final URL input = new URL("file:" + inputStr);
+		assertConversionEquals(fun, input, "file:%20");
 	}
 	
 	@Override

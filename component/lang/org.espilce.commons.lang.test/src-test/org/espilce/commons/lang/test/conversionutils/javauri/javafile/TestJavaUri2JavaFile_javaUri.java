@@ -45,12 +45,11 @@ public class TestJavaUri2JavaFile_javaUri extends ATestJavaUri2JavaFile implemen
 	@TestOnUnix
 	@ConversionSource(value = {
 			"{}some/path/MyFile.ext, {}some/path/MyFile.ext",
-			"c:/"
 	}, backslash = false)
 	public void absoluteNestedFileNoScheme_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
-		final URI input = new URI(null, inputStr, null);
+		final URI input = new URI(inputStr.replace(":", "%3A"));
 		assertConversionEquals(fun, input, expectedStr);
 	}
 	
@@ -124,11 +123,21 @@ public class TestJavaUri2JavaFile_javaUri extends ATestJavaUri2JavaFile implemen
 	@TestOnUnix
 	@ConversionSource(value = {
 			"{}, {}"
-	})
+	}, replace = true)
 	public void rootNoScheme_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		final URI input = new URI(null, inputStr, null);
-		assertConversionEquals(fun, input, expectedStr);
+		final URI input;
+		if (inputStr.startsWith("//")) {
+			assertThrows(URISyntaxException.class, () -> new URI(null, inputStr, null));
+		} else {
+			if (inputStr.contains(":")) {
+				final URI tmp = new URI("file:/" + inputStr.replace(":", "%3A").replace("\\", "%5C"));
+				input = new URI("file:/").relativize(tmp);
+			} else {
+				input = new URI(null, null, inputStr, null);
+			}
+			assertConversionEquals(fun, input, expectedStr);
+		}
 	}
 	
 	@Override
@@ -151,11 +160,15 @@ public class TestJavaUri2JavaFile_javaUri extends ATestJavaUri2JavaFile implemen
 	@TestOnUnix
 	@ConversionSource(value = {
 			"{}, {}"
-	})
+	}, replace = true)
 	public void rootScheme_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		final URI input = new URI("file", inputStr, null);
-		assertConversionEquals(fun, input, expectedStr);
+		if (inputStr.endsWith("//")) {
+			assertThrows(URISyntaxException.class, () -> new URI(inputStr));
+		} else {
+			final URI input = new URI("file", inputStr, null);
+			assertConversionEquals(fun, input, expectedStr);
+		}
 	}
 	
 	@Override
