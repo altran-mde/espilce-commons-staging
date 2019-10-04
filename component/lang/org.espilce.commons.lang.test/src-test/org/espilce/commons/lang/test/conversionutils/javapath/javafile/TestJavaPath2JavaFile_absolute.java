@@ -43,9 +43,9 @@ public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile imple
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}MyFile.ext, {}MyFile.ext",
-	})
+	}, replace = true)
 	public void absoluteFile_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
@@ -64,9 +64,9 @@ public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile imple
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}myProject///folder///deep/myFile.ext//, {}myProject///folder///deep/myFile.ext//",
-	})
+	}, replace = true)
 	public void absoluteFileSlashesExcess_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -86,9 +86,9 @@ public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile imple
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}myProject/myFolder/, {}myProject/myFolder/",
-	})
+	}, replace = true)
 	public void absoluteFolderSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -108,9 +108,9 @@ public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile imple
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}myProject///myFolder, {}myProject///myFolder",
-	})
+	}, replace = true)
 	public void absoluteFolderSlashesInbetween_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -130,9 +130,9 @@ public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile imple
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}myProject/myFolder?query#fragment, {}myProject/myFolder?query#fragment",
-	})
+	}, replace = true)
 	public void absoluteFragmentQuery_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -152,9 +152,9 @@ public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile imple
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}some/path/MyFile.ext, {}some/path/MyFile.ext",
-	})
+	}, replace = true)
 	public void absoluteNestedFile_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -173,9 +173,9 @@ public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile imple
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}resource/..////, {}resource/..////",
-	})
+	}, replace = true)
 	public void absolutePath_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
@@ -194,9 +194,9 @@ public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile imple
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}myProject/myFolder#query, {}myProject/myFolder#query",
-	})
+	}, replace = true)
 	public void absolutePseudoFragment_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -219,9 +219,9 @@ public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile imple
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}, {}",
-	})
+	}, replace = true)
 	public void root_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals(fun, inputStr, expectedStr);
@@ -240,9 +240,9 @@ public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile imple
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}some/path/MyFile.ext,    {}some/path/MyFile.ext",
-	})
+	}, replace = true)
 	public void absoluteWindowsPathSingleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -262,9 +262,9 @@ public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile imple
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"{}/some/path/MyFile.ext,       {}/some/path/MyFile.ext",
-	})
+	}, replace = true)
 	public void absoluteWindowsPathDoubleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
@@ -284,9 +284,9 @@ public class TestJavaPath2JavaFile_absolute extends ATestJavaPath2JavaFile imple
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"///{}some/path/MyFile.ext,        ///{}some/path/MyFile.ext",
-	})
+	}, replace = true)
 	public void absoluteWindowsPathTripleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
