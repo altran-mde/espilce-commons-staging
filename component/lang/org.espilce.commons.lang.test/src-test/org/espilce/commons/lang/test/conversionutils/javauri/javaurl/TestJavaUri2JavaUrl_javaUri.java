@@ -124,8 +124,12 @@ public class TestJavaUri2JavaUrl_javaUri extends ATestJavaUri2JavaUrl implements
 	})
 	public void rootNoScheme_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		final URI input = new URI(null, inputStr, null);
-		assertIllegalConversion(fun, input);
+		if (inputStr.endsWith("//")) {
+			assertThrows(URISyntaxException.class, () -> new URI(inputStr));
+		} else {
+			final URI input = new URI(null, inputStr, null);
+			assertIllegalConversion(fun, input);
+		}
 	}
 	
 	@Override
@@ -149,7 +153,11 @@ public class TestJavaUri2JavaUrl_javaUri extends ATestJavaUri2JavaUrl implements
 	}, backslash = false)
 	public void rootScheme_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals(fun, inputStr);
+		if (inputStr.endsWith("//")) {
+			assertThrows(URISyntaxException.class, () -> new URI(inputStr));
+		} else {
+			assertConversionEquals(fun, inputStr);
+		}
 	}
 	
 	@Override
