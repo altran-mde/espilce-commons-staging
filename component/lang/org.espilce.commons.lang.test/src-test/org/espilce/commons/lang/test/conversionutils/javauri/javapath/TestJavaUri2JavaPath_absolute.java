@@ -42,7 +42,6 @@ public class TestJavaUri2JavaPath_absolute extends ATestJavaUri2JavaPath impleme
 	@TestOnUnix
 	@ConversionSource(value = {
 			"file:{}MyFile.ext, {}MyFile.ext",
-			"file://MyFile.ext"
 	}, backslash = false)
 	public void absoluteFile_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
@@ -242,9 +241,9 @@ public class TestJavaUri2JavaPath_absolute extends ATestJavaUri2JavaPath impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"file:/{}some/path/MyFile.ext, {}some/path/MyFile.ext",
-			"file://some/path/MyFile.ext, //some/path/MyFile.ext",
-			"file:///some/path/MyFile.ext, /some/path/MyFile.ext",
+			"file:/{}some/path/MyFile.ext,  /some/path/MyFile.ext",
+			"file://some/path/MyFile.ext,   //some/path/MyFile.ext",
+			"file:/c:/some/path/MyFile.ext, /c:/some/path/MyFile.ext",
 	}, backslash = false)
 	public void absoluteWindowsPathSingleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -268,9 +267,9 @@ public class TestJavaUri2JavaPath_absolute extends ATestJavaUri2JavaPath impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"file://{}some/path/MyFile.ext, {}some/path/MyFile.ext",
-			"file:///some/path/MyFile.ext, /some/path/MyFile.ext",
-			"file:////some/path/MyFile.ext, //some/path/MyFile.ext",
+			"file://{}some/path/MyFile.ext,  /some/path/MyFile.ext",
+			"file:////some/path/MyFile.ext,  //some/path/MyFile.ext",
+			"file://c:/some/path/MyFile.ext, /c:/some/path/MyFile.ext",
 	}, backslash = false)
 	public void absoluteWindowsPathDoubleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
@@ -294,9 +293,9 @@ public class TestJavaUri2JavaPath_absolute extends ATestJavaUri2JavaPath impleme
 	@Override
 	@TestOnUnix
 	@ConversionSource(value = {
-			"file:///{}some/path/MyFile.ext, {}some/path/MyFile.ext",
-			"file:////some/path/MyFile.ext, //some/path/MyFile.ext",
-			"file://///some/path/MyFile.ext, //some/path/MyFile.ext",
+			"file:///{}some/path/MyFile.ext,  /some/path/MyFile.ext",
+			"file:////some/path/MyFile.ext,   //some/path/MyFile.ext",
+			"file:///c:/some/path/MyFile.ext, /c:/some/path/MyFile.ext",
 	}, backslash = false)
 	public void absoluteWindowsPathTripleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr

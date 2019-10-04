@@ -90,10 +90,18 @@ public class ConversionUtils {
 		try {
 			try {
 				final URI adjustedJavaUri = getFixedInvalid(javaUri);
+				Path result;
 				if (adjustedJavaUri != null) {
-					return Paths.get(adjustedJavaUri);
+					result = Paths.get(adjustedJavaUri);
+				} else {
+					result = Paths.get(javaUri);
 				}
-				return Paths.get(javaUri);
+				
+				while (result.toString().startsWith("//")) {
+					result = Paths.get(result.toString().substring(1));
+				}
+				
+				return result;
 			} catch (final IllegalArgumentException | FileSystemNotFoundException | URISyntaxException e) {
 				if (hasQueryOrFragment(javaUri)) {
 					// we cannot represent any of the conditions in a Path
