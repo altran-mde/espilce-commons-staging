@@ -345,18 +345,26 @@ public class ConversionUtils {
 	 */
 	public static @NonNull URI asJavaUri(final @NonNull File javaFile) throws UnconvertibleException {
 		if (javaFile.isAbsolute()) {
-//			try {
-//				final URI uri = javaFile.toURI();
-//				final String schemeSpecificPart = uri.getSchemeSpecificPart();
-//				final String replace = schemeSpecificPart.replace(":", "%3A");
-//				return new URI(SCHEME_FILE_SEPARATOR + replace);
-//			} catch (final URISyntaxException e) {
-//				// fall-through
-//			}
+			// try {
+			// final URI uri = javaFile.toURI();
+			// final String schemeSpecificPart = uri.getSchemeSpecificPart();
+			// final String replace = schemeSpecificPart.replace(":", "%3A");
+			// return new URI(SCHEME_FILE_SEPARATOR + replace);
+			// } catch (final URISyntaxException e) {
+			// // fall-through
+			// }
 			return javaFile.toURI();
 		}
 		
 		final String adjustedSeparators = adjustFileSeparators(javaFile);
+		try {
+			return asJavaUriColonSafe(adjustedSeparators);
+		} catch (final URISyntaxException e) {
+			throw new UnconvertibleException(javaFile, File.class, URI.class, e);
+		}
+	}
+	
+	private static URI asJavaUriColonSafe(final String adjustedSeparators) throws URISyntaxException {
 		try {
 			final URI result = new URI(null, null, adjustedSeparators, null);
 			if (result.getScheme() == null) {
@@ -375,28 +383,24 @@ public class ConversionUtils {
 				return relativize;
 			}
 		} catch (final URISyntaxException e) {
-			try {
-				final String asciiString = adjustedSeparators;
-				final StringBuilder tmp = new StringBuilder("__tmp__");
-				final Random random = new Random();
-				while (asciiString.contains(tmp)) {
-					tmp.append(random.nextInt());
-					tmp.append("__");
-				}
-				final int indexFirstSlash = asciiString.indexOf('/');
-				String s;
-				if (indexFirstSlash > -1) {
-					s = asciiString.substring(0, indexFirstSlash).replace(":", tmp)
-							+ asciiString.substring(indexFirstSlash);
-				} else {
-					s = asciiString.replace(":", tmp);
-				}
-				final URI tmpUri = new URI(null, null, s, null);
-				final URI relativize = new URI(tmpUri.toASCIIString().replace(tmp, "%3A"));
-				return relativize;
-			} catch (final URISyntaxException e1) {
-				throw new UnconvertibleException(javaFile, File.class, URI.class, e);
+			final String asciiString = adjustedSeparators;
+			final StringBuilder tmp = new StringBuilder("__tmp__");
+			final Random random = new Random();
+			while (asciiString.contains(tmp)) {
+				tmp.append(random.nextInt());
+				tmp.append("__");
 			}
+			final int indexFirstSlash = asciiString.indexOf('/');
+			String s;
+			if (indexFirstSlash > -1) {
+				s = asciiString.substring(0, indexFirstSlash).replace(":", tmp)
+						+ asciiString.substring(indexFirstSlash);
+			} else {
+				s = asciiString.replace(":", tmp);
+			}
+			final URI tmpUri = new URI(null, null, s, null);
+			final URI relativize = new URI(tmpUri.toASCIIString().replace(tmp, "%3A"));
+			return relativize;
 		}
 	}
 	
@@ -465,7 +469,7 @@ public class ConversionUtils {
 		
 		try {
 			final String adjustedSeparators = replaceSeparatorPathUrl(javaPath);
-			return new URI(null, adjustedSeparators, null);
+			return asJavaUriColonSafe(adjustedSeparators);
 		} catch (final URISyntaxException e) {
 			throw new UnconvertibleException(javaPath, Path.class, URI.class, e);
 		}
@@ -530,17 +534,21 @@ public class ConversionUtils {
 	 * @since 0.5
 	 */
 	public static @NonNull URL asJavaUrl(final @NonNull File javaFile) throws UnconvertibleException {
-//		final String adjustedSeparators = adjustFileSeparators(javaFile);
-//		try {
-//			if (!javaFile.isAbsolute() &&
-//				/*adjustedSeparators.indexOf(':') == -1 &&*/ adjustedSeparators.indexOf('#') == -1
-//						&& adjustedSeparators.indexOf('?') == -1 && adjustedSeparators.indexOf('\\') == -1/*&& !adjustedSeparators.startsWith("//")*/ /* && !adjustedSeparators.endsWith("/")*/
-//			) {
-//				return new URL(SCHEME_FILE_SEPARATOR + adjustedSeparators);
-//			}
-//		} catch (final MalformedURLException e1) {
-//			// fall-through
-//		}
+		// final String adjustedSeparators = adjustFileSeparators(javaFile);
+		// try {
+		// if (!javaFile.isAbsolute() &&
+		// /*adjustedSeparators.indexOf(':') == -1 &&*/
+		// adjustedSeparators.indexOf('#') == -1
+		// && adjustedSeparators.indexOf('?') == -1 &&
+		// adjustedSeparators.indexOf('\\') == -1/*&&
+		// !adjustedSeparators.startsWith("//")*/ /* &&
+		// !adjustedSeparators.endsWith("/")*/
+		// ) {
+		// return new URL(SCHEME_FILE_SEPARATOR + adjustedSeparators);
+		// }
+		// } catch (final MalformedURLException e1) {
+		// // fall-through
+		// }
 		
 		final URI uri;
 		

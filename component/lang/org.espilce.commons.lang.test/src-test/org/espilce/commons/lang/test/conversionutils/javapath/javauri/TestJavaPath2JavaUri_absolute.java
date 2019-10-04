@@ -48,9 +48,9 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	@TestOnUnix
 	@ConversionSource({
 			"{}MyFile.ext,   file:/MyFile.ext",
-			"c:/MyFile.ext,  c:/MyFile.ext",
+			"c:/MyFile.ext,  c%3A/MyFile.ext",
 			"\\MyFile.ext,   %5cMyFile.ext",
-			"c:\\MyFile.ext, c:%5cMyFile.ext",
+			"c:\\MyFile.ext, c%3A%5cMyFile.ext",
 			"\\\\MyFile.ext, %5c%5cMyFile.ext",
 	})
 	public void absoluteFile_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
@@ -75,9 +75,9 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	@TestOnUnix
 	@ConversionSource({
 			"{}myProject///folder///deep/myFile.ext//,            file:/myProject/folder/deep/myFile.ext",
-			"c:/myProject///folder///deep/myFile.ext//,           c:/myProject/folder/deep/myFile.ext",
+			"c:/myProject///folder///deep/myFile.ext//,           c%3A/myProject/folder/deep/myFile.ext",
 			"\\myProject\\\\\\folder\\\\\\deep\\myFile.ext\\\\,   %5CmyProject%5C%5C%5Cfolder%5C%5C%5Cdeep%5CmyFile.ext%5C%5C",
-			"c:\\myProject\\\\\\folder\\\\\\deep\\myFile.ext\\\\, c:%5CmyProject%5C%5C%5Cfolder%5C%5C%5Cdeep%5CmyFile.ext%5C%5C",
+			"c:\\myProject\\\\\\folder\\\\\\deep\\myFile.ext\\\\, c%3A%5CmyProject%5C%5C%5Cfolder%5C%5C%5Cdeep%5CmyFile.ext%5C%5C",
 			"\\\\myProject\\\\\\folder\\\\\\deep\\myFile.ext\\\\, %5C%5CmyProject%5C%5C%5Cfolder%5C%5C%5Cdeep%5CmyFile.ext%5C%5C",
 	})
 	public void absoluteFileSlashesExcess_unix(
@@ -103,9 +103,9 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	@TestOnUnix
 	@ConversionSource({
 			"{}myProject/myFolder/,     file:/myProject/myFolder",
-			"c:/myProject/myFolder/,    c:/myProject/myFolder",
+			"c:/myProject/myFolder/,    c%3A/myProject/myFolder",
 			"\\myProject\\myFolder\\,   %5CmyProject%5CmyFolder%5C",
-			"c:\\myProject\\myFolder\\, c:%5CmyProject%5CmyFolder%5C",
+			"c:\\myProject\\myFolder\\, c%3A%5CmyProject%5CmyFolder%5C",
 			"\\\\myProject\\myFolder\\, %5C%5CmyProject%5CmyFolder%5C",
 	})
 	public void absoluteFolderSlash_unix(
@@ -131,9 +131,9 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	@TestOnUnix
 	@ConversionSource({
 			"{}myProject///myFolder,      file:/myProject/myFolder",
-			"c:/myProject///myFolder,     c:/myProject/myFolder",
+			"c:/myProject///myFolder,     c%3A/myProject/myFolder",
 			"\\myProject\\\\\\myFolder,   %5CmyProject%5C%5C%5CmyFolder",
-			"c:\\myProject\\\\\\myFolder, c:%5CmyProject%5C%5C%5CmyFolder",
+			"c:\\myProject\\\\\\myFolder, c%3A%5CmyProject%5C%5C%5CmyFolder",
 			"\\\\myProject\\\\\\myFolder, %5C%5CmyProject%5C%5C%5CmyFolder",
 	})
 	public void absoluteFolderSlashesInbetween_unix(
@@ -159,9 +159,9 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	@TestOnUnix
 	@ConversionSource({
 			"{}myProject/myFolder?query#fragment,    file:/myProject/myFolder%3Fquery%23fragment",
-			"c:/myProject/myFolder?query#fragment,   c:/myProject/myFolder%3Fquery%23fragment",
+			"c:/myProject/myFolder?query#fragment,   c%3A/myProject/myFolder%3Fquery%23fragment",
 			"\\myProject\\myFolder?query#fragment,   %5CmyProject%5CmyFolder%3Fquery%23fragment",
-			"c:\\myProject\\myFolder?query#fragment, c:%5CmyProject%5CmyFolder%3Fquery%23fragment",
+			"c:\\myProject\\myFolder?query#fragment, c%3A%5CmyProject%5CmyFolder%3Fquery%23fragment",
 			"\\\\myProject\\myFolder?query#fragment, %5C%5CmyProject%5CmyFolder%3Fquery%23fragment",
 	})
 	public void absoluteFragmentQuery_unix(
@@ -187,9 +187,9 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	@TestOnUnix
 	@ConversionSource({
 			"{}some/path/MyFile.ext,     file:/some/path/MyFile.ext",
-			"c:/some/path/MyFile.ext,    c:/some/path/MyFile.ext",
+			"c:/some/path/MyFile.ext,    c%3A/some/path/MyFile.ext",
 			"\\some\\path\\MyFile.ext,   %5Csome%5Cpath%5CMyFile.ext",
-			"c:\\some\\path\\MyFile.ext, c:%5Csome%5Cpath%5CMyFile.ext",
+			"c:\\some\\path\\MyFile.ext, c%3A%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\some\\path\\MyFile.ext, %5C%5Csome%5Cpath%5CMyFile.ext",
 	})
 	public void absoluteNestedFile_unix(
@@ -215,9 +215,9 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	@TestOnUnix
 	@ConversionSource({
 			"{}resource/..////,        file:/resource/..",
-			"c:/resource/..////,       c:/resource/..",
+			"c:/resource/..////,       c%3A/resource/..",
 			"\\resource\\..\\\\\\\\,   %5Cresource%5C..%5C%5C%5C%5C",
-			"c:\\resource\\..\\\\\\\\, c:%5Cresource%5C..%5C%5C%5C%5C",
+			"c:\\resource\\..\\\\\\\\, c%3A%5Cresource%5C..%5C%5C%5C%5C",
 			"\\\\resource\\..\\\\\\\\, %5C%5Cresource%5C..%5C%5C%5C%5C",
 	
 	})
@@ -243,9 +243,9 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	@TestOnUnix
 	@ConversionSource({
 			"{}myProject/myFolder#query,    file:/myProject/myFolder%23query",
-			"c:/myProject/myFolder#query,   c:/myProject/myFolder%23query",
+			"c:/myProject/myFolder#query,   c%3A/myProject/myFolder%23query",
 			"\\myProject\\myFolder#query,   %5CmyProject%5CmyFolder%23query",
-			"c:\\myProject\\myFolder#query, c:%5CmyProject%5CmyFolder%23query",
+			"c:\\myProject\\myFolder#query, c%3A%5CmyProject%5CmyFolder%23query",
 			"\\\\myProject\\myFolder#query, %5C%5CmyProject%5CmyFolder%23query",
 	})
 	public void absolutePseudoFragment_unix(
@@ -274,9 +274,9 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 	@TestOnUnix
 	@ConversionSource({
 			"{},   file:/",
-			"c:/,  c:/",
+			"c:/,  c%3A",
 			"\\,   %5C",
-			"c:\\, c:%5C",
+			"c:\\, c%3A%5C",
 			"\\\\, %5C%5C",
 	})
 	public void root_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
@@ -303,13 +303,13 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 			"/{}some/path/MyFile.ext,      file:/some/path/MyFile.ext",
 			"/c:/some/path/MyFile.ext,     file:/c:/some/path/MyFile.ext",
 			"\\\\some\\path\\MyFile.ext,   %5C%5Csome%5Cpath%5CMyFile.ext",
-			"\\c:\\some\\path\\MyFile.ext",
+			"\\c:\\some\\path\\MyFile.ext, %5Cc%3A%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\\\some\\path\\MyFile.ext, %5C%5C%5Csome%5Cpath%5CMyFile.ext",
 	})
 	public void absoluteWindowsPathSingleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
-		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
+		assertConversionEquals(fun, inputStr, expectedStr);
 	}
 	
 	@Override
@@ -335,13 +335,13 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 			"//{}some/path/MyFile.ext,       file:/some/path/MyFile.ext",
 			"//c:/some/path/MyFile.ext,      file:/c:/some/path/MyFile.ext",
 			"\\\\\\some\\path\\MyFile.ext,   %5C%5C%5Csome%5Cpath%5CMyFile.ext",
-			"\\\\c:\\some\\path\\MyFile.ext",
+			"\\\\c:\\some\\path\\MyFile.ext, %5C%5Cc%3A%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\\\\\some\\path\\MyFile.ext, %5C%5C%5C%5Csome%5Cpath%5CMyFile.ext",
 	})
 	public void absoluteWindowsPathDoubleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
-		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
+		assertConversionEquals(fun, inputStr, expectedStr);
 	}
 	
 	@Override
@@ -368,12 +368,12 @@ public class TestJavaPath2JavaUri_absolute extends ATestJavaPath2JavaUri impleme
 			"///{}some/path/MyFile.ext,        file:/some/path/MyFile.ext",
 			"///c:/some/path/MyFile.ext,       file:/c:/some/path/MyFile.ext",
 			"\\\\\\\\some\\path\\MyFile.ext,   %5C%5C%5C%5Csome%5Cpath%5CMyFile.ext",
-			"\\\\\\c:\\some\\path\\MyFile.ext",
+			"\\\\\\c:\\some\\path\\MyFile.ext, %5C%5C%5Cc%3A%5Csome%5Cpath%5CMyFile.ext",
 			"\\\\\\\\\\some\\path\\MyFile.ext, %5C%5C%5C%5C%5Csome%5Cpath%5CMyFile.ext",
 	})
 	public void absoluteWindowsPathTripleSlash_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {
-		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
+		assertConversionEquals(fun, inputStr, expectedStr);
 	}
 }
