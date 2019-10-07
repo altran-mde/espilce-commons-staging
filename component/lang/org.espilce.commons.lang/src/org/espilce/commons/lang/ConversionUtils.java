@@ -191,9 +191,8 @@ public class ConversionUtils {
 		}
 		
 		try {
-			return asJavaPath(javaUrl.toURI());
-		} catch (final URISyntaxException e) {
-			throw new UnconvertibleException(javaUrl, URL.class, Path.class, e);
+			final URI uri = asJavaUri(javaUrl);
+			return asJavaPath(uri);
 		} catch (final UnconvertibleException e) {
 			throw new UnconvertibleException(javaUrl, URL.class, Path.class, e.getCause());
 		}
@@ -473,13 +472,17 @@ public class ConversionUtils {
 					return new URI(scheme, userInfo, host, port, path, query, fragment);
 				} catch (final URISyntaxException e1) {
 					try {
-						return new URI(null, userInfo, host, port, path, query, fragment);
-					} catch (final URISyntaxException e2) {
-						try {
-							return asJavaUriColonSafe(userInfo, host, port, path, query, fragment);
-						} catch (final URISyntaxException e3) {
-							throw new UnconvertibleException(javaUrl, URL.class, URI.class, e);
+						final URI uri = new URI(null, userInfo, host, port, path, query, fragment);
+						if (uri.getScheme() == null) {
+							return uri;
 						}
+					} catch (final URISyntaxException e2) {
+						// fall-through
+					}
+					try {
+						return asJavaUriColonSafe(userInfo, host, port, path, query, fragment);
+					} catch (final URISyntaxException e3) {
+						throw new UnconvertibleException(javaUrl, URL.class, URI.class, e);
 					}
 				}
 			} catch (final UnsupportedEncodingException e4) {

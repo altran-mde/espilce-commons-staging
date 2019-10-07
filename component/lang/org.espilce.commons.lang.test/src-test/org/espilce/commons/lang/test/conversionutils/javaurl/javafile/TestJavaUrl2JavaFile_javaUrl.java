@@ -9,8 +9,6 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javaurl.javafile;
 
-import static org.espilce.commons.lang.test.junit5.AssertConversion.assertIllegalConversion;
-
 import java.io.File;
 import java.net.URL;
 
@@ -26,7 +24,6 @@ public class TestJavaUrl2JavaFile_javaUrl extends ATestJavaUrl2JavaFile implemen
 	@Override
 	@TestConversion(value = "file://")
 	public void invalidDoubleSlash(final ConversionFunction fun, final String inputStr) throws Exception {
-		final URL input = new URL(inputStr);
-		assertIllegalConversion(fun, input);
+		assertConversionEquals(fun, inputStr, "");
 	}
 }

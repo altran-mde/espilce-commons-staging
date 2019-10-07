@@ -187,7 +187,8 @@ public class TestJavaUrl2JavaPath_absolute extends ATestJavaUrl2JavaPath impleme
 	})
 	public void root_win(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
-		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
+		final String expected = expectedStr != null ? expectedStr : "";
+		assertConversionEquals(fun, inputStr, expected);
 	}
 	
 	@Override
