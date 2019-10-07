@@ -9,6 +9,7 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javaurl.javauri;
 
+import static org.espilce.commons.lang.test.junit5.AssertConversion.assertIllegalConversion;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.MalformedURLException;
@@ -43,5 +44,19 @@ public class ATestJavaUrl2JavaUri {
 	protected void assertConversionEquals(final ConversionFunction fun, final URL input, final URI expected) {
 		final Object actual = fun.apply(input);
 		assertEquals(expected, actual);
+	}
+	
+	protected void assertConversionEquals_Exceptional(
+			final ConversionFunction fun, final String inputStr, final String expectedStr
+	) throws MalformedURLException, URISyntaxException {
+		final URL input = new URL(inputStr);
+		
+		if (expectedStr != null) {
+			final Object actual = fun.apply(input);
+			final URI expected = new URI(expectedStr);
+			assertEquals(expected, actual);
+		} else {
+			assertIllegalConversion(fun, input);
+		}
 	}
 }

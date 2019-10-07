@@ -9,7 +9,6 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.conversionutils.javaurl.javauri;
 
-import static org.espilce.commons.lang.test.junit5.AssertConversion.assertIllegalConversion;
 import static org.espilce.commons.lang.test.junit5.AssertConversion.assertNullResult;
 
 import java.net.URI;
@@ -28,7 +27,8 @@ public class TestJavaUrl2JavaUri_base extends ATestJavaUrl2JavaUri implements Te
 	@TestConversion(value = "", backslash = false)
 	public void empty(final ConversionFunction fun, final String inputStr) throws Exception {
 		final URL input = new URL("file:" + inputStr);
-		assertIllegalConversion(fun, input);
+		final URI expected = new URI(null, inputStr, null);
+		assertConversionEquals(fun, input, expected);
 	}
 	
 	@Override

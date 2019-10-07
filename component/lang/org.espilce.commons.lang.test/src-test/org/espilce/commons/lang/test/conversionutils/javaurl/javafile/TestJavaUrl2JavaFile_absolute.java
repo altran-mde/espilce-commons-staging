@@ -39,11 +39,11 @@ public class TestJavaUrl2JavaFile_absolute extends ATestJavaUrl2JavaFile impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"file:{}MyFile.ext, {}MyFile.ext",
 			"file://MyFile.ext",
 			"file:\\\\MyFile.ext",
-	})
+	}, backslash = false)
 	public void absoluteFile_unix(final ConversionFunction fun, final String inputStr, final String expectedStr)
 			throws Exception {
 		assertConversionEquals_Exceptional(fun, inputStr, expectedStr);
@@ -62,9 +62,9 @@ public class TestJavaUrl2JavaFile_absolute extends ATestJavaUrl2JavaFile impleme
 	
 	@Override
 	@TestOnUnix
-	@ConversionSource({
+	@ConversionSource(value = {
 			"file:{}myProject///folder///deep/myFile.ext//, {}myProject/folder/deep/myFile.ext"
-	})
+	}, backslash = false)
 	public void absoluteFileSlashesExcess_unix(
 			final ConversionFunction fun, final String inputStr, final String expectedStr
 	) throws Exception {

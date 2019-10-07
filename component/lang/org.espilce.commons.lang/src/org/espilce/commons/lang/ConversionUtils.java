@@ -1,10 +1,12 @@
 package org.espilce.commons.lang;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -383,8 +385,15 @@ public class ConversionUtils {
 	}
 	
 	private static URI asJavaUriColonSafe(final String adjustedSeparators) throws URISyntaxException {
+		return asJavaUriColonSafe(null, null, -1, adjustedSeparators, null, null);
+	}
+	
+	private static URI asJavaUriColonSafe(
+			final String userInfo, final String host, final int port, final String path, final String query,
+			final String fragment
+	) throws URISyntaxException {
 		try {
-			final URI result = new URI(null, null, adjustedSeparators, null);
+			final URI result = new URI(null, userInfo, host, port, path, query, fragment);
 			if (result.getScheme() == null) {
 				return result;
 			} else {
@@ -401,7 +410,7 @@ public class ConversionUtils {
 				return relativize;
 			}
 		} catch (final URISyntaxException e) {
-			final String asciiString = adjustedSeparators;
+			final String asciiString = path;
 			final StringBuilder tmp = new StringBuilder("__tmp__");
 			final Random random = new Random();
 			while (asciiString.contains(tmp)) {
@@ -451,8 +460,40 @@ public class ConversionUtils {
 		try {
 			return javaUrl.toURI();
 		} catch (final URISyntaxException e) {
-			throw new UnconvertibleException(javaUrl, URL.class, URI.class, e);
+			try {
+				final String scheme = decode(javaUrl.getProtocol());
+				final String userInfo = decode(javaUrl.getUserInfo());
+				final String host = StringUtils.isNotEmpty(javaUrl.getHost()) ? decode(javaUrl.getHost()) : null;
+				final int port = javaUrl.getPort();
+				final String path = decode(javaUrl.getPath());
+				final String query = decode(javaUrl.getQuery());
+				final String fragment = decode(javaUrl.getRef());
+				
+				try {
+					return new URI(scheme, userInfo, host, port, path, query, fragment);
+				} catch (final URISyntaxException e1) {
+					try {
+						return new URI(null, userInfo, host, port, path, query, fragment);
+					} catch (final URISyntaxException e2) {
+						try {
+							return asJavaUriColonSafe(userInfo, host, port, path, query, fragment);
+						} catch (final URISyntaxException e3) {
+							throw new UnconvertibleException(javaUrl, URL.class, URI.class, e);
+						}
+					}
+				}
+			} catch (final UnsupportedEncodingException e4) {
+				throw new UnconvertibleException(javaUrl, URL.class, URI.class, e);
+			}
 		}
+	}
+	
+	private static @Nullable String decode(@Nullable final String s) throws UnsupportedEncodingException {
+		if (s == null) {
+			return null;
+		}
+		
+		return URLDecoder.decode(s, "UTF-8");
 	}
 	
 	/**

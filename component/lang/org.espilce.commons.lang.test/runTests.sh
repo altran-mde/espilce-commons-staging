@@ -6,7 +6,7 @@ GIT_DIR=$WIN_HOME_DIR/git/espilce-commons
 ECLIPSE_DIR=$WIN_HOME_DIR/eclipse-distros/dsl-latest-stable
 MAVEN_DIR=$WIN_HOME_DIR/.m2
 WAIT_FOR_DEBUG=n
-TEST_PACKAGE=org.espilce.commons.lang.test.conversionutils.javauri.javaurl.*
+TEST_PACKAGE=org.espilce.commons.lang.test.conversionutils.javaurl.javauri.*
 
 java \
 	-ea \
