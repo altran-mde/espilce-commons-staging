@@ -226,7 +226,7 @@ public class TestJavaUrl2JavaFile_absolute extends ATestJavaUrl2JavaFile impleme
 	@TestOnUnix
 	@ConversionSource(value = {
 			"file:{},   {}",
-			"file://,   ",
+			"file://",
 			"file:\\,   \\",
 			"file:\\\\, \\\\",
 			"file:c:\\, c:\\",
