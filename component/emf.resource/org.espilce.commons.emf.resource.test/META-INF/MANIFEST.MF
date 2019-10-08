@@ -8,11 +8,12 @@ Require-Bundle: org.espilce.commons.emf.testsupport.resource;bundle-version="0.2
  org.espilce.commons.testsupport.resource
 Import-Package: org.espilce.commons.emf,
  org.espilce.commons.emf.resource,
- org.junit,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.emf.common.util,
  org.osgi.framework,
- org.apache.commons.io.input
+ org.apache.commons.io.input,
+ org.junit.jupiter.api,
+ org.junit.jupiter.api.function
 Automatic-Module-Name: org.espilce.commons.emf.resource.test
 Export-Package: org.espilce.commons.emf.resource.uriresourceutils

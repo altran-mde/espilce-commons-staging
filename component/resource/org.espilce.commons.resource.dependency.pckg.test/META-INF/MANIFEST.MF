@@ -13,4 +13,4 @@ Import-Package: org.eclipse.core.resources,
  org.espilce.commons.resource,
  org.espilce.commons.resource.loadhelper,
  org.espilce.commons.lang.loadhelper,
- org.junit;version=4
+ org.junit.jupiter.api

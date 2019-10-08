@@ -1,6 +1,6 @@
 package org.espilce.commons.emf.testsupport.test.amodelloader;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +16,7 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.espilce.commons.emf.testsupport.AModelLoader;
 import org.espilce.commons.lang.loadhelper.ILoadHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestAssertOutputEquals {
 	@Test

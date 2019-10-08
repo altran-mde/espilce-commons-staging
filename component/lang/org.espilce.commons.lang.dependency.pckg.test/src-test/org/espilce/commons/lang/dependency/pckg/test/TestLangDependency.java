@@ -1,6 +1,6 @@
 package org.espilce.commons.lang.dependency.pckg.test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.net.URI;
 
@@ -9,7 +9,7 @@ import org.espilce.commons.lang.ConversionUtils;
 import org.espilce.commons.lang.NewlineNormalizer;
 import org.espilce.commons.lang.StringUtils2;
 import org.espilce.commons.lang.loadhelper.FilesystemClassloaderLoadHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestLangDependency {
 	@Test

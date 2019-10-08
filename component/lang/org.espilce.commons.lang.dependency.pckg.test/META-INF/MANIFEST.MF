@@ -6,7 +6,13 @@ Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: Espilce Commons
 Automatic-Module-Name: org.espilce.commons.lang.dependency.pckg.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.hamcrest.library,
+ org.junit.jupiter.params,
+ org.junit.platform.commons,
+ org.opentest4j
 Import-Package: org.espilce.commons.exception,
  org.espilce.commons.lang,
  org.espilce.commons.lang.loadhelper,
- org.junit;version=4
+ org.junit.jupiter.api;version="5.5.1",
+ org.junit.jupiter.api.condition;version="5.5.1",
+ org.junit.jupiter.api.extension;version="5.5.1"

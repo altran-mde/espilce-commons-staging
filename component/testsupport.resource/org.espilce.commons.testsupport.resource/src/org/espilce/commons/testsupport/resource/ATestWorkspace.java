@@ -13,8 +13,8 @@ import static org.espilce.commons.resource.WorkspaceUtils.waitForWorkspaceChange
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for JUnit tests requiring an IProject.
@@ -25,7 +25,7 @@ public abstract class ATestWorkspace {
 	
 	protected IProject project;
 	
-	@Before
+	@BeforeEach
 	public void createProject() throws Exception {
 		waitForWorkspaceChanges(() -> {
 			this.project = ResourcesPlugin.getWorkspace().getRoot().getProject("myProject");
@@ -34,7 +34,7 @@ public abstract class ATestWorkspace {
 		});
 	}
 	
-	@After
+	@AfterEach
 	public void destroyProject() throws Exception {
 		if (this.project != null) {
 			waitForWorkspaceChanges(

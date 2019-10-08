@@ -8,10 +8,9 @@ Automatic-Module-Name: org.espilce.commons.testsupport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional;visibility:=reexport,
  org.espilce.commons.lang;bundle-version=0.1.0,
- org.apache.commons.io;bundle-version=2.2;resolution:=optional,
- org.junit;bundle-version=4;resolution:=optional
+ org.apache.commons.io;bundle-version=2.2;resolution:=optional
 Import-Package: org.espilce.commons.lang;version=0.1.0,
- org.junit,
  org.apache.commons.io,
- org.eclipse.jdt.annotation;resolution:=optional
+ org.eclipse.jdt.annotation;resolution:=optional,
+ org.junit.jupiter.api
 Export-Package: org.espilce.commons.testsupport;version=0.1.0

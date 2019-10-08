@@ -9,18 +9,19 @@
  ******************************************************************************/
 package org.espilce.commons.emf.test.uriutils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.eclipse.emf.common.util.URI;
 import org.espilce.commons.emf.UriUtils;
 import org.espilce.commons.exception.UnconvertibleException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestEmfUri2JavaUri_As {
 	@SuppressWarnings("null")
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void uriNull() throws Exception {
-		UriUtils.asJavaUri((URI) null);
+		assertThrows(NullPointerException.class, () -> UriUtils.asJavaUri((URI) null));
 	}
 	
 	@Test
@@ -31,10 +32,10 @@ public class TestEmfUri2JavaUri_As {
 		assertEquals(new java.net.URI(""), javaUri);
 	}
 	
-	@Test(expected = UnconvertibleException.class)
+	@Test
 	public void emptyWithScheme() throws Exception {
 		final URI uri = URI.createURI("http://");
-		UriUtils.asJavaUri(uri);
+		assertThrows(UnconvertibleException.class, () -> UriUtils.asJavaUri(uri));
 	}
 	
 	@Test

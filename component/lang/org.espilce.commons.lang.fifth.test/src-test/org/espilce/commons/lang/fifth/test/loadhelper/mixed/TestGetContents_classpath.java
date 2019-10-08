@@ -1,6 +1,5 @@
 package org.espilce.commons.lang.fifth.test.loadhelper.mixed;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.espilce.commons.lang.loadhelper.FilesystemClassloaderLoadHelper;

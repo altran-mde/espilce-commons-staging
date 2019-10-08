@@ -9,14 +9,15 @@
  ******************************************************************************/
 package org.espilce.commons.emf.resource.uriresourceutils;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.espilce.commons.emf.UriUtils;
 import org.espilce.commons.emf.resource.UriResourceUtils;
 import org.espilce.commons.emf.testsupport.resource.ATestWorkspace;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.osgi.framework.FrameworkUtil;
 
 /**
@@ -57,10 +58,10 @@ public class TestToIResourceNegative extends ATestWorkspace {
 		assertNull(iResource);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void uriPlatformResourceBroken() throws Exception {
 		final URI uri = URI.createURI("platform:/resource/...////");
-		UriResourceUtils.toIResource(uri);
+		assertThrows(IllegalArgumentException.class, () -> UriResourceUtils.toIResource(uri));
 	}
 	
 }

@@ -1,7 +1,7 @@
 package org.espilce.commons.emf.textrenderer.dependency.pckg.test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.espilce.commons.emf.textrenderer.EmfStringRenderer;
 import org.espilce.commons.emf.textrenderer.IRenderFilter;
 import org.espilce.commons.emf.textrenderer.RenderFilterAdapter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestEmfTextrendererDependency {
 	@SuppressWarnings({ "rawtypes", "unchecked", "null" })

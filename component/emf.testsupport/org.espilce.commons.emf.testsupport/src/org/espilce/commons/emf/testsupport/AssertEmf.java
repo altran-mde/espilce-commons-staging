@@ -9,9 +9,9 @@
  ******************************************************************************/
 package org.espilce.commons.emf.testsupport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class AssertEmf {
 					"EObjects do not match.", new EmfStringRenderer(expected).render(),
 					new EmfStringRenderer(actual).render()
 			);
-			assertTrue("EObjects do not match. expected: " + expected + ", actual: " + actual, equals);
+			assertTrue(equals, "EObjects do not match. expected: " + expected + ", actual: " + actual);
 		}
 	}
 	
@@ -96,7 +96,7 @@ public class AssertEmf {
 						"EObjects do not match.", new EmfStringRenderer(expected).render(),
 						new EmfStringRenderer(actual).render()
 				);
-				assertTrue("EObjects do not match. expected: " + expected + ", actual: " + actual, equals);
+				assertTrue(equals, "EObjects do not match. expected: " + expected + ", actual: " + actual);
 			}
 		}
 	}

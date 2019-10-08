@@ -1,7 +1,7 @@
 package org.espilce.commons.resource.dependency.bundle.test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -13,7 +13,7 @@ import org.espilce.commons.resource.ContentTypeUtils;
 import org.espilce.commons.resource.ResourceUtils;
 import org.espilce.commons.resource.WorkspaceUtils;
 import org.espilce.commons.resource.loadhelper.WorkspacePluginLoadHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestResourceDependency {
 	@Test

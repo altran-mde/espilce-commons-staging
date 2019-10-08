@@ -8,4 +8,4 @@ Automatic-Module-Name: org.espilce.commons.emf.textrenderer.dependency.pckg.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.eclipse.emf.ecore,
  org.espilce.commons.emf.textrenderer;version="0.1.0",
- org.junit;version=4
+ org.junit.jupiter.api

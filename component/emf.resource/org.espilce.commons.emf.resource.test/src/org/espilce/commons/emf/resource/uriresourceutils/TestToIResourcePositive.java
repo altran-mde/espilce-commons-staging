@@ -10,9 +10,9 @@
 package org.espilce.commons.emf.resource.uriresourceutils;
 
 import static org.espilce.commons.resource.WorkspaceUtils.waitForWorkspaceChanges;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -21,7 +21,7 @@ import org.eclipse.emf.common.util.URI;
 import org.espilce.commons.emf.resource.UriResourceUtils;
 import org.espilce.commons.emf.testsupport.resource.ATestWorkspace;
 import org.espilce.commons.testsupport.resource.builder.ProjectBuilder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test cases for valid uses of {@link UriResourceUtils#toIResource(URI)}.
