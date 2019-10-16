@@ -27,6 +27,39 @@
       <id>merge-existing-repository</id>
       <build>
         <plugins>
+			<plugin>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>download-maven-plugin</artifactId>
+				<version>1.4.2</version>
+				<executions>
+					<execution>
+						<id>download-metadata-artifacts</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+						    <serverId>nexus-p2</serverId>
+							<url>${mde.p2-repos.url}/artifacts.jar</url>
+							<unpack>false</unpack>
+							<outputDirectory>${project.build.directory}/downloaded-metadata</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>download-metadata-content</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+						    <serverId>nexus-p2</serverId>
+							<url>${mde.p2-repos.url}/content.jar</url>
+							<unpack>false</unpack>
+							<outputDirectory>${project.build.directory}/downloaded-metadata</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
            <plugin>
              <groupId>org.eclipse.tycho.extras</groupId>
              <artifactId>tycho-p2-extras-plugin</artifactId>
@@ -42,11 +75,10 @@
              <configuration>
                 <source>
                      <repository>
-                       <url>${mde.p2-repos.url}</url>
+                       <url>${project.baseUri}/target/downloaded-metadata</url>
                        <layout>p2</layout>
                      </repository>
                 </source>
-                <serverId>nexus-p2</serverId>
                 <destination>${project.build.directory}/repository</destination>
                 <mirrorMetadataOnly>true</mirrorMetadataOnly>
              </configuration>
