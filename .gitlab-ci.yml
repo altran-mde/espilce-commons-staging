@@ -5,23 +5,14 @@ before_script:
 
 stages:
   - build
-#  - publish
 
 Build maven projects:
   stage: build
   tags:
     - linux_docker
   script:
-    - cd releng/org.espilce.commons.parent
-    - mvn clean install -s ../../settings.xml -Ppublish,merge-existing-repository -Dmaven.test.failure.ignore=true
+    - ./scripts/build.sh $CI_COMMIT_REF_NAME
   artifacts:
     when: always
     paths:
       - "component/*/*/target/*.jar"
-#publish:
-#  stage: publish
-#  tags:
-#    - linux_docker
-#  script:
-#    - ./scripts/publish.py
-#  allow_failure: true
