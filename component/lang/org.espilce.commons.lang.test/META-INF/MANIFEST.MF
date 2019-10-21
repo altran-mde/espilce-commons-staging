@@ -13,7 +13,8 @@ Require-Bundle: org.hamcrest.library,
  org.espilce.commons.lang;bundle-version=0.5.0
 Import-Package: org.junit.jupiter.api;version="5.5.1",
  org.junit.jupiter.api.condition;version="5.5.1",
- org.junit.jupiter.api.extension;version="5.5.1"
+ org.junit.jupiter.api.extension;version="5.5.1",
+ org.junit.runners.model
 Export-Package: org.espilce.commons.lang.test.conversionutils,
  org.espilce.commons.lang.test.conversionutils.javafile.javapath,
  org.espilce.commons.lang.test.conversionutils.javafile.javauri,

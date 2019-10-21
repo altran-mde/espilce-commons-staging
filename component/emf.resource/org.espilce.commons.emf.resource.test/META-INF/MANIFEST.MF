@@ -14,6 +14,7 @@ Import-Package: org.espilce.commons.emf,
  org.osgi.framework,
  org.apache.commons.io.input,
  org.junit.jupiter.api,
- org.junit.jupiter.api.function
+ org.junit.jupiter.api.function,
+ org.junit.runners.model
 Automatic-Module-Name: org.espilce.commons.emf.resource.test
 Export-Package: org.espilce.commons.emf.resource.uriresourceutils

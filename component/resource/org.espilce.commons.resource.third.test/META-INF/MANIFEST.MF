@@ -9,4 +9,6 @@ Require-Bundle: org.espilce.commons.resource;bundle-version="0.3.0",
  org.espilce.commons.lang.test.base;bundle-version="0.1.0",
  org.espilce.commons.emf.resource;bundle-version="0.2.0",
  org.apache.commons.io
-Import-Package: org.junit.jupiter.api
+Import-Package: org.junit.jupiter.api,
+ org.junit.jupiter.api.function,
+ org.junit.runners.model
