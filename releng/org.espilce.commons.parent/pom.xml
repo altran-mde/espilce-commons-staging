@@ -191,6 +191,10 @@
 								</goals>
 							</execution>
 						</executions>
+						<configuration>
+							<!-- Fixes https://stackoverflow.com/questions/53010200/maven-surefire-could-not-find-forkedbooter-class -->
+							<useSystemClassLoader>false</useSystemClassLoader>
+						</configuration>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
