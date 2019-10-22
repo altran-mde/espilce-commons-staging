@@ -26,4 +26,10 @@ public class TestJavaUrl2JavaPath_javaUrl extends ATestJavaUrl2JavaPath implemen
 	public void invalidDoubleSlash(final ConversionFunction fun, final String inputStr) throws Exception {
 		assertConversionEquals(fun, inputStr, "");
 	}
+	
+	@Override
+	@TestConversion(value = "file:")
+	public void emptyScheme(final ConversionFunction fun, final String inputStr) throws Exception {
+		assertConversionEquals(fun, inputStr, "");
+	}
 }

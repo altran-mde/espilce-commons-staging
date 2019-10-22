@@ -11,7 +11,6 @@ TEST_PACKAGE=org.espilce.commons.lang.test.conversionutils.javaurl.javauri.*
 java \
 	-ea \
 	-Dfile.encoding=UTF-8 \
-	-agentlib:jdwp=transport=dt_socket,server=y,address=8998,suspend=$WAIT_FOR_DEBUG \
 	-jar $MAVEN_DIR/repository/org/junit/platform/junit-platform-console-standalone/1.5.2/junit-platform-console-standalone-1.5.2.jar \
 	-classpath \
 "$WORKSPACE_DIR/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.hamcrest.library_1.3.0.v20180524-2246.jar:"\
@@ -34,5 +33,4 @@ java \
 "$ECLIPSE_DIR/configuration/org.eclipse.osgi/350/0/.cp:"\
 "$ECLIPSE_DIR/configuration/org.eclipse.osgi/657/0/.cp" \
 	--scan-classpath \
-	--reports-dir=./target/reports \
-	-n=$TEST_PACKAGE
+	--reports-dir=./target/reports

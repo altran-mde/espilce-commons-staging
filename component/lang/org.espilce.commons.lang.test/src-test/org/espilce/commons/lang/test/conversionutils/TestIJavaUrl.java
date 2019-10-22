@@ -13,4 +13,6 @@ import org.espilce.commons.lang.test.junit5.ConversionFunction;
 
 public interface TestIJavaUrl {
 	void invalidDoubleSlash(final ConversionFunction fun, final String inputStr) throws Exception;
+	
+	void emptyScheme(final ConversionFunction fun, final String inputStr) throws Exception;
 }

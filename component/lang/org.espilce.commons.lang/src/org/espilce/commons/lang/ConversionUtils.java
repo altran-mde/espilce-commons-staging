@@ -50,17 +50,19 @@ import org.espilce.commons.exception.UnconvertibleException;
  * @since 0.5
  */
 public class ConversionUtils {
-	private static final String CURRENT = ".";
-	private static final String PARENT = "..";
+	private static final String URI_ENCODING = "UTF-8";
+	private static final int UNDEFINED_PORT = -1;
+	private static final String ESCAPED_COLON = "%3A";
+	private static final String EMPTY_STRING = "";
 	private static final String SEPARATOR_INVALID_AUTHORITY = "//";
 	private static final String SEPARATOR_SCHEME = ":";
 	private static final String SEPARATOR_URL_PATH = "/";
-	private static final String SEPARATOR_WIN = "\\";
 	private static final String SCHEME_FILE = "file";
 	private static final String SCHEME_FILE_SEPARATOR = SCHEME_FILE + SEPARATOR_SCHEME;
 	
+	
 	/**
-	 * 
+	 * Converts a {@linkplain java.net.URI Java URI} to a  {@linkplain java.nio.file.Path Java Path}.
 	 * @param javaUri
 	 * @return
 	 * @since 0.5
@@ -79,89 +81,6 @@ public class ConversionUtils {
 	
 	/**
 	 * 
-	 * @param javaUri
-	 * @return
-	 * @throws UnconvertibleException
-	 * @since 0.5
-	 */
-	public static @NonNull Path asJavaPath(final @NonNull URI javaUri) throws UnconvertibleException {
-		if (javaUri.getScheme() != null && !hasFileScheme(javaUri)) {
-			throw new UnconvertibleException(javaUri, URI.class, Path.class);
-		}
-		
-		try {
-			try {
-				final URI adjustedJavaUri = getFixedInvalid(javaUri);
-				Path result;
-				if (adjustedJavaUri != null) {
-					result = Paths.get(adjustedJavaUri);
-				} else {
-					result = Paths.get(javaUri);
-				}
-				
-				while (result.toString().startsWith("//")) {
-					result = Paths.get(result.toString().substring(1));
-				}
-				
-				return result;
-			} catch (final IllegalArgumentException | FileSystemNotFoundException | URISyntaxException e) {
-				if (hasQueryOrFragment(javaUri)) {
-					// we cannot represent any of the conditions in a Path
-					throw e;
-				}
-				try {
-					String schemeSpecificPart = javaUri.getSchemeSpecificPart();
-					if (javaUri.isAbsolute() || true) {
-						return Paths.get(schemeSpecificPart);
-					}
-					
-					try {
-						final URI uri = new URI(SCHEME_FILE, javaUri.toASCIIString(), null);
-						return Paths.get(uri);
-					} catch (final IllegalArgumentException | URISyntaxException e1) {
-						
-						if (!javaUri.isOpaque()) {
-							// try to resolve relative to current path
-							final Path currentPath = Paths.get("").toAbsolutePath();
-							final URI currentUri = currentPath.toUri();
-							URI resolved = null;
-							try {
-								resolved = currentUri.resolve(schemeSpecificPart);
-							} catch (final IllegalArgumentException ex) {
-								schemeSpecificPart = replaceSeparatorWinUrl(schemeSpecificPart);
-								resolved = currentUri.resolve(schemeSpecificPart);
-							}
-							final Path resolvedPath = Paths.get(resolved);
-							
-							try {
-								final Path result = currentPath.relativize(resolvedPath);
-								if (schemeSpecificPart.startsWith(CURRENT) && !result.toString().startsWith(CURRENT)) {
-									// retain explicit reference to current path
-									return Paths.get(CURRENT, result.toString());
-								}
-								return result;
-							} catch (final IllegalArgumentException ex) {
-								// e.g. "Path types differ exception"
-								return Paths.get(resolved.getSchemeSpecificPart());
-							}
-						}
-					}
-				} catch (final FileSystemNotFoundException ex) {
-					throw ex;
-				}
-				throw e;
-			}
-		} catch (final IllegalArgumentException | FileSystemNotFoundException | URISyntaxException e) {
-			throw new UnconvertibleException(javaUri, URI.class, Path.class, e);
-		}
-	}
-	
-	private static boolean hasQueryOrFragment(final URI javaUri) {
-		return javaUri.getQuery() != null || javaUri.getFragment() != null;
-	}
-	
-	/**
-	 * 
 	 * @param javaUrl
 	 * @return
 	 * @since 0.5
@@ -175,26 +94,6 @@ public class ConversionUtils {
 			return asJavaPath(javaUrl);
 		} catch (final UnconvertibleException e) {
 			return null;
-		}
-	}
-	
-	/**
-	 * 
-	 * @param javaUrl
-	 * @return
-	 * @throws UnconvertibleException
-	 * @since 0.5
-	 */
-	public static @NonNull Path asJavaPath(final @NonNull URL javaUrl) throws UnconvertibleException {
-		if (isEmpty(javaUrl)) {
-			return Paths.get("");
-		}
-		
-		try {
-			final URI uri = asJavaUri(javaUrl);
-			return asJavaPath(uri);
-		} catch (final UnconvertibleException e) {
-			throw new UnconvertibleException(javaUrl, URL.class, Path.class, e.getCause());
 		}
 	}
 	
@@ -218,21 +117,6 @@ public class ConversionUtils {
 	
 	/**
 	 * 
-	 * @param javaFile
-	 * @return
-	 * @throws UnconvertibleException
-	 * @since 0.5
-	 */
-	public static @NonNull Path asJavaPath(final @NonNull File javaFile) throws UnconvertibleException {
-		try {
-			return javaFile.toPath();
-		} catch (final InvalidPathException e) {
-			throw new UnconvertibleException(javaFile, File.class, Path.class, e);
-		}
-	}
-	
-	/**
-	 * 
 	 * @param javaUri
 	 * @return
 	 * @since 0.5
@@ -244,6 +128,150 @@ public class ConversionUtils {
 		
 		try {
 			return asJavaFile(javaUri);
+		} catch (final UnconvertibleException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param javaUrl
+	 * @return
+	 * @since 0.5
+	 */
+	public static @Nullable File toJavaFile(final @Nullable URL javaUrl) {
+		if (javaUrl == null) {
+			return null;
+		}
+		
+		try {
+			return asJavaFile(javaUrl);
+		} catch (final UnconvertibleException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param javaPath
+	 * @return
+	 * @since 0.5
+	 */
+	public static @Nullable File toJavaFile(final @Nullable Path javaPath) {
+		if (javaPath == null) {
+			return null;
+		}
+		
+		try {
+			return asJavaFile(javaPath);
+		} catch (final UnconvertibleException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param javaFile
+	 * @return
+	 * @since 0.5
+	 */
+	public static @Nullable URI toJavaUri(final @Nullable File javaFile) {
+		if (javaFile == null) {
+			return null;
+		}
+		
+		try {
+			return asJavaUri(javaFile);
+		} catch (final UnconvertibleException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param javaUrl
+	 * @return
+	 * @since 0.5
+	 */
+	public static @Nullable URI toJavaUri(final @Nullable URL javaUrl) {
+		if (javaUrl == null) {
+			return null;
+		}
+		
+		try {
+			return asJavaUri(javaUrl);
+		} catch (final UnconvertibleException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param javaPath
+	 * @return
+	 * @since 0.5
+	 */
+	public static @Nullable URI toJavaUri(final @Nullable Path javaPath) {
+		if (javaPath == null) {
+			return null;
+		}
+		
+		try {
+			return asJavaUri(javaPath);
+		} catch (final UnconvertibleException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param javaUri
+	 * @return
+	 * @since 0.5
+	 */
+	public static @Nullable URL toJavaUrl(final @Nullable URI javaUri) {
+		if (javaUri == null) {
+			return null;
+		}
+		
+		try {
+			return asJavaUrl(javaUri);
+		} catch (final UnconvertibleException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param javaFile
+	 * @return
+	 * @since 0.5
+	 */
+	public static @Nullable URL toJavaUrl(final @Nullable File javaFile) {
+		if (javaFile == null) {
+			return null;
+		}
+		
+		try {
+			return asJavaUrl(javaFile);
+		} catch (final UnconvertibleException e) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param javaPath
+	 * @return
+	 * @since 0.5
+	 */
+	public static @Nullable URL toJavaUrl(final @Nullable Path javaPath) {
+		if (javaPath == null) {
+			return null;
+		}
+		
+		try {
+			return asJavaUrl(javaPath);
 		} catch (final UnconvertibleException e) {
 			return null;
 		}
@@ -270,24 +298,6 @@ public class ConversionUtils {
 	 * 
 	 * @param javaUrl
 	 * @return
-	 * @since 0.5
-	 */
-	public static @Nullable File toJavaFile(final @Nullable URL javaUrl) {
-		if (javaUrl == null) {
-			return null;
-		}
-		
-		try {
-			return asJavaFile(javaUrl);
-		} catch (final UnconvertibleException e) {
-			return null;
-		}
-	}
-	
-	/**
-	 * 
-	 * @param javaUrl
-	 * @return
 	 * @throws UnconvertibleException
 	 * @since 0.5
 	 */
@@ -295,30 +305,13 @@ public class ConversionUtils {
 		Objects.requireNonNull(javaUrl);
 		
 		if (isEmpty(javaUrl)) {
-			return new File("");
+			return new File(EMPTY_STRING);
 		}
+		
 		try {
 			return asJavaPath(javaUrl).toFile();
 		} catch (final UnconvertibleException e) {
 			throw new UnconvertibleException(javaUrl, URL.class, File.class, e.getCause());
-		}
-	}
-	
-	/**
-	 * 
-	 * @param javaPath
-	 * @return
-	 * @since 0.5
-	 */
-	public static @Nullable File toJavaFile(final @Nullable Path javaPath) {
-		if (javaPath == null) {
-			return null;
-		}
-		
-		try {
-			return asJavaFile(javaPath);
-		} catch (final UnconvertibleException e) {
-			return null;
 		}
 	}
 	
@@ -341,179 +334,19 @@ public class ConversionUtils {
 	 * 
 	 * @param javaFile
 	 * @return
-	 * @since 0.5
-	 */
-	public static @Nullable URI toJavaUri(final @Nullable File javaFile) {
-		if (javaFile == null) {
-			return null;
-		}
-		
-		try {
-			return asJavaUri(javaFile);
-		} catch (final UnconvertibleException e) {
-			return null;
-		}
-	}
-	
-	/**
-	 * 
-	 * @param javaFile
-	 * @return
 	 * @throws UnconvertibleException
 	 * @since 0.5
 	 */
 	public static @NonNull URI asJavaUri(final @NonNull File javaFile) throws UnconvertibleException {
 		if (javaFile.isAbsolute()) {
-			// try {
-			// final URI uri = javaFile.toURI();
-			// final String schemeSpecificPart = uri.getSchemeSpecificPart();
-			// final String replace = schemeSpecificPart.replace(":", "%3A");
-			// return new URI(SCHEME_FILE_SEPARATOR + replace);
-			// } catch (final URISyntaxException e) {
-			// // fall-through
-			// }
 			return javaFile.toURI();
 		}
 		
-		final String adjustedSeparators = adjustFileSeparators(javaFile);
 		try {
+			final String adjustedSeparators = adjustFileSeparators(javaFile);
 			return asJavaUriColonSafe(adjustedSeparators);
 		} catch (final URISyntaxException e) {
 			throw new UnconvertibleException(javaFile, File.class, URI.class, e);
-		}
-	}
-	
-	private static URI asJavaUriColonSafe(final String adjustedSeparators) throws URISyntaxException {
-		return asJavaUriColonSafe(null, null, -1, adjustedSeparators, null, null);
-	}
-	
-	private static URI asJavaUriColonSafe(
-			final String userInfo, final String host, final int port, final String path, final String query,
-			final String fragment
-	) throws URISyntaxException {
-		try {
-			final URI result = new URI(null, userInfo, host, port, path, query, fragment);
-			if (result.getScheme() == null) {
-				return result;
-			} else {
-				final String asciiString = result.toASCIIString();
-				final int indexFirstSlash = asciiString.indexOf('/');
-				String s;
-				if (indexFirstSlash > -1) {
-					s = asciiString.substring(0, indexFirstSlash).replace(":", "%3A")
-							+ asciiString.substring(indexFirstSlash);
-				} else {
-					s = asciiString.replace(":", "%3A");
-				}
-				final URI relativize = new URI(s);
-				return relativize;
-			}
-		} catch (final URISyntaxException e) {
-			final String asciiString = path;
-			final StringBuilder tmp = new StringBuilder("__tmp__");
-			final Random random = new Random();
-			while (asciiString.contains(tmp)) {
-				tmp.append(random.nextInt());
-				tmp.append("__");
-			}
-			final int indexFirstSlash = asciiString.indexOf('/');
-			String s;
-			if (indexFirstSlash > -1) {
-				s = asciiString.substring(0, indexFirstSlash).replace(":", tmp)
-						+ asciiString.substring(indexFirstSlash);
-			} else {
-				s = asciiString.replace(":", tmp);
-			}
-			final URI tmpUri = new URI(null, null, s, null);
-			final URI relativize = new URI(tmpUri.toASCIIString().replace(tmp, "%3A"));
-			return relativize;
-		}
-	}
-	
-	/**
-	 * 
-	 * @param javaUrl
-	 * @return
-	 * @since 0.5
-	 */
-	public static @Nullable URI toJavaUri(final @Nullable URL javaUrl) {
-		if (javaUrl == null) {
-			return null;
-		}
-		
-		try {
-			return asJavaUri(javaUrl);
-		} catch (final UnconvertibleException e) {
-			return null;
-		}
-	}
-	
-	/**
-	 * 
-	 * @param javaUrl
-	 * @return
-	 * @throws UnconvertibleException
-	 * @since 0.5
-	 */
-	public static @NonNull URI asJavaUri(final @NonNull URL javaUrl) throws UnconvertibleException {
-		try {
-			return javaUrl.toURI();
-		} catch (final URISyntaxException e) {
-			try {
-				final String scheme = decode(javaUrl.getProtocol());
-				final String userInfo = decode(javaUrl.getUserInfo());
-				final String host = StringUtils.isNotEmpty(javaUrl.getHost()) ? decode(javaUrl.getHost()) : null;
-				final int port = javaUrl.getPort();
-				final String path = decode(javaUrl.getPath());
-				final String query = decode(javaUrl.getQuery());
-				final String fragment = decode(javaUrl.getRef());
-				
-				try {
-					return new URI(scheme, userInfo, host, port, path, query, fragment);
-				} catch (final URISyntaxException e1) {
-					try {
-						final URI uri = new URI(null, userInfo, host, port, path, query, fragment);
-						if (uri.getScheme() == null) {
-							return uri;
-						}
-					} catch (final URISyntaxException e2) {
-						// fall-through
-					}
-					try {
-						return asJavaUriColonSafe(userInfo, host, port, path, query, fragment);
-					} catch (final URISyntaxException e3) {
-						throw new UnconvertibleException(javaUrl, URL.class, URI.class, e);
-					}
-				}
-			} catch (final UnsupportedEncodingException e4) {
-				throw new UnconvertibleException(javaUrl, URL.class, URI.class, e);
-			}
-		}
-	}
-	
-	private static @Nullable String decode(@Nullable final String s) throws UnsupportedEncodingException {
-		if (s == null) {
-			return null;
-		}
-		
-		return URLDecoder.decode(s, "UTF-8");
-	}
-	
-	/**
-	 * 
-	 * @param javaPath
-	 * @return
-	 * @since 0.5
-	 */
-	public static @Nullable URI toJavaUri(final @Nullable Path javaPath) {
-		if (javaPath == null) {
-			return null;
-		}
-		
-		try {
-			return asJavaUri(javaPath);
-		} catch (final UnconvertibleException e) {
-			return null;
 		}
 	}
 	
@@ -541,24 +374,6 @@ public class ConversionUtils {
 	 * 
 	 * @param javaUri
 	 * @return
-	 * @since 0.5
-	 */
-	public static @Nullable URL toJavaUrl(final @Nullable URI javaUri) {
-		if (javaUri == null) {
-			return null;
-		}
-		
-		try {
-			return asJavaUrl(javaUri);
-		} catch (final UnconvertibleException e) {
-			return null;
-		}
-	}
-	
-	/**
-	 * 
-	 * @param javaUri
-	 * @return
 	 * @throws UnconvertibleException
 	 * @since 0.5
 	 */
@@ -574,44 +389,10 @@ public class ConversionUtils {
 	 * 
 	 * @param javaFile
 	 * @return
-	 * @since 0.5
-	 */
-	public static @Nullable URL toJavaUrl(final @Nullable File javaFile) {
-		if (javaFile == null) {
-			return null;
-		}
-		
-		try {
-			return asJavaUrl(javaFile);
-		} catch (final UnconvertibleException e) {
-			return null;
-		}
-	}
-	
-	/**
-	 * 
-	 * @param javaFile
-	 * @return
 	 * @throws UnconvertibleException
 	 * @since 0.5
 	 */
 	public static @NonNull URL asJavaUrl(final @NonNull File javaFile) throws UnconvertibleException {
-		// final String adjustedSeparators = adjustFileSeparators(javaFile);
-		// try {
-		// if (!javaFile.isAbsolute() &&
-		// /*adjustedSeparators.indexOf(':') == -1 &&*/
-		// adjustedSeparators.indexOf('#') == -1
-		// && adjustedSeparators.indexOf('?') == -1 &&
-		// adjustedSeparators.indexOf('\\') == -1/*&&
-		// !adjustedSeparators.startsWith("//")*/ /* &&
-		// !adjustedSeparators.endsWith("/")*/
-		// ) {
-		// return new URL(SCHEME_FILE_SEPARATOR + adjustedSeparators);
-		// }
-		// } catch (final MalformedURLException e1) {
-		// // fall-through
-		// }
-		
 		final URI uri;
 		
 		try {
@@ -622,32 +403,12 @@ public class ConversionUtils {
 		
 		try {
 			if (uri.isAbsolute()) {
-				final URL result = uri.toURL();
-				return result;
+				return uri.toURL();
 			}
 			
-			final URL result = new URL(SCHEME_FILE_SEPARATOR + uri.toASCIIString());
-			return result;
+			return new URL(SCHEME_FILE_SEPARATOR + uri.toASCIIString());
 		} catch (IllegalArgumentException | MalformedURLException e) {
 			throw new UnconvertibleException(javaFile, File.class, URL.class, e);
-		}
-	}
-	
-	/**
-	 * 
-	 * @param javaPath
-	 * @return
-	 * @since 0.5
-	 */
-	public static @Nullable URL toJavaUrl(final @Nullable Path javaPath) {
-		if (javaPath == null) {
-			return null;
-		}
-		
-		try {
-			return asJavaUrl(javaPath);
-		} catch (final UnconvertibleException e) {
-			return null;
 		}
 	}
 	
@@ -669,10 +430,7 @@ public class ConversionUtils {
 			}
 			
 			final URI uri = asJavaUri(javaPath);
-			final URL result = new URL(SCHEME_FILE_SEPARATOR + uri.toASCIIString());
-			return result;
-			//
-			// return new URI(SCHEME_FILE, adjustedSeparators, null).toURL();
+			return new URL(SCHEME_FILE_SEPARATOR + uri.toASCIIString());
 		} catch (final UnconvertibleException e) {
 			throw new UnconvertibleException(javaPath, Path.class, URL.class, e.getCause());
 		} catch (IllegalArgumentException | MalformedURLException e) {
@@ -680,12 +438,212 @@ public class ConversionUtils {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param javaUrl
+	 * @return
+	 * @throws UnconvertibleException
+	 * @since 0.5
+	 */
+	public static @NonNull Path asJavaPath(final @NonNull URL javaUrl) throws UnconvertibleException {
+		if (isEmpty(javaUrl)) {
+			return Paths.get(EMPTY_STRING);
+		}
+		
+		try {
+			final URI uri = asJavaUri(javaUrl);
+			return asJavaPath(uri);
+		} catch (final UnconvertibleException e) {
+			throw new UnconvertibleException(javaUrl, URL.class, Path.class, e.getCause());
+		}
+	}
+	
+	/**
+	 * 
+	 * @param javaFile
+	 * @return
+	 * @throws UnconvertibleException
+	 * @since 0.5
+	 */
+	public static @NonNull Path asJavaPath(final @NonNull File javaFile) throws UnconvertibleException {
+		try {
+			return javaFile.toPath();
+		} catch (final InvalidPathException e) {
+			throw new UnconvertibleException(javaFile, File.class, Path.class, e);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param javaUri
+	 * @return
+	 * @throws UnconvertibleException
+	 * @since 0.5
+	 */
+	public static @NonNull Path asJavaPath(final @NonNull URI javaUri) throws UnconvertibleException {
+		if (hasScheme(javaUri) && !hasFileScheme(javaUri)) {
+			throw new UnconvertibleException(javaUri, URI.class, Path.class);
+		}
+		
+		try {
+			try {
+				final URI adjustedJavaUri = getFixedInvalid(javaUri);
+				
+				Path result;
+				if (adjustedJavaUri != null) {
+					result = Paths.get(adjustedJavaUri);
+				} else {
+					result = Paths.get(javaUri);
+				}
+				
+				return stripLeadingInvalidAuthority(result);
+			} catch (final IllegalArgumentException | FileSystemNotFoundException | URISyntaxException e) {
+				if (hasQueryOrFragment(javaUri)) {
+					// we cannot represent any of the conditions in a Path
+					throw e;
+				}
+				try {
+					final String schemeSpecificPart = javaUri.getSchemeSpecificPart();
+					return Paths.get(schemeSpecificPart);
+				} catch (final FileSystemNotFoundException ex) {
+					throw ex;
+				}
+			}
+		} catch (final IllegalArgumentException | FileSystemNotFoundException | URISyntaxException e) {
+			throw new UnconvertibleException(javaUri, URI.class, Path.class, e);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param javaUrl
+	 * @return
+	 * @throws UnconvertibleException
+	 * @since 0.5
+	 */
+	public static @NonNull URI asJavaUri(final @NonNull URL javaUrl) throws UnconvertibleException {
+		try {
+			return javaUrl.toURI();
+		} catch (final URISyntaxException e) {
+			try {
+				final String scheme = decodeUrlPart(javaUrl.getProtocol());
+				final String userInfo = decodeUrlPart(javaUrl.getUserInfo());
+				final String host = StringUtils.isNotEmpty(javaUrl.getHost()) ? decodeUrlPart(javaUrl.getHost()) : null;
+				final int port = javaUrl.getPort();
+				final String path = decodeUrlPart(javaUrl.getPath());
+				final String query = decodeUrlPart(javaUrl.getQuery());
+				final String fragment = decodeUrlPart(javaUrl.getRef());
+				
+				try {
+					return new URI(scheme, userInfo, host, port, path, query, fragment);
+				} catch (final URISyntaxException e1) {
+					try {
+						final URI uri = new URI(null, userInfo, host, port, path, query, fragment);
+						if (!hasScheme(uri)) {
+							return uri;
+						}
+					} catch (final URISyntaxException e2) {
+						// fall-through
+					}
+					
+					try {
+						return asJavaUriColonSafe(userInfo, host, port, path, query, fragment);
+					} catch (final URISyntaxException e3) {
+						throw new UnconvertibleException(javaUrl, URL.class, URI.class, e);
+					}
+				}
+			} catch (final UnsupportedEncodingException e4) {
+				throw new UnconvertibleException(javaUrl, URL.class, URI.class, e);
+			}
+		}
+	}
+	
+	private static URI asJavaUriColonSafe(
+			final String userInfo,
+			final String host,
+			final int port,
+			final String path,
+			final String query,
+			final String fragment
+	) throws URISyntaxException {
+		try {
+			final URI result = new URI(null, userInfo, host, port, path, query, fragment);
+			if (!hasScheme(result)) {
+				return result;
+			} else {
+				final String escapedSchemeSeparator = replaceSchemeSeparator(result.toASCIIString(), ESCAPED_COLON);
+				return new URI(escapedSchemeSeparator);
+			}
+		} catch (final URISyntaxException e) {
+			final String uniqueMarker = createUniqueMarker(path);
+			final String uniqueMarkerSchemeSeparator = replaceSchemeSeparator(path, uniqueMarker);
+			final URI tmpUri = new URI(null, null, uniqueMarkerSchemeSeparator, null);
+			final URI escapedUri = new URI(tmpUri.toASCIIString().replace(uniqueMarker, ESCAPED_COLON));
+			return escapedUri;
+		}
+	}
+	
+	private static URI asJavaUriColonSafe(final String adjustedSeparators) throws URISyntaxException {
+		return asJavaUriColonSafe(null, null, UNDEFINED_PORT, adjustedSeparators, null, null);
+	}
+	
+	private static Path stripLeadingInvalidAuthority(Path result) {
+		while (result.toString().startsWith(SEPARATOR_INVALID_AUTHORITY)) {
+			result = Paths.get(result.toString().substring(1));
+		}
+		
+		return result;
+	}
+	
+	private static String replaceSchemeSeparator(final String uriAscii, final String replacement) {
+		final int indexFirstSlash = uriAscii.indexOf(SEPARATOR_URL_PATH);
+		
+		final String result;
+		if (indexFirstSlash > -1) {
+			result = uriAscii.substring(0, indexFirstSlash).replace(SEPARATOR_SCHEME, replacement)
+					+ uriAscii.substring(indexFirstSlash);
+		} else {
+			result = uriAscii.replace(SEPARATOR_SCHEME, replacement);
+		}
+		return result;
+	}
+	
+	private static String createUniqueMarker(final String asciiString) {
+		final StringBuilder tmp = new StringBuilder("__tmp__");
+		final Random random = new Random();
+		while (asciiString.contains(tmp)) {
+			tmp.append(random.nextInt());
+			tmp.append("__");
+		}
+		return tmp.toString();
+	}
+	
+	private static boolean hasScheme(final URI javaUri) {
+		return javaUri.getScheme() != null;
+	}
+	
+	private static boolean hasScheme(final URL javaUrl) {
+		return javaUrl.getProtocol() != null;
+	}
+	
+	private static boolean hasQueryOrFragment(final URI javaUri) {
+		return javaUri.getQuery() != null || javaUri.getFragment() != null;
+	}
+	
+	private static @Nullable String decodeUrlPart(@Nullable final String str) throws UnsupportedEncodingException {
+		if (str == null) {
+			return null;
+		}
+		
+		return URLDecoder.decode(str, URI_ENCODING);
+	}
+	
 	private static boolean isEmpty(final @Nullable URL javaUrl) {
 		if (javaUrl == null) {
 			return false;
 		}
 		
-		return "".equals(javaUrl.getPath())
+		return EMPTY_STRING.equals(javaUrl.getPath())
 				&& hasFileScheme(javaUrl)
 				&& javaUrl.getAuthority() == null
 				&& javaUrl.getQuery() == null
@@ -693,26 +651,20 @@ public class ConversionUtils {
 	}
 	
 	private static boolean hasFileScheme(final URL javaUrl) {
-		final String protocol = javaUrl.getProtocol();
-		return protocol != null && SCHEME_FILE.equalsIgnoreCase(protocol);
+		return hasScheme(javaUrl) && SCHEME_FILE.equalsIgnoreCase(javaUrl.getProtocol());
 	}
 	
 	private static boolean hasFileScheme(final URI javaUri) {
-		final String scheme = javaUri.getScheme();
-		return scheme != null && SCHEME_FILE.equalsIgnoreCase(scheme);
+		return hasScheme(javaUri) && SCHEME_FILE.equalsIgnoreCase(javaUri.getScheme());
 	}
 	
 	private static @NonNull String adjustFileSeparators(final @NonNull File javaFile) {
 		String adjustedSeparators = replaceSeparatorFileUrl(javaFile.getPath());
-		if (adjustedSeparators.endsWith(":")) {
-			adjustedSeparators += "/";
+		if (adjustedSeparators.endsWith(SEPARATOR_SCHEME)) {
+			adjustedSeparators += SEPARATOR_URL_PATH;
 		}
 		
 		return adjustedSeparators;
-	}
-	
-	private static String replaceSeparatorWinUrl(final String schemeSpecificPart) {
-		return schemeSpecificPart.replace(SEPARATOR_WIN, SEPARATOR_URL_PATH);
 	}
 	
 	private static String replaceSeparatorFileUrl(final String path) {
@@ -744,25 +696,6 @@ public class ConversionUtils {
 					);
 					return adjustedJavaUri;
 				}
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Handling invalid <tt>file://c:/path/to/file.txt</tt> URLs.
-	 * 
-	 * @param javaUrl
-	 * @return
-	 * @throws MalformedURLException
-	 */
-	private static @Nullable URL getFixedInvalid(final @NonNull URL javaUrl) throws MalformedURLException {
-		if (hasFileScheme(javaUrl)) {
-			final String authority = javaUrl.getAuthority();
-			if (authority != null && authority.endsWith(SEPARATOR_SCHEME)) {
-				final String file = SEPARATOR_URL_PATH + authority + javaUrl.getFile();
-				final URL adjustedJavaUrl = new URL(javaUrl.getProtocol(), null, javaUrl.getPort(), file);
-				return adjustedJavaUrl;
 			}
 		}
 		return null;
