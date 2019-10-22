@@ -5,12 +5,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
-@Target(ElementType.METHOD)
+@Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-@ParameterizedTest(name = "[{index}] {0}, {1}, {2}")
-@EnabledOnUnix
-public @interface TestOnUnix {
+@EnabledOnOs({ OS.WINDOWS })
+public @interface EnabledOnWin {
 	
 }
