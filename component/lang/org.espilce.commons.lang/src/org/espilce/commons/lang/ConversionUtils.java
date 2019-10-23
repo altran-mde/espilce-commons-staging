@@ -206,9 +206,41 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.net.URI Java URI} to a
+	 * {@linkplain java.io.File Java File}.
+	 * 
+	 * <pre>
+	 * toJavaFile(new URI(""))                                        = new File("")
+	 * toJavaFile(new URI("."))                                       = new File(".")
+	 * toJavaFile(new URI("MyFile.ext"))                              = new File("MyFile.ext")
+	 * toJavaFile(new URI("some/path/MyFile.ext"))                    = new File("some/path/MyFile.ext")
+	 * toJavaFile(new URI("/some/path/MyFile.ext"))                   = new File("/some/path/MyFile.ext")
+	 * toJavaFile(new URI("../some/path/."))                          = new File("../some/path/.")
+	 * toJavaFile(new URI("file:."))                                  = new File(".")
+	 * toJavaFile(new URI("file:../some/path/."))                     = new File("../some/path/.")
+	 * toJavaFile(new URI("file:/some/path/MyFile.ext"))              = new File("/some/path/MyFile.ext")
+	 * toJavaFile(new URI("file://some/path/MyFile.ext"))             = new File("//some/path/MyFile.ext")
+	 * toJavaFile(new URI("file:///some/path/MyFile.ext"))            = new File("/some/path/MyFile.ext")
+	 * toJavaFile(new URI("file:////some/path/MyFile.ext"))           = new File("//some/path/MyFile.ext")
+	 * toJavaFile(new URI("file:/some/path/"))                        = new File("/some/path")
+	 * toJavaFile(new URI("file:/some/path"))                         = new File("/some/path")
+	 * toJavaFile(new URI("file:/some//////path"))                    = new File("/some/path")
+	 * toJavaFile(new URI("file:/../some/path/."))                    = new File("/../some/path/.")
+	 * toJavaFile(new URI("file:/myProject/myFolder%23query"))        = new File("/myProject/myFolder#query")
+	 * toJavaFile(new URI("file:/myProject/myFolder?query#fragment")) = null
+	 * toJavaFile(new URI("c:/some/path/MyFile.ext"))                 = null
+	 * toJavaFile(new URI("http://example.com"))                      = null
+	 * toJavaFile((URI) null)                                         = null
+	 * 
+	 * toJavaFile(new URI("file:/c:/some/path/MyFile.ext"))           = (win)  new File("c:/some/path/MyFile.ext")
+	 *                                                                  (unix) new File("/c:/some/path/MyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaUri
-	 * @return
+	 *            URI to convert.
+	 * @return <code>javaUri</code> converted to Java File; {@code null} if
+	 *         <code>javaUri</code> is {@code null} or cannot be converted to a
+	 *         Java File.
 	 * @since 0.5
 	 */
 	public static @Nullable File toJavaFile(final @Nullable URI javaUri) {
@@ -368,10 +400,43 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.net.URI Java URI} to a
+	 * {@linkplain java.io.File Java File}.
+	 * 
+	 * <pre>
+	 * asJavaFile(new URI(""))                                        = new File("")
+	 * asJavaFile(new URI("."))                                       = new File(".")
+	 * asJavaFile(new URI("MyFile.ext"))                              = new File("MyFile.ext")
+	 * asJavaFile(new URI("some/path/MyFile.ext"))                    = new File("some/path/MyFile.ext")
+	 * asJavaFile(new URI("/some/path/MyFile.ext"))                   = new File("/some/path/MyFile.ext")
+	 * asJavaFile(new URI("../some/path/."))                          = new File("../some/path/.")
+	 * asJavaFile(new URI("file:."))                                  = new File(".")
+	 * asJavaFile(new URI("file:../some/path/."))                     = new File("../some/path/.")
+	 * asJavaFile(new URI("file:/some/path/MyFile.ext"))              = new File("/some/path/MyFile.ext")
+	 * asJavaFile(new URI("file://some/path/MyFile.ext"))             = new File("//some/path/MyFile.ext")
+	 * asJavaFile(new URI("file:///some/path/MyFile.ext"))            = new File("/some/path/MyFile.ext")
+	 * asJavaFile(new URI("file:////some/path/MyFile.ext"))           = new File("//some/path/MyFile.ext")
+	 * asJavaFile(new URI("file:/some/path/"))                        = new File("/some/path")
+	 * asJavaFile(new URI("file:/some/path"))                         = new File("/some/path")
+	 * asJavaFile(new URI("file:/some//////path"))                    = new File("/some/path")
+	 * asJavaFile(new URI("file:/../some/path/."))                    = new File("/../some/path/.")
+	 * asJavaFile(new URI("file:/myProject/myFolder%23query"))        = new File("/myProject/myFolder#query")
+	 * asJavaFile(new URI("file:/myProject/myFolder?query#fragment")) = UnconvertibleException
+	 * asJavaFile(new URI("c:/some/path/MyFile.ext"))                 = UnconvertibleException
+	 * asJavaFile(new URI("http://example.com"))                      = UnconvertibleException
+	 * asJavaFile((URI) null)                                         = NullPointerException
+	 * 
+	 * asJavaFile(new URI("file:/c:/some/path/MyFile.ext"))           = (win)  new File("c:/some/path/MyFile.ext")
+	 *                                                                  (unix) new File("/c:/some/path/MyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaUri
-	 * @return
+	 *            URI to convert.
+	 * @return <code>javaUri</code> converted to Java File.
 	 * @throws UnconvertibleException
+	 *             If <code>javaUri</code> cannot be converted to a Java File.
+	 * @throws NullPointerExcpetion
+	 *             If <code>javaUri</code> is {@code null}.
 	 * @since 0.5
 	 */
 	public static @NonNull File asJavaFile(final @NonNull URI javaUri) throws UnconvertibleException {
