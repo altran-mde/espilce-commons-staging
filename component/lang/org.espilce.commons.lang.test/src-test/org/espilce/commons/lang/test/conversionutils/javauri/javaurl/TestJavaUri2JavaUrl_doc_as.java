@@ -1,7 +1,6 @@
 package org.espilce.commons.lang.test.conversionutils.javauri.javaurl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.net.URI;

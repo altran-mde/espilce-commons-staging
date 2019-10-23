@@ -553,9 +553,47 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.io.File Java File} to a
+	 * {@linkplain java.net.URL Java URL}.
+	 * 
+	 * <pre>
+	 * toJavaUrl(new File(""))                                  = new URL("file:")
+	 * toJavaUrl(new File("."))                                 = new URL("file:.")
+	 * toJavaUrl(new File("MyFile.ext"))                        = new URL("file:MyFile.ext")
+	 * toJavaUrl(new File("some/path/MyFile.ext"))              = new URL("file:some/path/MyFile.ext")
+	 * toJavaUrl(new File("../some/path/."))                    = new URL("file:../some/path/.")
+	 * toJavaUrl(new File("some/path/"))                        = new URL("file:some/path")
+	 * toJavaUrl(new File("some/path"))                         = new URL("file:some/path")
+	 * toJavaUrl(new File("some//////path"))                    = new URL("file:some/path")
+	 * toJavaUrl(new File("myProject/myFolder%23query"))        = new URL("file:myProject/myFolder%2523query")
+	 * toJavaUrl(new File("myProject/myFolder?query#fragment")) = new URL("file:myProject/myFolder%3Fquery%23fragment")
+	 * toJavaUrl(new File("/c:/some/path/MyFile.ext"))          = new URL("file:/c:/some/path/MyFile.ext")
+	 * 
+	 * toJavaUrl(new File("c:/some/path/MyFile.ext"))           = (win)  new URL("file:/c:/some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:c%3A/some/path/MyFile.ext")
+	 * toJavaUrl(new File("/../some/path/."))                   = (win)  new URL("file:/../some/path/.")
+	 *                                                            (unix) new URL("file:/../some/path/.")
+	 * toJavaUrl(new File("/some/path/MyFile.ext"))             = (win)  new URL("file:/some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:/some/path/MyFile.ext")
+	 * toJavaUrl(new File("//some/path/MyFile.ext"))            = (win)  new URL("file:////some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:/some/path/MyFile.ext")
+	 * toJavaUrl(new File("///some/path/MyFile.ext"))           = (win)  new URL("file:////some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:/some/path/MyFile.ext")
+	 * toJavaUrl(new File("////some/path/MyFile.ext"))          = (win)  new URL("file:////some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:/some/path/MyFile.ext")
+	 * toJavaUrl(new File("..\\some\\path\\."))                 = (win)  new URL("file:../some/path/.")
+	 *                                                            (unix) new URL("file:..%5Csome%5Cpath%5C.")
+	 * toJavaUrl(new File("\\some\\path\\MyFile.ext"))          = (win)  new URL("file:/some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:%5Csome%5Cpath%5CMyFile.ext")
+	 * toJavaUrl(new File("c:\\some\\path\\MyFile.ext"))        = (win)  new URL("file:/c:/some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:c%3A%5Csome%5Cpath%5CMyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaFile
-	 * @return
+	 *            File to convert.
+	 * @return <code>javaFile</code> converted to Java URL; {@code null} if
+	 *         <code>javaFile</code> is {@code null} or cannot be converted to a
+	 *         Java URL.
 	 * @since 0.5
 	 */
 	public static @Nullable URL toJavaUrl(final @Nullable File javaFile) {
@@ -896,10 +934,49 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.io.File Java File} to a
+	 * {@linkplain java.net.URL Java URL}.
+	 * 
+	 * <pre>
+	 * asJavaUrl(new File(""))                                  = new URL("file:")
+	 * asJavaUrl(new File("."))                                 = new URL("file:.")
+	 * asJavaUrl(new File("MyFile.ext"))                        = new URL("file:MyFile.ext")
+	 * asJavaUrl(new File("some/path/MyFile.ext"))              = new URL("file:some/path/MyFile.ext")
+	 * asJavaUrl(new File("../some/path/."))                    = new URL("file:../some/path/.")
+	 * asJavaUrl(new File("some/path/"))                        = new URL("file:some/path")
+	 * asJavaUrl(new File("some/path"))                         = new URL("file:some/path")
+	 * asJavaUrl(new File("some//////path"))                    = new URL("file:some/path")
+	 * asJavaUrl(new File("myProject/myFolder%23query"))        = new URL("file:myProject/myFolder%2523query")
+	 * asJavaUrl(new File("myProject/myFolder?query#fragment")) = new URL("file:myProject/myFolder%3Fquery%23fragment")
+	 * asJavaUrl(new File("/c:/some/path/MyFile.ext"))          = new URL("file:/c:/some/path/MyFile.ext")
+	 * 
+	 * asJavaUrl(new File("c:/some/path/MyFile.ext"))           = (win)  new URL("file:/c:/some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:c%3A/some/path/MyFile.ext")
+	 * asJavaUrl(new File("/../some/path/."))                   = (win)  new URL("file:/../some/path/.")
+	 *                                                            (unix) new URL("file:/../some/path/.")
+	 * asJavaUrl(new File("/some/path/MyFile.ext"))             = (win)  new URL("file:/some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:/some/path/MyFile.ext")
+	 * asJavaUrl(new File("//some/path/MyFile.ext"))            = (win)  new URL("file:////some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:/some/path/MyFile.ext")
+	 * asJavaUrl(new File("///some/path/MyFile.ext"))           = (win)  new URL("file:////some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:/some/path/MyFile.ext")
+	 * asJavaUrl(new File("////some/path/MyFile.ext"))          = (win)  new URL("file:////some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:/some/path/MyFile.ext")
+	 * asJavaUrl(new File("..\\some\\path\\."))                 = (win)  new URL("file:../some/path/.")
+	 *                                                            (unix) new URL("file:..%5Csome%5Cpath%5C.")
+	 * asJavaUrl(new File("\\some\\path\\MyFile.ext"))          = (win)  new URL("file:/some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:%5Csome%5Cpath%5CMyFile.ext")
+	 * asJavaUrl(new File("c:\\some\\path\\MyFile.ext"))        = (win)  new URL("file:/c:/some/path/MyFile.ext")
+	 *                                                            (unix) new URL("file:c%3A%5Csome%5Cpath%5CMyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaFile
-	 * @return
+	 *            File to convert.
+	 * @return <code>javaFile</code> converted to Java URL.
 	 * @throws UnconvertibleException
+	 *             If <code>javaFile</code> cannot be converted to a Java URL.
+	 * @throws NullPointerExcpetion
+	 *             If <code>javaFile</code> is {@code null}.
 	 * @since 0.5
 	 */
 	public static @NonNull URL asJavaUrl(final @NonNull File javaFile) throws UnconvertibleException {
