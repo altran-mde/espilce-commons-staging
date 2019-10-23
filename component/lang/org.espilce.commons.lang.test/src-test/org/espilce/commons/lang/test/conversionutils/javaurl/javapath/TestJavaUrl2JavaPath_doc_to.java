@@ -84,6 +84,13 @@ public class TestJavaUrl2JavaPath_doc_to {
 	}
 
 	@Test
+	public void backslashAbsolute() throws Exception {
+		final Path expected = Paths.get("\\some\\path\\MyFile.ext");
+		final Path actual = ConversionUtils.toJavaPath(new URL("file:\\some\\path\\MyFile.ext"));
+		assertEquals(expected, actual);
+	}
+	
+	@Test
 	public void encodedQuery() throws Exception {
 		final Path expected = Paths.get("/myProject/myFolder#query");
 		final Path actual = ConversionUtils.toJavaPath(new URL("file:/myProject/myFolder%23query"));
@@ -116,8 +123,8 @@ public class TestJavaUrl2JavaPath_doc_to {
 	@Test
 	@EnabledOnUnix
 	public void driveAbsolute_unix() throws Exception {
-		final Path expected = Paths.get("c:/some/path/MyFile.ext");
-		final Path actual = ConversionUtils.toJavaPath(new URL("file:c:/some/path/MyFile.ext"));
+		final Path expected = Paths.get("/c:/some/path/MyFile.ext");
+		final Path actual = ConversionUtils.toJavaPath(new URL("file:/c:/some/path/MyFile.ext"));
 		assertEquals(expected, actual);
 	}
 }

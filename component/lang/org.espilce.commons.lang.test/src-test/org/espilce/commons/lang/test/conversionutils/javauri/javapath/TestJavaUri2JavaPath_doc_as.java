@@ -170,8 +170,8 @@ public class TestJavaUri2JavaPath_doc_as {
 	@Test
 	@EnabledOnUnix
 	public void driveAbsolute_unix() throws Exception {
-		final Path expected = Paths.get("c:/some/path/MyFile.ext");
-		final Path actual = ConversionUtils.asJavaPath(new URI("file:c:/some/path/MyFile.ext"));
+		final Path expected = Paths.get("/c:/some/path/MyFile.ext");
+		final Path actual = ConversionUtils.asJavaPath(new URI("file:/c:/some/path/MyFile.ext"));
 		assertEquals(expected, actual);
 	}
 }

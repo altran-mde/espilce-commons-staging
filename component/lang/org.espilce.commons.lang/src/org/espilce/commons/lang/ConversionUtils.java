@@ -126,6 +126,7 @@ public class ConversionUtils {
 	 * toJavaPath(new URL("file:/some/path"))                         = Paths.get("/some/path")
 	 * toJavaPath(new URL("file:/some//////path"))                    = Paths.get("/some/path")
 	 * toJavaPath(new URL("file:/../some/path/."))                    = Paths.get("/../some/path/.")
+	 * toJavaPath(new URL("file:\\some\\path\\MyFile.ext"))           = Paths.get("\\some\\path\\MyFile.ext")
 	 * toJavaPath(new URL("file:/myProject/myFolder%23query"))        = Paths.get("/myProject/myFolder#query")
 	 * toJavaPath(new URL("file:/myProject/myFolder?query#fragment")) = null
 	 * toJavaPath(new URL("http://example.com"))                      = null
@@ -155,9 +156,41 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.io.File Java File} to a
+	 * {@linkplain java.nio.file.Path Java Path}.
+	 * 
+	 * <pre>
+	 * toJavaPath(new File(""))                                   = Paths.get("")
+	 * toJavaPath(new File("."))                                  = Paths.get(".")
+	 * toJavaPath(new File("MyFile.ext"))                         = Paths.get("MyFile.ext")
+	 * toJavaPath(new File("some/path/MyFile.ext"))               = Paths.get("some/path/MyFile.ext")
+	 * toJavaPath(new File("../some/path/."))                     = Paths.get("../some/path/.")
+	 * toJavaPath(new File("/some/path/MyFile.ext"))              = Paths.get("/some/path/MyFile.ext")
+	 * toJavaPath(new File("//some/path/MyFile.ext"))             = Paths.get("//some/path/MyFile.ext")
+	 * toJavaPath(new File("///some/path/MyFile.ext"))            = Paths.get("/some/path/MyFile.ext")
+	 * toJavaPath(new File("////some/path/MyFile.ext"))           = Paths.get("//some/path/MyFile.ext")
+	 * toJavaPath(new File("/some/path/"))                        = Paths.get("/some/path")
+	 * toJavaPath(new File("/some/path"))                         = Paths.get("/some/path")
+	 * toJavaPath(new File("/some//////path"))                    = Paths.get("/some/path")
+	 * toJavaPath(new File("/../some/path/."))                    = Paths.get("/../some/path/.")
+	 * toJavaPath(new File("/myProject/myFolder%23query"))        = Paths.get("/myProject/myFolder%23query")
+	 * toJavaPath(new File("c:/some/path/MyFile.ext"))            = Paths.get("c:/some/path/MyFile.ext")
+	 * toJavaPath(new File("..\\some\\path\\."))                  = Paths.get("..\\some\\path\\.")
+	 * toJavaPath(new File("\\some\\path\\MyFile.ext"))           = Paths.get("\\some\\path\\MyFile.ext")
+	 * toJavaPath(new File("c:\\some\\path\\MyFile.ext"))         = Paths.get("c:\\some\\path\\MyFile.ext")
+	 * toJavaPath((File) null)                                    = null
+	 * 
+	 * toJavaPath(new File("/myProject/myFolder?query#fragment")) = (win)  null
+	 *                                                              (unix) Paths.get("/myProject/myFolder?query#fragment")
+	 * toJavaPath(new File("/c:/some/path/MyFile.ext"))           = (win)  Paths.get("c:/some/path/MyFile.ext")
+	 *                                                              (unix) Paths.get("/c:/some/path/MyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaFile
-	 * @return
+	 *            File to convert.
+	 * @return <code>javaFile</code> converted to Java Path; {@code null} if
+	 *         <code>javaFile</code> is {@code null} or cannot be converted to a
+	 *         Java Path.
 	 * @since 0.5
 	 */
 	public static @Nullable Path toJavaPath(final @Nullable File javaFile) {
@@ -500,22 +533,23 @@ public class ConversionUtils {
 	 * {@linkplain java.nio.file.Path Java Path}.
 	 * 
 	 * <pre>
-	 * toJavaPath(new URL("file:."))                                  = Paths.get(".")
-	 * toJavaPath(new URL("file:../some/path/."))                     = Paths.get("../some/path/.")
-	 * toJavaPath(new URL("file:/some/path/MyFile.ext"))              = Paths.get("/some/path/MyFile.ext")
-	 * toJavaPath(new URL("file://some/path/MyFile.ext"))             = Paths.get("//some/path/MyFile.ext")
-	 * toJavaPath(new URL("file:///some/path/MyFile.ext"))            = Paths.get("/some/path/MyFile.ext")
-	 * toJavaPath(new URL("file:////some/path/MyFile.ext"))           = Paths.get("//some/path/MyFile.ext")
-	 * toJavaPath(new URL("file:/some/path/"))                        = Paths.get("/some/path")
-	 * toJavaPath(new URL("file:/some/path"))                         = Paths.get("/some/path")
-	 * toJavaPath(new URL("file:/some//////path"))                    = Paths.get("/some/path")
-	 * toJavaPath(new URL("file:/../some/path/."))                    = Paths.get("/../some/path/.")
-	 * toJavaPath(new URL("file:/myProject/myFolder%23query"))        = Paths.get("/myProject/myFolder#query")
-	 * toJavaPath(new URL("file:/myProject/myFolder?query#fragment")) = UnconvertibleException
-	 * toJavaPath(new URL("http://example.com"))                      = UnconvertibleException
-	 * toJavaPath((URL) null)                                         = NullPointerException
+	 * asJavaPath(new URL("file:."))                                  = Paths.get(".")
+	 * asJavaPath(new URL("file:../some/path/."))                     = Paths.get("../some/path/.")
+	 * asJavaPath(new URL("file:/some/path/MyFile.ext"))              = Paths.get("/some/path/MyFile.ext")
+	 * asJavaPath(new URL("file://some/path/MyFile.ext"))             = Paths.get("//some/path/MyFile.ext")
+	 * asJavaPath(new URL("file:///some/path/MyFile.ext"))            = Paths.get("/some/path/MyFile.ext")
+	 * asJavaPath(new URL("file:////some/path/MyFile.ext"))           = Paths.get("//some/path/MyFile.ext")
+	 * asJavaPath(new URL("file:/some/path/"))                        = Paths.get("/some/path")
+	 * asJavaPath(new URL("file:/some/path"))                         = Paths.get("/some/path")
+	 * asJavaPath(new URL("file:/some//////path"))                    = Paths.get("/some/path")
+	 * asJavaPath(new URL("file:/../some/path/."))                    = Paths.get("/../some/path/.")
+	 * toJavaPath(new URL("file:\\some\\path\\MyFile.ext"))           = Paths.get("\\some\\path\\MyFile.ext")
+	 * asJavaPath(new URL("file:/myProject/myFolder%23query"))        = Paths.get("/myProject/myFolder#query")
+	 * asJavaPath(new URL("file:/myProject/myFolder?query#fragment")) = UnconvertibleException
+	 * asJavaPath(new URL("http://example.com"))                      = UnconvertibleException
+	 * asJavaPath((URL) null)                                         = NullPointerException
 	 * 
-	 * toJavaPath(new URL("file:/c:/some/path/MyFile.ext"))           = (win)  Paths.get("c:/some/path/MyFile.ext")
+	 * asJavaPath(new URL("file:/c:/some/path/MyFile.ext"))           = (win)  Paths.get("c:/some/path/MyFile.ext")
 	 *                                                                  (unix) Paths.get("/c:/some/path/MyFile.ext")
 	 * </pre>
 	 * 
@@ -542,10 +576,45 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.io.File Java File} to a
+	 * {@linkplain java.nio.file.Path Java Path}.
+	 * 
+	 * <pre>
+	 * asJavaPath(new File(""))                                   = Paths.get("")
+	 * asJavaPath(new File("."))                                  = Paths.get(".")
+	 * asJavaPath(new File("MyFile.ext"))                         = Paths.get("MyFile.ext")
+	 * asJavaPath(new File("some/path/MyFile.ext"))               = Paths.get("some/path/MyFile.ext")
+	 * asJavaPath(new File("../some/path/."))                     = Paths.get("../some/path/.")
+	 * asJavaPath(new File("/some/path/MyFile.ext"))              = Paths.get("/some/path/MyFile.ext")
+	 * asJavaPath(new File("//some/path/MyFile.ext"))             = Paths.get("//some/path/MyFile.ext")
+	 * asJavaPath(new File("///some/path/MyFile.ext"))            = Paths.get("/some/path/MyFile.ext")
+	 * asJavaPath(new File("////some/path/MyFile.ext"))           = Paths.get("//some/path/MyFile.ext")
+	 * asJavaPath(new File("/some/path/"))                        = Paths.get("/some/path")
+	 * asJavaPath(new File("/some/path"))                         = Paths.get("/some/path")
+	 * asJavaPath(new File("/some//////path"))                    = Paths.get("/some/path")
+	 * asJavaPath(new File("/../some/path/."))                    = Paths.get("/../some/path/.")
+	 * asJavaPath(new File("/myProject/myFolder%23query"))        = Paths.get("/myProject/myFolder%23query")
+	 * asJavaPath(new File("c:/some/path/MyFile.ext"))            = Paths.get("c:/some/path/MyFile.ext")
+	 * asJavaPath(new File("..\\some\\path\\."))                  = Paths.get("..\\some\\path\\.")
+	 * asJavaPath(new File("\\some\\path\\MyFile.ext"))           = Paths.get("\\some\\path\\MyFile.ext")
+	 * asJavaPath(new File("c:\\some\\path\\MyFile.ext"))         = Paths.get("c:\\some\\path\\MyFile.ext")
+	 * asJavaPath((File) null)                                    = NullPointerException
+	 * 
+	 * asJavaPath(new File("/myProject/myFolder?query#fragment")) = (win)  UnconvertibleException
+	 *                                                              (unix) Paths.get("/myProject/myFolder?query#fragment")
+	 * asJavaPath(new File("/c:/some/path/MyFile.ext"))           = (win)  Paths.get("c:/some/path/MyFile.ext")
+	 *                                                              (unix) Paths.get("/c:/some/path/MyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaFile
-	 * @return
+	 *            File to convert.
+	 * @return <code>javaFile</code> converted to Java Path; {@code null} if
+	 *         <code>javaFile</code> is {@code null} or cannot be converted to a
+	 *         Java Path.
 	 * @throws UnconvertibleException
+	 *             If <code>javaFile</code> cannot be converted to a Java Path.
+	 * @throws NullPointerExcpetion
+	 *             If <code>javaFile</code> is {@code null}.
 	 * @since 0.5
 	 */
 	public static @NonNull Path asJavaPath(final @NonNull File javaFile) throws UnconvertibleException {
@@ -561,29 +630,29 @@ public class ConversionUtils {
 	 * {@linkplain java.nio.file.Path Java Path}.
 	 * 
 	 * <pre>
-	 * toJavaPath(new URI(""))                                        = Paths.get("")
-	 * toJavaPath(new URI("."))                                       = Paths.get(".")
-	 * toJavaPath(new URI("MyFile.ext"))                              = Paths.get("MyFile.ext")
-	 * toJavaPath(new URI("some/path/MyFile.ext"))                    = Paths.get("some/path/MyFile.ext")
-	 * toJavaPath(new URI("/some/path/MyFile.ext"))                   = Paths.get("/some/path/MyFile.ext")
-	 * toJavaPath(new URI("../some/path/."))                          = Paths.get("../some/path/.")
-	 * toJavaPath(new URI("file:."))                                  = Paths.get(".")
-	 * toJavaPath(new URI("file:../some/path/."))                     = Paths.get("../some/path/.")
-	 * toJavaPath(new URI("file:/some/path/MyFile.ext"))              = Paths.get("/some/path/MyFile.ext")
-	 * toJavaPath(new URI("file://some/path/MyFile.ext"))             = Paths.get("//some/path/MyFile.ext")
-	 * toJavaPath(new URI("file:///some/path/MyFile.ext"))            = Paths.get("/some/path/MyFile.ext")
-	 * toJavaPath(new URI("file:////some/path/MyFile.ext"))           = Paths.get("//some/path/MyFile.ext")
-	 * toJavaPath(new URI("file:/some/path/"))                        = Paths.get("/some/path")
-	 * toJavaPath(new URI("file:/some/path"))                         = Paths.get("/some/path")
-	 * toJavaPath(new URI("file:/some//////path"))                    = Paths.get("/some/path")
-	 * toJavaPath(new URI("file:/../some/path/."))                    = Paths.get("/../some/path/.")
-	 * toJavaPath(new URI("file:/myProject/myFolder%23query"))        = Paths.get("/myProject/myFolder#query")
-	 * toJavaPath(new URI("file:/myProject/myFolder?query#fragment")) = UnconvertibleException
-	 * toJavaPath(new URI("c:/some/path/MyFile.ext"))                 = UnconvertibleException
-	 * toJavaPath(new URI("http://example.com"))                      = UnconvertibleException
-	 * toJavaPath((URI) null)                                         = NullPointerException
+	 * asJavaPath(new URI(""))                                        = Paths.get("")
+	 * asJavaPath(new URI("."))                                       = Paths.get(".")
+	 * asJavaPath(new URI("MyFile.ext"))                              = Paths.get("MyFile.ext")
+	 * asJavaPath(new URI("some/path/MyFile.ext"))                    = Paths.get("some/path/MyFile.ext")
+	 * asJavaPath(new URI("/some/path/MyFile.ext"))                   = Paths.get("/some/path/MyFile.ext")
+	 * asJavaPath(new URI("../some/path/."))                          = Paths.get("../some/path/.")
+	 * asJavaPath(new URI("file:."))                                  = Paths.get(".")
+	 * asJavaPath(new URI("file:../some/path/."))                     = Paths.get("../some/path/.")
+	 * asJavaPath(new URI("file:/some/path/MyFile.ext"))              = Paths.get("/some/path/MyFile.ext")
+	 * asJavaPath(new URI("file://some/path/MyFile.ext"))             = Paths.get("//some/path/MyFile.ext")
+	 * asJavaPath(new URI("file:///some/path/MyFile.ext"))            = Paths.get("/some/path/MyFile.ext")
+	 * asJavaPath(new URI("file:////some/path/MyFile.ext"))           = Paths.get("//some/path/MyFile.ext")
+	 * asJavaPath(new URI("file:/some/path/"))                        = Paths.get("/some/path")
+	 * asJavaPath(new URI("file:/some/path"))                         = Paths.get("/some/path")
+	 * asJavaPath(new URI("file:/some//////path"))                    = Paths.get("/some/path")
+	 * asJavaPath(new URI("file:/../some/path/."))                    = Paths.get("/../some/path/.")
+	 * asJavaPath(new URI("file:/myProject/myFolder%23query"))        = Paths.get("/myProject/myFolder#query")
+	 * asJavaPath(new URI("file:/myProject/myFolder?query#fragment")) = UnconvertibleException
+	 * asJavaPath(new URI("c:/some/path/MyFile.ext"))                 = UnconvertibleException
+	 * asJavaPath(new URI("http://example.com"))                      = UnconvertibleException
+	 * asJavaPath((URI) null)                                         = NullPointerException
 	 * 
-	 * toJavaPath(new URI("file:/c:/some/path/MyFile.ext"))           = (win)  Paths.get("c:/some/path/MyFile.ext")
+	 * asJavaPath(new URI("file:/c:/some/path/MyFile.ext"))           = (win)  Paths.get("c:/some/path/MyFile.ext")
 	 *                                                                  (unix) Paths.get("/c:/some/path/MyFile.ext")
 	 * </pre>
 	 * 
