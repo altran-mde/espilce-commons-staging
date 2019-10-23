@@ -2,7 +2,7 @@ target "Espilce Commons"
 
 with configurePhase source
 
-location "http://download.eclipse.org/tools/orbit/downloads/drops/R20180330011457/repository" {
+location "http://ftp.snt.utwente.nl/pub/software/eclipse/tools/orbit/downloads/drops/R20180330011457/repository" {
 	org.apache.commons.io [2.2.0,2.2.1)
 	org.apache.commons.io.source [2.2.0,2.2.1)
 	org.apache.commons.lang3 [3.1.0,3.1.1)
@@ -14,7 +14,7 @@ location "http://download.eclipse.org/tools/orbit/downloads/drops/R2018033001145
 	com.google.inject.source [3.0.0,3.0.1)
 }
 
-location "http://download.eclipse.org/releases/oxygen" {
+location "http://ftp.snt.utwente.nl/pub/software/eclipse/releases/oxygen" {
 	org.eclipse.emf.sdk.feature.group
 	
 	org.eclipse.xtext.sdk.feature.group
