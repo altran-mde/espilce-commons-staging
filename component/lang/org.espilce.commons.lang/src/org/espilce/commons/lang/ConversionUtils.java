@@ -30,9 +30,21 @@ import org.espilce.commons.exception.UnconvertibleException;
  * 
  * <ul>
  * <li><code><b>to</b>TargetType(SourceType)</code> returns {@code null} if the
- * conversion is unsuccessful.</li>
+ * input is {@code null} or the conversion is unsuccessful.</li>
  * <li><code><b>as</b>TargetType(SourceType)</code> throws a
  * {@link UnconvertibleException} if the conversion is unsuccessful.</li>
+ * </ul>
+ * 
+ * <p>
+ * All conversions stay as close as possible to the input. This includes:
+ * </p>
+ * <ul>
+ * <li>keep relative locations (e.g. <code>.</code> or <code>..</code>
+ * segments)</li>
+ * <li>never {@link URI#resolve(URI) resolve}, {@link File#getAbsoluteFile()
+ * absolutize}, or {@link Path#normalize() normalize} locations</li>
+ * <li>keep multiple slashes, if supported</li>
+ * <li>stay true to the underlying OS-specific implementation</li>
  * </ul>
  * 
  * <p>
@@ -365,6 +377,7 @@ public class ConversionUtils {
 	 * toJavaUri(new File("myProject/myFolder%23query"))        = new URI("myProject/myFolder%2523query")
 	 * toJavaUri(new File("myProject/myFolder?query#fragment")) = new URI("myProject/myFolder%3Fquery%23fragment")
 	 * toJavaUri(new File("/c:/some/path/MyFile.ext"))          = new URI("file:/c:/some/path/MyFile.ext")
+	 * toJavaUri((File) null)                                   = null
 	 * 
 	 * toJavaUri(new File("c:/some/path/MyFile.ext"))           = (win)  new URI("file:/c:/some/path/MyFile.ext")
 	 *                                                            (unix) new URI("c%3A/some/path/MyFile.ext")
@@ -465,11 +478,8 @@ public class ConversionUtils {
 	 * toJavaUri(Paths.get("some/path"))                         = new URI("some/path")
 	 * toJavaUri(Paths.get("some//////path"))                    = new URI("some/path")
 	 * toJavaUri(Paths.get("myProject/myFolder%23query"))        = new URI("myProject/myFolder%2523query")
+	 * toJavaUri((Path) null)                                    = null
 	 * 
-	 * toJavaUri(Paths.get("myProject/myFolder?query#fragment")) = (win)  IllegalPathException in Paths.get()
-	 *                                                             (unix) new URI("myProject/myFolder%3Fquery%23fragment")
-	 * toJavaUri(Paths.get("/c:/some/path/MyFile.ext"))          = (win)  IllegalPathException in Paths.get()
-	 *                                                             (unix) new URI("file:/c:/some/path/MyFile.ext")
 	 * toJavaUri(Paths.get("c:/some/path/MyFile.ext"))           = (win)  new URI("file:/c:/some/path/MyFile.ext")
 	 *                                                             (unix) new URI("c%3A/some/path/MyFile.ext")
 	 * toJavaUri(Paths.get("/../some/path/."))                   = (win)  new URI("/../some/path/.")
@@ -488,6 +498,10 @@ public class ConversionUtils {
 	 *                                                             (unix) new URI("%5Csome%5Cpath%5CMyFile.ext")
 	 * toJavaUri(Paths.get("c:\\some\\path\\MyFile.ext"))        = (win)  new URI("file:/c:/some/path/MyFile.ext")
 	 *                                                             (unix) new URI("c%3A%5Csome%5Cpath%5CMyFile.ext")
+	 * toJavaUri(Paths.get("myProject/myFolder?query#fragment")) = (win)  IllegalPathException in Paths.get()
+	 *                                                             (unix) new URI("myProject/myFolder%3Fquery%23fragment")
+	 * toJavaUri(Paths.get("/c:/some/path/MyFile.ext"))          = (win)  IllegalPathException in Paths.get()
+	 *                                                             (unix) new URI("file:/c:/some/path/MyFile.ext")
 	 * </pre>
 	 * 
 	 * @param javaPath
@@ -568,6 +582,7 @@ public class ConversionUtils {
 	 * toJavaUrl(new File("myProject/myFolder%23query"))        = new URL("file:myProject/myFolder%2523query")
 	 * toJavaUrl(new File("myProject/myFolder?query#fragment")) = new URL("file:myProject/myFolder%3Fquery%23fragment")
 	 * toJavaUrl(new File("/c:/some/path/MyFile.ext"))          = new URL("file:/c:/some/path/MyFile.ext")
+	 * toJavaUrl((File) null)                                   = null
 	 * 
 	 * toJavaUrl(new File("c:/some/path/MyFile.ext"))           = (win)  new URL("file:/c:/some/path/MyFile.ext")
 	 *                                                            (unix) new URL("file:c%3A/some/path/MyFile.ext")
@@ -624,6 +639,7 @@ public class ConversionUtils {
 	 * toJavaUrl(Paths.get("myProject/myFolder%23query"))        = new URL("file:myProject/myFolder%2523query")
 	 * toJavaUrl(Paths.get("/../some/path/."))                   = new URL("file:/../some/path/.")
 	 * toJavaUrl(Paths.get("/some/path/MyFile.ext"))             = new URL("file:/some/path/MyFile.ext")
+	 * toJavaUrl((Path) null)                                    = null
 	 * 
 	 * toJavaUrl(Paths.get("c:/some/path/MyFile.ext"))           = (win)  new URL("file:/c:/some/path/MyFile.ext")
 	 *                                                             (unix) new URL("file:c%3A/some/path/MyFile.ext")
@@ -826,6 +842,7 @@ public class ConversionUtils {
 	 * asJavaUri(new File("myProject/myFolder%23query"))        = new URI("myProject/myFolder%2523query")
 	 * asJavaUri(new File("myProject/myFolder?query#fragment")) = new URI("myProject/myFolder%3Fquery%23fragment")
 	 * asJavaUri(new File("/c:/some/path/MyFile.ext"))          = new URI("file:/c:/some/path/MyFile.ext")
+	 * asJavaUri((File) null)                                   = NullPointerException
 	 * 
 	 * asJavaUri(new File("c:/some/path/MyFile.ext"))           = (win)  new URI("file:/c:/some/path/MyFile.ext")
 	 *                                                            (unix) new URI("c%3A/some/path/MyFile.ext")
@@ -883,11 +900,8 @@ public class ConversionUtils {
 	 * asJavaUri(Paths.get("some/path"))                         = new URI("some/path")
 	 * asJavaUri(Paths.get("some//////path"))                    = new URI("some/path")
 	 * asJavaUri(Paths.get("myProject/myFolder%23query"))        = new URI("myProject/myFolder%2523query")
+	 * asJavaUri((Path) null)                                    = NullPointerException
 	 * 
-	 * asJavaUri(Paths.get("myProject/myFolder?query#fragment")) = (win)  IllegalPathException in Paths.get()
-	 *                                                             (unix) new URI("myProject/myFolder%3Fquery%23fragment")
-	 * asJavaUri(Paths.get("/c:/some/path/MyFile.ext"))          = (win)  IllegalPathException in Paths.get()
-	 *                                                             (unix) new URI("file:/c:/some/path/MyFile.ext")
 	 * asJavaUri(Paths.get("c:/some/path/MyFile.ext"))           = (win)  new URI("file:/c:/some/path/MyFile.ext")
 	 *                                                             (unix) new URI("c%3A/some/path/MyFile.ext")
 	 * asJavaUri(Paths.get("/../some/path/."))                   = (win)  new URI("/../some/path/.")
@@ -906,6 +920,10 @@ public class ConversionUtils {
 	 *                                                             (unix) new URI("%5Csome%5Cpath%5CMyFile.ext")
 	 * asJavaUri(Paths.get("c:\\some\\path\\MyFile.ext"))        = (win)  new URI("file:/c:/some/path/MyFile.ext")
 	 *                                                             (unix) new URI("c%3A%5Csome%5Cpath%5CMyFile.ext")
+	 * asJavaUri(Paths.get("myProject/myFolder?query#fragment")) = (win)  IllegalPathException in Paths.get()
+	 *                                                             (unix) new URI("myProject/myFolder%3Fquery%23fragment")
+	 * asJavaUri(Paths.get("/c:/some/path/MyFile.ext"))          = (win)  IllegalPathException in Paths.get()
+	 *                                                             (unix) new URI("file:/c:/some/path/MyFile.ext")
 	 * </pre>
 	 * 
 	 * @param javaPath
@@ -935,23 +953,23 @@ public class ConversionUtils {
 	 * {@linkplain java.net.URL Java URL}.
 	 * 
 	 * <pre>
-	 * toJavaUrl(new URI("file:."))                                  = new URL("file:.")
-	 * toJavaUrl(new URI("file:../some/path/."))                     = new URL("file:../some/path/.")
-	 * toJavaUrl(new URI("file:/some/path/MyFile.ext"))              = new URL("file:/some/path/MyFile.ext")
-	 * toJavaUrl(new URI("file://some/path/MyFile.ext"))             = new URL("file://some/path/MyFile.ext")
-	 * toJavaUrl(new URI("file:///some/path/MyFile.ext"))            = new URL("file:/some/path/MyFile.ext")
-	 * toJavaUrl(new URI("file:////some/path/MyFile.ext"))           = new URL("file:////some/path/MyFile.ext")
-	 * toJavaUrl(new URI("file:/some/path/"))                        = new URL("file:/some/path/")
-	 * toJavaUrl(new URI("file:/some/path"))                         = new URL("file:/some/path")
-	 * toJavaUrl(new URI("file:/some//////path"))                    = new URL("file:/some//////path")
-	 * toJavaUrl(new URI("file:/../some/path/."))                    = new URL("file:/../some/path/.")
-	 * toJavaUrl(new URI("file:/c:/some/path/MyFile.ext"))           = new URL("file:/c:/some/path/MyFile.ext")
-	 * toJavaUrl(new URI("file:/myProject/myFolder%23query"))        = new URL("file:/myProject/myFolder%23query")
-	 * toJavaUrl(new URI("file:/myProject/myFolder?query#fragment")) = new URL("file:/myProject/myFolder?query#fragment")
-	 * toJavaUrl(new URI("http://example.com"))                      = new URL("http://example.com")
-	 * toJavaUrl(new URI("mailto:test@example.com"))                 = new URL("mailto:test@example.com")
-	 * toJavaUrl(new URI(null, null, null))                          = UnconvertibleException
-	 * toJavaUrl((URL) null)                                         = NullPointerException
+	 * asJavaUrl(new URI("file:."))                                  = new URL("file:.")
+	 * asJavaUrl(new URI("file:../some/path/."))                     = new URL("file:../some/path/.")
+	 * asJavaUrl(new URI("file:/some/path/MyFile.ext"))              = new URL("file:/some/path/MyFile.ext")
+	 * asJavaUrl(new URI("file://some/path/MyFile.ext"))             = new URL("file://some/path/MyFile.ext")
+	 * asJavaUrl(new URI("file:///some/path/MyFile.ext"))            = new URL("file:/some/path/MyFile.ext")
+	 * asJavaUrl(new URI("file:////some/path/MyFile.ext"))           = new URL("file:////some/path/MyFile.ext")
+	 * asJavaUrl(new URI("file:/some/path/"))                        = new URL("file:/some/path/")
+	 * asJavaUrl(new URI("file:/some/path"))                         = new URL("file:/some/path")
+	 * asJavaUrl(new URI("file:/some//////path"))                    = new URL("file:/some//////path")
+	 * asJavaUrl(new URI("file:/../some/path/."))                    = new URL("file:/../some/path/.")
+	 * asJavaUrl(new URI("file:/c:/some/path/MyFile.ext"))           = new URL("file:/c:/some/path/MyFile.ext")
+	 * asJavaUrl(new URI("file:/myProject/myFolder%23query"))        = new URL("file:/myProject/myFolder%23query")
+	 * asJavaUrl(new URI("file:/myProject/myFolder?query#fragment")) = new URL("file:/myProject/myFolder?query#fragment")
+	 * asJavaUrl(new URI("http://example.com"))                      = new URL("http://example.com")
+	 * asJavaUrl(new URI("mailto:test@example.com"))                 = new URL("mailto:test@example.com")
+	 * asJavaUrl(new URI(null, null, null))                          = UnconvertibleException
+	 * asJavaUrl((URL) null)                                         = NullPointerException
 	 * </pre>
 	 * 
 	 * @param javaUri
@@ -987,6 +1005,7 @@ public class ConversionUtils {
 	 * asJavaUrl(new File("myProject/myFolder%23query"))        = new URL("file:myProject/myFolder%2523query")
 	 * asJavaUrl(new File("myProject/myFolder?query#fragment")) = new URL("file:myProject/myFolder%3Fquery%23fragment")
 	 * asJavaUrl(new File("/c:/some/path/MyFile.ext"))          = new URL("file:/c:/some/path/MyFile.ext")
+	 * asJavaUrl((File) null)                                   = NullPointerException
 	 * 
 	 * asJavaUrl(new File("c:/some/path/MyFile.ext"))           = (win)  new URL("file:/c:/some/path/MyFile.ext")
 	 *                                                            (unix) new URL("file:c%3A/some/path/MyFile.ext")
@@ -1053,6 +1072,7 @@ public class ConversionUtils {
 	 * asJavaUrl(Paths.get("myProject/myFolder%23query"))        = new URL("file:myProject/myFolder%2523query")
 	 * asJavaUrl(Paths.get("/../some/path/."))                   = new URL("file:/../some/path/.")
 	 * asJavaUrl(Paths.get("/some/path/MyFile.ext"))             = new URL("file:/some/path/MyFile.ext")
+	 * asJavaUrl((Path) null)                                    = NullPointerException
 	 * 
 	 * asJavaUrl(Paths.get("c:/some/path/MyFile.ext"))           = (win)  new URL("file:/c:/some/path/MyFile.ext")
 	 *                                                             (unix) new URL("file:c%3A/some/path/MyFile.ext")
@@ -1182,9 +1202,7 @@ public class ConversionUtils {
 	 * 
 	 * @param javaFile
 	 *            File to convert.
-	 * @return <code>javaFile</code> converted to Java Path; {@code null} if
-	 *         <code>javaFile</code> is {@code null} or cannot be converted to a
-	 *         Java Path.
+	 * @return <code>javaFile</code> converted to Java Path.
 	 * @throws UnconvertibleException
 	 *             If <code>javaFile</code> cannot be converted to a Java Path.
 	 * @throws NullPointerExcpetion
