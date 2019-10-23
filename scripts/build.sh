@@ -1,20 +1,21 @@
 #!/usr/bin/env bash
 
 targetBranch="$1"
+tag="$2"
 updateSite="develop"
 profiles="acceptance-test"
 
-if [ "$targetBranch" == "develop" ]; then
+if [ -n "$2" ]; then
 	profiles+=",publish"
-else if [ "${targetBranch:0:10}" == "refs/tags/" ]; then
-	profiles+=",publish"
-	baselineTag=${targetBranch:10}
+	baselineTag=$2
 	dots=${baselineTag//[^.]}
 	if [ ${#dots} == 2 ]; then
 		updateSite=${baselineTag%.*}
 	else
 		updateSite=${baselineTag}
 	fi
+else if [ "$targetBranch" == "develop" ]; then
+	profiles+=",publish"
 fi fi
 
 if [[ $profiles == *"publish"* ]]; then
@@ -22,7 +23,7 @@ if [[ $profiles == *"publish"* ]]; then
 	    profiles+=",merge-existing-repository"
 fi fi
 
-echo Building target branch $targetBranch with profiles $profiles and update site $updateSite
+echo Building branch $targetBranch with profiles $profiles and update site $updateSite
 
 mvn clean install -P$profiles \
 	-f releng/org.espilce.commons.parent/pom.xml \
