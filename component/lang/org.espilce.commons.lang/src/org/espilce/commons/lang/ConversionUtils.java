@@ -510,9 +510,34 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.net.URI Java URI} to a
+	 * {@linkplain java.net.URL Java URL}.
+	 * 
+	 * <pre>
+	 * toJavaUrl(new URI("file:."))                                  = new URL("file:.")
+	 * toJavaUrl(new URI("file:../some/path/."))                     = new URL("file:../some/path/.")
+	 * toJavaUrl(new URI("file:/some/path/MyFile.ext"))              = new URL("file:/some/path/MyFile.ext")
+	 * toJavaUrl(new URI("file://some/path/MyFile.ext"))             = new URL("file://some/path/MyFile.ext")
+	 * toJavaUrl(new URI("file:///some/path/MyFile.ext"))            = new URL("file:/some/path/MyFile.ext")
+	 * toJavaUrl(new URI("file:////some/path/MyFile.ext"))           = new URL("file:////some/path/MyFile.ext")
+	 * toJavaUrl(new URI("file:/some/path/"))                        = new URL("file:/some/path/")
+	 * toJavaUrl(new URI("file:/some/path"))                         = new URL("file:/some/path")
+	 * toJavaUrl(new URI("file:/some//////path"))                    = new URL("file:/some//////path")
+	 * toJavaUrl(new URI("file:/../some/path/."))                    = new URL("file:/../some/path/.")
+	 * toJavaUrl(new URI("file:/c:/some/path/MyFile.ext"))           = new URL("file:/c:/some/path/MyFile.ext")
+	 * toJavaUrl(new URI("file:/myProject/myFolder%23query"))        = new URL("file:/myProject/myFolder%23query")
+	 * toJavaUrl(new URI("file:/myProject/myFolder?query#fragment")) = new URL("file:/myProject/myFolder?query#fragment")
+	 * toJavaUrl(new URI("http://example.com"))                      = new URL("http://example.com")
+	 * toJavaUrl(new URI("mailto:test@example.com"))                 = new URL("mailto:test@example.com")
+	 * toJavaUrl(new URI(null, null, null))                          = null
+	 * toJavaUrl((URL) null)                                         = null
+	 * </pre>
 	 * 
 	 * @param javaUri
-	 * @return
+	 *            URI to convert.
+	 * @return <code>javaUri</code> converted to Java URL; {@code null} if
+	 *         <code>javaUri</code> is {@code null} or cannot be converted to a
+	 *         Java URL.
 	 * @since 0.5
 	 */
 	public static @Nullable URL toJavaUrl(final @Nullable URI javaUri) {
@@ -830,10 +855,36 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.net.URI Java URI} to a
+	 * {@linkplain java.net.URL Java URL}.
+	 * 
+	 * <pre>
+	 * toJavaUrl(new URI("file:."))                                  = new URL("file:.")
+	 * toJavaUrl(new URI("file:../some/path/."))                     = new URL("file:../some/path/.")
+	 * toJavaUrl(new URI("file:/some/path/MyFile.ext"))              = new URL("file:/some/path/MyFile.ext")
+	 * toJavaUrl(new URI("file://some/path/MyFile.ext"))             = new URL("file://some/path/MyFile.ext")
+	 * toJavaUrl(new URI("file:///some/path/MyFile.ext"))            = new URL("file:/some/path/MyFile.ext")
+	 * toJavaUrl(new URI("file:////some/path/MyFile.ext"))           = new URL("file:////some/path/MyFile.ext")
+	 * toJavaUrl(new URI("file:/some/path/"))                        = new URL("file:/some/path/")
+	 * toJavaUrl(new URI("file:/some/path"))                         = new URL("file:/some/path")
+	 * toJavaUrl(new URI("file:/some//////path"))                    = new URL("file:/some//////path")
+	 * toJavaUrl(new URI("file:/../some/path/."))                    = new URL("file:/../some/path/.")
+	 * toJavaUrl(new URI("file:/c:/some/path/MyFile.ext"))           = new URL("file:/c:/some/path/MyFile.ext")
+	 * toJavaUrl(new URI("file:/myProject/myFolder%23query"))        = new URL("file:/myProject/myFolder%23query")
+	 * toJavaUrl(new URI("file:/myProject/myFolder?query#fragment")) = new URL("file:/myProject/myFolder?query#fragment")
+	 * toJavaUrl(new URI("http://example.com"))                      = new URL("http://example.com")
+	 * toJavaUrl(new URI("mailto:test@example.com"))                 = new URL("mailto:test@example.com")
+	 * toJavaUrl(new URI(null, null, null))                          = UnconvertibleException
+	 * toJavaUrl((URL) null)                                         = NullPointerException
+	 * </pre>
 	 * 
 	 * @param javaUri
-	 * @return
+	 *            URI to convert.
+	 * @return <code>javaUri</code> converted to Java URL.
 	 * @throws UnconvertibleException
+	 *             If <code>javaUri</code> cannot be converted to a Java URL.
+	 * @throws NullPointerExcpetion
+	 *             If <code>javaUri</code> is {@code null}.
 	 * @since 0.5
 	 */
 	public static @NonNull URL asJavaUrl(final @NonNull URI javaUri) throws UnconvertibleException {
