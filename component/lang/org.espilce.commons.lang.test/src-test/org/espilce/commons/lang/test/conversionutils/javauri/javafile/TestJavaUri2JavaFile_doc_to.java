@@ -35,22 +35,22 @@ public class TestJavaUri2JavaFile_doc_to {
 	
 	@Test
 	public void noSchemeRelative() throws Exception {
-		final File expected = new File("some/File/MyFile.ext");
-		final File actual = ConversionUtils.toJavaFile(new URI("some/File/MyFile.ext"));
+		final File expected = new File("some/path/MyFile.ext");
+		final File actual = ConversionUtils.toJavaFile(new URI("some/path/MyFile.ext"));
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void noSchemeLeadingSlash() throws Exception {
-		final File expected = new File("/some/File/MyFile.ext");
-		final File actual = ConversionUtils.toJavaFile(new URI("/some/File/MyFile.ext"));
+		final File expected = new File("/some/path/MyFile.ext");
+		final File actual = ConversionUtils.toJavaFile(new URI("/some/path/MyFile.ext"));
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void noSchemeStartDoubleDot() throws Exception {
-		final File expected = new File("../some/File/.");
-		final File actual = ConversionUtils.toJavaFile(new URI("../some/File/."));
+		final File expected = new File("../some/path/.");
+		final File actual = ConversionUtils.toJavaFile(new URI("../some/path/."));
 		assertEquals(expected, actual);
 	}
 	
@@ -63,64 +63,64 @@ public class TestJavaUri2JavaFile_doc_to {
 	
 	@Test
 	public void schemeStartDoubleDot() throws Exception {
-		final File expected = new File("../some/File/.");
-		final File actual = ConversionUtils.toJavaFile(new URI("file:../some/File/."));
+		final File expected = new File("../some/path/.");
+		final File actual = ConversionUtils.toJavaFile(new URI("file:../some/path/."));
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void slashAbsolute() throws Exception {
-		final File expected = new File("/some/File/MyFile.ext");
-		final File actual = ConversionUtils.toJavaFile(new URI("file:/some/File/MyFile.ext"));
+		final File expected = new File("/some/path/MyFile.ext");
+		final File actual = ConversionUtils.toJavaFile(new URI("file:/some/path/MyFile.ext"));
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void doubleSlashAbsolute() throws Exception {
-		final File expected = new File("//some/File/MyFile.ext");
-		final File actual = ConversionUtils.toJavaFile(new URI("file://some/File/MyFile.ext"));
+		final File expected = new File("//some/path/MyFile.ext");
+		final File actual = ConversionUtils.toJavaFile(new URI("file://some/path/MyFile.ext"));
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void tripleSlashAbsolute() throws Exception {
-		final File expected = new File("/some/File/MyFile.ext");
-		final File actual = ConversionUtils.toJavaFile(new URI("file:///some/File/MyFile.ext"));
+		final File expected = new File("/some/path/MyFile.ext");
+		final File actual = ConversionUtils.toJavaFile(new URI("file:///some/path/MyFile.ext"));
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void quadrupleSlashAbsolute() throws Exception {
-		final File expected = new File("//some/File/MyFile.ext");
-		final File actual = ConversionUtils.toJavaFile(new URI("file:////some/File/MyFile.ext"));
+		final File expected = new File("//some/path/MyFile.ext");
+		final File actual = ConversionUtils.toJavaFile(new URI("file:////some/path/MyFile.ext"));
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void folderTrailingSlash() throws Exception {
-		final File expected = new File("/some/File");
-		final File actual = ConversionUtils.toJavaFile(new URI("file:/some/File/"));
+		final File expected = new File("/some/path");
+		final File actual = ConversionUtils.toJavaFile(new URI("file:/some/path/"));
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void folderNoTrailingSlash() throws Exception {
-		final File expected = new File("/some/File");
-		final File actual = ConversionUtils.toJavaFile(new URI("file:/some/File"));
+		final File expected = new File("/some/path");
+		final File actual = ConversionUtils.toJavaFile(new URI("file:/some/path"));
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void folderExcessSlashes() throws Exception {
-		final File expected = new File("/some/File");
-		final File actual = ConversionUtils.toJavaFile(new URI("file:/some//////File"));
+		final File expected = new File("/some/path");
+		final File actual = ConversionUtils.toJavaFile(new URI("file:/some//////path"));
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void relativeLeadingSlash() throws Exception {
-		final File expected = new File("/../some/File/.");
-		final File actual = ConversionUtils.toJavaFile(new URI("file:/../some/File/."));
+		final File expected = new File("/../some/path/.");
+		final File actual = ConversionUtils.toJavaFile(new URI("file:/../some/path/."));
 		assertEquals(expected, actual);
 	}
 	
@@ -138,7 +138,7 @@ public class TestJavaUri2JavaFile_doc_to {
 	
 	@Test
 	public void noSchemeDrive() throws Exception {
-		assertNull(ConversionUtils.toJavaFile(new URI("c:/some/File/MyFile.ext")));
+		assertNull(ConversionUtils.toJavaFile(new URI("c:/some/path/MyFile.ext")));
 	}
 	
 	@Test
@@ -154,16 +154,16 @@ public class TestJavaUri2JavaFile_doc_to {
 	@Test
 	@EnabledOnWin
 	public void driveAbsolute_win() throws Exception {
-		final File expected = new File("c:/some/File/MyFile.ext");
-		final File actual = ConversionUtils.toJavaFile(new URI("file:/c:/some/File/MyFile.ext"));
+		final File expected = new File("c:/some/path/MyFile.ext");
+		final File actual = ConversionUtils.toJavaFile(new URI("file:/c:/some/path/MyFile.ext"));
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	@EnabledOnUnix
 	public void driveAbsolute_unix() throws Exception {
-		final File expected = new File("/c:/some/File/MyFile.ext");
-		final File actual = ConversionUtils.toJavaFile(new URI("file:/c:/some/File/MyFile.ext"));
+		final File expected = new File("/c:/some/path/MyFile.ext");
+		final File actual = ConversionUtils.toJavaFile(new URI("file:/c:/some/path/MyFile.ext"));
 		assertEquals(expected, actual);
 	}
 }

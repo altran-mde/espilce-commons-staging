@@ -256,9 +256,35 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.net.URL Java URL} to a
+	 * {@linkplain java.io.File Java File}.
+	 * 
+	 * <pre>
+	 * toJavaFile(new URL("file:."))                                  = new File(".")
+	 * toJavaFile(new URL("file:../some/path/."))                     = new File("../some/path/.")
+	 * toJavaFile(new URL("file:/some/path/MyFile.ext"))              = new File("/some/path/MyFile.ext")
+	 * toJavaFile(new URL("file://some/path/MyFile.ext"))             = new File("//some/path/MyFile.ext")
+	 * toJavaFile(new URL("file:///some/path/MyFile.ext"))            = new File("/some/path/MyFile.ext")
+	 * toJavaFile(new URL("file:////some/path/MyFile.ext"))           = new File("//some/path/MyFile.ext")
+	 * toJavaFile(new URL("file:/some/path/"))                        = new File("/some/path")
+	 * toJavaFile(new URL("file:/some/path"))                         = new File("/some/path")
+	 * toJavaFile(new URL("file:/some//////path"))                    = new File("/some/path")
+	 * toJavaFile(new URL("file:/../some/path/."))                    = new File("/../some/path/.")
+	 * toJavaFile(new URL("file:\\some\\path\\MyFile.ext"))           = new File("\\some\\path\\MyFile.ext")
+	 * toJavaFile(new URL("file:/myProject/myFolder%23query"))        = new File("/myProject/myFolder#query")
+	 * toJavaFile(new URL("file:/myProject/myFolder?query#fragment")) = null
+	 * toJavaFile(new URL("http://example.com"))                      = null
+	 * toJavaFile((URL) null)                                         = null
+	 * 
+	 * toJavaFile(new URL("file:/c:/some/path/MyFile.ext"))           = (win)  new File("c:/some/path/MyFile.ext")
+	 *                                                                  (unix) new File("/c:/some/path/MyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaUrl
-	 * @return
+	 *            URL to convert.
+	 * @return <code>javaUrl</code> converted to Java File; {@code null} if
+	 *         <code>javaUrl</code> is {@code null} or cannot be converted to a
+	 *         Java File.
 	 * @since 0.5
 	 */
 	public static @Nullable File toJavaFile(final @Nullable URL javaUrl) {
@@ -450,10 +476,37 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.net.URL Java URL} to a
+	 * {@linkplain java.io.File Java File}.
+	 * 
+	 * <pre>
+	 * asJavaFile(new URL("file:."))                                  = new File(".")
+	 * asJavaFile(new URL("file:../some/path/."))                     = new File("../some/path/.")
+	 * asJavaFile(new URL("file:/some/path/MyFile.ext"))              = new File("/some/path/MyFile.ext")
+	 * asJavaFile(new URL("file://some/path/MyFile.ext"))             = new File("//some/path/MyFile.ext")
+	 * asJavaFile(new URL("file:///some/path/MyFile.ext"))            = new File("/some/path/MyFile.ext")
+	 * asJavaFile(new URL("file:////some/path/MyFile.ext"))           = new File("//some/path/MyFile.ext")
+	 * asJavaFile(new URL("file:/some/path/"))                        = new File("/some/path")
+	 * asJavaFile(new URL("file:/some/path"))                         = new File("/some/path")
+	 * asJavaFile(new URL("file:/some//////path"))                    = new File("/some/path")
+	 * asJavaFile(new URL("file:/../some/path/."))                    = new File("/../some/path/.")
+	 * toJavaPath(new URL("file:\\some\\path\\MyFile.ext"))           = new File("\\some\\path\\MyFile.ext")
+	 * asJavaFile(new URL("file:/myProject/myFolder%23query"))        = new File("/myProject/myFolder#query")
+	 * asJavaFile(new URL("file:/myProject/myFolder?query#fragment")) = UnconvertibleException
+	 * asJavaFile(new URL("http://example.com"))                      = UnconvertibleException
+	 * asJavaFile((URL) null)                                         = NullPointerException
+	 * 
+	 * asJavaFile(new URL("file:/c:/some/path/MyFile.ext"))           = (win)  new File("c:/some/path/MyFile.ext")
+	 *                                                                  (unix) new File("/c:/some/path/MyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaUrl
-	 * @return
+	 *            URL to convert.
+	 * @return <code>javaUrl</code> converted to Java File.
 	 * @throws UnconvertibleException
+	 *             If <code>javaUrl</code> cannot be converted to a Java File.
+	 * @throws NullPointerExcpetion
+	 *             If <code>javaUrl</code> is {@code null}.
 	 * @since 0.5
 	 */
 	public static @NonNull File asJavaFile(final @NonNull URL javaUrl) throws UnconvertibleException {
