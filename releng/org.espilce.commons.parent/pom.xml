@@ -15,6 +15,7 @@
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 
 		<commons-target-version>0.1.0-SNAPSHOT</commons-target-version>
+		<jgit-version>5.5.1.201910021850-r</jgit-version>
 
 		<!-- Tycho settings -->
 		<tycho-version>1.4.0</tycho-version>
@@ -111,7 +112,7 @@
 					<dependency>
 						<groupId>org.eclipse.jgit</groupId>
 						<artifactId>org.eclipse.jgit</artifactId>
-						<version>5.5.1.201910021850-r</version>
+						<version>${jgit-version}</version>
 					</dependency>
 				</dependencies>
 				<configuration>

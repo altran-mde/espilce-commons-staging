@@ -15,6 +15,8 @@
 
 	<properties>
     	<maven.deploy.skip>true</maven.deploy.skip>
+    	<download-maven-plugin-version>1.4.2</download-maven-plugin-version>
+    	<maven-upload-plugin>0.0.1</maven-upload-plugin>
 		<mde.nexus.url>https://nexus-p2.manatree.io/nexus</mde.nexus.url>
 		<mde.p2-repos.compressed.url>${mde.nexus.url}/service/local/repositories/MDEAssets/content-compressed/</mde.p2-repos.compressed.url>
 		<mde.p2-repos.url>${mde.nexus.url}/content/sites/MDEAssets/${mde.project.name}/${mde.updatesite}</mde.p2-repos.url>
@@ -30,7 +32,7 @@
 			<plugin>
 				<groupId>com.googlecode.maven-download-plugin</groupId>
 				<artifactId>download-maven-plugin</artifactId>
-				<version>1.4.2</version>
+				<version>${download-maven-plugin-version}</version>
 				<executions>
 					<execution>
 						<id>download-metadata-artifacts</id>
@@ -93,7 +95,7 @@
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>maven-upload-plugin</artifactId>
-            <version>0.0.1</version>
+            <version>${maven-upload-plugin}</version>
             <executions>
               <execution>
                 <id>publish-category</id>
