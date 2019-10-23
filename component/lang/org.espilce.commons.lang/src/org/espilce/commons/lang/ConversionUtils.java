@@ -424,9 +424,49 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.nio.file.Path Path} to a
+	 * {@linkplain java.net.URI Java URI}.
+	 * 
+	 * <pre>
+	 * toJavaUri(Paths.get(""))                                  = new URI("")
+	 * toJavaUri(Paths.get("."))                                 = new URI(".")
+	 * toJavaUri(Paths.get("MyFile.ext"))                        = new URI("MyFile.ext")
+	 * toJavaUri(Paths.get("some/path/MyFile.ext"))              = new URI("some/path/MyFile.ext")
+	 * toJavaUri(Paths.get("../some/path/."))                    = new URI("../some/path/.")
+	 * toJavaUri(Paths.get("some/path/"))                        = new URI("some/path")
+	 * toJavaUri(Paths.get("some/path"))                         = new URI("some/path")
+	 * toJavaUri(Paths.get("some//////path"))                    = new URI("some/path")
+	 * toJavaUri(Paths.get("myProject/myFolder%23query"))        = new URI("myProject/myFolder%2523query")
+	 * 
+	 * toJavaUri(Paths.get("myProject/myFolder?query#fragment")) = (win)  IllegalPathException in Paths.get()
+	 *                                                             (unix) new URI("myProject/myFolder%3Fquery%23fragment")
+	 * toJavaUri(Paths.get("/c:/some/path/MyFile.ext"))          = (win)  IllegalPathException in Paths.get()
+	 *                                                             (unix) new URI("file:/c:/some/path/MyFile.ext")
+	 * toJavaUri(Paths.get("c:/some/path/MyFile.ext"))           = (win)  new URI("file:/c:/some/path/MyFile.ext")
+	 *                                                             (unix) new URI("c%3A/some/path/MyFile.ext")
+	 * toJavaUri(Paths.get("/../some/path/."))                   = (win)  new URI("/../some/path/.")
+	 *                                                             (unix) new URI("file:/../some/path/.")
+	 * toJavaUri(Paths.get("/some/path/MyFile.ext"))             = (win)  new URI("/some/path/MyFile.ext")
+	 *                                                             (unix) new URI("file:/some/path/MyFile.ext")
+	 * toJavaUri(Paths.get("//some/path/MyFile.ext"))            = (win)  new URI("file:////some/path/MyFile.ext")
+	 *                                                             (unix) new URI("file:/some/path/MyFile.ext")
+	 * toJavaUri(Paths.get("///some/path/MyFile.ext"))           = (win)  new URI("file:////some/path/MyFile.ext")
+	 *                                                             (unix) new URI("file:/some/path/MyFile.ext")
+	 * toJavaUri(Paths.get("////some/path/MyFile.ext"))          = (win)  new URI("file:////some/path/MyFile.ext")
+	 *                                                             (unix) new URI("file:/some/path/MyFile.ext")
+	 * toJavaUri(Paths.get("..\\some\\path\\."))                 = (win)  new URI("../some/path/.")
+	 *                                                             (unix) new URI("..%5Csome%5Cpath%5C.")
+	 * toJavaUri(Paths.get("\\some\\path\\MyFile.ext"))          = (win)  new URI("/some/path/MyFile.ext")
+	 *                                                             (unix) new URI("%5Csome%5Cpath%5CMyFile.ext")
+	 * toJavaUri(Paths.get("c:\\some\\path\\MyFile.ext"))        = (win)  new URI("file:/c:/some/path/MyFile.ext")
+	 *                                                             (unix) new URI("c%3A%5Csome%5Cpath%5CMyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaPath
-	 * @return
+	 *            Path to convert.
+	 * @return <code>javaPath</code> converted to Java URI; {@code null} if
+	 *         <code>javaPath</code> is {@code null} or cannot be converted to a
+	 *         Java URI.
 	 * @since 0.5
 	 */
 	public static @Nullable URI toJavaUri(final @Nullable Path javaPath) {
@@ -701,10 +741,51 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.nio.file.Path Path} to a
+	 * {@linkplain java.net.URI Java URI}.
+	 * 
+	 * <pre>
+	 * asJavaUri(Paths.get(""))                                  = new URI("")
+	 * asJavaUri(Paths.get("."))                                 = new URI(".")
+	 * asJavaUri(Paths.get("MyFile.ext"))                        = new URI("MyFile.ext")
+	 * asJavaUri(Paths.get("some/path/MyFile.ext"))              = new URI("some/path/MyFile.ext")
+	 * asJavaUri(Paths.get("../some/path/."))                    = new URI("../some/path/.")
+	 * asJavaUri(Paths.get("some/path/"))                        = new URI("some/path")
+	 * asJavaUri(Paths.get("some/path"))                         = new URI("some/path")
+	 * asJavaUri(Paths.get("some//////path"))                    = new URI("some/path")
+	 * asJavaUri(Paths.get("myProject/myFolder%23query"))        = new URI("myProject/myFolder%2523query")
+	 * 
+	 * asJavaUri(Paths.get("myProject/myFolder?query#fragment")) = (win)  IllegalPathException in Paths.get()
+	 *                                                             (unix) new URI("myProject/myFolder%3Fquery%23fragment")
+	 * asJavaUri(Paths.get("/c:/some/path/MyFile.ext"))          = (win)  IllegalPathException in Paths.get()
+	 *                                                             (unix) new URI("file:/c:/some/path/MyFile.ext")
+	 * asJavaUri(Paths.get("c:/some/path/MyFile.ext"))           = (win)  new URI("file:/c:/some/path/MyFile.ext")
+	 *                                                             (unix) new URI("c%3A/some/path/MyFile.ext")
+	 * asJavaUri(Paths.get("/../some/path/."))                   = (win)  new URI("/../some/path/.")
+	 *                                                             (unix) new URI("file:/../some/path/.")
+	 * asJavaUri(Paths.get("/some/path/MyFile.ext"))             = (win)  new URI("/some/path/MyFile.ext")
+	 *                                                             (unix) new URI("file:/some/path/MyFile.ext")
+	 * asJavaUri(Paths.get("//some/path/MyFile.ext"))            = (win)  new URI("file:////some/path/MyFile.ext")
+	 *                                                             (unix) new URI("file:/some/path/MyFile.ext")
+	 * asJavaUri(Paths.get("///some/path/MyFile.ext"))           = (win)  new URI("file:////some/path/MyFile.ext")
+	 *                                                             (unix) new URI("file:/some/path/MyFile.ext")
+	 * asJavaUri(Paths.get("////some/path/MyFile.ext"))          = (win)  new URI("file:////some/path/MyFile.ext")
+	 *                                                             (unix) new URI("file:/some/path/MyFile.ext")
+	 * asJavaUri(Paths.get("..\\some\\path\\."))                 = (win)  new URI("../some/path/.")
+	 *                                                             (unix) new URI("..%5Csome%5Cpath%5C.")
+	 * asJavaUri(Paths.get("\\some\\path\\MyFile.ext"))          = (win)  new URI("/some/path/MyFile.ext")
+	 *                                                             (unix) new URI("%5Csome%5Cpath%5CMyFile.ext")
+	 * asJavaUri(Paths.get("c:\\some\\path\\MyFile.ext"))        = (win)  new URI("file:/c:/some/path/MyFile.ext")
+	 *                                                             (unix) new URI("c%3A%5Csome%5Cpath%5CMyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaPath
-	 * @return
+	 *            Path to convert.
+	 * @return <code>javaPath</code> converted to Java URI.
 	 * @throws UnconvertibleException
+	 *             If <code>javaPath</code> cannot be converted to a Java URI.
+	 * @throws NullPointerExcpetion
+	 *             If <code>javaPath</code> is {@code null}.
 	 * @since 0.5
 	 */
 	public static @NonNull URI asJavaUri(final @NonNull Path javaPath) throws UnconvertibleException {
