@@ -300,9 +300,41 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.nio.file.Path Java Path} to a
+	 * {@linkplain java.io.File Java File}.
+	 * 
+	 * <pre>
+	 * toJavaFile(Paths.get(""))                                   = new File("")
+	 * toJavaFile(Paths.get("."))                                  = new File(".")
+	 * toJavaFile(Paths.get("MyFile.ext"))                         = new File("MyFile.ext")
+	 * toJavaFile(Paths.get("some/path/MyFile.ext"))               = new File("some/path/MyFile.ext")
+	 * toJavaFile(Paths.get("../some/path/."))                     = new File("../some/path/.")
+	 * toJavaFile(Paths.get("/some/path/MyFile.ext"))              = new File("/some/path/MyFile.ext")
+	 * toJavaFile(Paths.get("//some/path/MyFile.ext"))             = new File("//some/path/MyFile.ext")
+	 * toJavaFile(Paths.get("///some/path/MyFile.ext"))            = new File("/some/path/MyFile.ext")
+	 * toJavaFile(Paths.get("////some/path/MyFile.ext"))           = new File("//some/path/MyFile.ext")
+	 * toJavaFile(Paths.get("/some/path/"))                        = new File("/some/path")
+	 * toJavaFile(Paths.get("/some/path"))                         = new File("/some/path")
+	 * toJavaFile(Paths.get("/some//////path"))                    = new File("/some/path")
+	 * toJavaFile(Paths.get("/../some/path/."))                    = new File("/../some/path/.")
+	 * toJavaFile(Paths.get("/myProject/myFolder%23query"))        = new File("/myProject/myFolder%23query")
+	 * toJavaFile(Paths.get("c:/some/path/MyFile.ext"))            = new File("c:/some/path/MyFile.ext")
+	 * toJavaFile(Paths.get("..\\some\\path\\."))                  = new File("..\\some\\path\\.")
+	 * toJavaFile(Paths.get("\\some\\path\\MyFile.ext"))           = new File("\\some\\path\\MyFile.ext")
+	 * toJavaFile(Paths.get("c:\\some\\path\\MyFile.ext"))         = new File("c:\\some\\path\\MyFile.ext")
+	 * toJavaFile((Path) null)                                     = null
+	 * 
+	 * toJavaFile(Paths.get("/myProject/myFolder?query#fragment")) = (win)  IllegalPathException in Paths.get()
+	 *                                                               (unix) new File("/myProject/myFolder?query#fragment")
+	 * toJavaFile(Paths.get("/c:/some/path/MyFile.ext"))           = (win)  IllegalPathException in Paths.get()
+	 *                                                               (unix) new File("/c:/some/path/MyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaPath
-	 * @return
+	 *            Path to convert.
+	 * @return <code>javaPath</code> converted to Java File; {@code null} if
+	 *         <code>javaPath</code> is {@code null} or cannot be converted to a
+	 *         Java File.
 	 * @since 0.5
 	 */
 	public static @Nullable File toJavaFile(final @Nullable Path javaPath) {
@@ -524,10 +556,43 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.nio.file.Path Java Path} to a
+	 * {@linkplain java.io.File Java File}.
+	 * 
+	 * <pre>
+	 * asJavaFile(Paths.get(""))                                   = new File("")
+	 * asJavaFile(Paths.get("."))                                  = new File(".")
+	 * asJavaFile(Paths.get("MyFile.ext"))                         = new File("MyFile.ext")
+	 * asJavaFile(Paths.get("some/path/MyFile.ext"))               = new File("some/path/MyFile.ext")
+	 * asJavaFile(Paths.get("../some/path/."))                     = new File("../some/path/.")
+	 * asJavaFile(Paths.get("/some/path/MyFile.ext"))              = new File("/some/path/MyFile.ext")
+	 * asJavaFile(Paths.get("//some/path/MyFile.ext"))             = new File("//some/path/MyFile.ext")
+	 * asJavaFile(Paths.get("///some/path/MyFile.ext"))            = new File("/some/path/MyFile.ext")
+	 * asJavaFile(Paths.get("////some/path/MyFile.ext"))           = new File("//some/path/MyFile.ext")
+	 * asJavaFile(Paths.get("/some/path/"))                        = new File("/some/path")
+	 * asJavaFile(Paths.get("/some/path"))                         = new File("/some/path")
+	 * asJavaFile(Paths.get("/some//////path"))                    = new File("/some/path")
+	 * asJavaFile(Paths.get("/../some/path/."))                    = new File("/../some/path/.")
+	 * asJavaFile(Paths.get("/myProject/myFolder%23query"))        = new File("/myProject/myFolder%23query")
+	 * asJavaFile(Paths.get("c:/some/path/MyFile.ext"))            = new File("c:/some/path/MyFile.ext")
+	 * asJavaFile(Paths.get("..\\some\\path\\."))                  = new File("..\\some\\path\\.")
+	 * asJavaFile(Paths.get("\\some\\path\\MyFile.ext"))           = new File("\\some\\path\\MyFile.ext")
+	 * asJavaFile(Paths.get("c:\\some\\path\\MyFile.ext"))         = new File("c:\\some\\path\\MyFile.ext")
+	 * asJavaFile((Path) null)                                     = NullPointerException
+	 * 
+	 * asJavaFile(Paths.get("/myProject/myFolder?query#fragment")) = (win)  IllegalPathException in Paths.get()
+	 *                                                               (unix) new File("/myProject/myFolder?query#fragment")
+	 * asJavaFile(Paths.get("/c:/some/path/MyFile.ext"))           = (win)  IllegalPathException in Paths.get()
+	 *                                                               (unix) new File("/c:/some/path/MyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaPath
-	 * @return
+	 *            Path to convert.
+	 * @return <code>javaPath</code> converted to Java File.
 	 * @throws UnconvertibleException
+	 *             If <code>javaPath</code> cannot be converted to a Java File.
+	 * @throws NullPointerExcpetion
+	 *             If <code>javaPath</code> is {@code null}.
 	 * @since 0.5
 	 */
 	public static @NonNull File asJavaFile(final @NonNull Path javaPath) throws UnconvertibleException {
