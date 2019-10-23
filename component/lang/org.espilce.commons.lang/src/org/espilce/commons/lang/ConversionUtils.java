@@ -112,9 +112,34 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.net.URL Java URL} to a
+	 * {@linkplain java.nio.file.Path Java Path}.
+	 * 
+	 * <pre>
+	 * toJavaPath(new URL("file:."))                                  = Paths.get(".")
+	 * toJavaPath(new URL("file:../some/path/."))                     = Paths.get("../some/path/.")
+	 * toJavaPath(new URL("file:/some/path/MyFile.ext"))              = Paths.get("/some/path/MyFile.ext")
+	 * toJavaPath(new URL("file://some/path/MyFile.ext"))             = Paths.get("//some/path/MyFile.ext")
+	 * toJavaPath(new URL("file:///some/path/MyFile.ext"))            = Paths.get("/some/path/MyFile.ext")
+	 * toJavaPath(new URL("file:////some/path/MyFile.ext"))           = Paths.get("//some/path/MyFile.ext")
+	 * toJavaPath(new URL("file:/some/path/"))                        = Paths.get("/some/path")
+	 * toJavaPath(new URL("file:/some/path"))                         = Paths.get("/some/path")
+	 * toJavaPath(new URL("file:/some//////path"))                    = Paths.get("/some/path")
+	 * toJavaPath(new URL("file:/../some/path/."))                    = Paths.get("/../some/path/.")
+	 * toJavaPath(new URL("file:/myProject/myFolder%23query"))        = Paths.get("/myProject/myFolder#query")
+	 * toJavaPath(new URL("file:/myProject/myFolder?query#fragment")) = null
+	 * toJavaPath(new URL("http://example.com"))                      = null
+	 * toJavaPath((URL) null)                                         = null
+	 * 
+	 * toJavaPath(new URL("file:/c:/some/path/MyFile.ext"))           = (win)  Paths.get("c:/some/path/MyFile.ext")
+	 *                                                                  (unix) Paths.get("/c:/some/path/MyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaUrl
-	 * @return
+	 *            URL to convert.
+	 * @return <code>javaUrl</code> converted to Java Path; {@code null} if
+	 *         <code>javaUrl</code> is {@code null} or cannot be converted to a
+	 *         Java Path.
 	 * @since 0.5
 	 */
 	public static @Nullable Path toJavaPath(final @Nullable URL javaUrl) {
@@ -471,10 +496,36 @@ public class ConversionUtils {
 	}
 	
 	/**
+	 * Converts a {@linkplain java.net.URL Java URL} to a
+	 * {@linkplain java.nio.file.Path Java Path}.
+	 * 
+	 * <pre>
+	 * toJavaPath(new URL("file:."))                                  = Paths.get(".")
+	 * toJavaPath(new URL("file:../some/path/."))                     = Paths.get("../some/path/.")
+	 * toJavaPath(new URL("file:/some/path/MyFile.ext"))              = Paths.get("/some/path/MyFile.ext")
+	 * toJavaPath(new URL("file://some/path/MyFile.ext"))             = Paths.get("//some/path/MyFile.ext")
+	 * toJavaPath(new URL("file:///some/path/MyFile.ext"))            = Paths.get("/some/path/MyFile.ext")
+	 * toJavaPath(new URL("file:////some/path/MyFile.ext"))           = Paths.get("//some/path/MyFile.ext")
+	 * toJavaPath(new URL("file:/some/path/"))                        = Paths.get("/some/path")
+	 * toJavaPath(new URL("file:/some/path"))                         = Paths.get("/some/path")
+	 * toJavaPath(new URL("file:/some//////path"))                    = Paths.get("/some/path")
+	 * toJavaPath(new URL("file:/../some/path/."))                    = Paths.get("/../some/path/.")
+	 * toJavaPath(new URL("file:/myProject/myFolder%23query"))        = Paths.get("/myProject/myFolder#query")
+	 * toJavaPath(new URL("file:/myProject/myFolder?query#fragment")) = UnconvertibleException
+	 * toJavaPath(new URL("http://example.com"))                      = UnconvertibleException
+	 * toJavaPath((URL) null)                                         = NullPointerException
+	 * 
+	 * toJavaPath(new URL("file:/c:/some/path/MyFile.ext"))           = (win)  Paths.get("c:/some/path/MyFile.ext")
+	 *                                                                  (unix) Paths.get("/c:/some/path/MyFile.ext")
+	 * </pre>
 	 * 
 	 * @param javaUrl
-	 * @return
+	 *            URL to convert.
+	 * @return <code>javaUrl</code> converted to Java Path.
 	 * @throws UnconvertibleException
+	 *             If <code>javaUrl</code> cannot be converted to a Java Path.
+	 * @throws NullPointerExcpetion
+	 *             If <code>javaUrl</code> is {@code null}.
 	 * @since 0.5
 	 */
 	public static @NonNull Path asJavaPath(final @NonNull URL javaUrl) throws UnconvertibleException {
