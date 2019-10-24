@@ -2,7 +2,7 @@ target "Espilce Commons"
 
 with configurePhase source
 
-location "http://ftp.snt.utwente.nl/pub/software/eclipse/tools/orbit/downloads/drops/R20180330011457/repository" {
+location "https://ftp.snt.utwente.nl/pub/software/eclipse/tools/orbit/downloads/drops/R20180330011457/repository" {
 	org.apache.commons.io [2.2.0,2.2.1)
 	org.apache.commons.io.source
 	org.apache.commons.lang3 [3.1.0,3.1.1)
@@ -41,7 +41,7 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/R201908271527
 	org.opentest4j.source
 }
 
-location "http://ftp.snt.utwente.nl/pub/software/eclipse/releases/oxygen" {
+location "https://ftp.snt.utwente.nl/pub/software/eclipse/releases/oxygen" {
 	org.eclipse.emf.sdk.feature.group
 	
 	org.eclipse.xtext.sdk.feature.group
