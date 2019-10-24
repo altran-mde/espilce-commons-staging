@@ -21,5 +21,5 @@ import org.junit.jupiter.params.ParameterizedTest;
 @ParameterizedTest
 @EnabledOnWin
 public @interface TestOnWindows {
-	
+	// Composable JUnit5 interface
 }

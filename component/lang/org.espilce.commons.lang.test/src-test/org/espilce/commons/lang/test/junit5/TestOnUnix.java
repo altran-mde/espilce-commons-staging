@@ -21,5 +21,5 @@ import org.junit.jupiter.params.ParameterizedTest;
 @ParameterizedTest(name = "[{index}] {0}, {1}, {2}")
 @EnabledOnUnix
 public @interface TestOnUnix {
-	
+	// Composable JUnit5 interface
 }

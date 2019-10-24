@@ -16,7 +16,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.espilce.commons.exception.UnconvertibleException;
+import org.espilce.commons.lang.ConversionUtils;
 
+/**
+ * Helper functions to test {@link ConversionUtils} and related.
+ */
 public class AssertConversion {
 	public static void assertNullResult(final ConversionFunction fun, final Object input) {
 		final String msg = "expected null: " + fun.toString() + "(" + input + ")";

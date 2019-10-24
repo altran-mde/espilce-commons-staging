@@ -21,5 +21,5 @@ import org.junit.jupiter.api.condition.OS;
 @Retention(RetentionPolicy.RUNTIME)
 @EnabledOnOs({ OS.LINUX, OS.MAC })
 public @interface EnabledOnUnix {
-	
+	// Composable JUnit5 interface
 }
