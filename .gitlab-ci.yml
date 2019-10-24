@@ -16,3 +16,7 @@ Build maven projects:
     when: always
     paths:
       - "component/*/*/target/*.jar"
+      - "component/*/*/target/surefire-reports/*.dump"
+      - "component/*/*/target/surefire-reports/*.dumpstream"
+    reports:
+      junit: "component/*/*/target/surefire-reports/*.xml"
