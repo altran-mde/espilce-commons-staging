@@ -34,10 +34,10 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.espilce.commons.emf.UriUtils;
 import org.espilce.commons.lang.ConversionUtils;
-import org.espilce.commons.lang.StringUtils2;
 import org.espilce.commons.lang.loadhelper.FilesystemClassloaderLoadHelper;
 import org.espilce.commons.lang.loadhelper.ILoadHelper;
 import org.espilce.commons.testsupport.Assert2;
+import org.espilce.commons.text.StringUtils2;
 
 /**
  * Convenience base class for test classes that need to load models.

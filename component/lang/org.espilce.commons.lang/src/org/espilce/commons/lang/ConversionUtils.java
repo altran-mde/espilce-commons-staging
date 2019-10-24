@@ -14,7 +14,6 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Random;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 import org.espilce.commons.exception.UnconvertibleException;
@@ -1109,7 +1108,7 @@ public class ConversionUtils {
 				return javaPath.toUri().toURL();
 			}
 			
-			if (StringUtils.isBlank(javaPath.toString())) {
+			if (isBlank(javaPath.toString())) {
 				return new URL(SCHEME_FILE_SEPARATOR);
 			}
 			
@@ -1334,7 +1333,7 @@ public class ConversionUtils {
 			try {
 				final String scheme = decodeUrlPart(javaUrl.getProtocol());
 				final String userInfo = decodeUrlPart(javaUrl.getUserInfo());
-				final String host = StringUtils.isNotEmpty(javaUrl.getHost()) ? decodeUrlPart(javaUrl.getHost()) : null;
+				final String host = isEmpty(javaUrl.getHost()) ? decodeUrlPart(javaUrl.getHost()) : null;
 				final int port = javaUrl.getPort();
 				final String path = decodeUrlPart(javaUrl.getPath());
 				final String query = decodeUrlPart(javaUrl.getQuery());
@@ -1505,5 +1504,13 @@ public class ConversionUtils {
 			}
 		}
 		return null;
+	}
+
+	private static boolean isBlank(@Nullable final String str) {
+		return str == null || str.chars().allMatch(Character::isWhitespace);
+	}
+
+	private static boolean isEmpty(@Nullable final String str) {
+		return str == null || str.isEmpty();
 	}
 }
