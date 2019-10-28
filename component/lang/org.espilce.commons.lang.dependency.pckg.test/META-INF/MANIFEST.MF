@@ -9,4 +9,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.espilce.commons.exception,
  org.espilce.commons.lang,
  org.espilce.commons.lang.loadhelper,
- org.junit;version=4
+ org.junit.jupiter.api;version="5.5.1",
+ org.junit.jupiter.api.condition;version="5.5.1",
+ org.junit.jupiter.api.extension;version="5.5.1",
+ org.junit.jupiter.api.function,
+ org.junit.runners.model

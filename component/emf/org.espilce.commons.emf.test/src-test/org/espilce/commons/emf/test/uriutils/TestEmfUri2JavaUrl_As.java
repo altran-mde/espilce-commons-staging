@@ -9,24 +9,25 @@
  ******************************************************************************/
 package org.espilce.commons.emf.test.uriutils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.eclipse.emf.common.util.URI;
 import org.espilce.commons.emf.UriUtils;
 import org.espilce.commons.exception.UnconvertibleException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestEmfUri2JavaUrl_As {
 	@SuppressWarnings("null")
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void uriNull() throws Exception {
-		UriUtils.asJavaUrl((URI) null);
+		assertThrows(NullPointerException.class, () -> UriUtils.asJavaUrl((URI) null));
 	}
 	
-	@Test(expected = UnconvertibleException.class)
+	@Test
 	public void empty() throws Exception {
 		final URI uri = URI.createURI("");
-		UriUtils.asJavaUrl(uri);
+		assertThrows(UnconvertibleException.class, () -> UriUtils.asJavaUrl(uri));
 	}
 	
 	@Test
@@ -45,10 +46,10 @@ public class TestEmfUri2JavaUrl_As {
 		assertEquals(new java.net.URL("https://example.com/MyFile.ext"), javaUrl);
 	}
 	
-	@Test(expected = UnconvertibleException.class)
+	@Test
 	public void file() throws Exception {
 		final URI uri = URI.createURI("MyFile.ext");
-		UriUtils.asJavaUrl(uri);
+		assertThrows(UnconvertibleException.class, () -> UriUtils.asJavaUrl(uri));
 	}
 	
 	@Test
@@ -107,10 +108,10 @@ public class TestEmfUri2JavaUrl_As {
 		assertEquals(new java.net.URL("http:/myProject///myFolder?query#fragment"), javaUrl);
 	}
 	
-	@Test(expected = UnconvertibleException.class)
+	@Test
 	public void uriBroken() throws Exception {
 		final URI uri = URI.createURI("fasfasdf");
-		UriUtils.asJavaUrl(uri);
+		assertThrows(UnconvertibleException.class, () -> UriUtils.asJavaUrl(uri));
 	}
 	
 	@Test

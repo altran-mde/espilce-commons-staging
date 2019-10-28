@@ -24,6 +24,14 @@
 		<moduleProperties></moduleProperties>
 		<systemProperties></systemProperties>
 		<tycho.testArgLine></tycho.testArgLine>
+		<maven-surefire-plugin.version>3.0.0-M2</maven-surefire-plugin.version>
+		<maven-failsafe-plugin.version>3.0.0-M2</maven-failsafe-plugin.version>
+		<surefire-junit47.version>3.0.0-M2</surefire-junit47.version>
+		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
+		<build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
+		<junit.version>4.12</junit.version>
+		<junit.jupiter.version>5.1.1</junit.jupiter.version>
+		<hamcrest.version>1.3</hamcrest.version>
 	</properties>
 
 	<modules>
@@ -42,7 +50,6 @@
 		<module>../../component/testsupport.resource/org.espilce.commons.testsupport.resource.parent</module>
 
 		<module>../org.espilce.commons.target</module>
-		<module>../org.espilce.commons.license</module>
 		<module>../org.espilce.commons.repository</module>
 
 	</modules>
@@ -169,7 +176,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
-						<version>3.0.0-M2</version>
+						<version>${maven-surefire-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>test</id>
@@ -184,18 +191,20 @@
 								</goals>
 							</execution>
 						</executions>
-						<dependencies>
-							<dependency>
-								<groupId>org.apache.maven.surefire</groupId>
-								<artifactId>surefire-junit47</artifactId>
-								<version>3.0.0-M2</version>
-							</dependency>
-						</dependencies>
+						<configuration>
+							<!-- Fixes https://stackoverflow.com/questions/53010200/maven-surefire-could-not-find-forkedbooter-class -->
+							<useSystemClassLoader>false</useSystemClassLoader>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>${maven-failsafe-plugin.version}</version>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-compiler-plugin</artifactId>
-						<version>2.5.1</version>
+						<version>${maven-compiler-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>compiletests</id>
@@ -209,7 +218,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>1.9.1</version>
+						<version>${build-helper-maven-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>add-test-source</id>
@@ -230,9 +239,34 @@
 
 			<dependencies>
 				<dependency>
+					<groupId>org.junit.jupiter</groupId>
+					<artifactId>junit-jupiter-api</artifactId>
+					<version>${junit.jupiter.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.junit.jupiter</groupId>
+					<artifactId>junit-jupiter-engine</artifactId>
+					<version>${junit.jupiter.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-library</artifactId>
+					<version>${hamcrest.version}</version>
+					<scope>test</scope>
+				</dependency>
+
+				<dependency>
 					<groupId>junit</groupId>
 					<artifactId>junit</artifactId>
-					<version>4.12</version>
+					<version>${junit.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+					<version>${junit.jupiter.version}</version>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>

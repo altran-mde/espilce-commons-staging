@@ -9,14 +9,15 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.newlinenormalizer;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.espilce.commons.lang.NewlineNormalizer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TestNewlineNormalizer {
-	@Before
+	@BeforeEach
 	public void resetDefault() {
 		NewlineNormalizer.setDefault(NewlineNormalizer.LF);
 	}
@@ -54,9 +55,9 @@ public class TestNewlineNormalizer {
 	}
 	
 	@SuppressWarnings("null")
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void newNull() throws Exception {
-		new NewlineNormalizer(null);
+		assertThrows(NullPointerException.class, () -> new NewlineNormalizer(null));
 	}
 	
 	@Test
@@ -134,9 +135,9 @@ public class TestNewlineNormalizer {
 	}
 	
 	@SuppressWarnings("null")
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void setDefaultNull() throws Exception {
-		NewlineNormalizer.setDefault(null);
+		assertThrows(NullPointerException.class, () -> NewlineNormalizer.setDefault(null));
 	}
 	
 	

@@ -1,6 +1,6 @@
 package org.espilce.commons.lang.second.test.loadhelper.classpath;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URL;
 
@@ -18,7 +18,7 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	@Override
 	protected void assertUrl(final String relativePath, final URL localmostUrl) {
 		final String str = localmostUrl.toString();
-		assertTrue(str, str.contains("/target/") ^ str.contains("/classpathBase/"));
+		assertTrue(str.contains("/target/") ^ str.contains("/classpathBase/"), str);
 	}
 	
 }

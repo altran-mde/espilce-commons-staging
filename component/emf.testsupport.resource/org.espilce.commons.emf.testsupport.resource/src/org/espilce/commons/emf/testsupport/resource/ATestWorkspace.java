@@ -12,7 +12,7 @@ package org.espilce.commons.emf.testsupport.resource;
 import static org.espilce.commons.resource.WorkspaceUtils.waitForWorkspaceChanges;
 
 import org.eclipse.core.resources.IProject;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 
 /**
  * Base class for JUnit tests requiring an IProject.
@@ -23,7 +23,7 @@ public abstract class ATestWorkspace {
 	
 	protected IProject project;
 	
-	@After
+	@AfterEach
 	public void destroyProject() throws Exception {
 		if (this.project != null) {
 			waitForWorkspaceChanges(

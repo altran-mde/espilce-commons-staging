@@ -9,10 +9,10 @@
  ******************************************************************************/
 package org.espilce.commons.testsupport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,8 +22,8 @@ import org.eclipse.jdt.annotation.Nullable;
 
 public class AssertFile {
 	public static void assertDoesntExist(final @Nullable String message, final @Nullable File file) {
-		assertNotNull(message, file);
-		assertFalse(message, file.exists());
+		assertNotNull(file, message);
+		assertFalse(file.exists(), message);
 	}
 	
 	public static void assertDoesntExist(final @Nullable File file) {
@@ -31,8 +31,8 @@ public class AssertFile {
 	}
 	
 	public static void assertExists(final @Nullable String message, final @Nullable File file) {
-		assertNotNull(message, file);
-		assertTrue(message, file.exists());
+		assertNotNull(file, message);
+		assertTrue(file.exists(), message);
 	}
 	
 	public static void assertExists(final @Nullable File file) {
@@ -40,8 +40,8 @@ public class AssertFile {
 	}
 	
 	public static void assertIsFile(final @Nullable String message, final @Nullable File file) {
-		assertNotNull(message, file);
-		assertTrue(message, file.isFile());
+		assertNotNull(file, message);
+		assertTrue(file.isFile(), message);
 	}
 	
 	public static void assertIsFile(final @Nullable File file) {
@@ -49,8 +49,8 @@ public class AssertFile {
 	}
 	
 	public static void assertIsDirectory(final @Nullable String message, final @Nullable File file) {
-		assertNotNull(message, file);
-		assertTrue(message, file.isDirectory());
+		assertNotNull(file, message);
+		assertTrue(file.isDirectory(), message);
 	}
 	
 	public static void assertIsDirectory(final @Nullable File file) {
@@ -58,8 +58,8 @@ public class AssertFile {
 	}
 	
 	public static void assertCanRead(final @Nullable String message, final @Nullable File file) {
-		assertNotNull(message, file);
-		assertTrue(message, file.canRead());
+		assertNotNull(file, message);
+		assertTrue(file.canRead(), message);
 	}
 	
 	public static void assertCanRead(final @Nullable File file) {
@@ -67,8 +67,8 @@ public class AssertFile {
 	}
 	
 	public static void assertCanWrite(final @Nullable String message, final @Nullable File file) {
-		assertNotNull(message, file);
-		assertTrue(message, file.canWrite());
+		assertNotNull(file, message);
+		assertTrue(file.canWrite(), message);
 	}
 	
 	public static void assertCanWrite(final @Nullable File file) {
@@ -76,8 +76,8 @@ public class AssertFile {
 	}
 	
 	public static void assertCanExectue(final @Nullable String message, final @Nullable File file) {
-		assertNotNull(message, file);
-		assertTrue(message, file.canExecute());
+		assertNotNull(file, message);
+		assertTrue(file.canExecute(), message);
 	}
 	
 	public static void assertCanExecute(final @Nullable File file) {
@@ -95,7 +95,7 @@ public class AssertFile {
 			final String expectedContent = FileUtils.readFileToString(expected);
 			final String actualContent = FileUtils.readFileToString(actual);
 			
-			assertEquals(message, expectedContent, actualContent);
+			assertEquals(expectedContent, actualContent, message);
 		} catch (final IOException e) {
 			throw new AssertionError(message, e);
 		}

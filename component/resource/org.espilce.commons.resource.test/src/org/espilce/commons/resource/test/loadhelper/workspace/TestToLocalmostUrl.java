@@ -10,24 +10,35 @@
 package org.espilce.commons.resource.test.loadhelper.workspace;
 
 import static org.espilce.commons.resource.WorkspaceUtils.waitForWorkspaceChanges;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URL;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.espilce.commons.lang.loadhelper.ILoadHelper;
 import org.espilce.commons.lang.test.base.loadhelper.ATestToLocalmostUrl;
 import org.espilce.commons.resource.loadhelper.WorkspacePluginLoadHelper;
 import org.espilce.commons.testsupport.resource.builder.ProjectBuilder;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	protected IProject project;
 	
-	@Before
+	@BeforeEach
 	public void createProject() throws Exception {
+		this.project = ResourcesPlugin.getWorkspace().getRoot().getProject("some");
+		try {
+			this.project.delete(true, true, null);
+		} catch (final CoreException e) {
+			
+		}
+		
 		waitForWorkspaceChanges(() -> {
 			// @formatter:off
 			this.project = new ProjectBuilder("some")
@@ -41,22 +52,31 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 		});
 	}
 	
-	@After
+	@SuppressWarnings("null")
+	@AfterEach
 	public void destroyProject() throws Exception {
 		if (this.project != null) {
-			waitForWorkspaceChanges(() -> this.project.delete(true, true, null));
+			waitForWorkspaceChanges(() -> {
+						// if (this.project != null && this.project.exists()) {
+					this.project.delete(true, true, null);
+						// } ;
+			});
 		}
 	}
 	
 	@Override
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void rootFile() throws Exception {
-		super.rootFile();
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> super.rootFile()
+		);
 	}
 	
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
+	@Disabled
 	public void existingFileStartSlash() throws Exception {
 		super.existingFileStartSlash();
 	}
@@ -64,6 +84,7 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
+	@Disabled
 	public void existingDirStartSlash() throws Exception {
 		super.existingDirStartSlash();
 	}
@@ -71,6 +92,7 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	// @Test(expected = IllegalArgumentException.class) TODO
 	@Override
 	@Test
+	@Disabled
 	public void existingDirStartEndSlash() throws Exception {
 		super.existingDirStartEndSlash();
 	}
@@ -84,7 +106,7 @@ public class TestToLocalmostUrl extends ATestToLocalmostUrl {
 	@Override
 	protected void assertUrl(final String relativePath, final URL localmostUrl) {
 		final String str = localmostUrl.toString();
-		assertTrue(str, str.contains("/testWorkspace/"));
+		assertTrue(str.contains("/testWorkspace/"), str);
 	}
 	
 }

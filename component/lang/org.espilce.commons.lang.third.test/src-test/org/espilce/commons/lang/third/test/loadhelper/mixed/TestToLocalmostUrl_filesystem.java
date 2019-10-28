@@ -1,7 +1,7 @@
 package org.espilce.commons.lang.third.test.loadhelper.mixed;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.net.URL;
 
@@ -20,7 +20,7 @@ public class TestToLocalmostUrl_filesystem extends ATestToLocalmostUrl {
 	protected void assertUrl(final String relativePath, final URL localmostUrl) {
 		assertEquals("file", localmostUrl.getProtocol());
 		final String str = localmostUrl.toString();
-		assertFalse(str, str.contains("/target/") ^ str.contains("/classpathBase/"));
+		assertFalse(str.contains("/target/") ^ str.contains("/classpathBase/"), str);
 	}
 	
 	@Override

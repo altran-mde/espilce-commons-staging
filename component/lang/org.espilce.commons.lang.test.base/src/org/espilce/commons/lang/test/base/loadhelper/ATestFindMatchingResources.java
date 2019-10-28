@@ -1,13 +1,14 @@
 package org.espilce.commons.lang.test.base.loadhelper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.net.URL;
 import java.util.List;
 
 import org.espilce.commons.lang.loadhelper.ILoadHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public abstract class ATestFindMatchingResources {
 	
@@ -17,9 +18,12 @@ public abstract class ATestFindMatchingResources {
 		assertSize(matchingResources, 0);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nonExistingDir() throws Exception {
-		findMatchingResources(noDir());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> findMatchingResources(noDir())
+		);
 	}
 	
 	@Test
@@ -60,7 +64,7 @@ public abstract class ATestFindMatchingResources {
 	public void manyDirectFiles() throws Exception {
 		final List<URL> matchingResources = findMatchingResources(manyDirectFilesDir());
 		assertNotNull(matchingResources);
-		assertEquals(matchingResources.toString(), 3, matchingResources.size());
+		assertEquals(3, matchingResources.size(), matchingResources.toString());
 		
 		assertUrl(matchingResources, file1());
 		assertUrl(matchingResources, file2());
@@ -71,7 +75,7 @@ public abstract class ATestFindMatchingResources {
 	public void manyNestedFiles() throws Exception {
 		final List<URL> matchingResources = findMatchingResources(manyNestedFilesDir());
 		assertNotNull(matchingResources);
-		assertEquals(matchingResources.toString(), 17, matchingResources.size());
+		assertEquals(17, matchingResources.size(), matchingResources.toString());
 		
 		// 1
 		assertUrl(matchingResources, manyNestedFilesDir(), emptyDir(), "");
@@ -163,12 +167,12 @@ public abstract class ATestFindMatchingResources {
 	
 	protected void assertUrl(final List<URL> matchingResources, final String... suffixes) {
 		final String suffix = String.join("/", suffixes);
-		assertEquals(suffix, 1, matchingResources.stream().filter(u -> u.getFile().endsWith(suffix)).count());
+		assertEquals(1, matchingResources.stream().filter(u -> u.getFile().endsWith(suffix)).count(), suffix);
 	}
 	
 	protected void assertSize(final List<URL> matchingResources, final int expected) {
 		assertNotNull(matchingResources);
-		assertEquals(matchingResources.toString(), expected, matchingResources.size());
+		assertEquals(expected, matchingResources.size(), matchingResources.toString());
 	}
 	
 	protected List<URL> findMatchingResources(final String parentRelativePath) {

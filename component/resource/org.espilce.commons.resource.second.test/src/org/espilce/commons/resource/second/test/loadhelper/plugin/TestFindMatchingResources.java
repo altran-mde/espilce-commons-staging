@@ -5,10 +5,10 @@ import java.io.File;
 import org.espilce.commons.lang.loadhelper.ILoadHelper;
 import org.espilce.commons.lang.test.base.loadhelper.ATestFindMatchingResources;
 import org.espilce.commons.resource.loadhelper.WorkspacePluginLoadHelper;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 public class TestFindMatchingResources extends ATestFindMatchingResources {
-	@BeforeClass
+	@BeforeAll
 	public static void workaroundEmptyDirsInGit() throws Exception {
 		new File(emptyDir()).mkdirs();
 		new File(new File(manyNestedFilesDir()), emptyDir()).mkdirs();

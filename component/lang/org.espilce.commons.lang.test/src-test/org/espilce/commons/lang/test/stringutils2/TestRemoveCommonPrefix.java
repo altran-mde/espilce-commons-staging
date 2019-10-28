@@ -9,11 +9,11 @@
  ******************************************************************************/
 package org.espilce.commons.lang.test.stringutils2;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.espilce.commons.lang.StringUtils2;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestRemoveCommonPrefix {
 	@Test

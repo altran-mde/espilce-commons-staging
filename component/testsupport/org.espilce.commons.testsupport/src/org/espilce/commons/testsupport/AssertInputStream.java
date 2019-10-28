@@ -9,8 +9,8 @@
  ******************************************************************************/
 package org.espilce.commons.testsupport;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,14 +24,14 @@ public class AssertInputStream {
 			final @Nullable String message, final @Nullable InputStream expected,
 			final @Nullable InputStream actual
 	) {
-		assertNotNull(message, expected);
-		assertNotNull(message, actual);
+		assertNotNull(expected, message);
+		assertNotNull(actual, message);
 		
 		try {
 			final String expectedContent = IOUtils.toString(expected);
 			final String actualContent = IOUtils.toString(actual);
 			
-			assertEquals(message, expectedContent, actualContent);
+			assertEquals(expectedContent, actualContent, message);
 		} catch (final IOException e) {
 			throw new AssertionError(message, e);
 		}
@@ -46,8 +46,8 @@ public class AssertInputStream {
 			final @Nullable InputStream expected,
 			final @Nullable InputStream actual
 	) {
-		assertNotNull(message, expected);
-		assertNotNull(message, actual);
+		assertNotNull(expected, message);
+		assertNotNull(actual, message);
 		
 		try {
 			final String expectedContent = IOUtils.toString(expected);

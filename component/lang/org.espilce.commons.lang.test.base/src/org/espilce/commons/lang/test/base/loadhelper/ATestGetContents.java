@@ -1,12 +1,14 @@
 package org.espilce.commons.lang.test.base.loadhelper;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.espilce.commons.lang.loadhelper.ILoadHelper;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public abstract class ATestGetContents {
 	@Test
@@ -14,9 +16,12 @@ public abstract class ATestGetContents {
 		checkGetContents(someDir() + separator() + dir() + separator() + file());
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nonExistingFile() throws Exception {
-		checkGetContents(someDir() + separator() + dir() + separator() + noFile());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkGetContents(someDir() + separator() + dir() + separator() + noFile())
+		);
 	}
 	
 	@Test
@@ -24,58 +29,88 @@ public abstract class ATestGetContents {
 		checkGetContents(file());
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void rootNonFile() throws Exception {
-		checkGetContents(noFile());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkGetContents(noFile())
+		);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void rootFileStartSlash() throws Exception {
-		checkGetContents(separator() + file());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkGetContents(separator() + file())
+		);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void rootNonFileStartSlash() throws Exception {
-		checkGetContents(separator() + noFile());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkGetContents(separator() + noFile())
+		);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void existingFileStartSlash() throws Exception {
-		checkGetContents(separator() + someDir() + separator() + dir() + separator() + file());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkGetContents(separator() + someDir() + separator() + dir() + separator() + file())
+		);
 	}
 	
-	@Test(expected = FileNotFoundException.class)
-	@Ignore("inconsistent behavior")
+	@Test
+	@Disabled("inconsistent behavior")
 	public void existingDir() throws Exception {
-		checkGetContents(someDir() + separator() + dir());
+		assertThrows(
+				FileNotFoundException.class,
+				() -> checkGetContents(someDir() + separator() + dir())
+		);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nonExistingDir() throws Exception {
-		checkGetContents(someDir() + separator() + noDir());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkGetContents(someDir() + separator() + noDir())
+		);
 	}
 	
-	@Test(expected = FileNotFoundException.class)
-	@Ignore("inconsistent behavior")
+	@Test
+	@Disabled("inconsistent behavior")
 	public void existingDirEndSlash() throws Exception {
-		checkGetContents(someDir() + separator() + dir() + separator());
+		assertThrows(
+				FileNotFoundException.class,
+				() -> checkGetContents(someDir() + separator() + dir() + separator())
+		);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void nonExistingDirEndSlash() throws Exception {
-		checkGetContents(someDir() + separator() + noDir() + separator());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkGetContents(someDir() + separator() + noDir() + separator())
+		);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	@Ignore("inconsistent behavior")
+	@Test
+	@Disabled("inconsistent behavior")
 	public void existingDirStartSlash() throws Exception {
-		checkGetContents(separator() + someDir() + separator() + dir());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkGetContents(separator() + someDir() + separator() + dir())
+		);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	@Ignore("inconsistent behavior")
+	@Test
+	@Disabled("inconsistent behavior")
 	public void existingDirStartEndSlash() throws Exception {
-		checkGetContents(separator() + someDir() + separator() + dir() + separator());
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> checkGetContents(separator() + someDir() + separator() + dir() + separator())
+		);
 	}
 	
 	protected void checkGetContents(final String relativePath) throws Exception {

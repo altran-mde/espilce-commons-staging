@@ -9,12 +9,12 @@
  ******************************************************************************/
 package org.espilce.commons.emf.test.uriutils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.eclipse.emf.common.util.URI;
 import org.espilce.commons.emf.UriUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestEmfUri2JavaUri_To {
 	@Test
