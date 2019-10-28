@@ -2,7 +2,7 @@
 <feature
       id="org.espilce.commons.lang.feature"
       label="Espilce Commons Lang Feature"
-      version="0.2.0.qualifier"
+      version="0.3.0.qualifier"
       provider-name="Espilce Commons"
       license-feature="org.eclipse.license"
       license-feature-version="2.0.2">
@@ -20,10 +20,6 @@
   
   SPDX-License-Identifier: EPL-2.0
    </copyright>
-
-   <requires>
-      <import plugin="org.apache.commons.lang3" version="2.4" match="greaterOrEqual"/>
-   </requires>
 
    <plugin
          id="org.espilce.commons.lang"

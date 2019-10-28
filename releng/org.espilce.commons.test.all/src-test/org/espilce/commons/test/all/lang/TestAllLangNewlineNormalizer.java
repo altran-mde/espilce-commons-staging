@@ -1,8 +1,8 @@
 package org.espilce.commons.test.all.lang;
 
-import org.espilce.commons.lang.test.newlinenormalizer.TestMultiString;
-import org.espilce.commons.lang.test.newlinenormalizer.TestNewlineNormalizer;
-import org.espilce.commons.lang.test.newlinenormalizer.TestSingleString;
+import org.espilce.commons.text.test.newlinenormalizer.TestMultiString;
+import org.espilce.commons.text.test.newlinenormalizer.TestNewlineNormalizer;
+import org.espilce.commons.text.test.newlinenormalizer.TestSingleString;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;

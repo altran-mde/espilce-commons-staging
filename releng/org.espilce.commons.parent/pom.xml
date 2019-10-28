@@ -48,6 +48,7 @@
 		<module>../../component/lang/org.espilce.commons.lang.parent</module>
 		<module>../../component/testsupport/org.espilce.commons.testsupport.parent</module>
 		<module>../../component/testsupport.resource/org.espilce.commons.testsupport.resource.parent</module>
+		<module>../../component/text/org.espilce.commons.text.parent</module>
 
 		<module>../org.espilce.commons.target</module>
 		<module>../org.espilce.commons.repository</module>

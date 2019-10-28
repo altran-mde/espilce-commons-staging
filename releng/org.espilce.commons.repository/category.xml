@@ -30,13 +30,16 @@
    <feature url="features/org.espilce.commons.emf.testsupport.feature_0.2.0.qualifier.jar" id="org.espilce.commons.emf.testsupport.feature" version="0.2.0.qualifier">
       <category name="EspilceCommonsP2"/>
    </feature>
-   <feature url="features/org.espilce.commons.lang.feature_0.2.0.qualifier.jar" id="org.espilce.commons.lang.feature" version="0.2.0.qualifier">
+   <feature url="features/org.espilce.commons.lang.feature_0.3.0.qualifier.jar" id="org.espilce.commons.lang.feature" version="0.3.0.qualifier">
       <category name="EspilceCommonsP2"/>
    </feature>
    <feature url="features/org.espilce.commons.testsupport.resource.feature_0.1.0.qualifier.jar" id="org.espilce.commons.testsupport.resource.feature" version="0.1.0.qualifier">
       <category name="EspilceCommonsP2"/>
    </feature>
    <feature url="features/org.espilce.commons.emf.generator.feature_0.2.0.qualifier.jar" id="org.espilce.commons.emf.generator.feature" version="0.2.0.qualifier">
+      <category name="EspilceCommonsP2"/>
+   </feature>
+   <feature url="features/org.espilce.commons.text.feature_0.1.0.qualifier.jar" id="org.espilce.commons.text.feature" version="0.1.0.qualifier">
       <category name="EspilceCommonsP2"/>
    </feature>
    <category-def name="EspilceCommonsP2" label="Espilce Commons">

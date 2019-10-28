@@ -14,8 +14,9 @@ Require-Bundle: org.junit,
  org.junit.platform.runner,
  org.junit.platform.suite.api,
  org.junit.jupiter.engine,
- org.opentest4j,	
+ org.opentest4j,
  org.espilce.commons.emf.test,
  org.espilce.commons.emf.testsupport.test,
- org.espilce.commons.lang.test
+ org.espilce.commons.lang.test,
+ org.espilce.commons.text.test
 Export-Package: org.espilce.commons.test.all
