@@ -42,9 +42,6 @@
 		<module>../../component/emf.textrenderer/org.espilce.commons.emf.textrenderer.parent</module>
 		<module>../../component/exception/org.espilce.commons.exception.parent</module>
 		<module>../../component/resource/org.espilce.commons.resource.parent</module>
-		<module>../../component/emf.generator/org.espilce.commons.emf.generator.parent</module>
-		<module>../../component/emf.generator.xtext/org.espilce.commons.emf.generator.xtext.parent</module>
-		<module>../../component/generator/org.espilce.commons.generator.parent</module>
 		<module>../../component/lang/org.espilce.commons.lang.parent</module>
 		<module>../../component/testsupport/org.espilce.commons.testsupport.parent</module>
 		<module>../../component/testsupport.resource/org.espilce.commons.testsupport.resource.parent</module>
@@ -52,7 +49,6 @@
 
 		<module>../org.espilce.commons.target</module>
 		<module>../org.espilce.commons.repository</module>
-
 	</modules>
 
 	<build>
