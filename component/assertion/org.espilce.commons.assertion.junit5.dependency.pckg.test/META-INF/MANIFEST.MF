@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Espilce Commons Assertion JUnit 5 Package Dependency Test
+Bundle-SymbolicName: org.espilce.commons.assertion.junit5.dependency.pckg.test
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: Espilce Commons
+Automatic-Module-Name: org.espilce.commons.assertion.junit5.dependency.pckg.test
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: org.espilce.commons.assertion;version=0.1.0,
+ org.junit.jupiter.api;version=5.4.0,
+ org.junit.runners.model

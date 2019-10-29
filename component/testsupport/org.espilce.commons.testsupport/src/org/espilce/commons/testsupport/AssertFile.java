@@ -9,10 +9,10 @@
  ******************************************************************************/
 package org.espilce.commons.testsupport;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.espilce.commons.assertion.Assertion.assertEquals;
+import static org.espilce.commons.assertion.Assertion.assertFalse;
+import static org.espilce.commons.assertion.Assertion.assertNotNull;
+import static org.espilce.commons.assertion.Assertion.assertTrue;
 
 import java.io.File;
 import java.io.IOException;

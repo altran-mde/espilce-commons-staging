@@ -23,6 +23,7 @@ public abstract class ATestWorkspace {
 	
 	protected IProject project;
 	
+	// FIXME: How to make compatible with both JUnit4 and JUnit5?
 	@AfterEach
 	public void destroyProject() throws Exception {
 		if (this.project != null) {

@@ -9,7 +9,7 @@
  ******************************************************************************/
 package org.espilce.commons.testsupport;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.espilce.commons.assertion.Assertion.assertEquals;
 
 import org.eclipse.jdt.annotation.Nullable;
 import org.espilce.commons.text.StringUtils2;
