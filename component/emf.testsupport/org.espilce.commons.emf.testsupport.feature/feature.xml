@@ -2,7 +2,7 @@
 <feature
       id="org.espilce.commons.emf.testsupport.feature"
       label="Espilce Commons EMF Testsupport Feature"
-      version="0.2.0.qualifier"
+      version="0.3.0.qualifier"
       provider-name="Espilce Commons"
       license-feature="org.eclipse.license"
       license-feature-version="2.0.2">
@@ -24,8 +24,6 @@
    <requires>
       <import plugin="org.eclipse.emf.ecore" version="2.10" match="greaterOrEqual"/>
       <import plugin="org.eclipse.emf.common" version="2" match="greaterOrEqual"/>
-      <import plugin="org.apache.commons.lang3" version="2.4" match="greaterOrEqual"/>
-      <import plugin="org.junit" version="4" match="greaterOrEqual"/>
       <import plugin="org.apache.commons.io" version="2.2" match="greaterOrEqual"/>
    </requires>
 

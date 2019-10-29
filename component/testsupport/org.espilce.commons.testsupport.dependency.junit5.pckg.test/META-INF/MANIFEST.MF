@@ -6,6 +6,6 @@ Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: Espilce Commons
 Automatic-Module-Name: org.espilce.commons.testsupport.dependency.junit5.pckg.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.espilce.commons.testsupport;version=0.2.0,
+Import-Package: org.espilce.commons.testsupport;version=0.3.0,
  org.junit.jupiter.api;version=5.4,
  org.junit.runners.model
