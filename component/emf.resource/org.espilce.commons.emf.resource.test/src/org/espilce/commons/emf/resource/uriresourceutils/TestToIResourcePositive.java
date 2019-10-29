@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
  * Test cases for valid uses of {@link UriResourceUtils#toIResource(URI)}.
  * 
  */
+@SuppressWarnings("null")
 public class TestToIResourcePositive extends ATestWorkspace {
 	@Test
 	public void file() throws Exception {

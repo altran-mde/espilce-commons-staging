@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Espilce Commons Testsupport JUnit 5 Bundle Dependency Test
+Bundle-SymbolicName: org.espilce.commons.testsupport.dependency.junit5.bundle.test
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: Espilce Commons
+Automatic-Module-Name: org.espilce.commons.testsupport.dependency.junit5.bundle.test
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.espilce.commons.testsupport;bundle-version=0.2.0,
+ org.junit.jupiter.api;bundle-version=5.4
