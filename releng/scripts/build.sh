@@ -27,7 +27,7 @@ echo Building branch $targetBranch with profiles $profiles and update site $upda
 
 mvn clean install -P$profiles \
 	-f releng/org.espilce.commons.parent/pom.xml \
-	-s settings.xml \
+	-s releng/settings.xml \
 	-Dmde.reactor.maven.debug=false \
 	-Dmde.updatesite=$updateSite \
 	-Dmaven.test.failure.ignore=true \
