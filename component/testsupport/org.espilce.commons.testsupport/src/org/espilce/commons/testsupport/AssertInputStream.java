@@ -9,8 +9,8 @@
  ******************************************************************************/
 package org.espilce.commons.testsupport;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.espilce.commons.assertion.Assertion.assertEquals;
+import static org.espilce.commons.assertion.Assertion.assertNotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +20,7 @@ import org.eclipse.jdt.annotation.Nullable;
 
 public class AssertInputStream {
 	
-	public void assertContentEquals(
+	public static void assertContentEquals(
 			final @Nullable String message, final @Nullable InputStream expected,
 			final @Nullable InputStream actual
 	) {
@@ -37,11 +37,11 @@ public class AssertInputStream {
 		}
 	}
 	
-	public void assertContentEquals(final @Nullable InputStream expected, final @Nullable InputStream actual) {
+	public static void assertContentEquals(final @Nullable InputStream expected, final @Nullable InputStream actual) {
 		assertContentEquals("difference in " + actual, expected, actual);
 	}
 	
-	public void assertContentEqualsNormalizedNewline(
+	public static void assertContentEqualsNormalizedNewline(
 			final @Nullable String message,
 			final @Nullable InputStream expected,
 			final @Nullable InputStream actual
@@ -59,7 +59,7 @@ public class AssertInputStream {
 		}
 	}
 	
-	public void assertContentEqualsNormalizedNewline(
+	public static void assertContentEqualsNormalizedNewline(
 			final @Nullable InputStream expected,
 			final @Nullable InputStream actual
 	) {

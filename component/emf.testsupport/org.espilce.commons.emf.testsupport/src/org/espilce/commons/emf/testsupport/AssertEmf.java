@@ -9,9 +9,9 @@
  ******************************************************************************/
 package org.espilce.commons.emf.testsupport;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.espilce.commons.assertion.Assertion.assertEquals;
+import static org.espilce.commons.assertion.Assertion.assertTrue;
+import static org.espilce.commons.assertion.Assertion.fail;
 
 import java.util.List;
 

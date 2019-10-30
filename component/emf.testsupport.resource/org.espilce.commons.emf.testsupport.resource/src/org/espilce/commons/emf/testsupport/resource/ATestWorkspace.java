@@ -12,6 +12,7 @@ package org.espilce.commons.emf.testsupport.resource;
 import static org.espilce.commons.resource.WorkspaceUtils.waitForWorkspaceChanges;
 
 import org.eclipse.core.resources.IProject;
+import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
 
 /**
@@ -23,6 +24,7 @@ public abstract class ATestWorkspace {
 	
 	protected IProject project;
 	
+	@After
 	@AfterEach
 	public void destroyProject() throws Exception {
 		if (this.project != null) {

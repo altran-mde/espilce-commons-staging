@@ -17,6 +17,10 @@
 	<modules>
 		<module>../org.espilce.commons.testsupport</module>
 		<module>../org.espilce.commons.testsupport.feature</module>
+		<module>../org.espilce.commons.testsupport.dependency.junit4.bundle.test</module>
+		<module>../org.espilce.commons.testsupport.dependency.junit4.pckg.test</module>
+		<module>../org.espilce.commons.testsupport.dependency.junit5.bundle.test</module>
+		<module>../org.espilce.commons.testsupport.dependency.junit5.pckg.test</module>
 	</modules>
 
 	<build>
