@@ -11,7 +11,7 @@ Build maven projects:
   tags:
     - linux_docker
   script:
-    - ./scripts/releng/build.sh $CI_COMMIT_REF_NAME $CI_COMMIT_TAG
+    - ./releng/scripts/build.sh $CI_COMMIT_REF_NAME $CI_COMMIT_TAG
   artifacts:
     when: always
     paths:
