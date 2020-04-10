@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2018 Altran Netherlands B.V.
+ * Copyright (C) 2020 Altran Netherlands B.V.
  * 
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0

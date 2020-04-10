@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2018 Altran Netherlands B.V.
+ * Copyright (C) 2020 Altran Netherlands B.V.
  * 
  * This program and the accompanying materials are made
  * available under the terms of the Eclipse Public License 2.0
@@ -108,35 +108,39 @@ public class NotifyingEPackageRegistry implements EPackage.Registry {
 			return;
 		}
 		for (IExtension extension : point.getExtensions()) {
-			for (IConfigurationElement element : extension.getConfigurationElements()) {
-				if (!element.isValid() || !ELEMENT_OBSERVER.equals(element.getName())) {
-					continue;
-				}
-				String nsURI = element.getAttribute(ATTR_NSURI);
-				Iterator<Notification> notifications;
-				if (nsURI == null) {
-					// Send all notifications
-					notifications = notificationChain.iterator();
-				} else {
-					// Filter notifications for matching nsURI
-					notifications = notificationChain.stream().filter(n -> Objects.equals(nsURI, n.nsURI)).iterator();
-				}
-				if (!notifications.hasNext()) {
-					// Skip if no (matching) notifications need to be send
-					continue;
-				}
-				try {
-					EPackageRegistryObserver observer = EPackageRegistryObserver.class
-							.cast(element.createExecutableExtension(ATTR_CLASS));
-					notifications.forEachRemaining(n -> n.notify(observer));
-				} catch (CoreException e) {
-					EspilceCommonsEmfRegistryBundleActivator.getLog()
-							.log(new Status(IStatus.ERROR, EspilceCommonsEmfRegistryBundleActivator.SYMBOLIC_NAME,
-									String.format("Failed to notify EPackageRegistryObserver of plug-in %s: %s",
-											element.getContributor().getName(), element.getAttribute(ATTR_CLASS)),
-									e));
-				}
+			for (IConfigurationElement observerElement : extension.getConfigurationElements()) {
+				notifyObserver(observerElement, notificationChain);
 			}
+		}
+	}
+
+	private void notifyObserver(IConfigurationElement observerElement, List<Notification> notificationChain) {
+		if (!observerElement.isValid() || !ELEMENT_OBSERVER.equals(observerElement.getName())) {
+			return;
+		}
+		final String nsURI = observerElement.getAttribute(ATTR_NSURI);
+		final Iterator<Notification> notifications;
+		if (nsURI == null) {
+			// Send all notifications
+			notifications = notificationChain.iterator();
+		} else {
+			// Filter notifications for matching nsURI
+			notifications = notificationChain.stream().filter(n -> Objects.equals(nsURI, n.nsURI)).iterator();
+		}
+		if (!notifications.hasNext()) {
+			// Skip if no (matching) notifications need to be send
+			return;
+		}
+		try {
+			EPackageRegistryObserver observer = EPackageRegistryObserver.class
+					.cast(observerElement.createExecutableExtension(ATTR_CLASS));
+			notifications.forEachRemaining(n -> n.notify(observer));
+		} catch (CoreException e) {
+			EspilceCommonsEmfRegistryBundleActivator.getLog()
+					.log(new Status(IStatus.ERROR, EspilceCommonsEmfRegistryBundleActivator.SYMBOLIC_NAME,
+							String.format("Failed to notify EPackageRegistryObserver of plug-in %s: %s",
+									observerElement.getContributor().getName(), observerElement.getAttribute(ATTR_CLASS)),
+							e));
 		}
 	}
 
