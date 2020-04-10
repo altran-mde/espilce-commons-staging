@@ -36,6 +36,7 @@
 
 	<modules>
 		<module>../../component/emf/org.espilce.commons.emf.parent</module>
+		<module>../../component/emf.registry/org.espilce.commons.emf.registry.parent</module>
 		<module>../../component/emf.resource/org.espilce.commons.emf.resource.parent</module>
 		<module>../../component/emf.testsupport/org.espilce.commons.emf.testsupport.parent</module>
 		<module>../../component/emf.testsupport.resource/org.espilce.commons.emf.testsupport.resource.parent</module>

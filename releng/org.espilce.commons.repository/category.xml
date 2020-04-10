@@ -39,6 +39,9 @@
    <feature url="features/org.espilce.commons.assertion.junit5.feature_0.1.0.qualifier.jar" id="org.espilce.commons.assertion.junit5.feature" version="0.1.0.qualifier">
       <category name="EspilceCommonsP2"/>
    </feature>
+   <feature url="features/org.espilce.commons.emf.registry.feature_0.1.0.qualifier.jar" id="org.espilce.commons.emf.registry.feature" version="0.1.0.qualifier">
+      <category name="EspilceCommonsP2"/>
+   </feature>
    <category-def name="EspilceCommonsP2" label="Espilce Commons">
       <description>
          Espilce Commons Features and Plug-ins
