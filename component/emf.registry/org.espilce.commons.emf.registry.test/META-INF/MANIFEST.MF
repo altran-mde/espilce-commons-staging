@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Espilce Commons EMF Registry Test
+Bundle-SymbolicName: org.espilce.commons.emf.registry.test;singleton:=true
+Bundle-Version: 0.2.0.qualifier
+Automatic-Module-Name: org.espilce.commons.emf.registry.test
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: Espilce Commons
+Require-Bundle: org.eclipse.emf.ecore,
+ org.espilce.commons.emf.registry;bundle-version="0.2.0",
+ org.eclipse.core.runtime

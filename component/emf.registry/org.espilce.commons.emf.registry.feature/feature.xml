@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.espilce.commons.emf.registry.feature"
+      label="Espilce Commons EMF Registry Feature"
+      version="0.1.0.qualifier"
+      provider-name="Espilce Commons"
+      license-feature="org.eclipse.license"
+      license-feature-version="2.0.2">
+
+   <description>
+      Common tools and utilities to work with EMF registries, with dependencies on Eclipse Runtime.
+   </description>
+
+   <copyright>
+      Copyright (C) 2018 Altran Netherlands B.V.
+  
+  This program and the accompanying materials are made
+  available under the terms of the Eclipse Public License 2.0
+  which is available at https://www.eclipse.org/legal/epl-2.0/
+  
+  SPDX-License-Identifier: EPL-2.0
+   </copyright>
+
+   <requires>
+      <import plugin="org.eclipse.emf.common" version="2" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="org.espilce.commons.emf.registry"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
