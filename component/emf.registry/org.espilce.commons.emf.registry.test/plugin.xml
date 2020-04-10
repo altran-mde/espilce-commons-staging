@@ -4,7 +4,7 @@
    <extension
          point="org.espilce.commons.emf.registry.epackage_registry_observer">
       <observer
-            class="org.espilce.commons.emf.registry.test.LoggingEPackageRegistryObserver"
+            class="org.espilce.commons.emf.registry.test.TestEPackageRegistryObserver"
             nsURI="http://www.eclipse.org/emf/2002/Ecore">
       </observer>
    </extension>

@@ -72,9 +72,11 @@ public class NotifyingEPackageRegistry implements EPackage.Registry {
 	@Override
 	public Object remove(Object nsURI) {
 		final Object previousValue = delegate.remove(nsURI);
-		final List<Notification> notificationChain = new ArrayList<>(1);
-		addNotification(Notification.Type.UNREGISTERED, nsURI, previousValue, notificationChain);
-		notifyObservers(notificationChain);
+		if (previousValue != null) {
+			final List<Notification> notificationChain = new ArrayList<>(1);
+			addNotification(Notification.Type.UNREGISTERED, nsURI, previousValue, notificationChain);
+			notifyObservers(notificationChain);
+		}
 		return previousValue;
 	}
 

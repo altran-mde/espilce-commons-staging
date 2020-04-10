@@ -11,12 +11,50 @@ package org.espilce.commons.emf.registry.test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.espilce.commons.emf.registry.EPackageRegistryObserver;
 import org.junit.jupiter.api.Test;
 
-public class TestEPackageRegistryObserver {
+public class TestEPackageRegistryObserver implements EPackageRegistryObserver {
+	private static final Logger LOGGER = Logger.getLogger(TestEPackageRegistryObserver.class.getName());
+	private static List<String> registeredPackages = new LinkedList<>();
+	private static List<String> unregisteredPackages = new LinkedList<>();
+
+	@Override
+	public void ePackageRegistered(String nsURI, EPackage ePackage) {
+		registeredPackages.add(nsURI);
+	}
+
+	@Override
+	public void ePackageUnregistered(String nsURI, EPackage ePackage) {
+		unregisteredPackages.add(nsURI);
+	}
+
 	@Test
-	public void dummy() throws Exception {
-		// TODO: How can we test extension points?
-		assertTrue(true);
+	public void testEPackageRegistration() throws Exception {
+		if (Platform.isRunning()) {
+			assertTrue(registeredPackages.contains(EcorePackage.eINSTANCE.getNsURI()));
+		} else {
+			// TODO: How to test extension points without platform?
+			LOGGER.warning("testEPackageRegistration disabled: Eclipse platform not running");
+		}
+	}
+
+	@Test
+	public void testEPackageUnregistration() throws Exception {
+		if (Platform.isRunning()) {
+			unregisteredPackages.clear();
+			EPackage.Registry.INSTANCE.remove(EcorePackage.eINSTANCE.getNsURI());
+			assertTrue(unregisteredPackages.contains(EcorePackage.eNS_URI));
+		} else {
+			// TODO: How to test extension points without platform?
+			LOGGER.warning("testEPackageUnregistration disabled: Eclipse platform not running");
+		}
 	}
 }
