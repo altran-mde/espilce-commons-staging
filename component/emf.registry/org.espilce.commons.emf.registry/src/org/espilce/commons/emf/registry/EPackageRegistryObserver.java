@@ -12,7 +12,7 @@ package org.espilce.commons.emf.registry;
 import org.eclipse.emf.ecore.EPackage;
 
 public interface EPackageRegistryObserver {
-	void ePackageRegistered(String nsURI, EPackage ePackage);
+	void ePackageRegistered(String uri, EPackage ePackage);
 
-	void ePackageUnregistered(String nsURI, EPackage ePackage);
+	void ePackageUnregistered(String uri, EPackage ePackage);
 }

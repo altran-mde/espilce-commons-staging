@@ -35,7 +35,7 @@ public class NotifyingEPackageRegistry implements EPackage.Registry {
 			+ ".epackage_registry_observer";
 	private static final String ELEMENT_OBSERVER = "observer";
 	private static final String ATTR_CLASS = "class";
-	private static final String ATTR_NSURI = "nsURI";
+	private static final String ATTR_URI = "uri";
 
 	// Delegating instead of extending to ensures that default Map implementations
 	// will be invoked
@@ -50,12 +50,12 @@ public class NotifyingEPackageRegistry implements EPackage.Registry {
 	}
 
 	@Override
-	public Object put(String nsURI, Object value) {
-		final Object previousValue = delegate.put(nsURI, value);
+	public Object put(String uri, Object value) {
+		final Object previousValue = delegate.put(uri, value);
 		if (previousValue != value) {
 			final List<Notification> notificationChain = new ArrayList<>(2);
-			addNotification(Notification.Type.UNREGISTERED, nsURI, previousValue, notificationChain);
-			addNotification(Notification.Type.REGISTERED, nsURI, value, notificationChain);
+			addNotification(Notification.Type.UNREGISTERED, uri, previousValue, notificationChain);
+			addNotification(Notification.Type.REGISTERED, uri, value, notificationChain);
 			notifyObservers(notificationChain);
 		}
 		return previousValue;
@@ -70,11 +70,11 @@ public class NotifyingEPackageRegistry implements EPackage.Registry {
 	}
 
 	@Override
-	public Object remove(Object nsURI) {
-		final Object previousValue = delegate.remove(nsURI);
+	public Object remove(Object uri) {
+		final Object previousValue = delegate.remove(uri);
 		if (previousValue != null) {
 			final List<Notification> notificationChain = new ArrayList<>(1);
-			addNotification(Notification.Type.UNREGISTERED, nsURI, previousValue, notificationChain);
+			addNotification(Notification.Type.UNREGISTERED, uri, previousValue, notificationChain);
 			notifyObservers(notificationChain);
 		}
 		return previousValue;
@@ -90,10 +90,10 @@ public class NotifyingEPackageRegistry implements EPackage.Registry {
 		notifyObservers(notificationChain);
 	}
 
-	private void addNotification(Notification.Type type, Object nsURI, Object ePackage,
+	private void addNotification(Notification.Type type, Object uri, Object ePackage,
 			List<Notification> notificationChain) {
-		if (type != null && nsURI instanceof String && ePackage instanceof EPackage) {
-			notificationChain.add(new Notification(type, (String) nsURI, (EPackage) ePackage));
+		if (type != null && uri instanceof String && ePackage instanceof EPackage) {
+			notificationChain.add(new Notification(type, (String) uri, (EPackage) ePackage));
 		}
 	}
 
@@ -118,14 +118,14 @@ public class NotifyingEPackageRegistry implements EPackage.Registry {
 		if (!observerElement.isValid() || !ELEMENT_OBSERVER.equals(observerElement.getName())) {
 			return;
 		}
-		final String nsURI = observerElement.getAttribute(ATTR_NSURI);
+		final String uri = observerElement.getAttribute(ATTR_URI);
 		final Iterator<Notification> notifications;
-		if (nsURI == null) {
+		if (uri == null) {
 			// Send all notifications
 			notifications = notificationChain.iterator();
 		} else {
-			// Filter notifications for matching nsURI
-			notifications = notificationChain.stream().filter(n -> Objects.equals(nsURI, n.nsURI)).iterator();
+			// Filter notifications for matching uri
+			notifications = notificationChain.stream().filter(n -> Objects.equals(uri, n.uri)).iterator();
 		}
 		if (!notifications.hasNext()) {
 			// Skip if no (matching) notifications need to be send
@@ -174,8 +174,8 @@ public class NotifyingEPackageRegistry implements EPackage.Registry {
 	}
 
 	@Override
-	public boolean containsKey(Object nsURI) {
-		return delegate.containsKey(nsURI);
+	public boolean containsKey(Object uri) {
+		return delegate.containsKey(uri);
 	}
 
 	@Override
@@ -184,18 +184,18 @@ public class NotifyingEPackageRegistry implements EPackage.Registry {
 	}
 
 	@Override
-	public Object get(Object nsURI) {
-		return delegate.get(nsURI);
+	public Object get(Object uri) {
+		return delegate.get(uri);
 	}
 
 	@Override
-	public EPackage getEPackage(String nsURI) {
-		return delegate.getEPackage(nsURI);
+	public EPackage getEPackage(String uri) {
+		return delegate.getEPackage(uri);
 	}
 
 	@Override
-	public EFactory getEFactory(String nsURI) {
-		return delegate.getEFactory(nsURI);
+	public EFactory getEFactory(String uri) {
+		return delegate.getEFactory(uri);
 	}
 
 	private static final class Notification {
@@ -204,22 +204,22 @@ public class NotifyingEPackageRegistry implements EPackage.Registry {
 		};
 
 		private final Type type;
-		private final String nsURI;
+		private final String uri;
 		private final EPackage ePackage;
 
-		Notification(Type type, String nsURI, EPackage ePackage) {
+		Notification(Type type, String uri, EPackage ePackage) {
 			this.type = type;
-			this.nsURI = nsURI;
+			this.uri = uri;
 			this.ePackage = ePackage;
 		}
 
 		void notify(EPackageRegistryObserver observer) {
 			switch (type) {
 			case REGISTERED:
-				observer.ePackageRegistered(nsURI, ePackage);
+				observer.ePackageRegistered(uri, ePackage);
 				break;
 			case UNREGISTERED:
-				observer.ePackageUnregistered(nsURI, ePackage);
+				observer.ePackageUnregistered(uri, ePackage);
 				break;
 			}
 		}

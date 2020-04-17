@@ -27,13 +27,13 @@ public class TestEPackageRegistryObserver implements EPackageRegistryObserver {
 	private static List<String> unregisteredPackages = new LinkedList<>();
 
 	@Override
-	public void ePackageRegistered(String nsURI, EPackage ePackage) {
-		registeredPackages.add(nsURI);
+	public void ePackageRegistered(String uri, EPackage ePackage) {
+		registeredPackages.add(uri);
 	}
 
 	@Override
-	public void ePackageUnregistered(String nsURI, EPackage ePackage) {
-		unregisteredPackages.add(nsURI);
+	public void ePackageUnregistered(String uri, EPackage ePackage) {
+		unregisteredPackages.add(uri);
 	}
 
 	@Test

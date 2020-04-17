@@ -59,10 +59,10 @@
                </appinfo>
             </annotation>
          </attribute>
-         <attribute name="nsURI" type="string">
+         <attribute name="uri" type="string">
             <annotation>
                <documentation>
-                  If set, notifications to the EPackageRegistryObserver will be filtered to match the specified nsURI
+                  It represents the namespace URI, i.e., a universally unique identification of a particular package. If set, notifications to the EPackageRegistryObserver will be filtered to match the specified namespace URI.
                </documentation>
             </annotation>
          </attribute>
