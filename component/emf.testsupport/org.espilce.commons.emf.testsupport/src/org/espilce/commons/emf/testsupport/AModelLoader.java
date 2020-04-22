@@ -79,7 +79,7 @@ public class AModelLoader {
 	 * @return
 	 * 
 	 * @since 0.3
-	 */ 
+	 */
 	public @NonNull EObject loadModel(final @NonNull URL modelUrl) {
 		return loadModelResource(modelUrl).getContents().iterator().next();
 	}
@@ -255,7 +255,7 @@ public class AModelLoader {
 			final CharSequence actualContent = file.getValue();
 			
 			final InputStream expectedStream = getLoadHelper().getContents(getClass(), expectedOutputParent + name);
-			final String expectedContent = IOUtils.toString(expectedStream);
+			final String expectedContent = IOUtils.toString(expectedStream, Charset.defaultCharset());
 			
 			Assert2.assertEqualsNormalizedNewline("difference in " + name, expectedContent, actualContent);
 		}
