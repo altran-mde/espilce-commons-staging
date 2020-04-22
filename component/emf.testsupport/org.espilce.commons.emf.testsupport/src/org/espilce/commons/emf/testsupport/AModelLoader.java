@@ -255,7 +255,7 @@ public class AModelLoader {
 			final CharSequence actualContent = file.getValue();
 			
 			final InputStream expectedStream = getLoadHelper().getContents(getClass(), expectedOutputParent + name);
-			final String expectedContent = IOUtils.toString(expectedStream, Charset.defaultCharset());
+			final String expectedContent = IOUtils.toString(expectedStream, Charset.defaultCharset().toString());
 			
 			Assert2.assertEqualsNormalizedNewline("difference in " + name, expectedContent, actualContent);
 		}
