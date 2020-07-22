@@ -13,24 +13,24 @@
       <configuration>
         <timeout>10000</timeout>
       </configuration>
-      <username>${env.technical_user_username}</username>
-      <password>${env.technical_user_password}</password>
+      <username>${env.TECHNICAL_USER}</username>
+      <password>${env.TECHNICAL_PASSWORD}</password>
     </server>
     <server>
       <id>nexus-p2-group</id>
       <configuration>
         <timeout>10000</timeout>
       </configuration>
-      <username>${env.technical_user_username}</username>
-      <password>${env.technical_user_password}</password>
+      <username>${env.TECHNICAL_USER}</username>
+      <password>${env.TECHNICAL_PASSWORD}</password>
     </server>
 	<server>
-	<id>artifactory-p2</id>
+	<id>artifact-p2</id>
       <configuration>
         <timeout>10000</timeout>
       </configuration>
-      <username>${env.technical_user_username}</username>
-      <password>${env.technical_user_password}</password>
+      <username>${env.TECHNICAL_USER}</username>
+      <password>${env.TECHNICAL_PASSWORD}</password>
     </server>
    </servers>
   <mirrors>
