@@ -17,10 +17,9 @@
         <maven.deploy.skip>true</maven.deploy.skip>
         <exec-maven-plugin-version>1.2.1</exec-maven-plugin-version>
         <maven-upload-plugin>0.0.1</maven-upload-plugin>
-        <mde.artifactory.url>https://artifactory.acidspace.nl</mde.artifactory.url>
-        <mde.p2-repos.url>artifactory/${mde.project.name}/${mde.updatesite}</mde.p2-repos.url>
+        <mde.artifact.url>https://nexus.acidspace.nl</mde.artifact.url>
+        <mde.p2-repos.url>repository/${mde.repository}/${mde.project.name}/${mde.updatesite}</mde.p2-repos.url>
         <mde.project.name>espilce-commons</mde.project.name>
-        <mde.updatesite>develop</mde.updatesite>
     </properties>
     
 	<build>
@@ -39,9 +38,9 @@
 						<configuration>
 							<fromDir>${project.build.directory}/repository</fromDir>
 							<includes>*/**</includes>
-							<url>${mde.artifactory.url}</url>
+							<url>${mde.artifact.url}</url>
 							<toDir>${mde.p2-repos.url}</toDir>
-							<serverId>artifactory-p2</serverId>
+							<serverId>artifact-p2</serverId>
 						</configuration>
 					</execution>
 				</executions>
@@ -60,27 +59,6 @@
       <id>merge-existing-repository</id>
       <build>
         <plugins>
-		<plugin>
-		<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
-				<version>2.0.0</version>
-				<executions>
-					<execution>
-						<id>download-existing-repo</id>
-						<phase>prepare-package</phase>
-						<goals>
-						<goal>download</goal>
-						</goals>
-						<configuration>
-							<fromDir>artifactory/espilce-commons/${mde.updatesite}/</fromDir>
-							<includes>*/**</includes>
-							<url>${mde.artifactory.url}</url>
-							<toDir>${project.build.directory}/downloaded-repository</toDir>
-							<serverId>artifactory-p2</serverId>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
              <groupId>org.eclipse.tycho.extras</groupId>
              <artifactId>tycho-p2-extras-plugin</artifactId>
@@ -96,7 +74,7 @@
              <configuration>
                 <source>
                      <repository>
-                       <url>${project.build.directory}/downloaded-repository</url>
+                       <url>${project.basedir}/downloaded-repository</url>
                        <layout>p2</layout>
                      </repository>
                 </source>
