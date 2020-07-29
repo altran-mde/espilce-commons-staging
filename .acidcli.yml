@@ -14,9 +14,9 @@ release:
       - OutputDirectoryExists
       - OutputDirectoryIsEmpty
     parameters:
-      artifact_repository: "MDEAssets"
-      artifact_regex: "espilce-commons\/{}\/.*"
-      artifact_source_url: "https://nexus.acidspace.nl/service/rest/v1/assets?repository=MDEAssets"
+      artifact_repository: "espilce-commons"
+      artifact_regex: "{}\/.*"
+      artifact_source_url: "https://nexus.acidspace.nl/service/rest/v1/assets?repository=espilce-commons"
       artifact_target_dir: ./releng/org.espilce.commons.repository/downloaded-repository/
       parent_pom: releng/org.espilce.commons.parent/pom.xml
       publish_pom: releng/org.espilce.commons.repository/pom.xml

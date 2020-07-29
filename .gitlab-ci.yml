@@ -14,7 +14,7 @@ stages:
 variables:
   REGISTRY_URL: registry.acidspace.nl
 
-  MAVEN_CONTAINER: acid/container/maven/pipeline:12413
+  MAVEN_CONTAINER: acid/container/maven:0.16.1
 
 espilce-commons:
   image: ${REGISTRY_URL}/${MAVEN_CONTAINER}
