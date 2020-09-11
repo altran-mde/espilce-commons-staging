@@ -18,7 +18,7 @@
         <exec-maven-plugin-version>1.2.1</exec-maven-plugin-version>
         <maven-upload-plugin>0.0.1</maven-upload-plugin>
         <mde.artifact.url>https://nexus.acidspace.nl</mde.artifact.url>
-        <mde.p2-repos.url>repository/${mde.repository}/${mde.updatesite}</mde.p2-repos.url>
+        <mde.p2-repos.url>repository/${mde.project.name}/${mde.updatesite}</mde.p2-repos.url>
         <mde.project.name>espilce-commons</mde.project.name>
     </properties>
     
