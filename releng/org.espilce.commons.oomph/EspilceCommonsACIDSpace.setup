@@ -6,13 +6,35 @@
     xmlns:git="http://www.eclipse.org/oomph/setup/git/1.0"
     xmlns:maven="http://www.eclipse.org/oomph/setup/maven/1.0"
     xmlns:pde="http://www.eclipse.org/oomph/setup/pde/1.0"
+    xmlns:predicates="http://www.eclipse.org/oomph/predicates/1.0"
     xmlns:projects="http://www.eclipse.org/oomph/setup/projects/1.0"
     xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
     xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0"
     xmlns:setup.targlets="http://www.eclipse.org/oomph/setup/targlets/1.0"
-    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/maven/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Maven.ecore http://www.eclipse.org/oomph/setup/pde/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/PDE.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore"
+    xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
+    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/maven/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Maven.ecore http://www.eclipse.org/oomph/setup/pde/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/PDE.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore"
     name="acidspace.mde.assets.espilce.commons"
-    label="EspilceCommons">
+    label="Espilce - Commons">
+  <setupTask
+      xsi:type="setup:VariableTask"
+      name="gitlab.acidspace.nl.project"
+      value="mde-assets/espilce-commons"/>
+  <setupTask
+      xsi:type="setup:VariableTask"
+      name="oomph.setup.file.path"
+      value="releng/org.espilce.commons.oomph/EspilceCommonsACIDSpace.setup"/>
+  <setupTask
+      xsi:type="setup.workingsets:WorkingSetTask">
+    <workingSet
+        name="${scope.project.label}">
+      <predicate
+          xsi:type="predicates:AndPredicate">
+        <operand
+            xsi:type="predicates:RepositoryPredicate"
+            project="org.espilce.commons.oomph"/>
+      </predicate>
+    </workingSet>
+  </setupTask>
   <setupTask
       xsi:type="setup:CompoundTask"
       name="ACIDSpace">
@@ -258,14 +280,6 @@
     </setupTask>
     <description>Common configuration for ACIDSpace projects (to be moved to project catalog)</description>
   </setupTask>
-  <setupTask
-      xsi:type="setup:VariableTask"
-      name="gitlab.acidspace.nl.project"
-      value="mde-assets/espilce-commons"/>
-  <setupTask
-      xsi:type="setup:VariableTask"
-      name="oomph.setup.file.path"
-      value="releng/org.espilce.commons.oomph/EspilceCommonsACIDSpace.setup"/>
   <setupTask
       xsi:type="setup:CompoundTask"
       name="Source Code">
