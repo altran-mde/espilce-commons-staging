@@ -133,7 +133,20 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-			<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+              <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-p2-repository-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                  <repositoryName>Espilce Commons</repositoryName>
+                  <!-- XZ compression is not supported by tycho-p2-extras-plugin:mirror -->
+                  <!-- Bug 512198 - tycho-p2-extras-plugin:publish-features-and-bundles does not update xz meta-data -->
+                  <!-- https://bugs.eclipse.org/bugs/show_bug.cgi?id=512198 -->
+                  <xzCompress>false</xzCompress>
+                </configuration>
+              </plugin>
+			 
+              <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
 			  <plugin>
 			  <groupId>org.eclipse.m2e</groupId>
 			  <artifactId>lifecycle-mapping</artifactId>
