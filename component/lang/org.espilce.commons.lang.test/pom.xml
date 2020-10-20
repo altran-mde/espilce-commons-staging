@@ -15,5 +15,27 @@
 
 	<build>
 		<testSourceDirectory>src-test</testSourceDirectory>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>createEmptyDirs</id>
+                        <phase>generate-test-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="${project.basedir}/emptyDir" />
+                                <mkdir dir="${project.basedir}/singleDirDir/emptyDir" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 	</build>
 </project>

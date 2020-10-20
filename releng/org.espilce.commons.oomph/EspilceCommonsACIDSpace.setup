@@ -32,7 +32,7 @@
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="predicates:RepositoryPredicate"
-            project="org.espilce.commons.oomph"/>
+            project="org.espilce.commons.root"/>
         <operand
             xsi:type="predicates:NaturePredicate"
             nature="org.eclipse.pde.PluginNature"/>
@@ -47,7 +47,7 @@
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="predicates:RepositoryPredicate"
-            project="org.espilce.commons.oomph"/>
+            project="org.espilce.commons.root"/>
         <operand
             xsi:type="predicates:NaturePredicate"
             nature="org.eclipse.pde.FeatureNature"/>
@@ -59,7 +59,7 @@
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="predicates:RepositoryPredicate"
-            project="org.espilce.commons.oomph"/>
+            project="org.espilce.commons.root"/>
         <operand
             xsi:type="predicates:NaturePredicate"
             nature="org.eclipse.pde.PluginNature"/>
@@ -67,10 +67,10 @@
             xsi:type="predicates:OrPredicate">
           <operand
               xsi:type="predicates:NamePredicate"
-              pattern=".*\.test$"/>
+              pattern=".*\.test[s]?$"/>
           <operand
               xsi:type="predicates:NamePredicate"
-              pattern=".*\.test\..*"/>
+              pattern=".*\.test[s]?\..*"/>
         </operand>
       </predicate>
     </workingSet>
@@ -80,7 +80,7 @@
           xsi:type="predicates:AndPredicate">
         <operand
             xsi:type="predicates:RepositoryPredicate"
-            project="org.espilce.commons.oomph"/>
+            project="org.espilce.commons.root"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
             excludedWorkingSet="//@setupTasks.2/@workingSets[name='${scope.project.label}%20-%20Features'] //@setupTasks.2/@workingSets[name='${scope.project.label}%20-%20Plug-ins'] //@setupTasks.2/@workingSets[name='${scope.project.label}%20-%20Tests']"/>
@@ -457,6 +457,10 @@
       </setupTask>
       <description>Common configuration for projects using Maven (disable if not required)</description>
     </setupTask>
+  </setupTask>
+  <setupTask
+      xsi:type="setup:CompoundTask"
+      name="Target Platform">
     <setupTask
         xsi:type="setup:CompoundTask"
         name="CBI Target Platform">
@@ -668,6 +672,7 @@
           </repositoryList>
         </targlet>
       </setupTask>
+      <description>If you enable the modular target platform, don't forget to update the location in the TargetDefinitionGenerator treenode</description>
     </setupTask>
   </setupTask>
   <setupTask
