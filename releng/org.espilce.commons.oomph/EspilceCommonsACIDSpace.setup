@@ -19,7 +19,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="gitlab.acidspace.nl.project"
-      value="mde-assets/espilce-commons"/>
+      value="ec-mde/espilce-commons"/>
   <setupTask
       xsi:type="setup:VariableTask"
       name="oomph.setup.file.path"
