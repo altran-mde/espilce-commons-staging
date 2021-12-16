@@ -25,6 +25,25 @@
       name="oomph.setup.file.path"
       value="releng/org.espilce.commons.oomph/EspilceCommonsACIDSpace.setup"/>
   <setupTask
+      xsi:type="setup.p2:P2Task"
+      label="EMF Development">
+    <requirement
+        name="org.eclipse.pde.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.ecoretools.design.feature.group"/>
+    <requirement
+        name="org.eclipse.emf.sdk.feature.group"/>
+    <requirement
+        name="org.eclipse.xsd.sdk.feature.group"/>
+    <requirement
+        name="org.eclipse.oomph.setup.workingsets.feature.group"/>
+    <repository
+        url="https://nexus.acidspace.nl/repository/eclipse.org-releases-2020-03-202003181000/"/>
+  </setupTask>
+  <setupTask
+      xsi:type="setup.p2:P2Task"
+      label="Project Specific Development"/>
+  <setupTask
       xsi:type="setup.workingsets:WorkingSetTask">
     <workingSet
         name="${scope.project.label} - Plug-ins">
@@ -38,7 +57,7 @@
             nature="org.eclipse.pde.PluginNature"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.2/@workingSets[name='${scope.project.label}%20-%20Tests']"/>
+            excludedWorkingSet="//@setupTasks.4/@workingSets[name='${scope.project.label}%20-%20Tests']"/>
       </predicate>
     </workingSet>
     <workingSet
@@ -83,7 +102,7 @@
             project="org.espilce.commons.root"/>
         <operand
             xsi:type="workingsets:ExclusionPredicate"
-            excludedWorkingSet="//@setupTasks.2/@workingSets[name='${scope.project.label}%20-%20Features'] //@setupTasks.2/@workingSets[name='${scope.project.label}%20-%20Plug-ins'] //@setupTasks.2/@workingSets[name='${scope.project.label}%20-%20Tests']"/>
+            excludedWorkingSet="//@setupTasks.4/@workingSets[name='${scope.project.label}%20-%20Features'] //@setupTasks.4/@workingSets[name='${scope.project.label}%20-%20Plug-ins'] //@setupTasks.4/@workingSets[name='${scope.project.label}%20-%20Tests']"/>
       </predicate>
     </workingSet>
   </setupTask>
@@ -113,11 +132,11 @@
           name="de.jcup.asciidoctoreditor.feature.group"
           optional="true"/>
       <repository
-          url="https://de-jcup.github.io/update-site-eclipse-bash-editor/update-site/"/>
+          url="https://nexus.acidspace.nl/repository/github.io-update-site-eclipse-bash-editor-update-site/"/>
       <repository
-          url="https://de-jcup.github.io/update-site-eclipse-yaml-editor/update-site/"/>
+          url="https://nexus.acidspace.nl/repository/github.io-update-site-eclipse-yaml-editor-update-site/"/>
       <repository
-          url="https://de-jcup.github.io/update-site-eclipse-asciidoctor-editor/update-site/"/>
+          url="https://nexus.acidspace.nl/repository/github.io-update-site-eclipse-asciidoctor-editor-update-site/"/>
     </setupTask>
     <setupTask
         xsi:type="setup:CompoundTask"
@@ -436,11 +455,11 @@
         <requirement
             name="org.sonatype.m2e.buildhelper.feature.feature.group"/>
         <repository
-            url="https://download.eclipse.org/technology/m2e/releases/"/>
+            url="https://nexus.acidspace.nl/repository/eclipse.org-technology-m2e-releases-latest/"/>
         <repository
-            url="https://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/0.9.0/N/LATEST/"/>
+            url="https://nexus.acidspace.nl/repository/maven.org-maven2-.m2e-connectors-m2eclipse-tycho-0.9.0-N-LATEST/"/>
         <repository
-            url="https://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-buildhelper/0.15.0/N/0.15.0.201405280027/"/>
+            url="https://nexus.acidspace.nl/repository/maven.org-maven2-.m2e-connectors-m2eclipse-buildhelper-0.15.0-N-0.15.0.201405280027/"/>
       </setupTask>
       <setupTask
           xsi:type="setup:CompoundTask"
@@ -488,7 +507,7 @@
         <requirement
             name="org.eclipse.cbi.targetplatform-feature.feature.group"/>
         <repository
-            url="https://download.eclipse.org/cbi/tpd/3.0.0-SNAPSHOT/"/>
+            url="https://nexus.acidspace.nl/repository/eclipse.org-cbi-tpd-3.0.0-SNAPSHOT/"/>
       </setupTask>
       <setupTask
           xsi:type="pde:TargetPlatformTask"

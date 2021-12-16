@@ -44,6 +44,6 @@ release:
     postcondition:
       - OutputDirectoryIsNotEmpty
     parameters:
-      repository: espilce-polvi
+      repository: espilce-commons
       repository_project: ./releng/org.espilce.commons.repository
       output: ./reports/release/binaries
