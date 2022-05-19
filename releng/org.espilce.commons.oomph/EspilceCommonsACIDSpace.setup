@@ -38,7 +38,7 @@
     <requirement
         name="org.eclipse.oomph.setup.workingsets.feature.group"/>
     <repository
-        url="https://nexus.acidspace.nl/repository/eclipse.org-releases-2020-03-202003181000/"/>
+        url="https://nexus.acidspace.nl/repository/eclipse.org-releases-2020-06-202006171000"/>
   </setupTask>
   <setupTask
       xsi:type="setup.p2:P2Task"
@@ -252,7 +252,15 @@
           name="de.jcup.asciidoctoreditor">
         <setupTask
             xsi:type="setup:PreferenceTask"
+            key="/instance/de.jcup.asciidoctoreditor/autoCreateInitialAsciidocConfigFile"
+            value="false"/>
+        <setupTask
+            xsi:type="setup:PreferenceTask"
             key="/instance/de.jcup.asciidoctoreditor/validateImagesEnabled"
+            value="false"/>
+        <setupTask
+            xsi:type="setup:PreferenceTask"
+            key="/instance/de.jcup.asciidoctoreditor/usePreviewImageDirectory"
             value="false"/>
       </setupTask>
       <setupTask
@@ -380,14 +388,14 @@
     </setupTask>
     <setupTask
         xsi:type="setup:EclipseIniTask"
-        option="-Doomph.redirection.gitlab.acidspace.nl.master"
+        option="-Doomph.redirection.gitlab.acidspace.nl.branch.master"
         value="=https://gitlab.acidspace.nl/${gitlab.acidspace.nl.project}/-/raw/master/${oomph.setup.file.path}->${git.clone.location|uri}/${oomph.setup.file.path}"
         vm="true">
       <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
     </setupTask>
     <setupTask
         xsi:type="setup:EclipseIniTask"
-        option="-Doomph.redirection.gitlab.acidspace.nl.develop"
+        option="-Doomph.redirection.gitlab.acidspace.nl.branch.develop"
         value="=https://gitlab.acidspace.nl/${gitlab.acidspace.nl.project}/-/raw/develop/${oomph.setup.file.path}->${git.clone.location|uri}/${oomph.setup.file.path}"
         vm="true">
       <description>Set an Oomph redirection system property to redirect the logical location of this setup to its physical location in the Git clone.</description>
@@ -455,7 +463,7 @@
         <requirement
             name="org.sonatype.m2e.buildhelper.feature.feature.group"/>
         <repository
-            url="https://nexus.acidspace.nl/repository/eclipse.org-technology-m2e-releases-latest/"/>
+            url="https://nexus.acidspace.nl/repository/eclipse.org-technology-m2e-releases-1.19.0/"/>
         <repository
             url="https://nexus.acidspace.nl/repository/maven.org-maven2-.m2e-connectors-m2eclipse-tycho-0.9.0-N-LATEST/"/>
         <repository
@@ -482,6 +490,14 @@
               key="/instance/org.eclipse.wst.xml.core/lineWidth"
               value="120"/>
         </setupTask>
+        <setupTask
+            xsi:type="setup:CompoundTask"
+            name="org.eclipse.m2e.core">
+          <setupTask
+              xsi:type="setup:PreferenceTask"
+              key="/instance/org.eclipse.m2e.core/eclipse.m2.userSettingsFile"
+              value="${git.clone.location}/settings.xml"/>
+        </setupTask>
       </setupTask>
       <setupTask
           xsi:type="maven:MavenImportTask">
@@ -505,7 +521,8 @@
       <setupTask
           xsi:type="setup.p2:P2Task">
         <requirement
-            name="org.eclipse.cbi.targetplatform-feature.feature.group"/>
+            name="org.eclipse.cbi.targetplatform-feature.feature.group"
+            optional="true"/>
         <repository
             url="https://nexus.acidspace.nl/repository/eclipse.org-cbi-tpd-3.0.0-SNAPSHOT/"/>
       </setupTask>
@@ -520,17 +537,26 @@
       <setupTask
           xsi:type="setup:VariableTask"
           name="eclipse.target.platform"
-          defaultValue="2020-09"/>
+          value="None"/>
+      <setupTask
+          xsi:type="setup:VariableTask"
+          name="project.target.platform"
+          defaultValue="2020-06"
+          label="${scope.project.label} Target Platform">
+        <choice
+            value="2020-06"
+            label="Eclipse 2020-06"/>
+      </setupTask>
       <setupTask
           xsi:type="setup.targlets:TargletTask">
         <targlet
-            name="${scope.project.label}"
-            activeRepositoryList="${eclipse.target.platform}">
+            name="Modular Target Platform"
+            activeRepositoryList="${project.target.platform}">
           <annotation
               source="http:/www.eclipse.org/oomph/targlets/TargetDefinitionGenerator">
             <detail
                 key="location">
-              <value>${git.clone.location}/releng/org.espilce.commons.target/org.espilce.commons.target.target</value>
+              <value>${git.clone.location}/releng/com.altran.ec.mde.skeleton.target/com.altran.ec.mde.skeleton.target.target</value>
             </detail>
             <detail
                 key="generateImplicitUnits">
@@ -558,151 +584,30 @@
             </detail>
           </annotation>
           <requirement
+              name="org.eclipse.equinox.executable.feature.group"/>
+          <requirement
               name="org.eclipse.sdk.feature.group"/>
+          <requirement
+              name="org.eclipse.emf.sdk.feature.group"/>
+          <requirement
+              name="org.eclipse.xtext.sdk.feature.group"/>
+          <requirement
+              name="de.itemis.xtext.antlr.feature.feature.group"/>
+          <requirement
+              name="org.eclipse.e4.tools.spies.feature.feature.group"/>
           <requirement
               name="*"/>
           <sourceLocator
               rootFolder="${git.clone.location}"
               locateNestedProjects="true"/>
           <repositoryList
-              name="2020-12">
-            <repository
-                url="http://download.eclipse.org/releases/2020-12"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="2020-09">
-            <repository
-                url="http://download.eclipse.org/releases/2020-09"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
               name="2020-06">
             <repository
-                url="http://download.eclipse.org/releases/2020-06"/>
+                url="https://download.eclipse.org/releases/2020-06/202006171000"/>
             <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="2020-03">
+                url="http://download.itemis.com/updates/releases/2.1.1/"/>
             <repository
-                url="http://download.eclipse.org/releases/2020-03"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="2019-12">
-            <repository
-                url="http://download.eclipse.org/releases/2019-12"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="2019-09">
-            <repository
-                url="http://download.eclipse.org/releases/2019-09"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="2019-06">
-            <repository
-                url="http://download.eclipse.org/releases/2019-06"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="2019-03">
-            <repository
-                url="http://download.eclipse.org/releases/2019-03"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="2018-12">
-            <repository
-                url="http://download.eclipse.org/releases/2018-12"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="2018-09">
-            <repository
-                url="http://download.eclipse.org/releases/2018-09"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="Photon">
-            <repository
-                url="http://download.eclipse.org/releases/photon"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="Oxygen">
-            <repository
-                url="http://download.eclipse.org/releases/oxygen"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="Neon">
-            <repository
-                url="http://download.eclipse.org/releases/neon"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="Mars">
-            <repository
-                url="http://download.eclipse.org/releases/mars"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="Luna">
-            <repository
-                url="http://download.eclipse.org/releases/luna"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="Kepler">
-            <repository
-                url="http://download.eclipse.org/releases/kepler"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="Juno">
-            <repository
-                url="http://download.eclipse.org/releases/juno"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="Indigo">
-            <repository
-                url="http://download.eclipse.org/releases/indigo"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="Helios">
-            <repository
-                url="http://download.eclipse.org/releases/helios"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
-          </repositoryList>
-          <repositoryList
-              name="Galileo">
-            <repository
-                url="http://download.eclipse.org/releases/galileo"/>
-            <repository
-                url="http://download.eclipse.org/cbi/updates/license"/>
+                url="https://download.eclipse.org/e4/snapshots/org.eclipse.e4.tools/latest/"/>
           </repositoryList>
         </targlet>
       </setupTask>

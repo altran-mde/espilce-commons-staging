@@ -6,7 +6,7 @@
 :linkattrs: true
 
 :project-name: Espilce Commons
-:eclipse-version: 2020-03
+:eclipse-version: 2020-06
 :gitlab-acidspace-nl-project: ec-mde/espilce-commons
 :oomph-setup-file-path: releng/org.espilce.commons.oomph/EspilceCommonsACIDSpace.setup
 :oomph-setup-stream: develop
