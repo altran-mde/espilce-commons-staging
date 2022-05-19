@@ -9,10 +9,10 @@
  ******************************************************************************/
 package org.espilce.commons.testsupport;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.espilce.commons.assertion.Assertion.assertEquals;
+import static org.espilce.commons.assertion.Assertion.assertFalse;
+import static org.espilce.commons.assertion.Assertion.assertNotNull;
+import static org.espilce.commons.assertion.Assertion.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +21,7 @@ import org.apache.commons.io.FileUtils;
 import org.eclipse.jdt.annotation.Nullable;
 
 public class AssertFile {
+	@SuppressWarnings("null")
 	public static void assertDoesntExist(final @Nullable String message, final @Nullable File file) {
 		assertNotNull(file, message);
 		assertFalse(file.exists(), message);
@@ -30,6 +31,7 @@ public class AssertFile {
 		assertDoesntExist("exists: " + file, file);
 	}
 	
+	@SuppressWarnings("null")
 	public static void assertExists(final @Nullable String message, final @Nullable File file) {
 		assertNotNull(file, message);
 		assertTrue(file.exists(), message);
@@ -39,6 +41,7 @@ public class AssertFile {
 		assertExists("exists: " + file, file);
 	}
 	
+	@SuppressWarnings("null")
 	public static void assertIsFile(final @Nullable String message, final @Nullable File file) {
 		assertNotNull(file, message);
 		assertTrue(file.isFile(), message);
@@ -48,6 +51,7 @@ public class AssertFile {
 		assertIsFile("isFile: " + file, file);
 	}
 	
+	@SuppressWarnings("null")
 	public static void assertIsDirectory(final @Nullable String message, final @Nullable File file) {
 		assertNotNull(file, message);
 		assertTrue(file.isDirectory(), message);
@@ -57,6 +61,7 @@ public class AssertFile {
 		assertIsDirectory("isDirectory: " + file, file);
 	}
 	
+	@SuppressWarnings("null")
 	public static void assertCanRead(final @Nullable String message, final @Nullable File file) {
 		assertNotNull(file, message);
 		assertTrue(file.canRead(), message);
@@ -66,6 +71,7 @@ public class AssertFile {
 		assertCanRead("canRead: " + file, file);
 	}
 	
+	@SuppressWarnings("null")
 	public static void assertCanWrite(final @Nullable String message, final @Nullable File file) {
 		assertNotNull(file, message);
 		assertTrue(file.canWrite(), message);
@@ -75,6 +81,7 @@ public class AssertFile {
 		assertCanWrite("canWrite: " + file, file);
 	}
 	
+	@SuppressWarnings("null")
 	public static void assertCanExectue(final @Nullable String message, final @Nullable File file) {
 		assertNotNull(file, message);
 		assertTrue(file.canExecute(), message);

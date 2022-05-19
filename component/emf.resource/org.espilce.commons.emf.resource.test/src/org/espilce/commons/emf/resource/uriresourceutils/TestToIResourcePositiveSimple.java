@@ -20,6 +20,7 @@ import org.espilce.commons.testsupport.resource.builder.ProjectBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("null")
 public class TestToIResourcePositiveSimple extends ATestWorkspace {
 	@BeforeEach
 	public void createProject() throws Exception {

@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Espilce Commons Assertion JUnit 4
+Bundle-SymbolicName: org.espilce.commons.assertion.junit4
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: Espilce Commons
+Automatic-Module-Name: org.espilce.commons.assertion.junit4
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional;visibility:=reexport,
+ org.junit;bundle-version=4;visibility:=reexport
+Import-Package: org.eclipse.jdt.annotation;resolution:=optional,
+ org.junit
+Export-Package: org.espilce.commons.assertion;version=0.1.0

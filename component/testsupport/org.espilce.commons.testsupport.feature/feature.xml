@@ -2,7 +2,7 @@
 <feature
       id="org.espilce.commons.testsupport.feature"
       label="Espilce Commons Testsupport Feature"
-      version="0.1.0.qualifier"
+      version="0.2.0.qualifier"
       provider-name="Espilce Commons"
       license-feature="org.eclipse.license"
       license-feature-version="2.0.2">
@@ -22,9 +22,7 @@
    </copyright>
 
    <requires>
-      <import plugin="org.junit" version="4.0.0" match="greaterOrEqual"/>
       <import plugin="org.apache.commons.io" version="2.2" match="greaterOrEqual"/>
-      <import plugin="org.apache.commons.lang3" version="2.4" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -35,7 +33,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.espilce.commons.lang"
+         id="org.espilce.commons.text"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -9,7 +9,7 @@
  ******************************************************************************/
 package org.espilce.commons.emf.testsupport;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.espilce.commons.assertion.Assertion.assertEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -79,7 +79,7 @@ public class AModelLoader {
 	 * @return
 	 * 
 	 * @since 0.3
-	 */
+	 */ 
 	public @NonNull EObject loadModel(final @NonNull URL modelUrl) {
 		return loadModelResource(modelUrl).getContents().iterator().next();
 	}
