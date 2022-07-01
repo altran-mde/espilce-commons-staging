@@ -30,20 +30,6 @@ WorkspacePluginLoadHelper::
 	Finds resources in the workspace or plug-ins.
 
 
-== Model-to-Text Generator Support
-
-(Almost) verbatim copy of Xtext generator infrastructure, with minimal dependencies.
-
-Generator::
-	No dependencies on Xtext, EMF, or Eclipse.
-
-EMF Generator::
-	Extends _Generator_ with dependencies on EMF.
-
-EMF Generator Xtext::
-	Bridges between Xtext generator infrastructure and Espilce Commons generator infrastructure.
-
-
 == Miscellaneous Utilities ==
 
 EmfStringRenderer::
