@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="epackage_registry_observer" name="EPackage Registry Observer" schema="schema/epackage_registry_observer.exsd"/>
+   <extension
+         point="org.eclipse.emf.ecore.package_registry_implementation">
+      <registry
+            class="org.espilce.commons.emf.registry.NotifyingEPackageRegistry">
+      </registry>
+   </extension>
+
+</plugin>

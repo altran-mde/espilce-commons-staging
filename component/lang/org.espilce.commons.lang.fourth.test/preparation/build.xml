@@ -1,0 +1,6 @@
+<project name="createClasspathJar" default="build-jar"
+	basedir=".">
+	<target name="build-jar">
+		<jar destfile="../classpathBase.jar" basedir="classpathBase/" includes="**" />
+	</target>
+</project>

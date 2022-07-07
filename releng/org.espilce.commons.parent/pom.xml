@@ -12,27 +12,45 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 
 		<commons-target-version>0.1.0-SNAPSHOT</commons-target-version>
-		
+		<jgit-version>5.5.1.201910021850-r</jgit-version>
+
 		<!-- Tycho settings -->
-		<tycho-version>1.2.0</tycho-version>
-		
+		<tycho-version>1.4.0</tycho-version>
+		<!-- Define overridable properties for tycho-surefire-plugin -->
+		<platformSystemProperties></platformSystemProperties>
+		<moduleProperties></moduleProperties>
+		<systemProperties></systemProperties>
+		<tycho.testArgLine></tycho.testArgLine>
+		<maven-surefire-plugin.version>3.0.0-M2</maven-surefire-plugin.version>
+		<maven-failsafe-plugin.version>3.0.0-M2</maven-failsafe-plugin.version>
+		<surefire-junit47.version>3.0.0-M2</surefire-junit47.version>
+		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
+		<build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
+		<junit.version>4.12</junit.version>
+		<junit.jupiter.version>5.1.1</junit.jupiter.version>
+		<hamcrest.version>1.3</hamcrest.version>
 	</properties>
 
 	<modules>
 		<module>../../component/emf/org.espilce.commons.emf.parent</module>
+		<module>../../component/emf.registry/org.espilce.commons.emf.registry.parent</module>
 		<module>../../component/emf.resource/org.espilce.commons.emf.resource.parent</module>
 		<module>../../component/emf.testsupport/org.espilce.commons.emf.testsupport.parent</module>
 		<module>../../component/emf.testsupport.resource/org.espilce.commons.emf.testsupport.resource.parent</module>
 		<module>../../component/emf.textrenderer/org.espilce.commons.emf.textrenderer.parent</module>
 		<module>../../component/exception/org.espilce.commons.exception.parent</module>
 		<module>../../component/resource/org.espilce.commons.resource.parent</module>
-		
+		<module>../../component/lang/org.espilce.commons.lang.parent</module>
+		<module>../../component/testsupport/org.espilce.commons.testsupport.parent</module>
+		<module>../../component/testsupport.resource/org.espilce.commons.testsupport.resource.parent</module>
+		<module>../../component/text/org.espilce.commons.text.parent</module>
+		<module>../../component/assertion/org.espilce.commons.assertion.parent</module>
+
 		<module>../org.espilce.commons.target</module>
-		<module>../org.espilce.commons.license</module>
 		<module>../org.espilce.commons.repository</module>
-		
 	</modules>
 
 	<build>
@@ -74,6 +92,45 @@
 					</environments>
 				</configuration>
 			</plugin>
+			<!-- to skip running (and compiling) tests use commandline flag: -Dmaven.test.skip 
+				To skip tests, but still compile them, use: -DskipTests To allow all tests 
+				in a pom to pass/fail, use commandline flag: -fae (fail at end) -->
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<configuration>
+					<!-- THE FOLLOWING LINE MUST NOT BE BROKEN BY AUTOFORMATTING -->
+					<argLine>${tycho.testArgLine} ${platformSystemProperties} ${systemProperties} ${moduleProperties}</argLine>
+					<failIfNoTests>false</failIfNoTests>
+					<useUIHarness>false</useUIHarness>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-packaging-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.eclipse.tycho.extras</groupId>
+						<artifactId>tycho-buildtimestamp-jgit</artifactId>
+						<version>${tycho-version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.jgit</groupId>
+						<artifactId>org.eclipse.jgit</artifactId>
+						<version>${jgit-version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<format>yyyyMMdd-HHmm</format>
+					<timestampProvider>jgit</timestampProvider>
+					<jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+					</archive>
+				</configuration>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -107,6 +164,113 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<profiles>
+		<profile>
+			<id>plain-junit-test</id>
+			<activation>
+				<file>
+					<exists>${basedir}/src-test</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${maven-surefire-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>test</id>
+								<phase>test</phase>
+								<configuration>
+									<includes>
+										<include>**/Test*.java</include>
+									</includes>
+								</configuration>
+								<goals>
+									<goal>test</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<!-- Fixes https://stackoverflow.com/questions/53010200/maven-surefire-could-not-find-forkedbooter-class -->
+							<useSystemClassLoader>false</useSystemClassLoader>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>${maven-failsafe-plugin.version}</version>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>${maven-compiler-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>compiletests</id>
+								<phase>test-compile</phase>
+								<goals>
+									<goal>testCompile</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>${build-helper-maven-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>add-test-source</id>
+								<phase>generate-test-sources</phase>
+								<goals>
+									<goal>add-test-source</goal>
+								</goals>
+								<configuration>
+									<sources>
+										<source>src-test</source>
+									</sources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+
+			<dependencies>
+				<dependency>
+					<groupId>org.junit.jupiter</groupId>
+					<artifactId>junit-jupiter-api</artifactId>
+					<version>${junit.jupiter.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.junit.jupiter</groupId>
+					<artifactId>junit-jupiter-engine</artifactId>
+					<version>${junit.jupiter.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-library</artifactId>
+					<version>${hamcrest.version}</version>
+					<scope>test</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+					<version>${junit.version}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+					<version>${junit.jupiter.version}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
 	</profiles>
 
 	<dependencies>

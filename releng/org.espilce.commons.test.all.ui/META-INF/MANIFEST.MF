@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ui
+Bundle-SymbolicName: org.espilce.commons.test.all.ui
+Bundle-Version: 0.1.0.qualifier
+Automatic-Module-Name: org.espilce.commons.test.all.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.junit,
+ org.espilce.commons.test.all,
+ org.espilce.commons.test.all.resource

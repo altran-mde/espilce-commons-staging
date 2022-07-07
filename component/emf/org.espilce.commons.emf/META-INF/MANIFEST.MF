@@ -2,16 +2,16 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Espilce Commons EMF
 Bundle-SymbolicName: org.espilce.commons.emf
-Bundle-Version: 0.1.0.qualifier
+Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: Espilce Commons
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.espilce.commons.exception;bundle-version=0.1.0;visibility:=reexport,
- org.eclipse.emf.common;bundle-version=2;resolution:=optional,
+ org.espilce.commons.lang;bundle-version=0.5.0;visibility:=reexport,
+ org.eclipse.emf.common;bundle-version=2;visibility:=reexport;resolution:=optional,
  org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional;visibility:=reexport
-Import-Package: org.eclipse.emf.common.util,
+Import-Package: org.espilce.commons.exception;version="0.2.0",
+ org.espilce.commons.lang;version="0.5.0",
+ org.eclipse.emf.common.util,
  org.eclipse.jdt.annotation;resolution:=optional
-Export-Package: org.espilce.commons.emf;version=0.1.0.qualifier;
-  uses:="org.espilce.commons.exception,
-  org.eclipse.emf.common.util,
-  java.net"
+Export-Package: org.espilce.commons.emf;version=0.2.0
 Automatic-Module-Name: org.espilce.commons.emf

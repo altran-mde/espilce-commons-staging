@@ -4,8 +4,8 @@
       label="Espilce Commons EMF Resource Feature"
       version="0.1.0.qualifier"
       provider-name="Espilce Commons"
-      license-feature="org.espilce.commons.license"
-      license-feature-version="0.1.0.qualifier">
+      license-feature="org.eclipse.license"
+      license-feature-version="2.0.2">
 
    <description>
       Common tools and utilities to work with EMF that depend on Eclipse Resources.

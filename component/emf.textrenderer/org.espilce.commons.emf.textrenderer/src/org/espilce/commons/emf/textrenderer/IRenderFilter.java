@@ -40,9 +40,10 @@ public interface IRenderFilter {
 	 * @param indent
 	 *            Current indentation.
 	 * @param context
-	 *            Context of <code>object</code>. Only set if <code>object</code> is
-	 *            either an {@link org.eclipse.emf.ecore.EAttribute EAttribute} or
-	 *            an {@link org.eclipse.emf.ecore.EReference EReference}.
+	 *            Context of <code>object</code>. Only set if
+	 *            <code>object</code> is either an
+	 *            {@link org.eclipse.emf.ecore.EAttribute EAttribute} or an
+	 *            {@link org.eclipse.emf.ecore.EReference EReference}.
 	 * @return Whether to render <code>object</code>.
 	 */
 	boolean shouldRender(Object object, int indent, EObject context);

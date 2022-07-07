@@ -19,14 +19,14 @@ import org.eclipse.emf.ecore.EObject;
  */
 public class RenderEverythingFilter implements IRenderFilter {
 	public final static RenderEverythingFilter INSTANCE = new RenderEverythingFilter();
-
+	
 	private RenderEverythingFilter() {
-
+		
 	}
-
+	
 	@Override
 	public boolean shouldRender(final Object object, final int indent, final EObject context) {
 		return true;
 	}
-
+	
 }

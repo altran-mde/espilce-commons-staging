@@ -21,15 +21,23 @@ import org.espilce.commons.emf.UriUtils;
 import org.espilce.commons.exception.UnconvertibleException;
 
 /**
- * Utilities for handling {@linkplain org.eclipse.emf.common.util.URI EMF URIs}
- * in an Eclipse {@linkplain org.eclipse.core.resources.ResourcesPlugin
+ * Utilities for converting {@linkplain org.eclipse.core.resources.IResource
+ * Eclipse IResources}, {@linkplain org.eclipse.core.runtime.IPath Eclipse
+ * IPaths}, {@linkplain org.eclipse.emf.common.util.URI EMF URIs},
+ * {@linkplain java.net.URI Java URIs}, {@linkplain java.net.URL Java URLs},
+ * {@linkplain java.io.File Java Files}, and {@linkplain java.nio.file.Path Java
+ * Paths} in an Eclipse {@linkplain org.eclipse.core.resources.ResourcesPlugin
  * Resources} environment.
+ * 
+ * @see org.espilce.commons.lang.ConversionUtils
+ * @see org.espilce.commons.emf.UriUtils
+ * @see org.espilce.commons.resource.ResourceUtils
  *
  * @since 0.1
  *
  */
 public class UriResourceUtils extends UriUtils {
-
+	
 	/**
 	 * Returns the equivalent {@linkplain org.eclipse.core.resources.IResource
 	 * Eclipse IResource} for an {@linkplain org.eclipse.emf.common.util.URI EMF
@@ -48,10 +56,10 @@ public class UriResourceUtils extends UriUtils {
 	 * </p>
 	 *
 	 * <p>
-	 * If the resulting IResource exists, this method returns the existing kind of
-	 * IResource ({@linkplain org.eclipse.core.resources.IWorkspaceRoot
-	 * IWorkspaceRoot}, {@linkplain org.eclipse.core.resources.IProject IProject},
-	 * {@linkplain org.eclipse.core.resources.IFolder IFolder}, or
+	 * If the resulting IResource exists, this method returns the existing kind
+	 * of IResource ({@linkplain org.eclipse.core.resources.IWorkspaceRoot
+	 * IWorkspaceRoot}, {@linkplain org.eclipse.core.resources.IProject
+	 * IProject}, {@linkplain org.eclipse.core.resources.IFolder IFolder}, or
 	 * {@linkplain org.eclipse.core.resources.IFile IFile}).
 	 * </p>
 	 *
@@ -61,20 +69,21 @@ public class UriResourceUtils extends UriUtils {
 	 * </p>
 	 *
 	 * <p>
-	 * This method handles excess slashes (behind the platform resource identifiers)
-	 * gracefully (i.e. ignores the slashes).<br/>
+	 * This method handles excess slashes (behind the platform resource
+	 * identifiers) gracefully (i.e. ignores the slashes).<br/>
 	 * Example: An URI of
-	 * {@code platform:/resource/////MyProject///folder///deep/myFile.ext//} leads
-	 * to an IFile for path {@code /MyProject/folder/deep/myFile.ext}.
+	 * {@code platform:/resource/////MyProject///folder///deep/myFile.ext//}
+	 * leads to an IFile for path {@code /MyProject/folder/deep/myFile.ext}.
 	 * </p>
 	 *
 	 * <p>
-	 * <b>Note:</b> This method treats {@code uri} as case-sensitive (on <i>all</i>
-	 * platforms, including Windows). Therefore, if the workspace contained a file
-	 * at {@code /MyProject/myFolder/myFile.ext} and we passed the URI
-	 * {@code platform:/resource/MyProject/myFolder/mYfILE.ext} to this method, the
-	 * result is an IFile for path {@code /MyProject/myFolder/mYfILE.ext}.
-	 * {@link IResource#exists() result.exists()} will return {@code false}.
+	 * <b>Note:</b> This method treats {@code uri} as case-sensitive (on
+	 * <i>all</i> platforms, including Windows). Therefore, if the workspace
+	 * contained a file at {@code /MyProject/myFolder/myFile.ext} and we passed
+	 * the URI {@code platform:/resource/MyProject/myFolder/mYfILE.ext} to this
+	 * method, the result is an IFile for path
+	 * {@code /MyProject/myFolder/mYfILE.ext}. {@link IResource#exists()
+	 * result.exists()} will return {@code false}.
 	 * </p>
 	 *
 	 * @param emfUri
@@ -87,7 +96,10 @@ public class UriResourceUtils extends UriUtils {
 	 *
 	 * @since 0.1
 	 */
-	public static @Nullable IResource toIResource(final @NonNull URI emfUri) {
+	public static @Nullable IResource toIResource(final @Nullable URI emfUri) {
+		if (emfUri == null) {
+			return null;
+		}
 		if (emfUri.isPlatformResource()) {
 			final String platformString = emfUri.toPlatformString(true);
 			final IPath path = Path.fromOSString(platformString);
@@ -98,10 +110,10 @@ public class UriResourceUtils extends UriUtils {
 				return workspaceRoot.getFile(path);
 			}
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * Returns the equivalent {@linkplain org.eclipse.core.resources.IResource
 	 * Eclipse IResource} for an {@linkplain org.eclipse.emf.common.util.URI EMF
@@ -110,8 +122,8 @@ public class UriResourceUtils extends UriUtils {
 	 * <p>
 	 * {@code uri} can be represented as IResource if {@code uri} is an
 	 * {@linkplain URI#isPlatformResource() platform resource} (i.e. {@code uri}
-	 * starts with {@code platform:/resource/}). Otherwise, this method throws an
-	 * {@link UnconvertibleException}.
+	 * starts with {@code platform:/resource/}). Otherwise, this method throws
+	 * an {@link UnconvertibleException}.
 	 * </p>
 	 *
 	 * <p>
@@ -120,10 +132,10 @@ public class UriResourceUtils extends UriUtils {
 	 * </p>
 	 *
 	 * <p>
-	 * If the resulting IResource exists, this method returns the existing kind of
-	 * IResource ({@linkplain org.eclipse.core.resources.IWorkspaceRoot
-	 * IWorkspaceRoot}, {@linkplain org.eclipse.core.resources.IProject IProject},
-	 * {@linkplain org.eclipse.core.resources.IFolder IFolder}, or
+	 * If the resulting IResource exists, this method returns the existing kind
+	 * of IResource ({@linkplain org.eclipse.core.resources.IWorkspaceRoot
+	 * IWorkspaceRoot}, {@linkplain org.eclipse.core.resources.IProject
+	 * IProject}, {@linkplain org.eclipse.core.resources.IFolder IFolder}, or
 	 * {@linkplain org.eclipse.core.resources.IFile IFile}).
 	 * </p>
 	 *
@@ -133,23 +145,24 @@ public class UriResourceUtils extends UriUtils {
 	 * </p>
 	 *
 	 * <p>
-	 * This method handles excess slashes (behind the platform resource identifiers)
-	 * gracefully (i.e. ignores the slashes).<br/>
+	 * This method handles excess slashes (behind the platform resource
+	 * identifiers) gracefully (i.e. ignores the slashes).<br/>
 	 * Example: An URI of
-	 * {@code platform:/resource/////MyProject///folder///deep/myFile.ext//} leads
-	 * to an IFile for path {@code /MyProject/folder/deep/myFile.ext}.
+	 * {@code platform:/resource/////MyProject///folder///deep/myFile.ext//}
+	 * leads to an IFile for path {@code /MyProject/folder/deep/myFile.ext}.
 	 * </p>
 	 *
 	 * <p>
-	 * <b>Note:</b> This method treats {@code uri} as case-sensitive (on <i>all</i>
-	 * platforms, including Windows). Therefore, if the workspace contained a file
-	 * at {@code /MyProject/myFolder/myFile.ext} and we passed the URI
-	 * {@code platform:/resource/MyProject/myFolder/mYfILE.ext} to this method, the
-	 * result is an IFile for path {@code /MyProject/myFolder/mYfILE.ext}.
-	 * {@link IResource#exists() result.exists()} will return {@code false}.
+	 * <b>Note:</b> This method treats {@code uri} as case-sensitive (on
+	 * <i>all</i> platforms, including Windows). Therefore, if the workspace
+	 * contained a file at {@code /MyProject/myFolder/myFile.ext} and we passed
+	 * the URI {@code platform:/resource/MyProject/myFolder/mYfILE.ext} to this
+	 * method, the result is an IFile for path
+	 * {@code /MyProject/myFolder/mYfILE.ext}. {@link IResource#exists()
+	 * result.exists()} will return {@code false}.
 	 * </p>
 	 *
-	 * @param uri
+	 * @param emfUri
 	 *            The EMF URI to return as Eclipse IResource.
 	 * @return {@code uri} as Eclipse IResource.
 	 *
@@ -160,16 +173,42 @@ public class UriResourceUtils extends UriUtils {
 	 *
 	 * @since 0.1
 	 */
-	public static @NonNull IResource asIResource(final @NonNull URI uri) throws UnconvertibleException {
-		final IResource result = toIResource(uri);
-
+	public static @NonNull IResource asIResource(final @NonNull URI emfUri) throws UnconvertibleException {
+		final IResource result = toIResource(emfUri);
+		
 		if (result != null) {
 			return result;
 		}
-
-		throw new UnconvertibleException(uri, URI.class, IResource.class);
+		
+		throw new UnconvertibleException(emfUri, URI.class, IResource.class);
 	}
-
+	
+	/**
+	 * 
+	 * @param emfUri
+	 * @return
+	 * @since 0.4
+	 * 
+	 */
+	public static @Nullable IPath toIPath(final @Nullable URI emfUri) {
+		if (emfUri == null) {
+			return null;
+		}
+		
+		return Path.fromOSString(emfUri.toFileString());
+	}
+	
+	/**
+	 * 
+	 * @param emfUri
+	 * @return
+	 * @throws UnconvertibleException
+	 * @since 0.4
+	 */
+	public static @NonNull IPath asIPath(final @NonNull URI emfUri) throws UnconvertibleException {
+		return Path.fromOSString(emfUri.toFileString());
+	}
+	
 	/**
 	 * Converts an Eclipse IResource to an EMF URI, if possible.
 	 * 
@@ -179,14 +218,17 @@ public class UriResourceUtils extends UriUtils {
 	 *         conversion is unsuccessful.
 	 * @since 0.2
 	 */
-	public static @Nullable URI toEmfUri(final @NonNull IResource iResource) {
+	public static @Nullable URI toEmfUri(final @Nullable IResource iResource) {
+		if (iResource == null) {
+			return null;
+		}
 		try {
 			return URI.createPlatformResourceURI(iResource.getFullPath().toPortableString(), false);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Converts an Eclipse IResource to an EMF URI.
 	 * 
@@ -200,11 +242,11 @@ public class UriResourceUtils extends UriUtils {
 	public static @NonNull URI asEmfUri(final @NonNull IResource iResource) throws UnconvertibleException {
 		try {
 			return URI.createPlatformResourceURI(iResource.getFullPath().toPortableString(), false);
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			throw new UnconvertibleException(iResource, IResource.class, URI.class, e);
 		}
 	}
-
+	
 	/**
 	 * Converts an Eclipse IPath to an EMF URI, if possible.
 	 * 
@@ -214,7 +256,10 @@ public class UriResourceUtils extends UriUtils {
 	 *         conversion is unsuccessful.
 	 * @since 0.2
 	 */
-	public static @Nullable URI toEmfUri(final @NonNull IPath iPath) {
+	public static @Nullable URI toEmfUri(final @Nullable IPath iPath) {
+		if (iPath == null) {
+			return null;
+		}
 		try {
 			if (ResourcesPlugin.getWorkspace().getRoot().getFullPath().isPrefixOf(iPath)) {
 				return URI.createPlatformResourceURI(iPath.makeAbsolute().toPortableString(), false);
@@ -223,11 +268,11 @@ public class UriResourceUtils extends UriUtils {
 			} else {
 				return URI.createFileURI(iPath.toPortableString());
 			}
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Converts an Eclipse IPath to an EMF URI.
 	 * 
@@ -247,7 +292,7 @@ public class UriResourceUtils extends UriUtils {
 			} else {
 				return URI.createFileURI(iPath.toPortableString());
 			}
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			throw new UnconvertibleException(iPath, IPath.class, URI.class, e);
 		}
 	}

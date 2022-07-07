@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Espilce Commons Testsupport
+Bundle-SymbolicName: org.espilce.commons.testsupport
+Bundle-Version: 0.3.0.qualifier
+Bundle-Vendor: Espilce Commons
+Automatic-Module-Name: org.espilce.commons.testsupport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.jdt.annotation;bundle-version=2.1;resolution:=optional;visibility:=reexport,
+ org.espilce.commons.text;bundle-version=0.1.0,
+ org.apache.commons.io;bundle-version=2.2;resolution:=optional
+Import-Package: org.espilce.commons.text;version=0.1.0,
+ org.apache.commons.io,
+ org.eclipse.jdt.annotation;resolution:=optional,
+ org.espilce.commons.assertion;version=0.1.0
+Export-Package: org.espilce.commons.testsupport;version=0.3.0

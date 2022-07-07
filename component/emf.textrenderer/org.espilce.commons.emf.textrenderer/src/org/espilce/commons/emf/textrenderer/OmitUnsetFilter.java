@@ -25,7 +25,7 @@ public class OmitUnsetFilter extends RenderFilterAdapter {
 	protected boolean shouldRenderEAttribute(final EAttribute attribute, final int indent, final EObject context) {
 		return context.eIsSet(attribute);
 	}
-
+	
 	@Override
 	protected boolean shuldRenderEReference(final EReference reference, final int indent, final EObject context) {
 		return context.eIsSet(reference);

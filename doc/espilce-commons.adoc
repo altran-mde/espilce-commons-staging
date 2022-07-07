@@ -1,0 +1,86 @@
+= Espilce Commons =
+
+== Conversion Utilities ==
+
+Utilities to convert between all different variants to reference files or similar artifacts.
+
+Each conversion method exists in two variants:
+
+* `**to**_TargetType_(_SourceType_)` returns `null` if the conversion is unsuccessful.
+
+* `**as**_TargetType_(_SourceType_)` throws a `UnconvertibleException` if the conversion is unsuccessful.
+
+ConversionUtils::
+	Converts Java URIs, Java URLs, Java Files, and Java Paths.
+UriUtils::
+	Adds EMF URIs to _ConversionUtils_.
+ResourceUtils::
+	Adds Eclipse IResources and Eclipse IPaths to _ConversionUtils_.
+UriResourceUtils::
+	Combines _ConversionUtils_, _UriUtils_, and _ResourceUtils_.
+
+
+== Load Helpers ==
+
+Helpers to find and read resources (a.k.a. files) in different contexts, e.g. file system, classloader, Eclipse workspace, OSGi bundles, ...
+
+FilesystemClassloaderLoadHelper::
+	Loads resources either from file system or classloader.
+WorkspacePluginLoadHelper::
+	Finds resources in the workspace or plug-ins.
+
+
+== Model-to-Text Generator Support
+
+(Almost) verbatim copy of Xtext generator infrastructure, with minimal dependencies.
+
+Generator::
+	No dependencies on Xtext, EMF, or Eclipse.
+
+EMF Generator::
+	Extends _Generator_ with dependencies on EMF.
+
+EMF Generator Xtext::
+	Bridges between Xtext generator infrastructure and Espilce Commons generator infrastructure.
+
+
+== Miscellaneous Utilities ==
+
+EmfStringRenderer::
+	Creates a human-readable tree-like text rendering of EMF contents.
+
+WorkspaceUtils::
+	Utilities for Eclipse Workspace; currently: Executes some work only after all workspace changes are done.
+
+ContentTypeUtils::
+	Utilities for handling Content Types in an Eclipse Workspace.
+
+NewlineNormalizer::
+	Replaces all newline variants with one single variant.
+
+
+== Test Utilities ==
+
+Assert2::
+	Extensions to JUnit's Assert; currently: `assertEquals()` with normalized newline.
+
+AssertFile::
+	Extensions to JUnit's Assert to check files and their contents.
+
+AssertInputStream::
+	Extensions to JUnit's Assert to check input streams.
+
+ATestWorkspace::
+	Base class for JUnit tests requiring an IProject.
+
+ProjectBuilder::
+	Builder to create an IProject (incl. contents) as test harness.
+
+AModelLoader::
+	Convenience base class for test classes that need to load models.
+
+AssertEmf::
+	Compares EMF artifacts and renders the differences in human-readable manner, if any.
+
+ATestValidator::
+	Base class for EMF EValidator tests.

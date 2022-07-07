@@ -10,6 +10,7 @@
 package org.espilce.commons.resource;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -73,7 +74,7 @@ public class ContentTypeUtils {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * Looks up the Content Type of an Eclipse IFile.
 	 * 
@@ -96,20 +97,20 @@ public class ContentTypeUtils {
 			throw new UnmappableException(iFile, IFile.class, IContentType.class, e);
 		}
 	}
-
+	
 	/**
 	 * Looks up the Content Type of a Java File, if possible.
 	 * 
 	 * @param file
 	 *            Java File to look up.
-	 * @return Content Type of <code>file</code>, or {@code null} if no Content Type
-	 *         can be found.
+	 * @return Content Type of <code>file</code>, or {@code null} if no Content
+	 *         Type can be found.
 	 * @since 0.2
 	 */
 	public static @Nullable IContentType searchContentType(final @NonNull File file) {
 		return searchContentType(file.getName());
 	}
-
+	
 	/**
 	 * Looks up the Content Type of a Java File.
 	 * 
@@ -123,20 +124,20 @@ public class ContentTypeUtils {
 	public static @NonNull IContentType findContentType(final @NonNull File file) throws UnmappableException {
 		return findContentType(file.getName());
 	}
-
+	
 	/**
 	 * Looks up the Content Type for a file name.
 	 * 
 	 * @param fileName
 	 *            File name to look up.
-	 * @return Content Type of <code>fileName</code>, or {@code null} if no Content
-	 *         Type can be found.
+	 * @return Content Type of <code>fileName</code>, or {@code null} if no
+	 *         Content Type can be found.
 	 * @since 0.2
 	 */
 	public static @Nullable IContentType searchContentType(final @NonNull String fileName) {
 		return lookupContentType(fileName).orElse(null);
 	}
-
+	
 	/**
 	 * Looks up the Content Type for a file name.
 	 * 
@@ -151,12 +152,39 @@ public class ContentTypeUtils {
 		return lookupContentType(fileName)
 				.orElseThrow(() -> new UnmappableException(fileName, String.class, IContentType.class));
 	}
-
+	
 	private static Optional<IContentType> lookupContentType(final String fileName) {
 		return Arrays.asList(Platform.getContentTypeManager().getAllContentTypes()).stream()
 				.filter(ct -> ct.isAssociatedWith(fileName)).findAny();
 	}
-
+	
+	/**
+	 * Looks up the Content Type for a URL.
+	 * 
+	 * @param url
+	 *            URL to look up.
+	 * @return Content Type of <code>url</code>, or {@code null} if no Content
+	 *         Type can be found.
+	 * @since 0.3
+	 */
+	public static @Nullable IContentType searchContentType(final @NonNull URL url) {
+		return searchContentType(url.getFile());
+	}
+	
+	/**
+	 * Looks up the Content Type for a URL.
+	 * 
+	 * @param url
+	 *            URL to look up.
+	 * @return Content Type of <code>url</code>.
+	 * @throws UnmappableException
+	 *             If no Content Type can be found.
+	 * @since 0.3
+	 */
+	public static @NonNull IContentType findContentType(final @NonNull URL url) throws UnmappableException {
+		return findContentType(url.getFile());
+	}
+	
 	/**
 	 * Looks up all file extensions registered for a Content Type Id.
 	 * 
@@ -169,11 +197,12 @@ public class ContentTypeUtils {
 	 * @since 0.1
 	 */
 	public static @NonNull Collection<@NonNull String> searchFileExtensions(
-			final @NonNull String contentTypeIdentifier) {
+			final @NonNull String contentTypeIdentifier
+	) {
 		final IContentType contentType = toContentType(contentTypeIdentifier);
 		return contentType == null ? Collections.emptyList() : lookupFileExtensions(contentType);
 	}
-
+	
 	/**
 	 * Looks up all file extensions registered for a Content Type Id.
 	 * 
@@ -189,7 +218,7 @@ public class ContentTypeUtils {
 			throws UnmappableException {
 		return lookupFileExtensions(asContentType(contentTypeIdentifier));
 	}
-
+	
 	/**
 	 * Looks up all file extensions registered for a Content Type.
 	 * 
@@ -201,20 +230,20 @@ public class ContentTypeUtils {
 	public static @NonNull Collection<@NonNull String> lookupFileExtensions(final @NonNull IContentType contentType) {
 		return Arrays.asList(contentType.getFileSpecs(IContentType.FILE_EXTENSION_SPEC));
 	}
-
+	
 	/**
 	 * Looks up the Content Type of Content Type Id, if possible.
 	 * 
 	 * @param contentTypeIdentifier
 	 *            Content Type Id to look up.
-	 * @return Content Type of <code>contentTypeIdentifier</code>, or {@code null}
-	 *         if no Content Type can be found.
+	 * @return Content Type of <code>contentTypeIdentifier</code>, or
+	 *         {@code null} if no Content Type can be found.
 	 * @since 0.1
 	 */
 	public static @Nullable IContentType toContentType(final @NonNull String contentTypeIdentifier) {
 		return Platform.getContentTypeManager().getContentType(contentTypeIdentifier);
 	}
-
+	
 	/**
 	 * Looks up the Content Type of Content Type Id.
 	 * 
@@ -228,11 +257,11 @@ public class ContentTypeUtils {
 	public static @NonNull IContentType asContentType(final @NonNull String contentTypeIdentifier)
 			throws UnmappableException {
 		final IContentType result = Platform.getContentTypeManager().getContentType(contentTypeIdentifier);
-
+		
 		if (result != null) {
 			return result;
 		}
-
+		
 		throw new UnmappableException(contentTypeIdentifier, String.class, IContentType.class);
 	}
 }

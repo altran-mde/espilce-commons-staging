@@ -1,0 +1,58 @@
+target "Espilce Commons"
+
+with configurePhase source
+
+location "http://download.eclipse.org/tools/orbit/downloads/drops/R20180330011457/repository" {
+	org.apache.commons.io [2.2.0,2.2.1)
+	org.apache.commons.io.source
+	org.apache.commons.lang3 [3.1.0,3.1.1)
+	org.apache.commons.lang3.source
+
+	com.google.guava [15.0.0,15.0.1)
+	com.google.guava.source
+	com.google.inject [3.0.0,3.0.1)
+	com.google.inject.source
+}
+
+location "https://download.eclipse.org/tools/orbit/downloads/drops/R20190827152740/repository" {
+	org.hamcrest.core [1.3.0,2.0.0)
+	org.hamcrest.core.source
+	org.hamcrest.library [1.3.0,2.0.0)
+	org.hamcrest.library.source
+
+	
+	org.junit [4.12.0,5.0.0)
+	org.junit.source
+	
+	org.junit.jupiter.api [5.5.1,6.0.0) 
+	org.junit.jupiter.api.source
+	org.junit.jupiter.params [5.5.1,6.0.0)
+	org.junit.jupiter.params.source
+	org.junit.jupiter.engine [5.5.1,6.0.0)
+	org.junit.jupiter.engine.source
+	org.junit.jupiter.migrationsupport [5.5.1,6.0.0)
+	org.junit.jupiter.migrationsupport.source
+	org.junit.platform.commons [1.5.1,2.0.0)
+	org.junit.platform.commons.source
+	org.junit.platform.engine [1.5.1,2.0.0)
+	org.junit.platform.engine.source
+	
+	org.opentest4j [1.2.0,2.0.0)
+	org.opentest4j.source
+}
+
+location "http://download.eclipse.org/releases/oxygen" {
+	org.eclipse.emf.sdk.feature.group
+	
+	org.eclipse.xtext.sdk.feature.group
+	org.eclipse.xtend.feature.group
+	org.eclipse.emf.mwe.sdk.feature.group
+	org.eclipse.emf.mwe2.language.sdk.feature.group
+	
+	org.eclipse.equinox.executable.feature.group
+	org.eclipse.sdk.feature.group
+}
+
+location "https://download.eclipse.org/cbi/updates/license/" {
+	org.eclipse.license.feature.group [2.0.2,2.0.3)
+}
